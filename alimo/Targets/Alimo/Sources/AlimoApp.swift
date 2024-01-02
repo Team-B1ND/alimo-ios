@@ -1,8 +1,8 @@
 import SwiftUI
-import AlimoIosUI
+import AlimoUI
 
 @main
-struct AlimoIosApp: App {
+struct AlimoApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

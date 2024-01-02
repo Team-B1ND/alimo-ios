@@ -4,7 +4,7 @@ import ProjectDescriptionHelpers
 /*
                 +-------------+
                 |             |
-                |     App     | Contains AlimoIos App target and AlimoIos unit-test target
+                |     App     | Contains Alimo App target and Alimo unit-test target
                 |             |
          +------+-------------+-------+
          |         depends on         |
@@ -20,6 +20,6 @@ import ProjectDescriptionHelpers
 // MARK: - Project
 
 // Creates our project using a helper function defined in ProjectDescriptionHelpers
-let project = Project.app(name: "AlimoIos",
+let project = Project.app(name: "Alimo",
                           platform: .iOS,
-                          additionalTargets: ["AlimoIosKit", "AlimoIosUI"])
+                          additionalTargets: ["AlimoKit", "AlimoUI"])
