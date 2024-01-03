@@ -26,6 +26,22 @@ struct ButtonTestView: View {
             AlimoButton(dummyText, buttonType: .none) {
                 print(dummyText)
             }
+            
+            AlimoSmallButton(dummyText, buttonType: .yellow) {
+                print(dummyText)
+            }
+            
+            AlimoSmallButton(dummyText, buttonType: .black) {
+                print(dummyText)
+            }
+            
+            AlimoSmallButton(dummyText, buttonType: .red) {
+                print(dummyText)
+            }
+            
+            AlimoSmallButton(dummyText, buttonType: .none) {
+                print(dummyText)
+            }
         }
     }
 }

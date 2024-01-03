@@ -8,4 +8,4 @@
 
 import Foundation
 
-public let dummyText = "Hello, Alimo!"
+public let dummyText = "Alimo!"
