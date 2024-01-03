@@ -22,4 +22,4 @@ import ProjectDescriptionHelpers
 // Creates our project using a helper function defined in ProjectDescriptionHelpers
 let project = Project.app(name: "Alimo",
                           platform: .iOS,
-                          additionalTargets: ["AlimoKit", "AlimoUI"])
+                          additionalTargets: [])
