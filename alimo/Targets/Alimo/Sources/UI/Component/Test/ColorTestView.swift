@@ -53,7 +53,3 @@ struct ColorCeil: View {
         Rectangle().frame(height: 160).foregroundStyle(color)
     }
 }
-
-#Preview {
-    ColorTestView()
-}
