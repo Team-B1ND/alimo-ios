@@ -10,8 +10,6 @@ import SwiftUI
 
 struct TextTestView: View {
     
-    private let dummyText = "Hello, Alimo!"
-    
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {

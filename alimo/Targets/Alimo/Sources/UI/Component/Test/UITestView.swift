@@ -22,6 +22,12 @@ struct UITestView: View {
                 } label: {
                     Text("Text Test")
                 }
+                NavigationLink {
+                    ButtonTestView()
+                } label: {
+                    Text("Button Test")
+                }
+                
             }
             .navigationTitle("UI Test")
         }
