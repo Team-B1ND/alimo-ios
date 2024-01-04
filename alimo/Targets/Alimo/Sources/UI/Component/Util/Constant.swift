@@ -9,3 +9,4 @@
 import Foundation
 
 public let dummyText = "Alimo!"
+public let appName = "Alimo"
