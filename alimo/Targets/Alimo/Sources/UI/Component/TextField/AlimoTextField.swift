@@ -8,52 +8,77 @@
 
 import SwiftUI
 
-struct AlimoTextField<SC>: View where SC: View {
+struct AlimoTextField: View {
     
+    // MARK: - parameters
     let hint: String
     @Binding var text: String
-    @ViewBuilder let secondaryContent: () -> SC
-    
-    @State var isFocused: Bool = false
+    let textFieldType: AlimoTextFieldType
     
     init(_ hint: String = "",
          text: Binding<String>,
-         @ViewBuilder secondaryContent: @escaping () -> SC = { EmptyView() }) {
+         textFieldType: AlimoTextFieldType = .none(hasXMark: true)) {
         self.hint = hint
         self._text = text
-        self.secondaryContent = secondaryContent
+        self.textFieldType = textFieldType
     }
     
+    // MARK: - local state
+    @FocusState private var isFocused: Bool
+    @State private var isHide: Bool = true
+    
+    // MARK: - View
     var body: some View {
         
         let lineWidth = isFocused ? 1.5 : 1
         let strokeColor: Color = isFocused ? .main500 : .gray300
         
-        TextField(hint,
-                  text: $text,
-                  onEditingChanged: getFocus)
+        Group {
+            if textFieldType == .password && isHide {
+                SecureField(hint,
+                            text: $text)
+            } else {
+                TextField(hint,
+                          text: $text)
+            }
+        }
+        .focused($isFocused)
         .frame(maxWidth: .infinity, maxHeight: 52)
         .background(Color.white)
         .padding(.horizontal, 16)
         .clipShape(RoundedRectangle(cornerRadius: Size.large.rawValue))
+        .font(.bodyLight)
+        .accentColor(.main500)
+        .foregroundStyle(.black)
         .overlay(
             ZStack {
                 RoundedCorner(radius: Size.large.rawValue)
                     .stroke(strokeColor, lineWidth: lineWidth)
                 HStack(spacing: 0) {
                     Spacer()
-                    secondaryContent()
-                        .padding(.trailing, 16)
+                    
+                    switch textFieldType {
+                    case .none(let hasXMark):
+                        if hasXMark && !text.isEmpty {
+                            Image(Asset.xMark)
+                                .renderingMode(.template)
+                                .foregroundStyle(Color.gray500)
+                                .onTapGesture {
+                                    text = ""
+                                }
+                        }
+                    case .password:
+                        Image(isHide ? Asset.hide : Asset.show)
+                            .renderingMode(.template)
+                            .foregroundStyle(Color.gray500)
+                            .onTapGesture {
+                                isHide.toggle()
+                            }
+                    }
                 }
+                .padding(.trailing, 16)
             }
         )
-        .font(.bodyLight)
-        .accentColor(.main500)
-        .foregroundStyle(.black)
         .padding(.horizontal, 20)
-    }
-    
-    func getFocus(focused: Bool) {
-        isFocused = focused
     }
 }

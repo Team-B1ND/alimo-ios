@@ -19,4 +19,5 @@ class Asset {
     static let home = "Home"
     static let show = "Show"
     static let loudSpeaker = "LoudSpeaker"
+    static let xMark = "XMark"
 }
