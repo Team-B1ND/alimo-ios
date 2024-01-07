@@ -15,21 +15,13 @@ struct Icons : View {
             Button {
                 //
             } label: {
-                Image("AddImoji")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 32, height: 30)
-                    .opacity(0.5)
+                CustomImage(name: "AddImoji")
             }
             
             Button {
                 //
             } label: {
-                Image("Chat")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 32, height: 30)
-                    .opacity(0.5)
+                CustomImage(name: "Chat")
             }
             
             Spacer()
@@ -37,17 +29,20 @@ struct Icons : View {
             Button{
                 //
             } label: {
-                Image("BookMark")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 32, height: 30)
-                    .opacity(0.5)
+                CustomImage(name: "BookMark")
                 // 이거 북마크 빈 이미지 수정
                   
             }
         }//hs
         .padding(.horizontal,20)
         
+    }
+    func CustomImage(name: String) -> some View {
+        Image(name)
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(width: 32, height: 30)
+            .opacity(0.5)
     }
 }
 
