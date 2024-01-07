@@ -37,6 +37,12 @@ struct UITestView: View {
                 } label: {
                     Text("Text Field Test")
                 }
+                NavigationLink {
+                    ToggleTestView()
+                } label: {
+                    Text("Toggle Test")
+                }
+
             }
             .navigationTitle("UI Test")
         }
