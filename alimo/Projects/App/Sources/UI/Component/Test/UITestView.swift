@@ -38,6 +38,11 @@ struct UITestView: View {
                     Text("Text Field Test")
                 }
                 NavigationLink {
+                    ToggleTestView()
+                } label: {
+                    Text("Toggle Test")
+                }
+                NavigationLink {
                     BadgeTestView()
                 } label: {
                     Text("Badge Test")
