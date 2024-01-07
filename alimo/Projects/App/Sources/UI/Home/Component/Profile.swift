@@ -18,16 +18,17 @@ struct Profile : View {
                 .frame(width: 40, height: 40)
                 .clipShape(Circle())
             
-            Text(dummyText)
+            Text("작성자")
                 .font(.bodyLight)
                 
             //그냥 body 하면 에러남 고치기 이름
-            Text(dummyText)
+            Text("2023년 1월 1일 오후 11:1")
                 .font(.cute)
-                .opacity(0.5)
+                .foregroundColor(.gray500)
                 .padding(.top,3)
             
         }//hs
+        
         
     }
 }

@@ -11,11 +11,15 @@ import SwiftUI
 
 struct Morebutton : View {
     var body: some View {
-
+        Button(action: {
+            
+        }, label: {
             Text("...더보기")
                 .font(.cute)
-                .opacity(0.5)
+                .foregroundColor(.gray500)
                 .padding(.top,3)
+        })
+     
             
 
         

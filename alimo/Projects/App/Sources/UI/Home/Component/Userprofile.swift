@@ -17,9 +17,12 @@ struct Userprofile : View {
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 40, height: 40)
                 .clipShape(Circle())
+                .padding(.trailing,10)
             
-            Text(dummyText)
+            Text("유저이름")
                 .font(.bodyLight)
+                .padding(.bottom,10)
+                
                 
    
             

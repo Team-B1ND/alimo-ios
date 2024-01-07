@@ -34,14 +34,14 @@ struct Icons : View {
                   
             }
         }//hs
-        .padding(.horizontal,20)
+        
         
     }
     func CustomImage(name: String) -> some View {
         Image(name)
             .resizable()
             .aspectRatio(contentMode: .fill)
-            .frame(width: 32, height: 30)
+            .frame(width: 25, height: 25)
             .opacity(0.5)
     }
 }
