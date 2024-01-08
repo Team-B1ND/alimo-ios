@@ -11,7 +11,6 @@ import SwiftUI
 
 struct Category : View {
     var body: some View {
-      
         ScrollView(.horizontal, showsIndicators: true) {
             HStack(spacing: 10) {
                 AlimoSmallButton(dummyText, buttonType: .yellow) {
@@ -21,9 +20,9 @@ struct Category : View {
                     print(dummyText)
                 }
             }//hs
+            .frame(maxWidth: .infinity,minHeight: 35)
         }//스크롤
         .padding(20)
-
 
         
     }
