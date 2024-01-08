@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 
 struct DetailPost: View {
+    
     var body: some View {
         VStack(alignment: .leading) {
             Profile()

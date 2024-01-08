@@ -10,21 +10,38 @@ import Foundation
 import SwiftUI
 
 struct Morebutton : View {
+    @State private var isShowingDetail = false
     var body: some View {
-        Button(action: {
-            
-        }, label: {
-            Text("...더보기")
-                .font(.cute)
-                .foregroundColor(.gray500)
-                .padding(.top,3)
-        })
-     
-            
-
-        
+        NavigationView{
+            NavigationLink(destination: DetailPostView()) {
+                Text("...더보기")
+                    .font(.cute)
+                    .foregroundColor(.gray500)
+                    .padding(.top, 3)
+                
+            }
+        }
     }
 }
+
+//        NavigationView {
+//            VStack {
+//                Button(action: {
+//                    isShowingDetail = true
+//                }) {
+//                    Text("...더보기")
+//                        .font(.cute)
+//                        .foregroundColor(.gray500)
+//                        .padding(.top, 3)
+//                }
+//                .fullScreenCover(isPresented: $isShowingDetail) {
+//                    DetailPostView()
+//                }
+//            }
+//        }
+//    }
+//}
+
 
 #Preview {
     Morebutton()
