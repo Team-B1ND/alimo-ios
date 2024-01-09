@@ -12,7 +12,7 @@ import SwiftUI
 struct Morebutton : View {
     @State private var isShowingDetail = false
     var body: some View {
-        NavigationView{
+//        NavigationView{
             NavigationLink(destination: DetailPostView()) {
                 Text("...더보기")
                     .font(.cute)
@@ -20,7 +20,7 @@ struct Morebutton : View {
                     .padding(.top, 3)
                 
             }
-        }
+//        }
     }
 }
 

@@ -12,28 +12,32 @@ import SwiftUI
 struct DetailPostView : View {
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
-        ZStack {
-            ScrollView {
-                VStack {
-                     DetailPost()
-                    
-                     Comment()
+        NavigationView{
+            ZStack {
+                ScrollView (showsIndicators : false){
+                    VStack {
+                        DetailPost()
+                        
+                        Comment()
+                            
+                    }
+                    .padding(.bottom,60)
                 }
+                VStack {
+                    Spacer()
+                    
+                    Textfield()
+                }
+                .ignoresSafeArea()
             }
-            VStack {
-                Spacer()
-                
-                 Textfield()
-            }
-            .ignoresSafeArea()
+            .navigationBarBackButtonHidden(true)
+            .navigationBarItems(leading: Button(action: {
+                presentationMode.wrappedValue.dismiss()
+            }) {
+                Image(systemName: "arrow.left")
+                    .foregroundColor(.black)
+            })
         }
-        .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: Button(action: {
-            presentationMode.wrappedValue.dismiss()
-        }) {
-            Image(systemName: "arrow.left")
-                .foregroundColor(.black)
-        })
     }
 }
 

@@ -6,7 +6,8 @@ struct AlimoApp: App {
         WindowGroup {
             // if you want to test ui, then you can remove annotation
 //             UITestView()
-            Morebutton()
+            
+            Tabbar()
             
             // add something!
         }

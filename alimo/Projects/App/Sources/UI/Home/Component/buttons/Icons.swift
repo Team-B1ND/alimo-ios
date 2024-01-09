@@ -17,12 +17,10 @@ struct Icons : View {
             } label: {
                 CustomImage(name: "AddImoji")
             }
-            
-            Button {
-                //
-            } label: {
+            NavigationLink(destination: DetailPostView()) {
                 CustomImage(name: "Chat")
             }
+            
             
             Spacer()
             
@@ -31,7 +29,7 @@ struct Icons : View {
             } label: {
                 CustomImage(name: "BookMark")
                 // 이거 북마크 빈 이미지 수정
-                  
+                
             }
         }//hs
         

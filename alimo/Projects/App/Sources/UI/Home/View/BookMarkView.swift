@@ -13,7 +13,7 @@ struct BookMarkView: View {
     var hasPost: Bool = false // 게시물 유무를 나타내는 변수
     
     var body: some View {
-        ScrollView{
+        ScrollView(showsIndicators : false){
             VStack{
                 HStack{
                     AlimoLogo(type: .gray)
