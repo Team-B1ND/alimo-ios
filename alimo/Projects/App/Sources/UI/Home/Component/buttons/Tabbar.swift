@@ -63,7 +63,7 @@ struct Tabbar: View {
                             print(selectedIndex)
                         }
                     
-                    Text("Ssalbab")
+                    Text("프로필")
                         .tabItem {
                             VStack {
                                 if selectedIndex == 2{
@@ -87,12 +87,6 @@ struct Tabbar: View {
                 .onAppear {
                             UITabBar.appearance().backgroundColor = .white
                         }
-                
-                //            Rectangle()
-                //                .frame(height: 0.2)
-                //                .foregroundColor(.gray)
-                //                .shadow(radius: 5)
-                //                .offset(y: 690)
             }
             .navigationBarBackButtonHidden(true)
             
