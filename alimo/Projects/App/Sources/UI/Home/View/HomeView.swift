@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 struct HomeView: View {
-    var notice : Bool = true
+    var notice : Bool = false
     var body: some View {
 //        NavigationView{
         ScrollView(showsIndicators : false) {
@@ -41,8 +41,19 @@ struct HomeView: View {
                     }
                 }
                 else{
-                    Image("NoNotice")
-                        .padding(.top,200)
+                    LazyVStack(pinnedViews: [.sectionHeaders]) {
+                        Section(header: filterBar) {
+                            VStack{
+                                Spacer()
+                                Image("NoNotice")
+                                    .padding(.top,100)
+                                Spacer()
+                            }
+                            
+                               
+                        }
+                    }
+
                 }
             }
             .clipped()
