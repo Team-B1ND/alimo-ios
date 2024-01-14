@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ProfileView: View {
     
-    @State var someToggle: Bool = true
+    @State var isOn: Bool = true
     
     let dummyCategory: [String] = ["1학년", "바인드", "사운드체크", "사운드체크", "도서부", "교장선생님이 알립니다"]
     
@@ -41,11 +41,13 @@ struct ProfileView: View {
                             .clipShape(Capsule())
                         }.padding()
                     
-                    Toggle("알림 설정", isOn: $someToggle)
-                        .tint(Color.main500)
-                        .frame(height: 60)
-                        .background(Color.main50)
-                        .padding(.horizontal, 20)
+                    HStack {
+                        Text("알림 설정")
+                        Spacer()
+                        AlimoToggle(isOn: $isOn)
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 20)
                 }
                 .background(Color.main50)
                 
