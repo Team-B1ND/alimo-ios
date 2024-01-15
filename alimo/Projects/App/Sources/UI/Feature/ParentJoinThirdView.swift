@@ -7,12 +7,22 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ParentJoinThirdView: View {
     
     @Environment(\.dismiss) private var dismiss
     
-    @State var dummyAuthNumber: String = ""
+    @State var inputAuthCode: String = ""
+    
+    @State var isAuthed: Bool = false
+    @State var isSended: Bool = false
+    
+    let dummyAuthCode = "123456"
+    
+    @State var timeRemaining : Int = 300
+    let date = Date()
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
         VStack {
@@ -24,12 +34,73 @@ struct ParentJoinThirdView: View {
                 .padding(.bottom, 10)
             
             ZStack {
-                AlimoTextField("인증 코드", text: $dummyAuthNumber)
+                if isAuthed {
+                    
+                    Rectangle()
+                        .frame(maxWidth: .infinity, maxHeight: 52)
+                        .foregroundStyle(Color.main50)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .overlay {
+                            ZStack {
+                                RoundedCorner(radius: Size.large.rawValue)
+                                    .stroke(Color.gray300, lineWidth: 1)
+                                HStack {
+                                    Text(inputAuthCode)
+                                        .font(.bodyLight)
+                                        .foregroundStyle(Color.gray500)
+                                        .background(Color.main50)
+                                    
+                                    Spacer()
+                                    
+                                    Text("확인 완료!")
+                                        .font(Font.label)
+                                        .foregroundStyle(Color.gray500)
+                                        .background(Color.main50)
+                                }
+                                .padding(.horizontal, 16)
+                            }
+                        }
+                        .padding(.horizontal, 20)
+                    
+                } else {
+                    AlimoTextField("인증 코드", text: $inputAuthCode)
+                        .foregroundStyle(.red)
+                    
+                    HStack {
+                        Spacer()
+                        
+                        if isSended {
+                            HStack {
+                                Text(convertSecondsToTime(timeInSeconds:timeRemaining))
+                                    .font(Font.custom(Pretendard.medium.rawValue, size: 14))
+                                    .foregroundStyle(Color.main500)
+                                    .onReceive(timer) { _ in
+                                        if timeRemaining != 0 {
+                                            timeRemaining -= 1
+                                        }
+                                    }
+                                
+                                AlimoSmallButton("확인", buttonType: .none) {
+                                    if inputAuthCode == dummyAuthCode {
+                                        isAuthed = true
+                                    }
+                                }
+                            }
+                            .frame(height: 30)
+                        } else {
+                            AlimoSmallButton("인증요청", buttonType: .yellow) {
+                                isSended = true
+                            }
+                        }
+                        
+                    }
+                    .padding(.trailing, 30)
+                }
             }
             
             Spacer()
             
-            if dummyAuthNumber != "" {
+            if inputAuthCode != "" {
                 AlimoButton("회원가입", buttonType: .yellow) {
                     print(dummyText)
                 }
@@ -41,6 +112,9 @@ struct ParentJoinThirdView: View {
                 .disabled(true)
                 .padding(.bottom, 30)
             }
+        }
+        .onAppear {
+            calcRemain()
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -59,5 +133,18 @@ struct ParentJoinThirdView: View {
                 }
             }
         }
+    }
+    
+    func convertSecondsToTime(timeInSeconds: Int) -> String {
+        let minutes = timeInSeconds / 60
+        let seconds = timeInSeconds % 60
+        return String(format: "%02i:%02i", minutes, seconds)
+    }
+    
+    func calcRemain() {
+        let calendar = Calendar.current
+        let targetTime : Date = calendar.date(byAdding: .second, value: 300, to: date, wrappingComponents: false) ?? Date()
+        let remainSeconds = Int(targetTime.timeIntervalSince(date))
+        self.timeRemaining = remainSeconds
     }
 }
