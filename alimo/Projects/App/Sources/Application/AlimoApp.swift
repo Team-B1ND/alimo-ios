@@ -9,7 +9,7 @@ struct AlimoApp: App {
             
     
             
-            // add something! tlqkf ro wktrkTsp
+            // add something! 
         } //
         
     }
