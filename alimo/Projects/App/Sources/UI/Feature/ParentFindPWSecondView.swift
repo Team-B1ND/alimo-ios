@@ -15,6 +15,19 @@ struct ParentFindPWSecondView: View {
     @State var pw: String = ""
     @State var pwCheck: String = ""
     
+    @State var showTextAlert: Bool = false
+    
+    // 비밀번호랑 비밀번호 재확인에 입력한 문자열이 같은 지 확인하는 함수
+    func isPwcheckSame(pw: String, pwCheck: String) -> Bool {
+        
+        if pw == pwCheck {
+            return true
+        } else {
+            return false
+        }
+        
+    }
+    
     var body: some View {
         VStack {
             Text("새 비밀번호를 만들어 주세요")
@@ -28,18 +41,42 @@ struct ParentFindPWSecondView: View {
             
             AlimoTextField("새 비밀번호 재입력", text: $pwCheck, textFieldType: .password)
             
+            if showTextAlert {
+                
+                HStack {
+                    Text("비밀번호가 다릅니다.")
+                        .font(Font.caption)
+                        .foregroundStyle(Color.red500)
+                    Spacer()
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 5)
+                
+            }
+            
             Spacer()
             
             if pw != "" && pwCheck != "" {
-                NavigationLink {
-                    // 홈 뷰
-                } label: {
-                    AlimoButton("완료", buttonType: .yellow) {
-                        print(dummyText)
+                
+                if pw == pwCheck {
+                    
+                    NavigationLink {
+                        // 홈 뷰
+                    } label: {
+                        AlimoButton("다음", buttonType: .yellow) {}
+                        .disabled(true)
+                        .padding(.bottom, 30)
                     }
-                    .disabled(true)
+                    
+                } else {
+                    
+                    AlimoButton("다음", buttonType: .yellow) {
+                        showTextAlert = true
+                    }
                     .padding(.bottom, 30)
+                    
                 }
+                
             } else {
                 AlimoButton("완료", buttonType: .none) {
                     print(dummyText)
