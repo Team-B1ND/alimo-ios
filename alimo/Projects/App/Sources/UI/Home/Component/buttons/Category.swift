@@ -19,6 +19,16 @@ struct Category : View {
                 AlimoSmallButton(dummyText, buttonType: .none) {
                     print(dummyText)
                 }
+                AlimoSmallButton(dummyText, buttonType: .none) {
+                    print(dummyText)
+                }
+                .overlay{
+                    Circle()
+                        .frame(width: 10,height: 10)
+                        .foregroundColor(.red500)
+                        .padding(.leading,55)
+                        .padding(.bottom,25)
+                }
             }//hs
             .frame(maxWidth: .infinity,minHeight: 35)
         }//스크롤
