@@ -12,78 +12,143 @@ struct ParentJoinFirstView: View {
     
     @Environment(\.dismiss) private var dismiss
     
-    @State var inputeCode: String = ""
+    @State var inputCode: String = ""
+    
+    @State var showDialog: Bool = false
+    
+    let dummyStudentCode: String = "123456"
     
     var body: some View {
-        VStack {
-            Text("학생 코드를 입력해 주세요")
-                .font(Font.subtitle)
-                .foregroundStyle(Color.main900)
-                .padding(.trailing, 140)
-                .padding(.top, 30)
-                .padding(.bottom, 10)
-            
-            SeparatedTextField(length: 6, string: $inputeCode)
-                .padding(.horizontal, 20)
-            
-            Text("학생 코드가 무엇인가요?")
-                .font(Font.custom(Pretendard.medium.rawValue, size: 12))
-                .foregroundStyle(Color.gray500)
-                .padding(.leading, 240)
-                .padding(.top, 5)
-            
-            Spacer()
-            
-            HStack {
-                Text("이미 계정이 있으시다면?")
+        ZStack {
+            VStack {
+                Text("학생 코드를 입력해 주세요")
+                    .font(Font.subtitle)
+                    .foregroundStyle(Color.main900)
+                    .padding(.trailing, 140)
+                    .padding(.top, 30)
+                    .padding(.bottom, 10)
+                
+                SeparatedTextField(length: 6, string: $inputCode)
+                    .padding(.horizontal, 20)
+                
+                Text("학생 코드가 무엇인가요?")
                     .font(Font.custom(Pretendard.medium.rawValue, size: 12))
                     .foregroundStyle(Color.gray500)
-                NavigationLink {
-                    ParentLoginFirstView()
-                } label: {
-                    Text("로그인")
+                    .padding(.leading, 240)
+                    .padding(.top, 5)
+                
+                Spacer()
+                
+                HStack {
+                    Text("이미 계정이 있으시다면?")
                         .font(Font.custom(Pretendard.medium.rawValue, size: 12))
-                        .foregroundStyle(Color.main500)
-                        .underline()
+                        .foregroundStyle(Color.gray500)
+                    NavigationLink {
+                        ParentLoginFirstView()
+                    } label: {
+                        Text("로그인")
+                            .font(Font.custom(Pretendard.medium.rawValue, size: 12))
+                            .foregroundStyle(Color.main500)
+                            .underline()
+                    }
                 }
-            }
-            .padding(.bottom, 5)
-            
-            if inputeCode != "" {
-                NavigationLink {
-                    ParentJoinSecondView()
-                } label: {
-                    AlimoButton("다음", buttonType: .yellow) {
+                .padding(.bottom, 5)
+                
+                if inputCode.count == 6 {
+                    
+                    if inputCode == dummyStudentCode {
+                        
+                        NavigationLink {
+                            ParentJoinSecondView()
+                        } label: {
+                            AlimoButton("다음", buttonType: .yellow) {
+                                print(dummyText)
+                            }
+                            .disabled(true)
+                            .padding(.bottom, 30)
+                            
+                        }
+                    } else {
+                        
+                        Button {
+                            showDialog = true
+                        } label: {
+                            AlimoButton("다음", buttonType: .yellow) {
+                                print(dummyText)
+                            }
+                            .disabled(true)
+                            .padding(.bottom, 30)
+                        }
+                        
+                    }
+                } else {
+                    AlimoButton("다음", buttonType: .none) {
                         print(dummyText)
                     }
                     .disabled(true)
                     .padding(.bottom, 30)
                 }
-            } else {
-                AlimoButton("다음", buttonType: .none) {
-                    print(dummyText)
+                
+            }
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    HStack {
+                        Button {
+                            dismiss()
+                        } label: {
+                            Image(systemName: "arrow.left")
+                                .foregroundStyle(.black)
+                        }
+                        
+                        Text("회원가입")
+                            .font(Font.subtitle)
+                            .foregroundStyle(Color.main900)
+                    }
                 }
-                .disabled(true)
-                .padding(.bottom, 30)
+            }
+
+            if showDialog {
+                Rectangle()
+                    .opacity(0.3)
+                    .ignoresSafeArea()
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 8)
+                            .foregroundStyle(.white)
+                            .frame(width: 290, height: 160)
+                            .overlay {
+                                VStack {
+                                    Text("올바르지 않은 학생 코드")
+                                        .font(Font.custom(Pretendard.bold.rawValue, size: 20))
+                                        .padding(.bottom, 7)
+                                    
+                                    Text("학생 코드를 다시 확인해 주세요")
+                                        .font(Font.custom(Pretendard.medium.rawValue, size: 16))
+                                        .foregroundStyle(Color.gray500)
+                                        .padding(.bottom, 8)
+                                    
+                                    HStack {
+                                        Spacer()
+                                        
+                                        Button {
+                                            showDialog = false
+                                        } label: {
+                                            Text("닫기")
+                                                .foregroundStyle(Color.gray500)
+                                                .frame(width: 50, height: 40)
+                                                .background(Color.gray100)
+                                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                        }
+                                    }
+                                    .padding(.horizontal, 30)
+                                    .padding(.bottom, 5)
+                                    
+                                }
+                            }
+                            .padding(.bottom, 100)
+                    }
             }
             
-        }
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                HStack {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "arrow.left")
-                            .foregroundStyle(.black)
-                    }
-                    
-                    Text("회원가입")
-                        .font(Font.subtitle)
-                        .foregroundStyle(Color.main900)
-                }
-            }
         }
     }
 }
