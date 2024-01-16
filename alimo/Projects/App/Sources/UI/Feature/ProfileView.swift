@@ -15,6 +15,9 @@ struct ProfileView: View {
     @State var isCodeClicked: Bool = false
     @State var isAnimating: Bool = false
     
+    @State var showDialog: Bool = false
+    
+    let dummyStudentCode: String = "Y2sH70"
     let dummyCategory: [String] = ["1학년", "바인드", "사운드체크", "사운드체크", "도서부", "교장선생님이 알립니다"]
     
     var body: some View {
@@ -30,8 +33,7 @@ struct ProfileView: View {
                             .padding(.top, 10)
                         
                         Button {
-                            isCodeClicked = true
-                            isAnimating = true
+                            showDialog = true
                         } label: {
                             Text("학생코드")
                                 .font(Font.custom(Pretendard.medium.rawValue, size: 12))
@@ -159,6 +161,66 @@ struct ProfileView: View {
                         .offset(y : isAnimating ? 0 : 100)
                         .animation(.bouncy(duration: 0.5), value: isAnimating)
                     
+                }
+                
+                if showDialog {
+                    
+                    Rectangle()
+                        .opacity(0.3)
+                        .ignoresSafeArea()
+                        .overlay {
+                            
+                            RoundedRectangle(cornerRadius: 8)
+                                .foregroundStyle(.white)
+                                .frame(width: 290, height: 160)
+                                .overlay {
+                                    
+                                    VStack {
+                                        
+                                        HStack {
+                                            Text("\(dummyStudentCode)")
+                                                .font(Font.custom(Pretendard.bold.rawValue, size: 20))
+                                            
+                                            Button {
+                                                showDialog = false
+                                                isCodeClicked = true
+                                                isAnimating = true
+                                            } label: {
+                                                Image(Asset.copy)
+                                            }
+                                            
+                                        }
+                                        .padding(.bottom, 5)
+                                        
+                                        Text("부모님께만 공유해주세요")
+                                            .font(Font.custom(Pretendard.medium.rawValue, size: 16))
+                                            .foregroundStyle(Color.gray500)
+                                            .padding(.bottom, 5)
+                                        
+                                        HStack {
+
+                                            Spacer()
+                                            
+                                            Button {
+                                                showDialog = false
+                                            } label: {
+                                                
+                                                Text("닫기")
+                                                    .foregroundStyle(Color.gray500)
+                                                    .frame(width: 50, height: 40)
+                                                    .background(Color.gray100)
+                                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                                                
+                                            }
+                                        }
+                                        .padding(.horizontal, 30)
+                                        .padding(.bottom, 5)
+                                        
+                                    }
+                                }
+                                .padding(.bottom, 100)
+                            
+                        }
                 }
             }
             
