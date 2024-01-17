@@ -16,18 +16,18 @@ struct Emoji: View {
     ]
     
     var emojiNum: [String: Int] = [
-        "Ok": 0,
-        "heart": 0,
-        "Funny": 0,
-        "Sad": 0,
-        "Angry": 0
+        "Ok": 66,
+        "heart": 11,
+        "Funny": 22,
+        "Sad": 22,
+        "Angry": 33
     ]
     
     var body: some View {
         ZStack {
             Rectangle()
                 .foregroundColor(.gray100)
-                .frame(width: 350, height: 35)
+                .frame(width: 300, height: 35)
                 .cornerRadius(5)
             
             HStack {
@@ -47,9 +47,9 @@ struct Emoji: View {
             Image(name)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(width: isSelected ? 23 : 20, height: isSelected ? 23 : 20)
+                .frame(width:  20, height:  20)
                 .cornerRadius(5)
-                .padding(10)
+                .padding(2)
                 .opacity(isSelected ? 1.0 : 0.5)
             
             Text("\(num)")

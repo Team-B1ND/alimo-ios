@@ -44,7 +44,7 @@ struct Comment: View {
                 
             }
         }
-        .frame(maxWidth: 300, alignment: .leading)
+        .frame(maxWidth: 350, alignment: .leading)
         .padding(20)
     }
 }
