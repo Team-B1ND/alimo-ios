@@ -25,8 +25,17 @@ struct ProfileView: View {
             ZStack {
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 10) {
+                        
+                        HStack {
+                            AlimoLogo(type: .gray)
+                            
+                            Spacer()
+                        }
+                        .padding(.top, 60)
+                        .padding(.horizontal, 20)
+                        
                         Image(Asset.profileImage)
-                            .padding(.top, 100)
+                            .padding(.top, 30)
                         
                         Text("김가영")
                             .font(Font.body)
