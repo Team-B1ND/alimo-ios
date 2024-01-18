@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 struct DetailPost: View {
-    
+//    @State private var isButtonPressed : Bool = false
     var body: some View {
         VStack(alignment: .leading) {
             Profile()
@@ -24,12 +24,31 @@ struct DetailPost: View {
                 Postimage()
                 Spacer()
             }
-            
+//            HStack{
+//                Spacer()
+//                Button {
+//                    isButtonPressed.toggle()
+//                } label: {
+//                    if isButtonPressed {
+//                        Image("VectorYellow")
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fill)
+//                            .frame(width: 13, height: 13)
+//                    } else {
+//                        Image("VectorWhite")
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fill)
+//                            .frame(width: 13, height: 13)
+//                    }
+//                }
+//                .padding(.trailing,50)
+//            }
             HStack {
                 Spacer()
                 Emoji()
                 Spacer()
             }
+            .padding(5)
             
             Divider()
         }

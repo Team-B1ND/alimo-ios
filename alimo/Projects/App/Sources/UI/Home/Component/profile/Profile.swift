@@ -19,7 +19,10 @@ struct Profile : View {
                 .clipShape(Circle())
             
             Text("작성자")
-                .font(.bodyLight)
+                .font(.system(size: 16))
+                .foregroundColor(.main900)
+                .bold()
+                
                 
             //그냥 body 하면 에러남 고치기 이름
             Text("2023년 1월 1일 오후 11:1")

@@ -10,9 +10,9 @@ import Foundation
 import SwiftUI
 
 struct HomeView: View {
-    var notice : Bool = false
+    var notice : Bool = true
     var body: some View {
-//        NavigationView{
+        NavigationView{
         ScrollView(showsIndicators : false) {
                 ZStack {
                     //로고
@@ -32,7 +32,14 @@ struct HomeView: View {
                         Section(header: filterBar) {
                             VStack {
                                 ForEach(1...3, id: \.self) { name in
-                                    Post()
+                                    
+                                    NavigationLink(destination: DetailPostView()) {
+                                        
+                                        Post()
+                                    }
+                                    
+                                    
+                                 
                                         .padding(.bottom,30)
                                 }
                             }
@@ -57,7 +64,11 @@ struct HomeView: View {
                 }
             }
             .clipped()
-//        }
+        }
+//        .navigationBarHidden(true)
+//        .navigationBarBackButtonHidden(true)
+
+        
     }
     
 }

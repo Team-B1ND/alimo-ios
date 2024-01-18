@@ -12,7 +12,7 @@ import SwiftUI
 struct DetailPostView : View {
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
-        NavigationView{
+//        NavigationView{
             ZStack {
                 ScrollView (showsIndicators : false){
                     VStack {
@@ -30,6 +30,7 @@ struct DetailPostView : View {
                 }
                 .ignoresSafeArea()
             }
+            
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading: Button(action: {
                 presentationMode.wrappedValue.dismiss()
@@ -37,7 +38,8 @@ struct DetailPostView : View {
                 Image(systemName: "arrow.left")
                     .foregroundColor(.black)
             })
-        }
+            
+//        }
     }
 }
 

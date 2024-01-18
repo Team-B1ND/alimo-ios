@@ -21,7 +21,9 @@ struct Comment: View {
             
             VStack(alignment: .leading, spacing: 2) {
                 Text("유저이름")
-                    .font(.label)
+                    .font(.system(size: 16))
+                    .bold()
+//                    .font(.label)
                 
                 Text("댓글 내용")
                     .font(.label)
