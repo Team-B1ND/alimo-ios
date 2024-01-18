@@ -24,11 +24,8 @@ struct Tabbar: View {
                     HomeView()
                         .tabItem {
                             VStack {
-                                if selectedIndex == 0{
-                                    Image("Home")
-                                }else{
-                                    Image("Home_none")
-                                }
+                                Image(selectedIndex == 0 ? "Home" : "Home_none")
+
                                 Text("홈")
                                     .font(.cute)
                                     .padding(.top, 1)
@@ -44,13 +41,7 @@ struct Tabbar: View {
                         .tabItem {
                             VStack {
                            
-                                if selectedIndex == 1{
-                                    Image("BookMark")
-                                       
-                                }
-                                else{
-                                    Image("BookMark_none")
-                                }
+                                Image(selectedIndex == 1 ? "BookMark" : "BookMark_none")
                                 
                                 Text("북마크")
                                     .font(.cute)
@@ -66,11 +57,7 @@ struct Tabbar: View {
                     Text("프로필")
                         .tabItem {
                             VStack {
-                                if selectedIndex == 2{
-                                    Image("Profile")
-                                }else{
-                                    Image("Profile_none")
-                                }
+                                Image(selectedIndex == 2 ? "Profile" : "Profile_none")
                                 Text("MY")
                                     .font(.cute)
                                     .padding(.top, 2)

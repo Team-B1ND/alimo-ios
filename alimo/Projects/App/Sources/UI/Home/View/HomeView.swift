@@ -31,7 +31,7 @@ struct HomeView: View {
                     LazyVStack(pinnedViews: [.sectionHeaders]) {
                         Section(header: filterBar) {
                             VStack {
-                                ForEach(1...3, id: \.self) { name in
+                                ForEach(1...3, id: \.self) { _ in
                                     
                                     NavigationLink(destination: DetailPostView()) {
                                         
