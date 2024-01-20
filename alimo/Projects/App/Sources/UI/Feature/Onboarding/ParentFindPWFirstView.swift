@@ -1,5 +1,5 @@
 //
-//  ParentJoinThirdView.swift
+//  ParentFindPWFirstView.swift
 //  App
 //
 //  Created by dgsw8th36 on 1/11/24.
@@ -7,9 +7,8 @@
 //
 
 import SwiftUI
-import Combine
 
-struct ParentJoinThirdView: View {
+struct ParentFindPWFirstView: View {
     
     @Environment(\.dismiss) private var dismiss
     
@@ -17,6 +16,8 @@ struct ParentJoinThirdView: View {
     
     @State var isAuthed: Bool = false
     @State var isSended: Bool = false
+    
+    @State var showTextAlert: Bool = false
     
     let dummyAuthCode = "123456"
     
@@ -27,7 +28,7 @@ struct ParentJoinThirdView: View {
     var body: some View {
         VStack {
             Text("이메일 인증 코드를 전송했어요")
-                .font(Font.subtitle)
+                .font(.subtitle)
                 .foregroundStyle(Color.main900)
                 .padding(.trailing, 100)
                 .padding(.top, 30)
@@ -53,7 +54,7 @@ struct ParentJoinThirdView: View {
                                     Spacer()
                                     
                                     Text("확인 완료!")
-                                        .font(Font.label)
+                                        .font(.label)
                                         .foregroundStyle(Color.gray500)
                                         .background(Color.main50)
                                 }
@@ -63,6 +64,7 @@ struct ParentJoinThirdView: View {
                         .padding(.horizontal, 20)
                     
                 } else {
+                    
                     AlimoTextField("인증 코드", text: $inputAuthCode)
                         .foregroundStyle(.red)
                     
@@ -72,7 +74,7 @@ struct ParentJoinThirdView: View {
                         if isSended {
                             HStack {
                                 Text(convertSecondsToTime(timeInSeconds:timeRemaining))
-                                    .font(Font.custom(Pretendard.medium.rawValue, size: 14))
+                                    .font(.custom(Pretendard.medium.rawValue, size: 14))
                                     .foregroundStyle(Color.main500)
                                     .onReceive(timer) { _ in
                                         if timeRemaining != 0 {
@@ -80,15 +82,24 @@ struct ParentJoinThirdView: View {
                                         }
                                     }
                                 
-                                AlimoSmallButton("확인", buttonType: .none) {
-                                    if inputAuthCode == dummyAuthCode {
-                                        isAuthed = true
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .frame(width: 40, height: 36)
+                                        .foregroundStyle(Color.main50)
+                                    
+                                    AlimoSmallButton("확인", buttonType: .none) {
+                                        if inputAuthCode == dummyAuthCode {
+                                            isAuthed = true
+                                            showTextAlert = false
+                                        } else {
+                                            showTextAlert = true
+                                        }
                                     }
                                 }
                             }
                             .frame(height: 30)
                         } else {
-                            AlimoSmallButton("인증요청", buttonType: .yellow) {
+                            AlimoSmallButton("인증요청", buttonType: .yellow) { 
                                 isSended = true
                             }
                         }
@@ -98,23 +109,39 @@ struct ParentJoinThirdView: View {
                 }
             }
             
+            if showTextAlert {
+                
+                HStack {
+                    Text("인증코드가 올바르지 않아요")
+                        .font(.caption)
+                        .foregroundStyle(Color.red500)
+                    Spacer()
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 5)
+                
+            }
+            
             Spacer()
             
             if inputAuthCode != "" {
-                AlimoButton("회원가입", buttonType: .yellow) {
-                    print(dummyText)
+                NavigationLink {
+                    ParentFindPWSecondView()
+                } label: {
+                    AlimoButton("다음", buttonType: .yellow) {
+                        print(dummyText)
+                    }
+                    .disabled(true)
+                    .padding(.bottom, 30)
                 }
-                .padding(.bottom, 30)
             } else {
-                AlimoButton("회원가입", buttonType: .none) {
+                AlimoButton("다음", buttonType: .none) {
                     print(dummyText)
                 }
                 .disabled(true)
                 .padding(.bottom, 30)
             }
-        }
-        .onAppear {
-            calcRemain()
+            
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -127,11 +154,14 @@ struct ParentJoinThirdView: View {
                             .foregroundStyle(.black)
                     }
                     
-                    Text("회원가입")
-                        .font(Font.subtitle)
+                    Text("비밀번호 찾기")
+                        .font(.subtitle)
                         .foregroundStyle(Color.main900)
                 }
             }
+        }
+        .onAppear {
+            showTextAlert = false
         }
     }
     

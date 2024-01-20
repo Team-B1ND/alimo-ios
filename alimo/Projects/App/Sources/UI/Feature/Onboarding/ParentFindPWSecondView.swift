@@ -1,5 +1,5 @@
 //
-//  ParentJoinSecondView.swift
+//  ParentFindPWSecondView.swift
 //  App
 //
 //  Created by dgsw8th36 on 1/11/24.
@@ -8,60 +8,33 @@
 
 import SwiftUI
 
-struct ParentJoinSecondView: View {
+struct ParentFindPWSecondView: View {
     
     @Environment(\.dismiss) private var dismiss
     
-    @State var email: String = ""
     @State var pw: String = ""
     @State var pwCheck: String = ""
     
     @State var showTextAlert: Bool = false
     
-    let dummyStudentName: String = "김가영"
-    
-    // 비밀번호랑 비밀번호 재확인에 입력한 문자열이 같은 지 확인하는 함수
-    func isPwcheckSame(pw: String, pwCheck: String) -> Bool {
-        
-        if pw == pwCheck {
-            return true
-        } else {
-            return false
-        }
-        
-    }
-    
-    // 이메일, 비밀번호, 비밀번호 재확인에 문자열을 입력했는지 확인하는 함수
-    func isAllEntered(_ email: String, _ pw: String, _ pwCheck: String) -> Bool {
-        
-        if email != "" && pw != "" && pwCheck != "" {
-            return true
-        } else {
-            return false
-        }
-        
-    }
-    
     var body: some View {
         VStack {
-            Text("\(dummyStudentName) 학부모님 안녕하세요!")
-                .font(Font.subtitle)
+            Text("새 비밀번호를 만들어 주세요")
+                .font(.subtitle)
                 .foregroundStyle(Color.main900)
                 .padding(.trailing, 120)
                 .padding(.top, 30)
                 .padding(.bottom, 10)
             
-            AlimoTextField("이메일", text: $email)
+            AlimoTextField("새 비밀번호", text: $pw, textFieldType: .password)
             
-            AlimoTextField("비밀번호", text: $pw, textFieldType: .password)
-            
-            AlimoTextField("비밀번호 재입력", text: $pwCheck, textFieldType: .password)
+            AlimoTextField("새 비밀번호 재입력", text: $pwCheck, textFieldType: .password)
             
             if showTextAlert {
                 
                 HStack {
                     Text("비밀번호가 다릅니다.")
-                        .font(Font.caption)
+                        .font(.caption)
                         .foregroundStyle(Color.red500)
                     Spacer()
                 }
@@ -72,27 +45,12 @@ struct ParentJoinSecondView: View {
             
             Spacer()
             
-            HStack {
-                Text("이미 계정이 있으시다면?")
-                    .font(Font.custom(Pretendard.medium.rawValue, size: 12))
-                    .foregroundStyle(Color.gray500)
-                NavigationLink {
-                    ParentLoginFirstView()
-                } label: {
-                    Text("로그인")
-                        .font(Font.custom(Pretendard.medium.rawValue, size: 12))
-                        .foregroundStyle(Color.main500)
-                        .underline()
-                }
-            }
-            .padding(.bottom, 5)
-            
-            if isAllEntered(email, pw, pwCheck) {
+            if pw != "" && pwCheck != "" {
                 
                 if pw == pwCheck {
                     
                     NavigationLink {
-                        ParentJoinThirdView()
+                        // 홈 뷰
                     } label: {
                         AlimoButton("다음", buttonType: .yellow) {}
                         .disabled(true)
@@ -109,14 +67,12 @@ struct ParentJoinSecondView: View {
                 }
                 
             } else {
-                AlimoButton("다음", buttonType: .none) {}
+                AlimoButton("완료", buttonType: .none) {
+                    print(dummyText)
+                }
                 .disabled(true)
                 .padding(.bottom, 30)
             }
-            
-        }
-        .onAppear() {
-            showTextAlert = false
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -129,8 +85,8 @@ struct ParentJoinSecondView: View {
                             .foregroundStyle(.black)
                     }
                     
-                    Text("회원가입")
-                        .font(Font.subtitle)
+                    Text("비밀번호 찾기")
+                        .font(.subtitle)
                         .foregroundStyle(Color.main900)
                 }
             }

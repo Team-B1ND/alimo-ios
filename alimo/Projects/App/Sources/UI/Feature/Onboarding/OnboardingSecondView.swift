@@ -23,7 +23,7 @@ struct OnboardingSecondView: View {
                     VStack(alignment: .leading) {
                         AlimoLogo(type: .yellow)
                         Text("대소고의 모든 소식")
-                            .font(Font.subtitle)
+                            .font(.subtitle)
                             .offset(x: 5, y: -10)
                     }
                     .padding(.trailing, 150)
@@ -60,7 +60,7 @@ struct OnboardingSecondView: View {
                             HStack {
                                 
                                 Text("세션이 만료되었어요")
-                                    .font(Font.custom(Pretendard.bold.rawValue, size: 16))
+                                    .font(.custom(Pretendard.bold.rawValue, size: 16))
                                 
                                 Spacer()
                                 
@@ -69,7 +69,7 @@ struct OnboardingSecondView: View {
                                     isAnimating = false
                                 } label: {
                                     Text("닫기")
-                                        .font(Font.bodyLight)
+                                        .font(.bodyLight)
                                         .foregroundStyle(Color.yellow)
                                 }
                                 

@@ -14,11 +14,11 @@ struct OnboardingFirstView: View {
             Color.main500
                 .ignoresSafeArea()
             
-            VStack {
+            VStack(alignment: .center, spacing: 0) {
                 AlimoLogo(type: .white)
                 Text("대소고의 모든 소식")
-                    .font(Font.body)
-                    .offset(y: -10)
+                    .font(.body)
+                    .foregroundStyle(Color.main900)
             }
         }
     }

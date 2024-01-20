@@ -1,5 +1,5 @@
 //
-//  ParentFindPWSecondView.swift
+//  ParentJoinSecondView.swift
 //  App
 //
 //  Created by dgsw8th36 on 1/11/24.
@@ -8,44 +8,38 @@
 
 import SwiftUI
 
-struct ParentFindPWSecondView: View {
+struct ParentJoinSecondView: View {
     
     @Environment(\.dismiss) private var dismiss
     
+    @State var email: String = ""
     @State var pw: String = ""
     @State var pwCheck: String = ""
     
     @State var showTextAlert: Bool = false
     
-    // 비밀번호랑 비밀번호 재확인에 입력한 문자열이 같은 지 확인하는 함수
-    func isPwcheckSame(pw: String, pwCheck: String) -> Bool {
-        
-        if pw == pwCheck {
-            return true
-        } else {
-            return false
-        }
-        
-    }
+    let dummyStudentName: String = "김가영"
     
     var body: some View {
         VStack {
-            Text("새 비밀번호를 만들어 주세요")
-                .font(Font.subtitle)
+            Text("\(dummyStudentName) 학부모님 안녕하세요!")
+                .font(.subtitle)
                 .foregroundStyle(Color.main900)
                 .padding(.trailing, 120)
                 .padding(.top, 30)
                 .padding(.bottom, 10)
             
-            AlimoTextField("새 비밀번호", text: $pw, textFieldType: .password)
+            AlimoTextField("이메일", text: $email)
             
-            AlimoTextField("새 비밀번호 재입력", text: $pwCheck, textFieldType: .password)
+            AlimoTextField("비밀번호", text: $pw, textFieldType: .password)
+            
+            AlimoTextField("비밀번호 재입력", text: $pwCheck, textFieldType: .password)
             
             if showTextAlert {
                 
                 HStack {
                     Text("비밀번호가 다릅니다.")
-                        .font(Font.caption)
+                        .font(.caption)
                         .foregroundStyle(Color.red500)
                     Spacer()
                 }
@@ -56,12 +50,27 @@ struct ParentFindPWSecondView: View {
             
             Spacer()
             
-            if pw != "" && pwCheck != "" {
+            HStack {
+                Text("이미 계정이 있으시다면?")
+                    .font(.custom(Pretendard.medium.rawValue, size: 12))
+                    .foregroundStyle(Color.gray500)
+                NavigationLink {
+                    ParentLoginFirstView()
+                } label: {
+                    Text("로그인")
+                        .font(.custom(Pretendard.medium.rawValue, size: 12))
+                        .foregroundStyle(Color.main500)
+                        .underline()
+                }
+            }
+            .padding(.bottom, 5)
+            
+            if email != "" && pw != "" && pwCheck != "" {
                 
                 if pw == pwCheck {
                     
                     NavigationLink {
-                        // 홈 뷰
+                        ParentJoinThirdView()
                     } label: {
                         AlimoButton("다음", buttonType: .yellow) {}
                         .disabled(true)
@@ -78,12 +87,14 @@ struct ParentFindPWSecondView: View {
                 }
                 
             } else {
-                AlimoButton("완료", buttonType: .none) {
-                    print(dummyText)
-                }
+                AlimoButton("다음", buttonType: .none) {}
                 .disabled(true)
                 .padding(.bottom, 30)
             }
+            
+        }
+        .onAppear() {
+            showTextAlert = false
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -96,8 +107,8 @@ struct ParentFindPWSecondView: View {
                             .foregroundStyle(.black)
                     }
                     
-                    Text("비밀번호 찾기")
-                        .font(Font.subtitle)
+                    Text("회원가입")
+                        .font(.subtitle)
                         .foregroundStyle(Color.main900)
                 }
             }
