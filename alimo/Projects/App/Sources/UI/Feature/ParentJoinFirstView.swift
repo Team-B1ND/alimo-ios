@@ -168,7 +168,6 @@ struct CharacterField: View {
         }
         .lineLimit(1)
         .multilineTextAlignment(.center)
-        .keyboardType(.numberPad)
         .background(
             RoundedRectangle(cornerRadius: 8)
                 .foregroundStyle(.white)
