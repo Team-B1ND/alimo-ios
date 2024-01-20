@@ -45,7 +45,7 @@ struct ParentJoinSecondView: View {
     var body: some View {
         VStack {
             Text("\(dummyStudentName) 학부모님 안녕하세요!")
-                .font(Font.subtitle)
+                .font(.subtitle)
                 .foregroundStyle(Color.main900)
                 .padding(.trailing, 120)
                 .padding(.top, 30)
@@ -61,7 +61,7 @@ struct ParentJoinSecondView: View {
                 
                 HStack {
                     Text("비밀번호가 다릅니다.")
-                        .font(Font.caption)
+                        .font(.caption)
                         .foregroundStyle(Color.red500)
                     Spacer()
                 }
@@ -74,13 +74,13 @@ struct ParentJoinSecondView: View {
             
             HStack {
                 Text("이미 계정이 있으시다면?")
-                    .font(Font.custom(Pretendard.medium.rawValue, size: 12))
+                    .font(.custom(Pretendard.medium.rawValue, size: 12))
                     .foregroundStyle(Color.gray500)
                 NavigationLink {
                     ParentLoginFirstView()
                 } label: {
                     Text("로그인")
-                        .font(Font.custom(Pretendard.medium.rawValue, size: 12))
+                        .font(.custom(Pretendard.medium.rawValue, size: 12))
                         .foregroundStyle(Color.main500)
                         .underline()
                 }
@@ -130,7 +130,7 @@ struct ParentJoinSecondView: View {
                     }
                     
                     Text("회원가입")
-                        .font(Font.subtitle)
+                        .font(.subtitle)
                         .foregroundStyle(Color.main900)
                 }
             }

@@ -18,7 +18,7 @@ struct StudentLoginFirstView: View {
     var body: some View {
         VStack {
             Text("도담도담 계정으로 로그인해주세요!")
-                .font(Font.subtitle)
+                .font(.subtitle)
                 .padding(.trailing, 80)
                 .padding(.top, 30)
                 .padding(.bottom, 10)
@@ -59,7 +59,7 @@ struct StudentLoginFirstView: View {
                     }
                     
                     Text("로그인")
-                        .font(Font.subtitle)
+                        .font(.subtitle)
                         .foregroundStyle(Color.main900)
                 }
             }

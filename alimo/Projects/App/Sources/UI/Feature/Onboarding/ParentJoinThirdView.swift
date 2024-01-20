@@ -29,7 +29,7 @@ struct ParentJoinThirdView: View {
     var body: some View {
         VStack {
             Text("이메일 인증 코드를 전송했어요")
-                .font(Font.subtitle)
+                .font(.subtitle)
                 .foregroundStyle(Color.main900)
                 .padding(.trailing, 100)
                 .padding(.top, 30)
@@ -55,7 +55,7 @@ struct ParentJoinThirdView: View {
                                     Spacer()
                                     
                                     Text("확인 완료!")
-                                        .font(Font.label)
+                                        .font(.label)
                                         .foregroundStyle(Color.gray500)
                                         .background(Color.main50)
                                 }
@@ -74,7 +74,7 @@ struct ParentJoinThirdView: View {
                         if isSended {
                             HStack {
                                 Text(convertSecondsToTime(timeInSeconds:timeRemaining))
-                                    .font(Font.custom(Pretendard.medium.rawValue, size: 14))
+                                    .font(.custom(Pretendard.medium.rawValue, size: 14))
                                     .foregroundStyle(Color.main500)
                                     .onReceive(timer) { _ in
                                         if timeRemaining != 0 {
@@ -113,7 +113,7 @@ struct ParentJoinThirdView: View {
                 
                 HStack {
                     Text("인증코드가 올바르지 않아요")
-                        .font(Font.caption)
+                        .font(.caption)
                         .foregroundStyle(Color.red500)
                     Spacer()
                 }
@@ -153,7 +153,7 @@ struct ParentJoinThirdView: View {
                     }
                     
                     Text("회원가입")
-                        .font(Font.subtitle)
+                        .font(.subtitle)
                         .foregroundStyle(Color.main900)
                 }
             }

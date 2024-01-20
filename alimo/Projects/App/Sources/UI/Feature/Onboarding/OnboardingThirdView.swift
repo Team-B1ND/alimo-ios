@@ -20,9 +20,9 @@ struct OnboardingThirdView: View {
             
             VStack(alignment: .leading) {
                 Text("학생이신가요?")
-                    .font(Font.subtitle)
+                    .font(.subtitle)
                 Text("아니면 학부모이신가요?")
-                    .font(Font.subtitle)
+                    .font(.subtitle)
             }
             .padding(.trailing, 150)
             
@@ -65,7 +65,7 @@ struct OnboardingThirdView: View {
             }
             
             Text("알리모에서는 학생, 학부모 모두 참여해요")
-                .font(Font.custom(Pretendard.medium.rawValue, size: 12))
+                .font(.custom(Pretendard.medium.rawValue, size: 12))
                 .foregroundStyle(Color.gray500)
                 .padding(.top, 10)
             
@@ -89,14 +89,14 @@ struct OnboardingThirdView: View {
             } else {
                 HStack {
                     Text("이미 계정이 있으시다면?")
-                        .font(Font.custom(Pretendard.medium.rawValue, size: 12))
+                        .font(.custom(Pretendard.medium.rawValue, size: 12))
                         .foregroundStyle(Color.gray500)
                     
                     NavigationLink {
                         ParentLoginFirstView()
                     } label: {
                         Text("로그인")
-                            .font(Font.custom(Pretendard.medium.rawValue, size: 12))
+                            .font(.custom(Pretendard.medium.rawValue, size: 12))
                             .foregroundStyle(Color.main500)
                             .underline()
                     }

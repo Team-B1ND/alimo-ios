@@ -17,7 +17,7 @@ struct OnboardingFirstView: View {
             VStack(alignment: .center, spacing: 0) {
                 AlimoLogo(type: .white)
                 Text("대소고의 모든 소식")
-                    .font(Font.body)
+                    .font(.body)
                     .foregroundStyle(Color.main900)
             }
         }

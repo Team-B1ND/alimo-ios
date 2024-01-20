@@ -31,7 +31,7 @@ struct ParentFindPWSecondView: View {
     var body: some View {
         VStack {
             Text("새 비밀번호를 만들어 주세요")
-                .font(Font.subtitle)
+                .font(.subtitle)
                 .foregroundStyle(Color.main900)
                 .padding(.trailing, 120)
                 .padding(.top, 30)
@@ -45,7 +45,7 @@ struct ParentFindPWSecondView: View {
                 
                 HStack {
                     Text("비밀번호가 다릅니다.")
-                        .font(Font.caption)
+                        .font(.caption)
                         .foregroundStyle(Color.red500)
                     Spacer()
                 }
@@ -97,7 +97,7 @@ struct ParentFindPWSecondView: View {
                     }
                     
                     Text("비밀번호 찾기")
-                        .font(Font.subtitle)
+                        .font(.subtitle)
                         .foregroundStyle(Color.main900)
                 }
             }
