@@ -18,6 +18,8 @@ struct ParentJoinThirdView: View {
     @State var isAuthed: Bool = false
     @State var isSended: Bool = false
     
+    @State var showTextAlert: Bool = false
+    
     let dummyAuthCode = "123456"
     
     @State var timeRemaining : Int = 300
@@ -79,10 +81,18 @@ struct ParentJoinThirdView: View {
                                             timeRemaining -= 1
                                         }
                                     }
-                                
-                                AlimoSmallButton("확인", buttonType: .none) {
-                                    if inputAuthCode == dummyAuthCode {
-                                        isAuthed = true
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .frame(width: 40, height: 36)
+                                        .foregroundStyle(Color.main50)
+                                    
+                                    AlimoSmallButton("확인", buttonType: .none) {
+                                        if inputAuthCode == dummyAuthCode {
+                                            isAuthed = true
+                                            showTextAlert = false
+                                        } else {
+                                            showTextAlert = true
+                                        }
                                     }
                                 }
                             }
@@ -95,12 +105,26 @@ struct ParentJoinThirdView: View {
                         
                     }
                     .padding(.trailing, 30)
+                    
                 }
+            }
+            
+            if showTextAlert {
+                
+                HStack {
+                    Text("인증코드가 올바르지 않아요")
+                        .font(Font.caption)
+                        .foregroundStyle(Color.red500)
+                    Spacer()
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 5)
+                
             }
             
             Spacer()
             
-            if inputAuthCode != "" {
+            if isAuthed {
                 AlimoButton("회원가입", buttonType: .yellow) {
                     print(dummyText)
                 }
@@ -112,6 +136,7 @@ struct ParentJoinThirdView: View {
                 .disabled(true)
                 .padding(.bottom, 30)
             }
+            
         }
         .onAppear {
             calcRemain()
@@ -132,6 +157,9 @@ struct ParentJoinThirdView: View {
                         .foregroundStyle(Color.main900)
                 }
             }
+        }
+        .onAppear {
+            showTextAlert = false
         }
     }
     
