@@ -7,11 +7,6 @@ struct AlimoApp: App {
             // if you want to test ui, then you can remove annotation
              UITestView()
 //            TabbarView()
-    
-            
-    
-            
-            // add something! 
         } //
         
     }
