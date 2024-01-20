@@ -25,7 +25,7 @@ struct DetailContents : View {
     """)
         
         .font(.label)
-        .frame(maxWidth: 300)
+        .frame(maxWidth: 350)
         .padding(.vertical,5)
         .padding(.horizontal,5)
         

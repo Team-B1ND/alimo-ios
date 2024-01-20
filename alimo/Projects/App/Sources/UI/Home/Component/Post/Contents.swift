@@ -30,12 +30,17 @@ struct Contents: View {
                 Text(text)
                     .font(.label)
                     .lineLimit(nil)
+                    .foregroundColor(.main900)
                     .fixedSize(horizontal: false, vertical: true)
+                    .multilineTextAlignment(.leading)
+
             } else {
                 Text(text.prefix(350))
                     .font(.label)
                     .lineLimit(nil)
+                    .foregroundColor(.main900)
                     .fixedSize(horizontal: false, vertical: true)
+                    .multilineTextAlignment(.leading)
             }
             
             if text.count > 350 && !isExpanded {

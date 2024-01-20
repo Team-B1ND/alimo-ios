@@ -21,17 +21,32 @@ struct Comment: View {
             
             VStack(alignment: .leading, spacing: 2) {
                 Text("유저이름")
-                    .font(.label)
+                    .font(.system(size: 16))
+                    .bold()
+//                    .font(.label)
                 
                 Text("댓글 내용")
                     .font(.label)
+                HStack{
+                    Text("2023년 1월 1일 오후 1시")
+                        .font(.cute)
+                        .foregroundColor(.gray500)
+                    
+                    Button(action: {
+                        
+                    }, label: {
+                        Text("답글달기")
+                            .font(.cute)
+                            .foregroundColor(.gray500)
+                            .padding(.leading,10)
+                    })
+                    
+                   
+                }
                 
-                Text("2023년 1월 1일 오후 1시")
-                    .font(.cute)
-                    .foregroundColor(.gray500)
             }
         }
-        .frame(maxWidth: 300, alignment: .leading)
+        .frame(maxWidth: 350, alignment: .leading)
         .padding(20)
     }
 }

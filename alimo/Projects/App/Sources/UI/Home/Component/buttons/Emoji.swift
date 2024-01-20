@@ -15,6 +15,14 @@ struct Emoji: View {
         "Ok", "heart", "Funny", "Sad", "Angry"
     ]
     
+    var emojiNum: [String: Int] = [
+        "Ok": 66,
+        "heart": 11,
+        "Funny": 22,
+        "Sad": 22,
+        "Angry": 33
+    ]
+    
     var body: some View {
         ZStack {
             Rectangle()
@@ -27,21 +35,27 @@ struct Emoji: View {
                     Button(action: {
                         selectedButton = selectedButton == emoji ? nil : emoji
                     }) {
-                        emojiImage(name: emoji, isSelected: selectedButton == emoji)
+                        emojiImage(name: emoji, num: emojiNum[emoji] ?? 0, isSelected: selectedButton == emoji)
                     }
                 }
             }
         }
     }
     
-    func emojiImage(name: String, isSelected: Bool) -> some View {
-        Image(name)
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            .frame(width: isSelected ? 23 : 20, height: isSelected ? 23 : 20)
-            .cornerRadius(5)
-            .padding(10)
-            .opacity(isSelected ? 1.0 : 0.5)
+    func emojiImage(name: String, num: Int, isSelected: Bool) -> some View {
+        HStack {
+            Image(name)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width:  20, height:  20)
+                .cornerRadius(5)
+                .padding(2)
+                .opacity(isSelected ? 1.0 : 0.5)
+            
+            Text("\(num)")
+                .foregroundColor(.black)
+                .opacity(isSelected ? 1.0 : 0.5)
+        }
     }
 }
 

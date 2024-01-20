@@ -20,7 +20,8 @@ struct Userprofile : View {
                 .padding(.trailing,10)
             
             Text("유저이름")
-                .font(.bodyLight)
+                .font(.system(size: 16))
+                .bold()
                 .padding(.bottom,10)
                 
                 
