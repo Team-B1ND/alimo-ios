@@ -20,28 +20,6 @@ struct ParentJoinSecondView: View {
     
     let dummyStudentName: String = "김가영"
     
-    // 비밀번호랑 비밀번호 재확인에 입력한 문자열이 같은 지 확인하는 함수
-    func isPwcheckSame(pw: String, pwCheck: String) -> Bool {
-        
-        if pw == pwCheck {
-            return true
-        } else {
-            return false
-        }
-        
-    }
-    
-    // 이메일, 비밀번호, 비밀번호 재확인에 문자열을 입력했는지 확인하는 함수
-    func isAllEntered(_ email: String, _ pw: String, _ pwCheck: String) -> Bool {
-        
-        if email != "" && pw != "" && pwCheck != "" {
-            return true
-        } else {
-            return false
-        }
-        
-    }
-    
     var body: some View {
         VStack {
             Text("\(dummyStudentName) 학부모님 안녕하세요!")
@@ -87,7 +65,7 @@ struct ParentJoinSecondView: View {
             }
             .padding(.bottom, 5)
             
-            if isAllEntered(email, pw, pwCheck) {
+            if email != "" && pw != "" && pwCheck != "" {
                 
                 if pw == pwCheck {
                     

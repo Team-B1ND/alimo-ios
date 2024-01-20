@@ -17,17 +17,6 @@ struct ParentFindPWSecondView: View {
     
     @State var showTextAlert: Bool = false
     
-    // 비밀번호랑 비밀번호 재확인에 입력한 문자열이 같은 지 확인하는 함수
-    func isPwcheckSame(pw: String, pwCheck: String) -> Bool {
-        
-        if pw == pwCheck {
-            return true
-        } else {
-            return false
-        }
-        
-    }
-    
     var body: some View {
         VStack {
             Text("새 비밀번호를 만들어 주세요")
