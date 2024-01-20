@@ -25,4 +25,5 @@ class Asset {
     static let lightParent = "LightParent"
     static let darkStudent = "DarkStudent"
     static let darkParent = "DarkParent"
+    static let profileImage = "ProfileImage"
 }
