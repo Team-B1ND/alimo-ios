@@ -32,7 +32,7 @@ struct Textfield: View {
                 .cornerRadius(5)
                 .shadow(color: .gray300, radius: 3, x: 0, y: -3)
             
-            TextField("댓글을 입력하세요", text: $commentText)
+            TextField("댓글을 남겨보세요", text: $commentText)
                 .padding(.bottom,20)
                 .padding(.leading,25)
             HStack{
