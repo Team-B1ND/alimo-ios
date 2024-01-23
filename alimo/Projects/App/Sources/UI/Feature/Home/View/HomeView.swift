@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 struct HomeView: View {
-    var notice : Bool = true
+    var notice : Bool = false
     var body: some View {
         NavigationView{
         ScrollView(showsIndicators : false) {
@@ -54,6 +54,11 @@ struct HomeView: View {
                                 Spacer()
                                 Image("NoNotice")
                                     .padding(.top,100)
+                                Text("공지를 불러올 수 없어요")
+                                    .font(.subtitle)
+                                    .bold()
+                                    .foregroundColor(.gray500)
+                                    .padding(.vertical,20)
                                 Spacer()
                             }
                             

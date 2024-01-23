@@ -12,13 +12,13 @@ struct Emoji: View {
     @State private var selectedButton: String?
     
     let emojis = [
-        "Ok", "heart", "Funny", "Sad", "Angry"
+        "Ok", "heart", "funny", "Sad", "Angry"
     ]
     
     var emojiNum: [String: Int] = [
         "Ok": 66,
         "heart": 11,
-        "Funny": 22,
+        "funny": 22,
         "Sad": 22,
         "Angry": 33
     ]

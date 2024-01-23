@@ -27,6 +27,12 @@ struct BookMarkView: View {
                 } else {
                     Image("NoBookMark")
                         .padding(.top,200)
+                    
+                    Text("아직 북마크가 없어요")
+                        .font(.subtitle)
+                        .bold()
+                        .foregroundColor(.gray500)
+                        .padding(.vertical,20)
                 }
                 
             }// VStack
