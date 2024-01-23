@@ -23,12 +23,7 @@ struct Userprofile : View {
                 .font(.system(size: 16))
                 .bold()
                 .padding(.bottom,10)
-                
-                
-   
-            
         }//hs
-        
     }
 }
 

@@ -22,17 +22,13 @@ struct Profile : View {
                 .font(.system(size: 16))
                 .foregroundColor(.main900)
                 .bold()
-                
-                
-            //그냥 body 하면 에러남 고치기 이름
+            
             Text("2023년 1월 1일 오후 11:1")
                 .font(.cute)
                 .foregroundColor(.gray500)
                 .padding(.top,3)
             
         }//hs
-        
-        
     }
 }
 

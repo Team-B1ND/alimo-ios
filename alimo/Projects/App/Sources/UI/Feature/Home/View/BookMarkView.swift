@@ -40,9 +40,6 @@ struct BookMarkView: View {
     }
 }
 
-
-
-
 #Preview {
     BookMarkView()
 }

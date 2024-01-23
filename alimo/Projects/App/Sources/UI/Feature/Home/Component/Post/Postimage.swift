@@ -11,16 +11,11 @@ import SwiftUI
 
 struct Postimage : View {
     var body: some View {
-
            Image("Image")
             .resizable()
             .aspectRatio(contentMode: .fill)
             .frame(width: 300,height: 300)
             .cornerRadius(5)
-        
-            
-
-        
     }
 }
 

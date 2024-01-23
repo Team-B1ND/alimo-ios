@@ -16,7 +16,7 @@ struct Post: View {
             Contents()
             Icons()
             Divider()
-            
+    
         }//vs
         .padding(.horizontal,20)
     }

@@ -40,10 +40,7 @@ struct Comment: View {
                             .foregroundColor(.gray500)
                             .padding(.leading,10)
                     })
-                    
-                   
                 }
-                
             }
         }
         .frame(maxWidth: 350, alignment: .leading)

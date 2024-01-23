@@ -15,7 +15,6 @@ struct Icons : View {
     var body: some View {
         HStack(spacing : 10){
             Button {
-                //
             } label: {
                 CustomImage(name: "AddImoji")
             }

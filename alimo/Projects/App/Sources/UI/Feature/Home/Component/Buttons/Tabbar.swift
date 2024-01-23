@@ -69,7 +69,6 @@ struct Tabbar: View {
                             print(selectedIndex)
                         }
                 }
-                
                 .accentColor(.black)
                 .onAppear {
                             UITabBar.appearance().backgroundColor = .white

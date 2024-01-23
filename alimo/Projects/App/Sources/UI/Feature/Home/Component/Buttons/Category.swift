@@ -45,8 +45,6 @@ struct Category : View {
             .frame(maxWidth: .infinity,minHeight: 35)
         }//스크롤
         .padding(20)
-
-        
     }
 }
 

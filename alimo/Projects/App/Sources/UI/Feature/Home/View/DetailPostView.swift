@@ -12,25 +12,20 @@ import SwiftUI
 struct DetailPostView : View {
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
-//        NavigationView{
             ZStack {
                 ScrollView (showsIndicators : false){
                     VStack {
                         DetailPost()
-                        
                         Comment()
-                            
                     }
                     .padding(.bottom,60)
                 }
                 VStack {
                     Spacer()
-                    
                     Textfield()
                 }
                 .ignoresSafeArea()
             }
-            
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading: Button(action: {
                 presentationMode.wrappedValue.dismiss()
@@ -38,8 +33,6 @@ struct DetailPostView : View {
                 Image(systemName: "arrow.left")
                     .foregroundColor(.black)
             })
-            
-//        }
     }
 }
 

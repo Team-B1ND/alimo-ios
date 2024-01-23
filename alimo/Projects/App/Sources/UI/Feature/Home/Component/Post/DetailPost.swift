@@ -52,8 +52,6 @@ struct DetailPost: View {
             
             Divider()
         }
-
-        
     }
 }
 

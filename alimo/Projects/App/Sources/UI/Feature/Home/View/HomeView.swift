@@ -15,35 +15,24 @@ struct HomeView: View {
         NavigationView{
         ScrollView(showsIndicators : false) {
                 ZStack {
-                    //로고
                     HStack{
                         AlimoLogo(type: .gray)
                             .padding(.leading,20)
                         Spacer()
-                        
                     }
-                    //
-                    
                 }
                 Notice()
-                
                 if notice {
                     LazyVStack(pinnedViews: [.sectionHeaders]) {
                         Section(header: filterBar) {
                             VStack {
                                 ForEach(1...3, id: \.self) { _ in
-                                    
                                     NavigationLink(destination: DetailPostView()) {
-                                        
                                         Post()
                                     }
-                                    
-                                    
-                                 
                                         .padding(.bottom,30)
                                 }
                             }
-                            
                         }
                     }
                 }
@@ -61,8 +50,6 @@ struct HomeView: View {
                                     .padding(.vertical,20)
                                 Spacer()
                             }
-                            
-                               
                         }
                     }
 
@@ -70,12 +57,7 @@ struct HomeView: View {
             }
             .clipped()
         }
-//        .navigationBarHidden(true)
-//        .navigationBarBackButtonHidden(true)
-
-        
     }
-    
 }
 private var filterBar: some View {
     HStack {
@@ -87,7 +69,6 @@ private var filterBar: some View {
         .background(Rectangle().foregroundColor(.white))
         
     }
-  
 }
 
 

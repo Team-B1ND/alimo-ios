@@ -9,17 +9,6 @@
 
 import Foundation
 import SwiftUI
-//
-//struct Textfield : View {
-//    var body: some View {
-//
-//        
-//    }
-//}
-//
-#Preview {
-    Textfield()
-}
 
 struct Textfield: View {
     @State private var commentText: String = ""
@@ -46,17 +35,7 @@ struct Textfield: View {
                 .padding(.bottom,20)
                 .padding(.trailing,25)
             }
-
-            
-            
         }
-
-            
-          
-            
-           
-        
     }
-
 }
 
