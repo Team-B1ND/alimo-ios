@@ -11,11 +11,12 @@ import SwiftUI
 
 struct Category : View {
     var new : Bool = false
+    @State private var selectedIndex = 0
     var body: some View {
         ScrollView(.horizontal, showsIndicators: true) {
             HStack(spacing: 10) {
-                AlimoSmallButton(dummyText, buttonType: .yellow) {
-                    print(dummyText)
+                AlimoSmallButton("전체", buttonType: selectedIndex == 0 ? .yellow : .none) {
+                    selectedIndex = 0
                 }
                 .overlay{
                     if new {
@@ -27,9 +28,9 @@ struct Category : View {
                     }
                    
                 }
-                ForEach(1...3, id: \.self) { _ in
-                    AlimoSmallButton(dummyText, buttonType: .none) {
-                        print(dummyText)
+                ForEach(1...3, id: \.self) { index in
+                    AlimoSmallButton(dummyText, buttonType: selectedIndex == index ? .yellow : .none) {
+                        selectedIndex = index
                     }
                     .overlay{
                         if new {
