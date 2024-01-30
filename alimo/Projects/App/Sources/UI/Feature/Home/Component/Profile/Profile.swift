@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 
 struct Profile : View {
+    @State var Newpost : Bool = true
     var body: some View {
         HStack{
             Image("Image")
@@ -28,6 +29,11 @@ struct Profile : View {
                 .foregroundColor(.gray500)
                 .padding(.top,3)
             
+            if Newpost {
+                Image("New")
+                    .frame(width: 5,height: 5)
+                    .padding(.horizontal,5)
+            }
         }//hs
     }
 }
