@@ -11,14 +11,15 @@ import SwiftUI
 
 struct Notice : View {
     var body : some View{
-        ZStack{
+        ZStack {
             Rectangle()
                 .foregroundColor(.main100)
-                .frame(width: 360, height: 35)
+                .frame(maxWidth: .infinity, minHeight: 36)
                 .cornerRadius(5)
-            HStack{
-                Image("Speaker")
-                
+            HStack {
+                Image(Asset.loudSpeaker)
+                    .renderingMode(.template)
+                    .foregroundStyle(Color.main300)
                 Text("불러오는중...")
                     .font(.label)
                     .foregroundColor(.main900)
@@ -27,11 +28,9 @@ struct Notice : View {
                     .foregroundColor(.gray500)
                 Spacer()
             }
-            .padding(.horizontal,30)
-            
-               
+            .padding(.horizontal, 8)
         }
-        
+        .padding(.horizontal, 6)
     }
 }
 

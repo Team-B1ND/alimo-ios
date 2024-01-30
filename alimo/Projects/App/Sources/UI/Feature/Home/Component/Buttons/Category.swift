@@ -10,42 +10,45 @@ import Foundation
 import SwiftUI
 
 struct Category : View {
-    var new : Bool = false
+    var new : Bool = true
     @State private var selectedIndex = 0
     var body: some View {
         ScrollView(.horizontal, showsIndicators: true) {
-            HStack(spacing: 10) {
+            HStack(spacing: 12) {
                 AlimoSmallButton("전체", buttonType: selectedIndex == 0 ? .yellow : .none) {
                     selectedIndex = 0
                 }
-                .overlay{
+                .overlay {
                     if new {
-                        Circle()
-                            .frame(width: 10,height: 10)
-                            .foregroundColor(.red500)
-                            .padding(.leading,55)
-                            .padding(.bottom,25)
+                        HStack {
+                            Spacer()
+                            VStack {
+                                AlimoBadge(type: .small)
+                                Spacer()
+                            }
+                        }
                     }
-                   
                 }
                 ForEach(1...3, id: \.self) { index in
                     AlimoSmallButton(dummyText, buttonType: selectedIndex == index ? .yellow : .none) {
                         selectedIndex = index
                     }
-                    .overlay{
+                    .overlay {
                         if new {
-                            Circle()
-                                .frame(width: 10,height: 10)
-                                .foregroundColor(.red500)
-                                .padding(.leading,55)
-                                .padding(.bottom,25)
+                            HStack {
+                                Spacer()
+                                VStack {
+                                    AlimoBadge(type: .small)
+                                    Spacer()
+                                }
+                            }
                         }
                     }
                 }//foreach
             }//hs
-            .frame(maxWidth: .infinity,minHeight: 35)
+            .frame(maxWidth: .infinity, minHeight: 26)
         }//스크롤
-        .padding(20)
+        .padding(.horizontal, 16)
     }
 }
 

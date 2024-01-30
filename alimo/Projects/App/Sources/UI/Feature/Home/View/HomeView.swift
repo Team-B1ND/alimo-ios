@@ -10,49 +10,40 @@ import Foundation
 import SwiftUI
 
 struct HomeView: View {
-    var notice : Bool = false
+    var hasNotice: Bool = false
     var body: some View {
-        NavigationView{
-        ScrollView(showsIndicators : false) {
+        NavigationView {
+            ScrollView(showsIndicators: false) {
                 ZStack {
-                    HStack{
+                    HStack {
                         AlimoLogo(type: .gray)
-                            .padding(.leading,20)
+                            .padding(.leading, 20)
                         Spacer()
                     }
                 }
                 Notice()
-                if notice {
-                    LazyVStack(pinnedViews: [.sectionHeaders]) {
-                        Section(header: filterBar) {
-                            VStack {
+                LazyVStack(pinnedViews: [.sectionHeaders]) {
+                    Section(header: filterBar) {
+                        VStack {
+                            if hasNotice {
                                 ForEach(1...3, id: \.self) { _ in
                                     NavigationLink(destination: DetailPostView()) {
                                         Post()
                                     }
-                                        .padding(.bottom,30)
+                                    .padding(.bottom,30)
                                 }
-                            }
-                        }
-                    }
-                }
-                else{
-                    LazyVStack(pinnedViews: [.sectionHeaders]) {
-                        Section(header: filterBar) {
-                            VStack{
+                            } else {
                                 Spacer()
                                 Image("NoNotice")
                                     .padding(.top,100)
                                 Text("공지를 불러올 수 없어요")
                                     .font(.subtitle)
-                                    .bold()
-                                    .foregroundColor(.gray500)
+                                    .foregroundStyle(Color.gray500)
                                     .padding(.vertical,20)
                                 Spacer()
                             }
                         }
                     }
-
                 }
             }
             .clipped()
@@ -60,15 +51,10 @@ struct HomeView: View {
     }
 }
 private var filterBar: some View {
-    HStack {
-        VStack {
-            Category()
-        }
+    Category()
         .frame(minWidth: 0, maxWidth: .infinity)
-        .frame(height: 60)
-        .background(Rectangle().foregroundColor(.white))
-        
-    }
+        .padding(.vertical, 12)
+        .background(Color.white)
 }
 
 
