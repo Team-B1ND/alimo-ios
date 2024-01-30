@@ -74,7 +74,7 @@ struct ParentFindPWFirstView: View {
                         if isSended {
                             HStack {
                                 Text(convertSecondsToTime(timeInSeconds:timeRemaining))
-                                    .font(.custom(Pretendard.medium.rawValue, size: 14))
+                                    .font(.label)
                                     .foregroundStyle(Color.main500)
                                     .onReceive(timer) { _ in
                                         if timeRemaining != 0 {

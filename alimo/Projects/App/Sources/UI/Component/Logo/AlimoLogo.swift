@@ -16,7 +16,7 @@ struct AlimoLogo: View {
         HStack(alignment: .bottom, spacing: 0) {
             Text(appName.uppercased())
                 .foregroundStyle(type.textColor)
-                .font(Font.custom(Pretendard.bold.rawValue, size: type.fontSize))
+                .font(Font(AppFontFamily.Pretendard.bold.font(size: type.fontSize)))
             if type.hasDot {
                 Circle()
                     .foregroundStyle(type.dotColor)

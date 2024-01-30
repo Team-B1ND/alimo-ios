@@ -32,7 +32,7 @@ struct ParentJoinFirstView: View {
                     .padding(.horizontal, 20)
                 
                 Text("학생 코드가 무엇인가요?")
-                    .font(.custom(Pretendard.medium.rawValue, size: 12))
+                    .font(.caption)
                     .foregroundStyle(Color.gray500)
                     .padding(.leading, 240)
                     .padding(.top, 5)
@@ -41,13 +41,13 @@ struct ParentJoinFirstView: View {
                 
                 HStack {
                     Text("이미 계정이 있으시다면?")
-                        .font(.custom(Pretendard.medium.rawValue, size: 12))
+                        .font(.caption)
                         .foregroundStyle(Color.gray500)
                     NavigationLink {
                         ParentLoginFirstView()
                     } label: {
                         Text("로그인")
-                            .font(.custom(Pretendard.medium.rawValue, size: 12))
+                            .font(.caption)
                             .foregroundStyle(Color.main500)
                             .underline()
                     }
@@ -119,11 +119,11 @@ struct ParentJoinFirstView: View {
                             .overlay {
                                 VStack {
                                     Text("올바르지 않은 학생 코드")
-                                        .font(.custom(Pretendard.bold.rawValue, size: 20))
+                                        .font(.subtitle)
                                         .padding(.bottom, 7)
                                     
                                     Text("학생 코드를 다시 확인해 주세요")
-                                        .font(.custom(Pretendard.medium.rawValue, size: 16))
+                                        .font(.bodyLight)
                                         .foregroundStyle(Color.gray500)
                                         .padding(.bottom, 8)
                                     
@@ -164,7 +164,7 @@ struct CharacterField: View {
     var body: some View {
         TextField(text: $character) {
             Text("")
-                .font(.custom(Pretendard.bold.rawValue, size: 16))
+                .font(.body)
         }
         .lineLimit(1)
         .multilineTextAlignment(.center)

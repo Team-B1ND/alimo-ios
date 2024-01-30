@@ -45,7 +45,7 @@ struct ProfileView: View {
                             showDialog = true
                         } label: {
                             Text("학생코드")
-                                .font(Font.custom(Pretendard.medium.rawValue, size: 12))
+                                .font(.caption)
                                 .foregroundStyle(Color.gray500)
                                 .underline()
                         }
@@ -53,7 +53,7 @@ struct ProfileView: View {
                         FlowLayout(mode: .scrollable,
                                    items: dummyCategory) {
                             Text($0)
-                                .font(Font.custom(Pretendard.medium.rawValue, size: 12))
+                                .font(.caption)
                                 .foregroundStyle(Color.gray500)
                                 .padding(.horizontal, 10)
                                 .padding(.vertical, 5)
@@ -112,7 +112,7 @@ struct ProfileView: View {
                                 .foregroundStyle(.black)
                             Spacer()
                             Text("v1.0.0")
-                                .font(Font.custom(Pretendard.medium.rawValue, size: 16))
+                                .font(.bodyLight)
                                 .foregroundStyle(Color.gray500)
                         }
                         .padding(.horizontal, 20)
@@ -124,7 +124,7 @@ struct ProfileView: View {
                             // 로그아웃
                         } label: {
                             Text("로그아웃")
-                                .font(Font.custom(Pretendard.medium.rawValue, size: 16))
+                                .font(.bodyLight)
                                 .foregroundStyle(Color.red500)
                         }
                         .padding(.leading, 20)
@@ -147,7 +147,7 @@ struct ProfileView: View {
                         .overlay {
                             HStack {
                                 Text("복사에 성공하였습니다!")
-                                    .font(Font.custom(Pretendard.bold.rawValue, size: 16))
+                                    .font(.body)
                                 
                                 Spacer()
                                 
@@ -188,7 +188,7 @@ struct ProfileView: View {
                                         
                                         HStack {
                                             Text("\(dummyStudentCode)")
-                                                .font(Font.custom(Pretendard.bold.rawValue, size: 20))
+                                                .font(.subtitle)
                                             
                                             Button {
                                                 showDialog = false
@@ -202,7 +202,7 @@ struct ProfileView: View {
                                         .padding(.bottom, 5)
                                         
                                         Text("부모님께만 공유해주세요")
-                                            .font(Font.custom(Pretendard.medium.rawValue, size: 16))
+                                            .font(.bodyLight)
                                             .foregroundStyle(Color.gray500)
                                             .padding(.bottom, 5)
                                         

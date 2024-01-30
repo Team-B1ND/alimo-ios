@@ -31,7 +31,7 @@ struct ParentLoginFirstView: View {
                 ParentFindPWFirstView()
             } label: {
                 Text("비밀번호 찾기")
-                    .font(.custom(Pretendard.medium.rawValue, size: 12))
+                    .font(.caption)
                     .foregroundStyle(Color.gray500)
                     .padding(.leading, 280)
                     .padding(.top, 5)
@@ -41,13 +41,13 @@ struct ParentLoginFirstView: View {
             
             HStack {
                 Text("아직 계정이 없으시다면?")
-                    .font(.custom(Pretendard.medium.rawValue, size: 12))
+                    .font(.caption)
                     .foregroundStyle(Color.gray500)
                 NavigationLink {
                     ParentJoinFirstView()
                 } label: {
                     Text("회원가입")
-                        .font(.custom(Pretendard.medium.rawValue, size: 12))
+                        .font(.caption)
                         .foregroundStyle(Color.main500)
                         .underline()
                 }

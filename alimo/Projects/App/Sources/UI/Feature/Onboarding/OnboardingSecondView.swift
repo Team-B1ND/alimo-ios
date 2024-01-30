@@ -60,7 +60,7 @@ struct OnboardingSecondView: View {
                             HStack {
                                 
                                 Text("세션이 만료되었어요")
-                                    .font(.custom(Pretendard.bold.rawValue, size: 16))
+                                    .font(.body)
                                 
                                 Spacer()
                                 
