@@ -119,6 +119,8 @@ struct ProfileView: View {
                         .padding(.vertical, 20)
                         
                         Divider()
+                            .foregroundStyle(Color.gray100)
+                            .padding(.horizontal, 12)
                         
                         Button {
                             // 로그아웃
