@@ -26,6 +26,7 @@ struct DetailPostView : View {
                 }
                 .ignoresSafeArea()
             }
+            .toolbar(.hidden, for: .tabBar)
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading: Button(action: {
                 presentationMode.wrappedValue.dismiss()

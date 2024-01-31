@@ -10,9 +10,9 @@ import Foundation
 import SwiftUI
 
 struct HomeView: View {
-    var hasNotice: Bool = false
+    var hasNotice: Bool = true
     var body: some View {
-        NavigationView {
+//        NavigationView {
             ScrollView(showsIndicators: false) {
                 ZStack {
                     HStack {
@@ -49,7 +49,7 @@ struct HomeView: View {
             .clipped()
         }
     }
-}
+//}
 private var filterBar: some View {
     Category()
         .frame(minWidth: 0, maxWidth: .infinity)
