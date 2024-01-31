@@ -30,9 +30,7 @@ struct Profile : View {
                 .padding(.top,3)
             
             if Newpost {
-                Image("New")
-                    .frame(width: 5,height: 5)
-                    .padding(.horizontal,5)
+                AlimoBadge()
             }
         }//hs
     }
