@@ -23,7 +23,13 @@ struct BookMarkView: View {
                     }
                     
                     if hasPost {
-                        Post()
+                        ForEach(1...3, id: \.self) { _ in
+                            NavigationLink(destination: DetailPostView()) {
+                                Post()
+                            }
+                            .padding(.bottom,30)
+                        }
+
                             .padding(.top,10)
                     } else {
                         Image("NoBookMark")
