@@ -31,17 +31,25 @@ struct OnboardingThirdView: View {
                     isStudent = true
                 } label: {
                     if isStudent {
-                        Image(Asset.lightStudent)
+                        
+                        RoundedRectangle(cornerRadius: 12)
                             .frame(width: 160, height: 200)
-                            .background(Color.gray100)
+                            .foregroundStyle(Color.gray100)
                             .overlay {
+                                Image(Asset.lightStudent)
+                                
                                 RoundedRectangle(cornerRadius: 12)
                                     .stroke(Color.main500, lineWidth: 2)
                             }
+                        
                     } else {
-                        Image(Asset.darkStudent)
+                        
+                        RoundedRectangle(cornerRadius: 12)
                             .frame(width: 160, height: 200)
-                            .background(Color.gray100)
+                            .foregroundStyle(Color.gray100)
+                            .overlay {
+                                Image(Asset.darkStudent)
+                            }
                     }
                 }
                 
@@ -49,17 +57,27 @@ struct OnboardingThirdView: View {
                     isStudent = false
                 } label: {
                     if isStudent {
-                        Image(Asset.darkParent)
+                        
+                        RoundedRectangle(cornerRadius: 12)
                             .frame(width: 160, height: 200)
-                            .background(Color.gray100)
-                    } else {
-                        Image(Asset.lightParent)
-                            .frame(width: 160, height: 200)
-                            .background(Color.gray100)
+                            .foregroundStyle(Color.gray100)
                             .overlay {
+                                Image(Asset.darkParent)
+                            }
+                        
+                    } else {
+                        
+                        RoundedRectangle(cornerRadius: 12)
+                            .frame(width: 160, height: 200)
+                            .foregroundStyle(Color.gray100)
+                            .overlay {
+                                
+                                Image(Asset.lightParent)
+                                
                                 RoundedRectangle(cornerRadius: 12)
                                     .stroke(Color.main500, lineWidth: 2)
                             }
+                        
                     }
                 }
             }
