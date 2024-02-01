@@ -10,8 +10,7 @@ import Foundation
 import SwiftUI
 
 struct Contents: View {
-    @State private var isExpanded = false
-    let text = """
+    let text : String = """
         여러분들은 이제 2학년입니다. 인문계면 이때의 공부한 걸로 대학이 거의 결정되고, 특성화인 여러 분들은 여러 분들은 지금부터의 공부가 여러 분들의 취업 방향이 결정됩니다.
         여기는 소프트웨어고라고는 하지만 거의 웹개발고등학교라도 해도 무방할 정도로 웹개발에 대해 집중하고 있고, 수업도 그렇게 진행이 되고 있습니다.
         2학년때는 여러분들 취업에 쓸 포트폴리오를 위한 프로젝트를 진행합니다. 많은 시간을 주어지지만 기초가 없으면 다시 처음부터 공부를 해야합니다.
@@ -24,28 +23,16 @@ struct Contents: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
-            
-            
-            if isExpanded {
                 Text(text)
+                    .lineLimit(6)
                     .font(.label)
                     .lineLimit(nil)
                     .foregroundColor(.main900)
                     .fixedSize(horizontal: false, vertical: true)
                     .multilineTextAlignment(.leading)
-
-            } else {
-                Text(text.prefix(350))
-                    .font(.label)
-                    .lineLimit(nil)
-                    .foregroundColor(.main900)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .multilineTextAlignment(.leading)
-            }
+                    .lineSpacing(5)
             
-            if text.count > 350 && !isExpanded {
                 Morebutton()
-            }
         }
         .padding(.vertical, 5)
         .padding(.horizontal, 10)
