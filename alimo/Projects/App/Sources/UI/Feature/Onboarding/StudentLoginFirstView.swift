@@ -17,14 +17,16 @@ struct StudentLoginFirstView: View {
     
     var body: some View {
         VStack {
-            Text("도담도담 계정으로 로그인해주세요!")
-                .font(.subtitle)
-                .padding(.trailing, 80)
-                .padding(.top, 30)
-                .padding(.bottom, 10)
+            HStack {
+                Text("도담도담 계정으로 로그인해주세요!")
+                    .font(.subtitle)
+                    .padding(.leading, 24)
+                    .padding(.top, 30)
+                    .padding(.bottom, 10)
+                Spacer()
+            }
             
             AlimoTextField("아이디를 입력하세요", text: $id)
-            
             AlimoTextField("비밀번호를 입력하세요", text: $pw, textFieldType: .password)
             
             Spacer()

@@ -98,7 +98,11 @@ struct OnboardingSecondView: View {
                 let loginButtonText = isStudent ? "도담도담으로 로그인" : "회원가입"
                 
                 NavigationLink {
-                    ParentJoinFirstView()
+                    if isStudent {
+                        StudentLoginFirstView()
+                    } else {
+                        ParentJoinFirstView()
+                    }
                 } label: {
                     AlimoButton(loginButtonText, buttonType: .yellow) {
                         // 학생인지 아닌지에 따라 다르게 핸들링

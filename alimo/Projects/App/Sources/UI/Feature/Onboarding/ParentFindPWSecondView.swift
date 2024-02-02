@@ -19,15 +19,17 @@ struct ParentFindPWSecondView: View {
     
     var body: some View {
         VStack {
-            Text("새 비밀번호를 만들어 주세요")
-                .font(.subtitle)
-                .foregroundStyle(Color.main900)
-                .padding(.trailing, 120)
-                .padding(.top, 30)
-                .padding(.bottom, 10)
+            HStack {
+                Text("새 비밀번호를 만들어 주세요")
+                    .font(.subtitle)
+                    .foregroundStyle(Color.main900)
+                    .padding(.leading, 24)
+                    .padding(.top, 30)
+                    .padding(.bottom, 10)
+                Spacer()
+            }
             
             AlimoTextField("새 비밀번호", text: $pw, textFieldType: .password)
-            
             AlimoTextField("새 비밀번호 재입력", text: $pwCheck, textFieldType: .password)
             
             if showTextAlert {
@@ -45,7 +47,8 @@ struct ParentFindPWSecondView: View {
             
             Spacer()
             
-            let isCompleted = !pw.isEmpty && pw == pwCheck
+            let isCompleted = !pw.isEmpty
+            let isSame = pw == pwCheck
             let buttonType: AlimoButtonType = isCompleted ? .yellow : .none
             
             NavigationLink {
@@ -54,7 +57,7 @@ struct ParentFindPWSecondView: View {
                 AlimoButton("완료", buttonType: buttonType) {
                     showTextAlert = true
                 }
-                .disabled(isCompleted)
+                .disabled(isCompleted && isSame)
                 .padding(.bottom, 30)
             }
         }

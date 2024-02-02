@@ -65,33 +65,20 @@ struct ParentJoinSecondView: View {
             }
             .padding(.bottom, 5)
             
-            if email != "" && pw != "" && pwCheck != "" {
+            let isCompleted = !email.isEmpty && !pw.isEmpty && !pwCheck.isEmpty
+            let isSame = pw == pwCheck
+            
+            let buttonType: AlimoButtonType = isCompleted ? .yellow : .none
+            
+            NavigationLink {
                 
-                if pw == pwCheck {
-                    
-                    NavigationLink {
-                        ParentJoinThirdView()
-                    } label: {
-                        AlimoButton("다음", buttonType: .yellow) {}
-                        .disabled(true)
-                        .padding(.bottom, 30)
-                    }
-                    
-                } else {
-                    
-                    AlimoButton("다음", buttonType: .yellow) {
-                        showTextAlert = true
-                    }
-                    .padding(.bottom, 30)
-                    
+            } label: {
+                AlimoButton("다음", buttonType: buttonType) {
+                    showTextAlert = true
                 }
-                
-            } else {
-                AlimoButton("다음", buttonType: .none) {}
-                .disabled(true)
+                .disabled(!(isCompleted && isSame))
                 .padding(.bottom, 30)
             }
-            
         }
         .onAppear() {
             showTextAlert = false
