@@ -18,116 +18,68 @@ struct OnboardingThirdView: View {
         ZStack {
             VStack(spacing: 0) {
                 Spacer()
-                
-                VStack(alignment: .leading) {
-                    Text("학생이신가요?")
-                        .font(Font.subtitle)
-                    Text("아니면 학부모이신가요?")
-                        .font(Font.subtitle)
-                }
-                .padding(.trailing, 150)
-                .padding(.vertical, 12)
-                
                 HStack {
-                    Button {
+                    VStack(alignment: .leading) {
+                        Text("학생이신가요?")
+                            .font(Font.subtitle)
+                        Text("아니면 학부모이신가요?")
+                            .font(Font.subtitle)
+                    }
+                    .padding(.leading, 24)
+                    Spacer()
+                }
+                .padding(.bottom, 12)
+                
+                HStack(spacing: 8) {
+                    Button { // 이 버튼들도 컴포넌트로 빼면 좋음
                         isStudent = true
                     } label: {
-                        if isStudent {
-                            
-                            RoundedRectangle(cornerRadius: 12)
-                                .frame(width: 160, height: 200)
-                                .foregroundStyle(Color.gray100)
-                                .overlay {
-                                    Image(Asset.lightStudent)
-                                    
+                        let studentImage = isStudent ? Asset.lightStudent : Asset.darkStudent
+                        
+                        RoundedRectangle(cornerRadius: 12)
+                            .frame(maxWidth: .infinity, maxHeight: 200)
+                            .foregroundStyle(Color.gray100)
+                            .overlay {
+                                Image(studentImage)
+                                if isStudent {
                                     RoundedRectangle(cornerRadius: 12)
                                         .stroke(Color.main500, lineWidth: 2)
                                 }
-                            
-                        } else {
-                            
-                            RoundedRectangle(cornerRadius: 12)
-                                .frame(width: 160, height: 200)
-                                .foregroundStyle(Color.gray100)
-                                .overlay {
-                                    Image(Asset.darkStudent)
-                                }
-                        }
+                            }
                     }
-                    
                     Button {
                         isStudent = false
                     } label: {
-                        if isStudent {
-                            
-                            RoundedRectangle(cornerRadius: 12)
-                                .frame(width: 160, height: 200)
-                                .foregroundStyle(Color.gray100)
-                                .overlay {
-                                    Image(Asset.darkParent)
-                                }
-                            
-                        } else {
-                            
-                            RoundedRectangle(cornerRadius: 12)
-                                .frame(width: 160, height: 200)
-                                .foregroundStyle(Color.gray100)
-                                .overlay {
-                                    
-                                    Image(Asset.lightParent)
-                                    
+                        let parentImage = !isStudent ? Asset.lightParent : Asset.darkParent
+                        RoundedRectangle(cornerRadius: 12)
+                            .frame(maxWidth: .infinity, maxHeight: 200)
+                            .foregroundStyle(Color.gray100)
+                            .overlay {
+                                Image(parentImage)
+                                if !isStudent {
                                     RoundedRectangle(cornerRadius: 12)
                                         .stroke(Color.main500, lineWidth: 2)
                                 }
-                            
-                        }
+                            }
+                        
                     }
                 }
+                .padding(.horizontal, 16)
                 
                 Text("알리모에서는 학생, 학부모 모두 참여해요")
                     .font(.label)
                     .foregroundStyle(Color.gray500)
-                    .padding(.vertical, 24)
+                    .padding(.top, 24)
                 
                 Spacer()
-                
             }
             .padding(.bottom, 100)
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "arrow.left")
-                            .foregroundStyle(.black)
-                    }
-                }
-            }
+            .navigationBarBackButtonHidden()
             
-            if isStudent {
+            VStack(spacing: 16) {
                 
-                VStack {
-                    
-                    Spacer()
-                    
-                    NavigationLink {
-                        StudentLoginFirstView()
-                    } label: {
-                        AlimoButton("도담도담으로 로그인", buttonType: .yellow) {
-                            print(dummyText)
-                        }
-                        .padding(.bottom, 30)
-                        .disabled(true)
-                    }
-                    
-                }
-                
-            } else {
-                VStack(spacing: 16) {
-                    
-                    Spacer()
-                    
+                Spacer()
+                if !isStudent {
                     HStack {
                         Text("이미 계정이 있으시다면?")
                             .font(.label)
@@ -142,20 +94,29 @@ struct OnboardingThirdView: View {
                                 .underline()
                         }
                     }
-                    
-                    NavigationLink {
-                        ParentJoinFirstView()
-                    } label: {
-                        AlimoButton("회원가입", buttonType: .yellow) {
-                            print(dummyText)
-                        }
-                        .padding(.bottom, 30)
-                        .disabled(true)
-                    }
                 }
+                let loginButtonText = isStudent ? "도담도담으로 로그인" : "회원가입"
                 
+                NavigationLink {
+                    ParentJoinFirstView()
+                } label: {
+                    AlimoButton(loginButtonText, buttonType: .yellow) {
+                        // 학생인지 아닌지에 따라 다르게 핸들링
+                    }
+                    .padding(.bottom, 30)
+                    .disabled(true)
+                }
             }
         }
-        
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "arrow.left")
+                        .foregroundStyle(.black)
+                }
+            }
+        }
     }
 }

@@ -27,12 +27,15 @@ struct ParentFindPWFirstView: View {
     
     var body: some View {
         VStack {
-            Text("이메일 인증 코드를 전송했어요")
-                .font(.subtitle)
-                .foregroundStyle(Color.main900)
-                .padding(.trailing, 100)
-                .padding(.top, 30)
-                .padding(.bottom, 10)
+            HStack {
+                Text("이메일 인증 코드를 전송했어요")
+                    .font(.subtitle)
+                    .foregroundStyle(Color.main900)
+                    .padding(.top, 30)
+                    .padding(.bottom, 10)
+                    .padding(.leading, 24)
+                Spacer()
+            }
             
             ZStack {
                 if isAuthed {
@@ -141,7 +144,6 @@ struct ParentFindPWFirstView: View {
                 .disabled(true)
                 .padding(.bottom, 30)
             }
-            
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
