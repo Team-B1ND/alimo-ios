@@ -21,7 +21,7 @@ struct ParentFindPWFirstView: View {
     
     let dummyAuthCode = "123456"
     
-    @State var timeRemaining : Int = 300
+    @State var timeRemaining: Int = 300
     let date = Date()
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     

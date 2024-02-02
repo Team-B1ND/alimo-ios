@@ -22,12 +22,15 @@ struct ParentJoinSecondView: View {
     
     var body: some View {
         VStack {
-            Text("\(dummyStudentName) 학부모님 안녕하세요!")
-                .font(.subtitle)
-                .foregroundStyle(Color.main900)
-                .padding(.trailing, 120)
-                .padding(.top, 30)
-                .padding(.bottom, 10)
+            HStack {
+                Spacer()
+                Text("\(dummyStudentName) 학부모님 안녕하세요!")
+                    .font(.subtitle)
+                    .foregroundStyle(Color.main900)
+                    .padding(.top, 30)
+                    .padding(.bottom, 10)
+                    .padding(.leading, 24)
+            }
             
             AlimoTextField("이메일", text: $email)
             
@@ -71,12 +74,12 @@ struct ParentJoinSecondView: View {
             let buttonType: AlimoButtonType = isCompleted ? .yellow : .none
             
             NavigationLink {
-                
+                ParentJoinThirdView()
             } label: {
                 AlimoButton("다음", buttonType: buttonType) {
                     showTextAlert = true
                 }
-                .disabled(!(isCompleted && isSame))
+                .disabled(isCompleted && isSame)
                 .padding(.bottom, 30)
             }
         }
