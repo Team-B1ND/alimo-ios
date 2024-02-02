@@ -62,21 +62,8 @@ struct ParentFindPWSecondView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                HStack {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "arrow.left")
-                            .foregroundStyle(.black)
-                    }
-                    
-                    Text("비밀번호 찾기")
-                        .font(.subtitle)
-                        .foregroundStyle(Color.main900)
-                }
-            }
+        .alimoToolbar("비밀번호 찾기") {
+            dismiss()
         }
     }
 }

@@ -75,21 +75,8 @@ struct ParentJoinFirstView: View {
                 }
             }
             .navigationBarBackButtonHidden()
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    HStack {
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image(systemName: "arrow.left")
-                                .foregroundStyle(.black)
-                        }
-                        
-                        Text("회원가입")
-                            .font(.subtitle)
-                            .foregroundStyle(Color.main900)
-                    }
-                }
+            .alimoToolbar("회원가입") {
+                dismiss()
             }
             
             if showDialog {

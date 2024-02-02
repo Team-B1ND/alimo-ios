@@ -79,21 +79,8 @@ struct ParentLoginFirstView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                HStack {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "arrow.left")
-                            .foregroundStyle(.black)
-                    }
-                    
-                    Text("로그인")
-                        .font(.subtitle)
-                        .foregroundStyle(Color.main900)
-                }
-            }
+        .alimoToolbar("로그인") {
+            dismiss()
         }
     }
 }

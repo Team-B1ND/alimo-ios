@@ -112,15 +112,8 @@ struct OnboardingSecondView: View {
                 }
             }
         }
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "arrow.left")
-                        .foregroundStyle(.black)
-                }
-            }
+        .alimoToolbar("") {
+            dismiss()
         }
     }
 }
