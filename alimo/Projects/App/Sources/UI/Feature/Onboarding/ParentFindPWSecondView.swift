@@ -45,32 +45,16 @@ struct ParentFindPWSecondView: View {
             
             Spacer()
             
-            if pw != "" && pwCheck != "" {
+            let isCompleted = !pw.isEmpty && pw == pwCheck
+            let buttonType: AlimoButtonType = isCompleted ? .yellow : .none
+            
+            NavigationLink {
                 
-                if pw == pwCheck {
-                    
-                    NavigationLink {
-                        // 홈 뷰
-                    } label: {
-                        AlimoButton("다음", buttonType: .yellow) {}
-                        .disabled(true)
-                        .padding(.bottom, 30)
-                    }
-                    
-                } else {
-                    
-                    AlimoButton("다음", buttonType: .yellow) {
-                        showTextAlert = true
-                    }
-                    .padding(.bottom, 30)
-                    
+            } label: {
+                AlimoButton("완료", buttonType: buttonType) {
+                    showTextAlert = true
                 }
-                
-            } else {
-                AlimoButton("완료", buttonType: .none) {
-                    print(dummyText)
-                }
-                .disabled(true)
+                .disabled(isCompleted)
                 .padding(.bottom, 30)
             }
         }
