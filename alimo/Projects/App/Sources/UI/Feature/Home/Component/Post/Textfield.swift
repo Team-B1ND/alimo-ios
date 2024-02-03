@@ -17,7 +17,8 @@ struct Textfield: View {
         ZStack{
                 Rectangle()
                     .foregroundColor(.white)
-                    .frame(width: .infinity, height: 75)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 75)
                     .cornerRadius(5)
                     .shadow(color: .gray300, radius: 3, x: 0, y: -3)
                 

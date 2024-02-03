@@ -10,13 +10,12 @@
 import Foundation
 import SwiftUI
 
-struct Reply : View {
+struct Reply: View {
     var body: some View {
             HStack{
-                Image("Line")
-                Comment()
-                    .padding(.top,55)
-                    .offset(x:-15)
+                Image(AppAsset.Assets.line.name)
+                CommentCeil("10", isParent: false)
+                    .offset(x: -15)
             }
     }
 }
