@@ -23,12 +23,8 @@ struct DetailContents : View {
     https://wikidocs.net/book/4701 (웹을 알고싶다면?? HTML5 & CSS3부터)
     https://wikidocs.net/book/2494 (C 프로그래밍: 현대적 접근) <- 대학 2학년때 1학년 후배들 대상으로 C강의 때 예제
     """)
-        
-        .font(.label)
-        .frame(maxWidth: 350)
-        .padding(.vertical,5)
-        .padding(.horizontal,5)
-        
+        .font(.caption)
+        .lineSpacing(5)
     }
         
 }

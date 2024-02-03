@@ -11,7 +11,11 @@ import SwiftUI
 
 struct Profile: View {
     
-    @State var Newpost: Bool = true
+    @State var newpost: Bool
+    
+    init(newpost: Bool = false) {
+        self.newpost = newpost
+    }
     
     var body: some View {
         HStack {
@@ -20,7 +24,7 @@ struct Profile: View {
                     .foregroundStyle(Color.black)
                     .font(.label)
                     .overlay {
-                        if Newpost {
+                        if newpost {
                             HStack {
                                 Spacer()
                                 AlimoBadge()

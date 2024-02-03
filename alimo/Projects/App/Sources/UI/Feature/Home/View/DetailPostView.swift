@@ -10,15 +10,19 @@ import Foundation
 import SwiftUI
 
 struct DetailPostView : View {
-    @Environment(\.presentationMode) var presentationMode
+    
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
             ZStack {
-                ScrollView (showsIndicators : false){
-                    VStack {
+                ScrollView (showsIndicators: false){
+                    VStack(spacing: 0) {
                         DetailPost()
+                        Divider()
+                        Emoji()
+                            .padding(.top, 16)
                         Comment()
                     }
-                    .padding(.bottom,60)
                 }
                 VStack {
                     Spacer()
@@ -27,9 +31,9 @@ struct DetailPostView : View {
                 .ignoresSafeArea()
             }
             .toolbar(.hidden, for: .tabBar)
-            .navigationBarBackButtonHidden(true)
+            .navigationBarBackButtonHidden()
             .navigationBarItems(leading: Button(action: {
-                presentationMode.wrappedValue.dismiss()
+                dismiss()
             }) {
                 Image(systemName: "arrow.left")
                     .foregroundColor(.black)

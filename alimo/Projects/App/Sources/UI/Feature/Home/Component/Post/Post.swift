@@ -11,23 +11,14 @@ import SwiftUI
 
 struct Post: View {
     
-    @ViewBuilder
-    private var tempProfileImage: some View {
-        Image(AppAsset.Assets.profileImage.name)
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            .frame(width: 36, height: 36)
-            .clipShape(Circle())
-    }
-    
     var body: some View {
         HStack(spacing: 8) {
             VStack {
-                tempProfileImage.padding(.leading, 12)
+                AlimoAvatar().padding(.leading, 12)
                 Spacer()
             }
             VStack(alignment: .leading, spacing: 0) {
-                Profile()
+                Profile(newpost: true)
                 NavigationLink {
                     DetailPostView()
                 } label: {

@@ -10,48 +10,43 @@ import Foundation
 import SwiftUI
 
 struct DetailPost: View {
-//    @State private var isButtonPressed : Bool = false
+    
+    @State private var isButtonPressed = false
+    
     var body: some View {
-        VStack(alignment: .leading) {
-            Profile()
-                .padding(.horizontal,35)
-            VStack{
+        HStack(spacing: 8) {
+            VStack {
+                AlimoAvatar().padding(.leading, 12)
+                Spacer()
+            }
+            VStack(alignment: .leading, spacing: 0) {
+                Profile()
                 DetailContents()
+                    .padding(.top, 12)
+                Text("2023년 1월 33일 25시 -1분")
+                    .foregroundStyle(Color.gray500)
+                    .font(.cute)
+                    .padding(.top, 12)
+                
+                HStack {
+                    Spacer()
+                    
+                    Button {
+                        isButtonPressed.toggle()
+                    } label: {
+                        Image(isButtonPressed ? AppAsset.Assets.clickedBookmark.name : AppAsset.Assets.bookmark.name)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 24, height: 24)
+                    }
+                }
+                .padding(.top, 12)
             }
-            .padding(.horizontal,35)
-            HStack{
-                Spacer()
-                Postimage()
-                Spacer()
-            }
-//            HStack{
-//                Spacer()
-//                Button {
-//                    isButtonPressed.toggle()
-//                } label: {
-//                    if isButtonPressed {
-//                        Image("VectorYellow")
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fill)
-//                            .frame(width: 13, height: 13)
-//                    } else {
-//                        Image("VectorWhite")
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fill)
-//                            .frame(width: 13, height: 13)
-//                    }
-//                }
-//                .padding(.trailing,50)
-//            }
-            HStack {
-                Spacer()
-                Emoji()
-                Spacer()
-            }
-            .padding(5)
-            
-            Divider()
         }
+        .padding(.top, 20)
+        .padding(.trailing, 16)
+        .padding(.bottom, 12)
+        
     }
 }
 
