@@ -27,14 +27,12 @@ struct Post: View {
                 Spacer()
             }
             VStack(alignment: .leading, spacing: 0) {
+                Profile()
                 NavigationLink {
                     DetailPostView()
                 } label: {
-                    VStack(alignment: .leading, spacing: 0) {
-                        Profile()
-                        Contents()
-                            .padding(.top, 12)
-                    }
+                    Contents()
+                        .padding(.top, 12)
                 }
                 Text("2023년 1월 33일 25시 -1분")
                     .foregroundStyle(Color.gray500)
