@@ -21,7 +21,18 @@ struct DetailPostView : View {
                         Divider()
                         Emoji()
                             .padding(.top, 16)
-                        Comment()
+                        LazyVStack {
+                            ForEach(0..<3) { i in
+                                Comment()
+                                    .padding(.leading, 12)
+                            }
+                        }
+                        .padding(.top, 16)
+                        Rectangle()
+                            .padding(.top, 24)
+                            .foregroundStyle(Color.gray100)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 108)
                     }
                 }
                 VStack {

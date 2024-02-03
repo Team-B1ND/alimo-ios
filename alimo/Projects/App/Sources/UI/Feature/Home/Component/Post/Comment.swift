@@ -12,39 +12,35 @@ import SwiftUI
 struct Comment: View {
     var body: some View {
         HStack(alignment: .top) {
-            Image("Image")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 40, height: 40)
-                .clipShape(Circle())
-                .padding(.trailing, 10)
+            AlimoAvatar(type: .small)
             
-            VStack(alignment: .leading, spacing: 2) {
-                Text("유저이름")
-                    .font(.system(size: 16))
+            VStack(alignment: .leading, spacing: 0) {
+                Text("이예진")
+                    .font(.caption)
                     .bold()
-//                    .font(.label)
                 
-                Text("댓글 내용")
-                    .font(.label)
-                HStack{
+                Text("yes, ok ok ok")
+                    .font(.caption)
+                    .padding(.top, 2)
+                HStack(spacing: 8) {
                     Text("2023년 1월 1일 오후 1시")
+                        .foregroundStyle(Color.gray500)
                         .font(.cute)
-                        .foregroundColor(.gray500)
                     
-                    Button(action: {
+                    Button{
                         
-                    }, label: {
+                    } label: {
                         Text("답글달기")
                             .font(.cute)
                             .foregroundColor(.gray500)
-                            .padding(.leading,10)
-                    })
+                    }
                 }
+                .padding(.top, 4)
             }
+            .padding(.leading, 12)
+            Spacer()
         }
-        .frame(maxWidth: 350, alignment: .leading)
-        .padding(20)
+        .padding(.top, 8)
     }
 }
 
