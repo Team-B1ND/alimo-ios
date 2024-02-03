@@ -25,7 +25,9 @@ extension Color {
     // gray color
     static public let gray100 = Color(0xF4F5F9)
     static public let gray300 = Color(0xE6E6E6)
+    static public let gray400 = Color(0xD1D1D1)
     static public let gray500 = Color(0xAAAAAA)
+    static public let gray600 = Color(0x787878)
     static public let gray700 = Color(0x333333)
     
     // red color

@@ -9,17 +9,19 @@
 import Foundation
 import SwiftUI
 
-struct Icons : View {
+struct Icons: View {
+    
     @State var isButtonPressed = false
     
     var body: some View {
-        HStack(spacing : 10){
+        HStack(spacing: 8) {
             Button {
+                
             } label: {
-                CustomImage(name: "AddImoji")
+                PostIcon("AddImoji")
             }
             NavigationLink(destination: DetailPostView()) {
-                CustomImage(name: "Chat")
+                PostIcon("Chat")
             }
             
             Spacer()
@@ -27,27 +29,20 @@ struct Icons : View {
             Button {
                 isButtonPressed.toggle()
             } label: {
-                if isButtonPressed {
-                    Image("VectorYellow")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 13, height: 13)
-                } else {
-                    Image("VectorWhite")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 13, height: 13)
-                }
+                Image(isButtonPressed ? AppAsset.Assets.clickedBookmark.name : AppAsset.Assets.bookmark.name)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 24, height: 24)
             }
         }
     }
     
-    func CustomImage(name: String) -> some View {
+    private func PostIcon(_ name: String) -> some View {
         Image(name)
             .resizable()
-            .aspectRatio(contentMode: .fill)
-            .frame(width: 25, height: 25)
-            .opacity(0.3)
+            .renderingMode(.template)
+            .foregroundStyle(Color.gray500)
+            .frame(width: 24, height: 24)
     }
 }
 
