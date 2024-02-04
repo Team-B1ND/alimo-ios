@@ -41,7 +41,7 @@ struct Tabbar: View {
                         .tabItem {
                             VStack {
                            
-                                Image(selectedIndex == 1 ? "BookMark" : "BookMark_none")
+                                Image(selectedIndex == 1 ? "BookMark_tabbar" : "BookMark_none")
                                 
                                 Text("북마크")
                                     .font(.cute)
