@@ -10,37 +10,32 @@ import Foundation
 import SwiftUI
 
 struct HomeView: View {
+    
     var hasNotice: Bool = true
+    
     var body: some View {
-//        NavigationView {
+        NavigationStack {
             ScrollView(showsIndicators: false) {
-                ZStack {
-                    HStack {
-                        AlimoLogo(type: .gray)
-                            .padding(.leading, 20)
-                        Spacer()
-                    }
-                }
-                Notice()
-                LazyVStack(pinnedViews: [.sectionHeaders]) {
-                    Section(header: filterBar) {
-                        VStack {
+                VStack(spacing: 0) {
+                    AlimoLogoBar()
+                    Notice()
+                    LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
+                        Section(header: filterBar) {
                             if hasNotice {
                                 ForEach(1...3, id: \.self) { _ in
-                                    NavigationLink(destination: DetailPostView()) {
+                                    VStack(spacing: 0) {
                                         Post()
+                                        Divider()
+                                            .foregroundStyle(Color.gray100)
                                     }
-                                    .padding(.bottom,30)
                                 }
                             } else {
-                                Spacer()
-                                Image("NoNotice")
-                                    .padding(.top,100)
+                                Image(AppAsset.Assets.noNotice.name)
+                                    .padding(.top, 115)
                                 Text("공지를 불러올 수 없어요")
                                     .font(.subtitle)
                                     .foregroundStyle(Color.gray500)
-                                    .padding(.vertical,20)
-                                Spacer()
+                                    .padding(.top, 32)
                             }
                         }
                     }
@@ -49,7 +44,7 @@ struct HomeView: View {
             .clipped()
         }
     }
-//}
+}
 private var filterBar: some View {
     Category()
         .frame(minWidth: 0, maxWidth: .infinity)

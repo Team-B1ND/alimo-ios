@@ -26,3 +26,14 @@ struct AlimoLogo: View {
         }
     }
 }
+
+struct AlimoLogoBar: View {
+    var body: some View {
+        HStack {
+            AlimoLogo(type: .gray)
+                .padding(.leading, 16)
+            Spacer()
+        }
+        .frame(height: 48)
+    }
+}
