@@ -22,12 +22,15 @@ struct ParentJoinSecondView: View {
     
     var body: some View {
         VStack {
-            Text("\(dummyStudentName) 학부모님 안녕하세요!")
-                .font(.subtitle)
-                .foregroundStyle(Color.main900)
-                .padding(.trailing, 120)
-                .padding(.top, 30)
-                .padding(.bottom, 10)
+            HStack {
+                Text("\(dummyStudentName) 학부모님 안녕하세요!")
+                    .font(.subtitle)
+                    .foregroundStyle(Color.main900)
+                    .padding(.top, 30)
+                    .padding(.bottom, 10)
+                    .padding(.leading, 24)
+                Spacer()
+            }
             
             AlimoTextField("이메일", text: $email)
             
@@ -65,53 +68,27 @@ struct ParentJoinSecondView: View {
             }
             .padding(.bottom, 5)
             
-            if email != "" && pw != "" && pwCheck != "" {
-                
-                if pw == pwCheck {
-                    
-                    NavigationLink {
-                        ParentJoinThirdView()
-                    } label: {
-                        AlimoButton("다음", buttonType: .yellow) {}
-                        .disabled(true)
-                        .padding(.bottom, 30)
-                    }
-                    
-                } else {
-                    
-                    AlimoButton("다음", buttonType: .yellow) {
-                        showTextAlert = true
-                    }
-                    .padding(.bottom, 30)
-                    
+            let isCompleted = !email.isEmpty && !pw.isEmpty && !pwCheck.isEmpty
+            let isSame = pw == pwCheck
+            
+            let buttonType: AlimoButtonType = isCompleted ? .yellow : .none
+            
+            NavigationLink {
+                ParentJoinThirdView()
+            } label: {
+                AlimoButton("다음", buttonType: buttonType) {
+                    showTextAlert = true
                 }
-                
-            } else {
-                AlimoButton("다음", buttonType: .none) {}
-                .disabled(true)
+                .disabled(isCompleted && isSame)
                 .padding(.bottom, 30)
             }
-            
         }
         .onAppear() {
             showTextAlert = false
         }
         .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                HStack {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "arrow.left")
-                            .foregroundStyle(.black)
-                    }
-                    
-                    Text("회원가입")
-                        .font(.subtitle)
-                        .foregroundStyle(Color.main900)
-                }
-            }
+        .alimoToolbar("회원가입") {
+            dismiss()
         }
     }
 }

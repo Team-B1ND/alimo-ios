@@ -28,12 +28,15 @@ struct ParentJoinThirdView: View {
     
     var body: some View {
         VStack {
-            Text("이메일 인증 코드를 전송했어요")
-                .font(.subtitle)
-                .foregroundStyle(Color.main900)
-                .padding(.trailing, 100)
-                .padding(.top, 30)
-                .padding(.bottom, 10)
+            HStack {
+                Text("이메일 인증 코드를 전송했어요")
+                    .font(.subtitle)
+                    .foregroundStyle(Color.main900)
+                    .padding(.leading, 24)
+                    .padding(.top, 30)
+                    .padding(.bottom, 10)
+                Spacer()
+            }
             
             ZStack {
                 if isAuthed {
@@ -142,21 +145,8 @@ struct ParentJoinThirdView: View {
             calcRemain()
         }
         .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                HStack {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "arrow.left")
-                            .foregroundStyle(.black)
-                    }
-                    
-                    Text("회원가입")
-                        .font(.subtitle)
-                        .foregroundStyle(Color.main900)
-                }
-            }
+        .alimoToolbar("회원가입") {
+            dismiss()
         }
         .onAppear {
             showTextAlert = false

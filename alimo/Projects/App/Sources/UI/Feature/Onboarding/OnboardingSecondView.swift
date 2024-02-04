@@ -1,8 +1,8 @@
 //
-//  OnboardingSecondView.swift
+//  OnboardingThirdView.swift
 //  App
 //
-//  Created by dgsw8th36 on 1/9/24.
+//  Created by dgsw8th36 on 1/10/24.
 //  Copyright © 2024 b8nd. All rights reserved.
 //
 
@@ -10,80 +10,110 @@ import SwiftUI
 
 struct OnboardingSecondView: View {
     
-    @State var isClicked: Bool = false
-    @State var isAnimating: Bool = false
+    @Environment(\.dismiss) private var dismiss
+    
+    @State var isStudent: Bool = true
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                
-                VStack {
-                    Spacer()
-                    
+        ZStack {
+            VStack(spacing: 0) {
+                Spacer()
+                HStack {
                     VStack(alignment: .leading) {
-                        AlimoLogo(type: .yellow)
-                        Text("대소고의 모든 소식")
-                            .font(.subtitle)
-                            .offset(x: 5, y: -10)
+                        Text("학생이신가요?")
+                            .font(Font.subtitle)
+                        Text("아니면 학부모이신가요?")
+                            .font(Font.subtitle)
                     }
-                    .padding(.trailing, 150)
-                    .padding(.bottom, 80)
-                    
-                    // 스낵바 테스트해 보고 싶어서 이미지를 버튼으로 만들어 놨어요
+                    .padding(.leading, 24)
+                    Spacer()
+                }
+                .padding(.bottom, 12)
+                
+                HStack(spacing: 8) {
+                    Button { // 이 버튼들도 컴포넌트로 빼면 좋음
+                        isStudent = true
+                    } label: {
+                        let studentImage = isStudent ? Asset.lightStudent : Asset.darkStudent
+                        
+                        RoundedRectangle(cornerRadius: 12)
+                            .frame(maxWidth: .infinity, maxHeight: 200)
+                            .foregroundStyle(Color.gray100)
+                            .overlay {
+                                Image(studentImage)
+                                if isStudent {
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(Color.main500, lineWidth: 2)
+                                }
+                            }
+                    }
                     Button {
-                        isClicked = true
-                        isAnimating = true
+                        isStudent = false
                     } label: {
-                        Image(Asset.screen)
-                            .padding(.bottom, 100)
+                        let parentImage = !isStudent ? Asset.lightParent : Asset.darkParent
+                        RoundedRectangle(cornerRadius: 12)
+                            .frame(maxWidth: .infinity, maxHeight: 200)
+                            .foregroundStyle(Color.gray100)
+                            .overlay {
+                                Image(parentImage)
+                                if !isStudent {
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(Color.main500, lineWidth: 2)
+                                }
+                            }
+                        
                     }
-                    
-                    NavigationLink {
-                        OnboardingThirdView()
-                    } label: {
-                        ZStack {
-                            AlimoButton("시작하기", buttonType: .yellow) {}
-                                .padding(.bottom, 30)
-                                .disabled(true)
+                }
+                .padding(.horizontal, 16)
+                
+                Text("알리모에서는 학생, 학부모 모두 참여해요")
+                    .font(.label)
+                    .foregroundStyle(Color.gray500)
+                    .padding(.top, 24)
+                
+                Spacer()
+            }
+            .padding(.bottom, 100)
+            .navigationBarBackButtonHidden()
+            
+            VStack(spacing: 16) {
+                
+                Spacer()
+                if !isStudent {
+                    HStack {
+                        Text("이미 계정이 있으시다면?")
+                            .font(.label)
+                            .foregroundStyle(Color.gray500)
+                        
+                        NavigationLink {
+                            ParentLoginFirstView()
+                        } label: {
+                            Text("로그인")
+                                .font(.label)
+                                .foregroundStyle(Color.main500)
+                                .underline()
                         }
                     }
                 }
+                let loginButtonText = isStudent ? "도담도담으로 로그인" : "회원가입"
                 
-                VStack {
-                    Spacer()
-                    
-                    RoundedCorner(radius: 4)
-                        .frame(height: 50)
-                        .foregroundStyle(.white)
-                        .shadow(radius: 4)
-                        .overlay {
-                            HStack {
-                                
-                                Text("세션이 만료되었어요")
-                                    .font(.body)
-                                
-                                Spacer()
-                                
-                                Button {
-                                    isClicked = false
-                                    isAnimating = false
-                                } label: {
-                                    Text("닫기")
-                                        .font(.bodyLight)
-                                        .foregroundStyle(Color.yellow)
-                                }
-                                
-                            }
-                            .padding(.horizontal, 20)
-                            
-                        }
-                        .padding(.horizontal, 20)
-                        .padding(.bottom, 10)
-                        .offset(y : isAnimating ? 0 : 100)
-                        .animation(.bouncy(duration: 0.5), value: isAnimating)
-                    
+                NavigationLink {
+                    if isStudent {
+                        StudentLoginFirstView()
+                    } else {
+                        ParentJoinFirstView()
+                    }
+                } label: {
+                    AlimoButton(loginButtonText, buttonType: .yellow) {
+                        // 학생인지 아닌지에 따라 다르게 핸들링
+                    }
+                    .padding(.bottom, 30)
+                    .disabled(true)
                 }
             }
+        }
+        .alimoToolbar("") {
+            dismiss()
         }
     }
 }

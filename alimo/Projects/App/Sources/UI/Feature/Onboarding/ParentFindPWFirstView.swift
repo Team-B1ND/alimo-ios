@@ -21,18 +21,21 @@ struct ParentFindPWFirstView: View {
     
     let dummyAuthCode = "123456"
     
-    @State var timeRemaining : Int = 300
+    @State var timeRemaining: Int = 300
     let date = Date()
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
         VStack {
-            Text("이메일 인증 코드를 전송했어요")
-                .font(.subtitle)
-                .foregroundStyle(Color.main900)
-                .padding(.trailing, 100)
-                .padding(.top, 30)
-                .padding(.bottom, 10)
+            HStack {
+                Text("이메일 인증 코드를 전송했어요")
+                    .font(.subtitle)
+                    .foregroundStyle(Color.main900)
+                    .padding(.top, 30)
+                    .padding(.bottom, 10)
+                    .padding(.leading, 24)
+                Spacer()
+            }
             
             ZStack {
                 if isAuthed {
@@ -141,24 +144,10 @@ struct ParentFindPWFirstView: View {
                 .disabled(true)
                 .padding(.bottom, 30)
             }
-            
         }
         .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                HStack {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "arrow.left")
-                            .foregroundStyle(.black)
-                    }
-                    
-                    Text("비밀번호 찾기")
-                        .font(.subtitle)
-                        .foregroundStyle(Color.main900)
-                }
-            }
+        .alimoToolbar("비밀번호 찾기") {
+            dismiss()
         }
         .onAppear {
             showTextAlert = false

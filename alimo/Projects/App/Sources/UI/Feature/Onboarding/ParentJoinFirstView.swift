@@ -20,22 +20,28 @@ struct ParentJoinFirstView: View {
     
     var body: some View {
         ZStack {
-            VStack {
-                Text("학생 코드를 입력해 주세요")
-                    .font(.subtitle)
-                    .foregroundStyle(Color.main900)
-                    .padding(.trailing, 140)
-                    .padding(.top, 30)
-                    .padding(.bottom, 10)
+            VStack(spacing: 0) {
+                HStack {
+                    Text("학생 코드를 입력해 주세요")
+                        .font(.subtitle)
+                        .foregroundStyle(Color.main900)
+                        .padding(.leading, 24)
+                        .padding(.top, 30)
+                        .padding(.bottom, 10)
+                    Spacer()
+                }
                 
                 SeparatedTextField(length: 6, string: $inputCode)
                     .padding(.horizontal, 20)
                 
-                Text("학생 코드가 무엇인가요?")
-                    .font(.caption)
-                    .foregroundStyle(Color.gray500)
-                    .padding(.leading, 240)
-                    .padding(.top, 5)
+                HStack {
+                    Spacer()
+                    Text("학생 코드가 무엇인가요?")
+                        .font(.caption)
+                        .foregroundStyle(Color.gray500)
+                        .padding(.trailing, 24)
+                        .padding(.top, 8)
+                }
                 
                 Spacer()
                 
@@ -52,62 +58,27 @@ struct ParentJoinFirstView: View {
                             .underline()
                     }
                 }
-                .padding(.bottom, 5)
+                .padding(.bottom, 16)
                 
-                if inputCode.count == 6 {
-                    
-                    if inputCode == dummyStudentCode {
-                        
-                        NavigationLink {
-                            ParentJoinSecondView()
-                        } label: {
-                            AlimoButton("다음", buttonType: .yellow) {
-                                print(dummyText)
-                            }
-                            .disabled(true)
-                            .padding(.bottom, 30)
-                            
-                        }
-                    } else {
-                        
-                        Button {
-                            showDialog = true
-                        } label: {
-                            AlimoButton("다음", buttonType: .yellow) {
-                                print(dummyText)
-                            }
-                            .disabled(true)
-                            .padding(.bottom, 30)
-                        }
-                        
+                let isCompleted: Bool = inputCode.count == 6
+                let isSame: Bool = inputCode == dummyStudentCode
+                let buttonType: AlimoButtonType = isCompleted && isSame ? .yellow : .none
+                
+                NavigationLink {
+                    ParentJoinSecondView()
+                } label: {
+                    AlimoButton("다음", buttonType: buttonType) {
+                        showDialog = true
                     }
-                } else {
-                    AlimoButton("다음", buttonType: .none) {
-                        print(dummyText)
-                    }
-                    .disabled(true)
+                    .disabled(isCompleted && isSame)
                     .padding(.bottom, 30)
                 }
-                
             }
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    HStack {
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image(systemName: "arrow.left")
-                                .foregroundStyle(.black)
-                        }
-                        
-                        Text("회원가입")
-                            .font(.subtitle)
-                            .foregroundStyle(Color.main900)
-                    }
-                }
+            .navigationBarBackButtonHidden()
+            .alimoToolbar("회원가입") {
+                dismiss()
             }
-
+            
             if showDialog {
                 Rectangle()
                     .opacity(0.3)
