@@ -17,11 +17,14 @@ struct ParentLoginFirstView: View {
     
     var body: some View {
         VStack {
-            Text("학부모님 안녕하세요!")
-                .font(.subtitle)
-                .padding(.trailing, 180)
-                .padding(.top, 30)
-                .padding(.bottom, 10)
+            HStack {
+                Text("학부모님 안녕하세요!")
+                    .font(.subtitle)
+                    .padding(.top, 30)
+                    .padding(.bottom, 10)
+                    .padding(.leading, 24)
+                Spacer()
+            }
             
             AlimoTextField("아이디를 입력하세요", text: $dummyEmail)
             
@@ -30,11 +33,14 @@ struct ParentLoginFirstView: View {
             NavigationLink {
                 ParentFindPWFirstView()
             } label: {
-                Text("비밀번호 찾기")
-                    .font(.caption)
-                    .foregroundStyle(Color.gray500)
-                    .padding(.leading, 280)
-                    .padding(.top, 5)
+                HStack {
+                    Spacer()
+                    Text("비밀번호 찾기")
+                        .font(.caption)
+                        .foregroundStyle(Color.gray500)
+                        .padding(.top, 5)
+                        .padding(.trailing, 24)
+                }
             }
             
             Spacer()
@@ -73,21 +79,8 @@ struct ParentLoginFirstView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                HStack {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "arrow.left")
-                            .foregroundStyle(.black)
-                    }
-                    
-                    Text("로그인")
-                        .font(.subtitle)
-                        .foregroundStyle(Color.main900)
-                }
-            }
+        .alimoToolbar("로그인") {
+            dismiss()
         }
     }
 }
