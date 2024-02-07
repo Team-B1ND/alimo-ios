@@ -13,7 +13,7 @@ struct BookMarkView: View {
     var hasPost: Bool = true // 게시물 유무를 나타내는 변수
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView(showsIndicators : false){
                 VStack{
                     HStack{
