@@ -35,12 +35,21 @@ struct OnboardingSecondView: View {
                         isStudent = true
                     } label: {
                         let studentImage = isStudent ? Asset.lightStudent : Asset.darkStudent
+                        let studentTextColor = isStudent ? Color.main900 : Color.gray500
                         
                         RoundedRectangle(cornerRadius: 12)
                             .frame(maxWidth: .infinity, maxHeight: 200)
                             .foregroundStyle(Color.gray100)
                             .overlay {
-                                Image(studentImage)
+                                VStack {
+                                    Spacer()
+                                    Image(studentImage)
+                                    Spacer()
+                                    Text("학생")
+                                        .font(.body)
+                                        .foregroundStyle(studentTextColor)
+                                        .padding(.bottom, 16)
+                                }
                                 if isStudent {
                                     RoundedRectangle(cornerRadius: 12)
                                         .stroke(Color.main500, lineWidth: 2)
@@ -51,17 +60,25 @@ struct OnboardingSecondView: View {
                         isStudent = false
                     } label: {
                         let parentImage = !isStudent ? Asset.lightParent : Asset.darkParent
+                        let parentTextColor = isStudent ? Color.gray500 : Color.main900
                         RoundedRectangle(cornerRadius: 12)
                             .frame(maxWidth: .infinity, maxHeight: 200)
                             .foregroundStyle(Color.gray100)
                             .overlay {
-                                Image(parentImage)
+                                VStack {
+                                    Spacer()
+                                    Image(parentImage)
+                                    Spacer()
+                                    Text("학부모")
+                                        .font(.body)
+                                        .foregroundStyle(parentTextColor)
+                                        .padding(.bottom, 16)
+                                }
                                 if !isStudent {
                                     RoundedRectangle(cornerRadius: 12)
                                         .stroke(Color.main500, lineWidth: 2)
                                 }
                             }
-                        
                     }
                 }
                 .padding(.horizontal, 16)
