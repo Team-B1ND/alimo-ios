@@ -54,7 +54,7 @@ struct Tabbar: View {
                             print(selectedIndex)
                         }
                     
-                    Text("프로필")
+                    ProfileView()
                         .tabItem {
                             VStack {
                                 Image(selectedIndex == 2 ? "Profile" : "Profile_none")
