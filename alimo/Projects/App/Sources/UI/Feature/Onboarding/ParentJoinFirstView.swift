@@ -147,9 +147,9 @@ struct CharacterField: View {
                 .overlay {
                     if focused == index {
                         RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.main500, lineWidth: 2)
+                            .stroke(Color.gray500, lineWidth: 2)
                     } else {
-                        if characters[index] != nil {
+                        if characters[index] != nil && characters[index] != "" {
                             RoundedRectangle(cornerRadius: 8)
                                 .stroke(Color.main500, lineWidth: 2)
                         } else {
