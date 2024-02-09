@@ -11,72 +11,70 @@ import SwiftUI
 
 struct Tabbar: View {
     @State private var selectedIndex = 0
-
+    
     init() {
-    UITabBar.appearance().backgroundColor = UIColor.white
-
+        UITabBar.appearance().backgroundColor = UIColor.white
+        
     }
     
     var body: some View {
-        NavigationView{
-            ZStack(alignment: .top) {
-                TabView(selection: $selectedIndex) {
-                    HomeView()
-                        .tabItem {
-                            VStack {
-                                Image(selectedIndex == 0 ? "Home" : "Home_none")
-
-                                Text("홈")
-                                    .font(.cute)
-                                    .padding(.top, 1)
-                            }
+        ZStack(alignment: .top) {
+            TabView(selection: $selectedIndex) {
+                HomeView()
+                    .tabItem {
+                        VStack {
+                            Image(selectedIndex == 0 ? "Home" : "Home_none")
+                            
+                            Text("홈")
+                                .font(.cute)
+                                .padding(.top, 1)
                         }
-                        .tag(0)
-                        .onTapGesture {
-                            selectedIndex = 0
-                            print(selectedIndex)
+                    }
+                    .tag(0)
+                    .onTapGesture {
+                        selectedIndex = 0
+                        print(selectedIndex)
+                    }
+                
+                BookMarkView()
+                    .tabItem {
+                        VStack {
+                            
+                            Image(selectedIndex == 1 ? "BookMark_tabbar" : "BookMark_none")
+                            
+                            Text("북마크")
+                                .font(.cute)
+                                .padding(.top, 2)
                         }
-                    
-                    BookMarkView()
-                        .tabItem {
-                            VStack {
-                           
-                                Image(selectedIndex == 1 ? "BookMark_tabbar" : "BookMark_none")
-                                
-                                Text("북마크")
-                                    .font(.cute)
-                                    .padding(.top, 2)
-                            }
+                    }
+                    .tag(1)
+                    .onTapGesture {
+                        selectedIndex = 1
+                        print(selectedIndex)
+                    }
+                
+                ProfileView()
+                    .tabItem {
+                        VStack {
+                            Image(selectedIndex == 2 ? "Profile" : "Profile_none")
+                            Text("MY")
+                                .font(.cute)
+                                .padding(.top, 2)
                         }
-                        .tag(1)
-                        .onTapGesture {
-                            selectedIndex = 1
-                            print(selectedIndex)
-                        }
-                    
-                    ProfileView()
-                        .tabItem {
-                            VStack {
-                                Image(selectedIndex == 2 ? "Profile" : "Profile_none")
-                                Text("MY")
-                                    .font(.cute)
-                                    .padding(.top, 2)
-                            }
-                        }
-                        .tag(2)
-                        .onTapGesture {
-                            selectedIndex = 2
-                            print(selectedIndex)
-                        }
-                }
-                .accentColor(.black)
-                .onAppear {
-                            UITabBar.appearance().backgroundColor = .white
-                        }
+                    }
+                    .tag(2)
+                    .onTapGesture {
+                        selectedIndex = 2
+                        print(selectedIndex)
+                    }
             }
-            .navigationBarBackButtonHidden(true)
-            
+            .accentColor(.black)
+            .onAppear {
+                UITabBar.appearance().backgroundColor = .white
+            }
         }
+        .navigationBarBackButtonHidden(true)
+        
     }
 }
 
