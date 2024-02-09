@@ -23,5 +23,6 @@ let project = Project.makeModule(
         "UIMainStoryboardFile": "",
         "UILaunchStoryboardName": "LaunchScreen",
         "ENABLE_TESTS": .boolean(true),
+        "UIUserInterfaceStyle":"Light",
     ])
 )
