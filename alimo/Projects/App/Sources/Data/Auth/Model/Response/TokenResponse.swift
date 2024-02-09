@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct SignInResponse: Decodable {
+struct TokenResponse: Decodable {
     let accessToken: String
     let refreshToken: String
 }
