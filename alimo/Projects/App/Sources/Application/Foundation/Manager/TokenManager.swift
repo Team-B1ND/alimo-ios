@@ -13,7 +13,6 @@ fileprivate let authCache = AuthCache.live
 
 public class TokenManager: ObservableObject {
     
-    
     @Published public var accessToken: String {
         didSet {
             authCache.saveToken(accessToken, to: .accessToken)
@@ -21,6 +20,6 @@ public class TokenManager: ObservableObject {
     }
 
     public init() {
-        self.accessToken = authCache.getToken(of: .accessToken)
+        accessToken = authCache.getToken(of: .accessToken)
     }
 }
