@@ -6,7 +6,7 @@ struct AlimoApp: App {
         WindowGroup {
             // if you want to test ui, then you can remove annotation
 
-            HomeView()
+            ProfileView()
 
         }
     }
