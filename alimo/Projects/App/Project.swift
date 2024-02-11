@@ -14,12 +14,18 @@ let project = Project.makeModule(
     platform: .iOS,
     product: .app,
     dependencies: [
-        .SPM.Alamofire
+        .SPM.Alamofire,
+        .SPM.AlamofireImage,
+        .SPM.SkeletonUI
     ],
     resources: ["Resources/**"],
     infoPlist: .extendingDefault(with: [
         "UIMainStoryboardFile": "",
         "UILaunchStoryboardName": "LaunchScreen",
         "ENABLE_TESTS": .boolean(true),
+        "UIUserInterfaceStyle":"Light",
+        "NSAppTransportSecurity": [
+            "NSAllowsArbitraryLoads": .boolean(true)
+        ]
     ])
 )
