@@ -11,17 +11,51 @@ import Foundation
 fileprivate let client = AlimoHttpClient.live
 
 final class HomeService {
-    private let emojiload = "/emoji/load"
-    private let commentcreate = "/comment/create"
-    private let bookmarkupdate = "/book_mark/update"
-    private let notificationspeaker = "/notification/speaker"
-    private let notificationread = "/notification/read/"
-    private let getcategory = "/category/get-category"
+    private let emojiloadPath = "/emoji/load"
+    private let commentcreatePath = "/comment/create"
+    private let bookmarkupdatePath = "/book_mark/update"
+    private let notificationspeakerPath = "/notification/speaker"
+    private let notificationreadPath = "/notification/read/"
+    private let getcategoryPath = "/member/category-list"
+    
+    func emojiload(_ request: EmojiloadRequest) async throws -> Response {
+        try await client.request("\(emojiloadPath)",
+                                 Response.self,
+                                 method: .get,
+                                 parameters: request)
+    }
     
     func commentcreate(_ request: CommentCreateRequest) async throws -> Response {
-        try await client.request("\(commentcreate)",
+        try await client.request("\(commentcreatePath)",
                                  Response.self,
                                  method: .post,
                                  parameters: request)
     }
+    
+    func bookmarkupdate(_ request: BookmarkupdateRequest) async throws -> Response {
+        try await client.request("\(bookmarkupdatePath)",
+                                 Response.self,
+                                 method: .post,
+                                 parameters: request)
+    }
+    
+    func notificationspeaker() async throws -> String {
+        try await client.request("\(notificationspeakerPath)",
+                                 String.self,
+                                 method: .get)
+    }
+    
+    func notificationread(_ request: NotificationreadRequest) async throws -> ResponseData<ReadNotificationResponse> {
+        try await client.request("\(notificationreadPath)",
+                                 ResponseData<ReadNotificationResponse>.self,
+                                 method: .get,
+                                 parameters: request)
+    }
+    
+    func getcategory() async throws -> ResponseData<MemberCategorylistResponse> {
+        try await client.request("\(getcategoryPath)",
+                                 ResponseData<MemberCategorylistResponse>.self,
+                                 method: .get)
+    }
+    
 }
