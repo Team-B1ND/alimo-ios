@@ -16,7 +16,8 @@ let project = Project.makeModule(
     dependencies: [
         .SPM.Alamofire,
         .SPM.AlamofireImage,
-        .SPM.SkeletonUI
+        .SPM.SkeletonUI,
+        .SPM.SwiftCrypto
     ],
     resources: ["Resources/**"],
     infoPlist: .extendingDefault(with: [
