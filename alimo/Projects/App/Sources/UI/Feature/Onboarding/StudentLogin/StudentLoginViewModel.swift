@@ -13,9 +13,18 @@ class StudentLoginViewModel: ObservableObject {
     
     private let authService = AuthService.live
     
+    @Published var id: String = ""
+    @Published var pw: String = ""
+    
     func signIn() async {
-        
-//        authService.signInByDodam()
+    
+        do {
+            
+            let tokenResponse = try await authService.dauthToken(DauthTokenRequest(id: id, pw: pw, clientId: dauthId, redirectUrl: baseUrl + "/redirect"))
+            
+        } catch {
+            
+        }
         
     }
     

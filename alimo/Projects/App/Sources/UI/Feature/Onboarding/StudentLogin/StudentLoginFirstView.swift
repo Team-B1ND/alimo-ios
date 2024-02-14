@@ -10,10 +10,9 @@ import SwiftUI
 
 struct StudentLoginFirstView: View {
     
-    @Environment(\.dismiss) private var dismiss
+    @ObservedObject var vm = StudentLoginViewModel()
     
-    @State var id: String = ""
-    @State var pw: String = ""
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         VStack {
@@ -26,12 +25,12 @@ struct StudentLoginFirstView: View {
                 Spacer()
             }
             
-            AlimoTextField("아이디를 입력하세요", text: $id)
-            AlimoTextField("비밀번호를 입력하세요", text: $pw, textFieldType: .password)
+            AlimoTextField("아이디를 입력하세요", text: $vm.id)
+            AlimoTextField("비밀번호를 입력하세요", text: $vm.pw, textFieldType: .password)
             
             Spacer()
             
-            if id != "" && pw != "" {
+            if vm.id != "" && vm.pw != "" {
                 NavigationLink {
                     // 홈 뷰
                 } label: {

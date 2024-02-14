@@ -57,7 +57,7 @@ final class AuthService {
                                  parameters: request)
     }
     
-    func dauthToken(_ request: DodamTokenRequest) async throws -> ResponseData<DauthTokenResponse> {
+    func dauthToken(_ request: DauthTokenRequest) async throws -> ResponseData<DauthTokenResponse> {
         try await dauthClient.request("\(dauthTokenPath)",
                                  ResponseData<DauthTokenResponse>.self,
                                  method: .post,
