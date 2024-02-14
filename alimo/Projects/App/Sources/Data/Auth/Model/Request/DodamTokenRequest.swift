@@ -11,7 +11,6 @@ import Foundation
 struct DodamTokenRequest: Encodable {
     
     let code: String
-    let client_id: String
-    let client_secret: String
+    let fcmToken: String
     
 }

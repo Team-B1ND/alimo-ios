@@ -11,7 +11,7 @@ import AlamofireImage
 import Foundation
 import UIKit
 
-final class DodamHttpClient {
+final class DauthHttpClient {
     func request<Parameters: Encodable,
                  Response: Decodable>(_ url: String,
                                       _ responseType: Response.Type = VoidResponse.self,
@@ -65,7 +65,7 @@ final class DodamHttpClient {
     
 }
 
-extension DodamHttpClient {
-    public static let live = DodamHttpClient()
+extension DauthHttpClient {
+    public static let live = DauthHttpClient()
 }
 
