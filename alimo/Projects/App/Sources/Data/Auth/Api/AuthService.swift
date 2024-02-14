@@ -1,6 +1,7 @@
 import Alamofire
 
 fileprivate let client = AlimoHttpClient.live
+fileprivate let dodamClient = DodamHttpClient.live
 
 final class AuthService {
     
@@ -8,6 +9,7 @@ final class AuthService {
     private let refreshPath = "/refresh"
     private let childCodePath = "/verify-childCode"
     private let signUpPath = "/sign-up"
+    private let dodamToken = "/token"
     
     func signInTest(_ email: String) async throws -> ResponseData<TokenResponse> {
         try await client.request("\(signInPath)/test?email=\(email)",
@@ -44,6 +46,13 @@ final class AuthService {
     func signUp(_ request: SignUpRequest) async throws -> ResponseData<TokenResponse> {
         try await client.request("\(signUpPath)/",
                                  ResponseData<TokenResponse>.self,
+                                 method: .post,
+                                 parameters: request)
+    }
+    
+    func dodamToken(_ request: DodamTokenRequest) async throws -> ResponseData<DodamTokenResponse> {
+        try await dodamClient.request("\(dodamToken)",
+                                 ResponseData<DodamTokenResponse>.self,
                                  method: .post,
                                  parameters: request)
     }

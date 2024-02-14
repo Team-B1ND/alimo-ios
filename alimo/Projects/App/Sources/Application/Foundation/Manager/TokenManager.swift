@@ -18,8 +18,15 @@ public class TokenManager: ObservableObject {
             authCache.saveToken(accessToken, to: .accessToken)
         }
     }
+    
+    @Published public var refreshToken: String {
+        didSet {
+            authCache.saveToken(refreshToken, to: .refreshToken)
+        }
+    }
 
     public init() {
         accessToken = authCache.getToken(of: .accessToken)
+        refreshToken = authCache.getToken(of: .refreshToken)
     }
 }
