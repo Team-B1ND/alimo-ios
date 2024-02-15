@@ -11,6 +11,7 @@ import SwiftUI
 
 fileprivate let authCache = AuthCache.live
 
+@MainActor
 public class TokenManager: ObservableObject {
     
     @Published public var accessToken: String {

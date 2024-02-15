@@ -62,22 +62,18 @@ struct ParentLoginFirstView: View {
             .padding(.bottom, 5)
             
             if parentLoginViewModel.email != "" && parentLoginViewModel.pw != "" {
-                NavigationLink {
-                    // 홈 뷰
-                } label: {
-                    AlimoButton("로그인", buttonType: .yellow) {
-                        
-                        Task {
-                            await parentLoginViewModel.signIn {
-                                tm.accessToken = $0
-                                tm.refreshToken = $1
-                            }
+                AlimoButton("로그인", buttonType: .yellow) {
+                    
+                    Task {
+                        await parentLoginViewModel.signIn {
+                            tm.accessToken = $0
+                            tm.refreshToken = $1
                         }
-                        
                     }
-                    .disabled(true)
-                    .padding(.bottom, 30)
+                    
                 }
+                .disabled(true)
+                .padding(.bottom, 30)
             } else {
                 AlimoButton("로그인", buttonType: .none) {
                     print(dummyText)

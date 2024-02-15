@@ -9,7 +9,7 @@ final class AuthService {
     private let refreshPath = "/refresh"
     private let childCodePath = "/verify-childCode"
     private let signUpPath = "/sign-up"
-    private let dauthTokenPath = "/token"
+    private let dauthTokenPath = "/auth/login/"
     
     func signInTest(_ email: String) async throws -> ResponseData<TokenResponse> {
         try await client.request("\(signInPath)/test?email=\(email)",

@@ -11,7 +11,7 @@ import Foundation
 struct DauthTokenResponse: Decodable {
     
     let name: String
-    let profileImage: String
+    let profileImage: String?
     let location: String
     
 }

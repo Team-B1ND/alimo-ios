@@ -11,7 +11,9 @@ import SwiftUI
 
 struct TabbarView : View {
     var body: some View {
-        Tabbar()
+        NavigationStack {
+            Tabbar()
+        }
     }
 }
 

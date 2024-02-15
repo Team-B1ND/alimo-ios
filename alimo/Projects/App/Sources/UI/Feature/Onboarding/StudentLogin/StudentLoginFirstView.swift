@@ -12,6 +12,8 @@ struct StudentLoginFirstView: View {
     
     @ObservedObject var vm = StudentLoginViewModel()
     
+    @EnvironmentObject var tm: TokenManager
+    
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -31,15 +33,17 @@ struct StudentLoginFirstView: View {
             Spacer()
             
             if vm.id != "" && vm.pw != "" {
-                NavigationLink {
-                    // 홈 뷰
-                } label: {
-                    AlimoButton("로그인", buttonType: .yellow) {
-                        print(dummyText)
+                AlimoButton("로그인", buttonType: .yellow) {
+                    Task {
+                        await vm.signIn() { accessToken in
+                            withAnimation {
+                                tm.accessToken = accessToken
+                            }
+                        }
                     }
-                    .disabled(true)
-                    .padding(.bottom, 30)
                 }
+//                    .disabled(true)
+                .padding(.bottom, 30)
             } else {
                 AlimoButton("로그인", buttonType: .none) {
                     print(dummyText)
