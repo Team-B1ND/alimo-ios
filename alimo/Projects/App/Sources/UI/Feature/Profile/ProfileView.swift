@@ -10,6 +10,10 @@ import SwiftUI
 
 struct ProfileView: View {
     
+    @ObservedObject var vm = ProfileViewModel()
+    
+    @EnvironmentObject var tm: TokenManager
+    
     @State var isOn: Bool = true
     
     @State var isCodeClicked: Bool = false
@@ -18,7 +22,6 @@ struct ProfileView: View {
     @State var showDialog: Bool = false
     
     let dummyStudentCode: String = "Y2sH70"
-    let dummyCategory: [String] = ["1학년", "바인드", "사운드체크", "사운드체크", "도서부", "교장선생님이 알립니다"]
     
     var body: some View {
         NavigationStack {
@@ -51,7 +54,7 @@ struct ProfileView: View {
                         }
                         
                         FlowLayout(mode: .scrollable,
-                                   items: dummyCategory) {
+                                   items: vm.categoryList) {
                             Text($0)
                                 .font(.caption)
                                 .foregroundStyle(Color.gray500)
@@ -123,7 +126,7 @@ struct ProfileView: View {
                             .padding(.horizontal, 12)
                         
                         Button {
-                            // 로그아웃
+                            tm.accessToken = ""
                         } label: {
                             Text("로그아웃")
                                 .font(.bodyLight)
