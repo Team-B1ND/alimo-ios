@@ -69,3 +69,7 @@ final class HomeService {
     }
     
 }
+
+extension HomeService {
+    static let live = HomeService()
+}

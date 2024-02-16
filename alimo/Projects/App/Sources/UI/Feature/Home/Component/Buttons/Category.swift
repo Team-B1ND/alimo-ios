@@ -12,6 +12,7 @@ import SwiftUI
 struct Category : View {
     var new : Bool = true
     @State private var selectedIndex = 0
+    @ObservedObject var homeViewModel = HomeViewModel()
     var body: some View {
         ScrollView(.horizontal, showsIndicators: true) {
             HStack(spacing: 12) {
@@ -29,7 +30,8 @@ struct Category : View {
                         }
                     }
                 }
-                ForEach(1...3, id: \.self) { index in
+//                ForEach(1...homeViewModel.category.count, id: \.self) { index in
+                ForEach(1...3, id: \.self) { index in 
                     AlimoSmallButton(dummyText, buttonType: selectedIndex == index ? .yellow : .none) {
                         selectedIndex = index
                     }

@@ -11,6 +11,7 @@ import SwiftUI
 
 struct HomeView: View {
     
+    @ObservedObject var homeViewModel = HomeViewModel()
     var hasNotice: Bool = true
     
     var body: some View {
