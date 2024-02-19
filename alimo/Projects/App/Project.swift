@@ -17,7 +17,9 @@ let project = Project.makeModule(
         .SPM.Alamofire,
         .SPM.AlamofireImage,
         .SPM.SkeletonUI,
-        .SPM.SwiftCrypto
+        .SPM.SwiftCrypto,
+        .SPM.FirebaseAnalytics,
+        .SPM.FirebaseCrashlytics,
     ],
     resources: ["Resources/**"],
     infoPlist: .extendingDefault(with: [
