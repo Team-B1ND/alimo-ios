@@ -20,6 +20,7 @@ let project = Project.makeModule(
         .SPM.SwiftCrypto,
         .SPM.FirebaseAnalytics,
         .SPM.FirebaseCrashlytics,
+        .SPM.FirebaseMessaging
     ],
     resources: ["Resources/**"],
     infoPlist: .extendingDefault(with: [
