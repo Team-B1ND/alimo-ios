@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ProfileView: View {
     
-    @ObservedObject var vm = ProfileViewModel()
+    @StateObject var vm = ProfileViewModel()
     
     @EnvironmentObject var tm: TokenManager
     
@@ -21,10 +21,7 @@ struct ProfileView: View {
     
     @State var showDialog: Bool = false
     
-    let dummyStudentCode: String = "Y2sH70"
-    
     var body: some View {
-        NavigationStack {
             ZStack {
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 10) {
@@ -37,10 +34,10 @@ struct ProfileView: View {
                         .padding(.top, 60)
                         .padding(.horizontal, 20)
                         
-                        Image(Asset.profileImage)
+                        Image(vm.memberInfo?.image ?? Asset.profileImage)
                             .padding(.top, 30)
                         
-                        Text("김가영")
+                        Text(vm.memberInfo?.name ?? "") // 여기 서버 response 문제 있음
                             .font(Font.body)
                             .padding(.top, 10)
                         
@@ -192,13 +189,16 @@ struct ProfileView: View {
                                     VStack {
                                         
                                         HStack {
-                                            Text("\(dummyStudentCode)")
+                                            Text("\(vm.memberInfo?.childCode ?? "")")
                                                 .font(.subtitle)
                                             
                                             Button {
+                                                
+                                                UIPasteboard.general.string = vm.memberInfo?.childCode ?? ""
                                                 showDialog = false
                                                 isCodeClicked = true
                                                 isAnimating = true
+                                                
                                             } label: {
                                                 Image(Asset.copy)
                                             }
@@ -238,6 +238,9 @@ struct ProfileView: View {
                 }
             }
             
+        .task {
+            await vm.getInfo()
+            print(vm.memberInfo?.name)
         }
         .onAppear {
             UIScrollView.appearance().bounces = false
