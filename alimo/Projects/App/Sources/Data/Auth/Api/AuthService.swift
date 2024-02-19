@@ -1,6 +1,7 @@
 import Alamofire
 
 fileprivate let client = AlimoHttpClient.live
+fileprivate let dauthClient = DauthHttpClient.live
 
 final class AuthService {
     
@@ -8,6 +9,7 @@ final class AuthService {
     private let refreshPath = "/refresh"
     private let childCodePath = "/verify-childCode"
     private let signUpPath = "/sign-up"
+    private let dauthTokenPath = "/auth/login/"
     
     func signInTest(_ email: String) async throws -> ResponseData<TokenResponse> {
         try await client.request("\(signInPath)/test?email=\(email)",
@@ -36,7 +38,7 @@ final class AuthService {
     }
     
     func verifyChildCode(_ childCode: String) async throws -> ResponseData<ChildCodeResponse> {
-        try await client.request("\(childCode)?child-code=\(childCode)",
+        try await client.request("\(childCodePath)?child-code=\(childCode)",
                                  ResponseData<ChildCodeResponse>.self,
                                  method: .post)
     }
@@ -44,6 +46,20 @@ final class AuthService {
     func signUp(_ request: SignUpRequest) async throws -> ResponseData<TokenResponse> {
         try await client.request("\(signUpPath)/",
                                  ResponseData<TokenResponse>.self,
+                                 method: .post,
+                                 parameters: request)
+    }
+    
+    func dodamToken(_ request: DodamTokenRequest) async throws -> ResponseData<TokenResponse> {
+        try await client.request("\(signInPath)/dodam",
+                                 ResponseData<TokenResponse>.self,
+                                 method: .post,
+                                 parameters: request)
+    }
+    
+    func dauthToken(_ request: DauthTokenRequest) async throws -> ResponseData<DauthTokenResponse> {
+        try await dauthClient.request("\(dauthTokenPath)",
+                                 ResponseData<DauthTokenResponse>.self,
                                  method: .post,
                                  parameters: request)
     }

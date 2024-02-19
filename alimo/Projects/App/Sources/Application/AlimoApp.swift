@@ -2,12 +2,11 @@ import SwiftUI
 
 @main
 struct AlimoApp: App {
+    
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
-                ContentView()
-                    .environmentObject(TokenManager())
-            }
+            ContentView()
+                .environmentObject(TokenManager())
         }
     }
 }
@@ -16,7 +15,6 @@ struct AlimoApp: App {
 private struct ContentView: View {
     
     @EnvironmentObject var tokenManager: TokenManager
-    
     @State var opacity = 1.0
     
     var body: some View {
@@ -35,6 +33,7 @@ private struct ContentView: View {
             }
         }
         .onAppear {
+            tokenManager.accessToken = UserDefaults.standard.string(forKey: "accessToken") ?? ""
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                 withAnimation(.easeIn(duration: 0.3)) {
                     opacity = 0

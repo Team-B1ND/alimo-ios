@@ -10,6 +10,10 @@ import SwiftUI
 
 struct ProfileView: View {
     
+    @StateObject var vm = ProfileViewModel()
+    
+    @EnvironmentObject var tm: TokenManager
+    
     @State var isOn: Bool = true
     
     @State var isCodeClicked: Bool = false
@@ -17,11 +21,7 @@ struct ProfileView: View {
     
     @State var showDialog: Bool = false
     
-    let dummyStudentCode: String = "Y2sH70"
-    let dummyCategory: [String] = ["1학년", "바인드", "사운드체크", "사운드체크", "도서부", "교장선생님이 알립니다"]
-    
     var body: some View {
-        NavigationStack {
             ZStack {
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 10) {
@@ -34,10 +34,10 @@ struct ProfileView: View {
                         .padding(.top, 60)
                         .padding(.horizontal, 20)
                         
-                        Image(Asset.profileImage)
+                        Image(vm.memberInfo?.image ?? Asset.profileImage)
                             .padding(.top, 30)
                         
-                        Text("김가영")
+                        Text(vm.memberInfo?.name ?? "") // 여기 서버 response 문제 있음
                             .font(Font.body)
                             .padding(.top, 10)
                         
@@ -51,7 +51,7 @@ struct ProfileView: View {
                         }
                         
                         FlowLayout(mode: .scrollable,
-                                   items: dummyCategory) {
+                                   items: vm.categoryList) {
                             Text($0)
                                 .font(.caption)
                                 .foregroundStyle(Color.gray500)
@@ -123,7 +123,7 @@ struct ProfileView: View {
                             .padding(.horizontal, 12)
                         
                         Button {
-                            // 로그아웃
+                            tm.accessToken = ""
                         } label: {
                             Text("로그아웃")
                                 .font(.bodyLight)
@@ -189,13 +189,16 @@ struct ProfileView: View {
                                     VStack {
                                         
                                         HStack {
-                                            Text("\(dummyStudentCode)")
+                                            Text("\(vm.memberInfo?.childCode ?? "")")
                                                 .font(.subtitle)
                                             
                                             Button {
+                                                
+                                                UIPasteboard.general.string = vm.memberInfo?.childCode ?? ""
                                                 showDialog = false
                                                 isCodeClicked = true
                                                 isAnimating = true
+                                                
                                             } label: {
                                                 Image(Asset.copy)
                                             }
@@ -235,6 +238,9 @@ struct ProfileView: View {
                 }
             }
             
+        .task {
+            await vm.getInfo()
+            print(vm.memberInfo?.name)
         }
         .onAppear {
             UIScrollView.appearance().bounces = false

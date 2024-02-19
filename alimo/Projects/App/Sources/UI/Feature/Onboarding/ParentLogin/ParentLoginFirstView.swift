@@ -10,10 +10,11 @@ import SwiftUI
 
 struct ParentLoginFirstView: View {
     
-    @Environment(\.dismiss) private var dismiss
+    @ObservedObject var parentLoginViewModel = ParentLoginViewModel()
     
-    @State var dummyEmail: String = ""
-    @State var dummyPw: String = ""
+    @EnvironmentObject var tm: TokenManager
+    
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         VStack {
@@ -26,9 +27,9 @@ struct ParentLoginFirstView: View {
                 Spacer()
             }
             
-            AlimoTextField("아이디를 입력하세요", text: $dummyEmail)
+            AlimoTextField("아이디를 입력하세요", text: $parentLoginViewModel.email)
             
-            AlimoTextField("비밀번호를 입력하세요", text: $dummyPw, textFieldType: .password)
+            AlimoTextField("비밀번호를 입력하세요", text: $parentLoginViewModel.pw, textFieldType: .password)
             
             NavigationLink {
                 ParentFindPWFirstView()
@@ -60,16 +61,19 @@ struct ParentLoginFirstView: View {
             }
             .padding(.bottom, 5)
             
-            if dummyEmail != "" && dummyPw != "" {
-                NavigationLink {
-                    // 홈 뷰
-                } label: {
-                    AlimoButton("로그인", buttonType: .yellow) {
-                        print(dummyText)
+            if parentLoginViewModel.email != "" && parentLoginViewModel.pw != "" {
+                AlimoButton("로그인", buttonType: .yellow) {
+                    
+                    Task {
+                        await parentLoginViewModel.signIn {
+                            tm.accessToken = $0
+                            tm.refreshToken = $1
+                        }
                     }
-                    .disabled(true)
-                    .padding(.bottom, 30)
+                    
                 }
+                .disabled(true)
+                .padding(.bottom, 30)
             } else {
                 AlimoButton("로그인", buttonType: .none) {
                     print(dummyText)
