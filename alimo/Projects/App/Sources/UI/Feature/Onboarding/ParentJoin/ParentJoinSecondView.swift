@@ -10,20 +10,20 @@ import SwiftUI
 
 struct ParentJoinSecondView: View {
     
+    @ObservedObject var vm = ParentJoinViewModel()
+    
     @Environment(\.dismiss) private var dismiss
     
-    @State var email: String = ""
-    @State var pw: String = ""
     @State var pwCheck: String = ""
     
     @State var showTextAlert: Bool = false
     
-    let dummyStudentName: String = "김가영"
+    @State var name: String? = ""
     
     var body: some View {
         VStack {
             HStack {
-                Text("\(dummyStudentName) 학부모님 안녕하세요!")
+                Text("\(vm.memberInfo?.name ?? "")님 안녕하세요!")
                     .font(.subtitle)
                     .foregroundStyle(Color.main900)
                     .padding(.top, 30)
@@ -32,9 +32,9 @@ struct ParentJoinSecondView: View {
                 Spacer()
             }
             
-            AlimoTextField("이메일", text: $email)
+            AlimoTextField("이메일", text: $vm.email)
             
-            AlimoTextField("비밀번호", text: $pw, textFieldType: .password)
+            AlimoTextField("비밀번호", text: $vm.password, textFieldType: .password)
             
             AlimoTextField("비밀번호 재입력", text: $pwCheck, textFieldType: .password)
             
@@ -68,8 +68,8 @@ struct ParentJoinSecondView: View {
             }
             .padding(.bottom, 5)
             
-            let isCompleted = !email.isEmpty && !pw.isEmpty && !pwCheck.isEmpty
-            let isSame = pw == pwCheck
+            let isCompleted = !vm.email.isEmpty && !vm.password.isEmpty && !pwCheck.isEmpty
+            let isSame = vm.password == pwCheck
             
             let buttonType: AlimoButtonType = isCompleted ? .yellow : .none
             
@@ -82,6 +82,9 @@ struct ParentJoinSecondView: View {
                 .disabled(isCompleted && isSame)
                 .padding(.bottom, 30)
             }
+        }
+        .task {
+            await vm.getInfo()
         }
         .onAppear() {
             showTextAlert = false

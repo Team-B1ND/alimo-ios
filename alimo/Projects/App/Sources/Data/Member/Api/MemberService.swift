@@ -12,40 +12,37 @@ fileprivate let client = AlimoHttpClient.live
 
 struct MemberService {
     
-    private let emailsVerificationsPath = "/member/emails/verifications"
-    private let alarmOnOffPath = "/member/alarm-on-off"
-    private let memberInfoPath = "/member/info"
-    private let emailsVerificationRequestPath = "/member/emails/verification-requests"
-    private let categoryListPath = "/member/category-list"
+    private let memberPath = "/member"
     
     func emailsVerificationRequest(_ email: String) async throws -> Response {
-        try await client.request("\(emailsVerificationRequestPath)/",
+        try await client.request(memberPath + "/emails/verifications",
                                  Response.self,
                                  method: .post,
                                  parameters: email)
     }
     
     func alarmOnOff() async throws -> Response {
-        try await client.request("\(alarmOnOffPath)/",
+        try await client.request(memberPath + "/alarm-on-off",
                                  Response.self,
                                  method: .post)
     }
     
-    func getMemberInfo() async throws -> ResponseData<MemberInfoResponse> {
-        try await client.request("\(memberInfoPath)/",
+    func getMemberInfo() async throws -> Member {
+        try await client.request(memberPath + "/info",
                                  ResponseData<MemberInfoResponse>.self,
                                  method: .get)
+        .data.toDomain()
     }
     
     func emailsVerifications(_ request: EmailsVerificationsRequest) async throws -> Response {
-        try await client.request("\(emailsVerificationsPath)/",
+        try await client.request(memberPath + "/emails/verification-requests",
                                  Response.self,
                                  method: .get,
                                  parameters: request)
     }
     
     func getCategoryList() async throws -> ResponseData<CategoryListResponse> {
-        try await client.request("\(categoryListPath)/",
+        try await client.request(memberPath + "/category-list",
                                  ResponseData<CategoryListResponse>.self,
                                  method: .get)
     }

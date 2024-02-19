@@ -15,7 +15,21 @@ struct MemberInfoResponse: Decodable {
     let room: Int
     let number: Int
     let name: String
-    let image: String
+    let image: String?
     let childCode: String
+    
+}
+
+extension MemberInfoResponse {
+    
+    func toDomain() -> Member {
+        Member(email: email,
+               grade: grade,
+               room: room,
+               number: number,
+               name: name,
+               image: image,
+               childCode: childCode)
+    }
     
 }

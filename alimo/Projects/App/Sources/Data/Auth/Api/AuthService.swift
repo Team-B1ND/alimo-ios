@@ -38,7 +38,7 @@ final class AuthService {
     }
     
     func verifyChildCode(_ childCode: String) async throws -> ResponseData<ChildCodeResponse> {
-        try await client.request("\(childCode)?child-code=\(childCode)",
+        try await client.request("\(childCodePath)?child-code=\(childCode)",
                                  ResponseData<ChildCodeResponse>.self,
                                  method: .post)
     }
