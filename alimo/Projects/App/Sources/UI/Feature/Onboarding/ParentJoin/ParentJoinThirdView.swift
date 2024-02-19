@@ -11,16 +11,14 @@ import Combine
 
 struct ParentJoinThirdView: View {
     
-    @Environment(\.dismiss) private var dismiss
+    @ObservedObject var vm = ParentJoinViewModel()
     
-    @State var inputAuthCode: String = ""
+    @Environment(\.dismiss) private var dismiss
     
     @State var isAuthed: Bool = false
     @State var isSended: Bool = false
     
     @State var showTextAlert: Bool = false
-    
-    let dummyAuthCode = "123456"
     
     @State var timeRemaining : Int = 300
     let date = Date()
@@ -50,7 +48,7 @@ struct ParentJoinThirdView: View {
                                 RoundedCorner(radius: Size.large.rawValue)
                                     .stroke(Color.gray300, lineWidth: 1)
                                 HStack {
-                                    Text(inputAuthCode)
+                                    Text(vm.code)
                                         .font(.bodyLight)
                                         .foregroundStyle(Color.gray500)
                                         .background(Color.main50)
@@ -68,7 +66,7 @@ struct ParentJoinThirdView: View {
                         .padding(.horizontal, 20)
                     
                 } else {
-                    AlimoTextField("인증 코드", text: $inputAuthCode)
+                    AlimoTextField("인증 코드", text: $vm.code)
                         .foregroundStyle(.red)
                     
                     HStack {
@@ -90,18 +88,29 @@ struct ParentJoinThirdView: View {
                                         .foregroundStyle(Color.main50)
                                     
                                     AlimoSmallButton("확인", buttonType: .none) {
-                                        if inputAuthCode == dummyAuthCode {
-                                            isAuthed = true
-                                            showTextAlert = false
-                                        } else {
-                                            showTextAlert = true
+                                        
+                                        Task {
+//                                            await vm.emailsVerifications()
+                                            // 인증 코드가 맞는지 확인해서 밑에 조건문
                                         }
+                                        
+//                                        if inputAuthCode == vm.code {
+//                                            isAuthed = true
+//                                            showTextAlert = false
+//                                        } else {
+//                                            showTextAlert = true
+//                                        }
                                     }
                                 }
                             }
                             .frame(height: 30)
                         } else {
                             AlimoSmallButton("인증요청", buttonType: .yellow) {
+                                
+                                Task {
+//                                    await vm.emailsVerificationRequest()
+                                }
+                                
                                 isSended = true
                             }
                         }

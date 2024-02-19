@@ -10,13 +10,11 @@ import SwiftUI
 
 struct ParentJoinFirstView: View {
     
+    @StateObject var vm = ParentJoinViewModel()
+    
     @Environment(\.dismiss) private var dismiss
     
-    @State var inputCode: String = ""
-    
-    @State var showDialog: Bool = false
-    
-    let dummyStudentCode: String = "123456"
+//    let dummyStudentCode: String = "123456"
     
     var body: some View {
         ZStack {
@@ -31,7 +29,7 @@ struct ParentJoinFirstView: View {
                     Spacer()
                 }
                 
-                SeparatedTextField(length: 6, string: $inputCode)
+                SeparatedTextField(length: 6, string: $vm.childCode)
                     .padding(.horizontal, 20)
                 
                 HStack {
@@ -60,26 +58,28 @@ struct ParentJoinFirstView: View {
                 }
                 .padding(.bottom, 16)
                 
-                let isCompleted: Bool = inputCode.count == 6
-                let isSame: Bool = inputCode == dummyStudentCode
-                let buttonType: AlimoButtonType = isCompleted && isSame ? .yellow : .none
+                let isCompleted: Bool = vm.childCode.count == 6
+                let buttonType: AlimoButtonType = isCompleted ? .yellow : .none
                 
-                NavigationLink {
-                    ParentJoinSecondView()
-                } label: {
-                    AlimoButton("다음", buttonType: buttonType) {
-                        showDialog = true
+                AlimoButton("다음", buttonType: buttonType) {
+                    Task {
+                        await vm.verifyChildCode()
                     }
-                    .disabled(isCompleted && isSame)
-                    .padding(.bottom, 30)
                 }
+                .disabled(!isCompleted)
+                .padding(.bottom, 30)
+                
+                NavigationLink(isActive: $vm.isCorrectChildCode) {
+                    ParentJoinSecondView()
+                } label: {}
+                
             }
             .navigationBarBackButtonHidden()
             .alimoToolbar("회원가입") {
                 dismiss()
             }
             
-            if showDialog {
+            if vm.showChildCodeWrongDialog {
                 Rectangle()
                     .opacity(0.3)
                     .ignoresSafeArea()
@@ -102,7 +102,7 @@ struct ParentJoinFirstView: View {
                                         Spacer()
                                         
                                         Button {
-                                            showDialog = false
+                                            vm.isCorrectChildCode = true
                                         } label: {
                                             Text("닫기")
                                                 .foregroundStyle(Color.gray500)

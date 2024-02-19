@@ -10,10 +10,11 @@ import SwiftUI
 
 struct StudentLoginFirstView: View {
     
-    @Environment(\.dismiss) private var dismiss
+    @ObservedObject var vm = StudentLoginViewModel()
     
-    @State var id: String = ""
-    @State var pw: String = ""
+    @EnvironmentObject var tm: TokenManager
+    
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         VStack {
@@ -26,21 +27,23 @@ struct StudentLoginFirstView: View {
                 Spacer()
             }
             
-            AlimoTextField("아이디를 입력하세요", text: $id)
-            AlimoTextField("비밀번호를 입력하세요", text: $pw, textFieldType: .password)
+            AlimoTextField("아이디를 입력하세요", text: $vm.id)
+            AlimoTextField("비밀번호를 입력하세요", text: $vm.pw, textFieldType: .password)
             
             Spacer()
             
-            if id != "" && pw != "" {
-                NavigationLink {
-                    // 홈 뷰
-                } label: {
-                    AlimoButton("로그인", buttonType: .yellow) {
-                        print(dummyText)
+            if vm.id != "" && vm.pw != "" {
+                AlimoButton("로그인", buttonType: .yellow) {
+                    Task {
+                        await vm.signIn() { accessToken in
+                            withAnimation {
+                                tm.accessToken = accessToken
+                            }
+                        }
                     }
-                    .disabled(true)
-                    .padding(.bottom, 30)
                 }
+//                    .disabled(true)
+                .padding(.bottom, 30)
             } else {
                 AlimoButton("로그인", buttonType: .none) {
                     print(dummyText)
