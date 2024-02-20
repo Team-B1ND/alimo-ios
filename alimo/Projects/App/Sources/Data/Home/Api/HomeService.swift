@@ -61,9 +61,9 @@ final class HomeService {
     }
     
     
-    func notificationload(_ request: NotificationloadRequest) async throws -> ResponseData<String> {
+    func notificationload(_ request: NotificationloadRequest) async throws -> ResponseData<CategoryResponse> {
         try await client.request("\(notificationloadPath)",
-                                 ResponseData<String>.self,
+                                 ResponseData<CategoryResponse>.self,
                                  method: .get,
                                  parameters: request)
     }

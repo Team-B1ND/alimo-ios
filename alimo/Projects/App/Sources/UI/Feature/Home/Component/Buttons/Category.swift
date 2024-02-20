@@ -30,23 +30,26 @@ struct Category : View {
                         }
                     }
                 }
-//                ForEach(1...homeViewModel.category.count, id: \.self) { index in
-                ForEach(1...3, id: \.self) { index in 
-                    AlimoSmallButton(dummyText, buttonType: selectedIndex == index ? .yellow : .none) {
-                        selectedIndex = index
-                    }
-                    .overlay {
-                        if new {
-                            HStack {
-                                Spacer()
-                                VStack {
-                                    AlimoBadge(type: .small)
+                //                ForEach(1...homeViewModel.category.count, id: \.self) { index in
+                //homeViewModel.category[index]
+                if homeViewModel.category.count > 0 {
+                    ForEach(0...homeViewModel.category.count, id: \.self) { index in
+                        AlimoSmallButton(homeViewModel.category[index], buttonType: selectedIndex == index ? .yellow : .none) {
+                            selectedIndex = index
+                        }
+                        .overlay {
+                            if new {
+                                HStack {
                                     Spacer()
+                                    VStack {
+                                        AlimoBadge(type: .small)
+                                        Spacer()
+                                    }
                                 }
                             }
                         }
-                    }
-                }//foreach
+                    }//foreach
+                }
             }//hs
             .frame(maxWidth: .infinity, minHeight: 26)
         }//스크롤

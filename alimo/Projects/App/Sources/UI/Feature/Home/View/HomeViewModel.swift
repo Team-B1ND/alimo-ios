@@ -17,8 +17,9 @@ class HomeViewModel: ObservableObject {
         do {
             let tokenResponse = try await homeService.getcategory()
             self.category = tokenResponse.data.roles
+            print(category)
         } catch {
-            
+            print(error)
         }
     }
 }
