@@ -3,6 +3,8 @@ import SwiftUI
 @main
 struct AlimoApp: App {
     
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
