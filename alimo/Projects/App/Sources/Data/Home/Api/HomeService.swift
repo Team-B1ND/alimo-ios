@@ -41,9 +41,9 @@ final class HomeService {
                                  parameters: request)
     }
     
-    func notificationspeaker() async throws -> String {
+    func notificationspeaker() async throws ->  ResponseData<NotificationspeakerResponse> {
         try await client.request("\(notificationspeakerPath)",
-                                 String.self,
+                                 ResponseData<NotificationspeakerResponse>.self,
                                  method: .get)
     }
     

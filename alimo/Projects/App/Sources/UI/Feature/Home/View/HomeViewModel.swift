@@ -15,13 +15,23 @@ class HomeViewModel: ObservableObject {
     
     func getcategory() async {
         do {
-            let tokenResponse = try await homeService.getcategory()
+            let getcategoryResponse = try await homeService.getcategory()
             self.category = tokenResponse.data.roles
             print(category)
         } catch {
             print(error)
         }
     }
-}
+    
+//    func notificationspeake() async {
+//        do {
+//            let Response = try await homeService.getcategory()
+//            self.category = tokenResponse.data.roles
+//            print(category)
+//        } catch {
+//            print(error)
+//        }
+//    }
+//}
 
 
