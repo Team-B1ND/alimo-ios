@@ -34,7 +34,7 @@ struct DetailPost: View {
                     Button {
                         isButtonPressed.toggle()
                     } label: {
-                        Image(isButtonPressed ? AppAsset.Assets.clickedBookmark.name : AppAsset.Assets.bookMark.name)
+                        Image(isButtonPressed ? AppAsset.Assets.clickedBookmark.name : AppAsset.Assets.bookmark.name)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .frame(width: 24, height: 24)
