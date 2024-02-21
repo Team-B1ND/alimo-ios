@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 
 struct Notice : View {
+    @ObservedObject var homeViewModel = HomeViewModel()
     var body : some View{
         ZStack {
             Rectangle()
@@ -20,15 +21,21 @@ struct Notice : View {
                 Image(Asset.loudSpeaker)
                     .renderingMode(.template)
                     .foregroundStyle(Color.main300)
-                Text("불러오는중...")
+                Text(homeViewModel.notificationspeaketitle)
                     .font(.label)
                     .foregroundColor(.main900)
-                Text("· 작성자")
+                Text("· \(homeViewModel.memberID ?? 0)")
                     .font(.label)
                     .foregroundColor(.gray500)
                 Spacer()
             }
             .padding(.horizontal, 8)
+        }
+        .onAppear{
+            Task { 
+                await homeViewModel.notificationspeake()
+            }
+
         }
         .padding(.horizontal, 6)
     }

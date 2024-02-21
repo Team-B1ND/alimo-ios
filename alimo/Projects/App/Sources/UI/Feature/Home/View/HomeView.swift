@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 struct HomeView: View {
-    var categories : [String] = []
+//    var categories : [String] = []
     @ObservedObject var homeViewModel = HomeViewModel()
     var hasNotice: Bool = true
     
@@ -43,15 +43,16 @@ struct HomeView: View {
                 }
             }
             .clipped()
-            .onAppear{
-                Task {
-                    await homeViewModel.getcategory()
-                    DispatchQueue.main.async {
-                        homeViewModel.category = categories
-                    }
-                }
-
-            }
+//            .onAppear{
+//                Task {
+//                    await homeViewModel.getcategory()
+//                    await homeViewModel.notificationspeake()
+////                    DispatchQueue.main.async {
+////                        homeViewModel.category = categories
+////                    }
+//                }
+//
+//            }
         }
     }
 }

@@ -53,6 +53,12 @@ struct Category : View {
             }//hs
             .frame(maxWidth: .infinity, minHeight: 26)
         }//스크롤
+        .onAppear{
+            Task {
+                await homeViewModel.getcategory()
+            }
+
+        }
         .padding(.horizontal, 16)
     }
 }

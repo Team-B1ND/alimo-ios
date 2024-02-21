@@ -11,6 +11,8 @@ import Foundation
 class HomeViewModel: ObservableObject {
     private let homeService = HomeService.live
     @Published var category : [String] = []
+    @Published var notificationspeaketitle : String = ""
+    @Published var memberID : Int? = nil
 
     
     func getcategory() async {
@@ -27,6 +29,9 @@ class HomeViewModel: ObservableObject {
         do {
             let notificationspeakeResponse = try await homeService.notificationspeaker()
             print(notificationspeakeResponse)
+            self.notificationspeaketitle = notificationspeakeResponse.data.title
+            self.memberID = notificationspeakeResponse.data.memberID
+            
         } catch {
             print(error)
         }

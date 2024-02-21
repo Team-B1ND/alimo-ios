@@ -9,7 +9,7 @@
 import Foundation
 
 struct NotificationspeakerResponse : Decodable {
-    let notificationID: Int
+    let notificationID: Int?
     let title: String
-    let memberID: Int
+    let memberID: Int?
 }
