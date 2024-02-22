@@ -54,11 +54,11 @@ final class HomeService {
     }
     
     
-    func notificationload(_ request: NotificationloadRequest) async throws -> ResponseData<NotificationloadResponse> {
-        try await client.request("\(notificationloadPath)",
+    func notificationload(_ category : String/* request: NotificationloadRequest*/) async throws -> ResponseData<NotificationloadResponse> {
+        try await client.request("\(notificationloadPath)/\(category)",
                                  ResponseData<NotificationloadResponse>.self,
-                                 method: .get,
-                                 parameters: request)
+                                 method: .get
+                               /*  parameters: request*/)
     }
     
 }
