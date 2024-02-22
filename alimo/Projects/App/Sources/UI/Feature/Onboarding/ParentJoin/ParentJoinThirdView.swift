@@ -90,16 +90,16 @@ struct ParentJoinThirdView: View {
                                     AlimoSmallButton("확인", buttonType: .none) {
                                         
                                         Task {
-//                                            await vm.emailsVerifications()
-                                            // 인증 코드가 맞는지 확인해서 밑에 조건문
+                                            await vm.emailsVerifications()
+
+                                            if vm.isCorrectEmailCode {
+                                                isAuthed = true
+                                                showTextAlert = false
+                                            } else {
+                                                showTextAlert = true
+                                            }
                                         }
-                                        
-//                                        if inputAuthCode == vm.code {
-//                                            isAuthed = true
-//                                            showTextAlert = false
-//                                        } else {
-//                                            showTextAlert = true
-//                                        }
+
                                     }
                                 }
                             }
@@ -108,7 +108,7 @@ struct ParentJoinThirdView: View {
                             AlimoSmallButton("인증요청", buttonType: .yellow) {
                                 
                                 Task {
-//                                    await vm.emailsVerificationRequest()
+                                    await vm.emailsVerificationRequest()
                                 }
                                 
                                 isSended = true

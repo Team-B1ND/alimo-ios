@@ -79,7 +79,7 @@ struct ParentJoinFirstView: View {
                 dismiss()
             }
             
-            if vm.showChildCodeWrongDialog {
+            if vm.showChildCodeWrongDialog ?? true {
                 Rectangle()
                     .opacity(0.3)
                     .ignoresSafeArea()
@@ -102,7 +102,7 @@ struct ParentJoinFirstView: View {
                                         Spacer()
                                         
                                         Button {
-                                            vm.isCorrectChildCode = true
+                                            vm.showChildCodeWrongDialog = false
                                         } label: {
                                             Text("닫기")
                                                 .foregroundStyle(Color.gray500)

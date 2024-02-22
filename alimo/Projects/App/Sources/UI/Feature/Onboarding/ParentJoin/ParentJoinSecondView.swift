@@ -15,15 +15,14 @@ struct ParentJoinSecondView: View {
     @Environment(\.dismiss) private var dismiss
     
     @State var pwCheck: String = ""
-    
     @State var showTextAlert: Bool = false
     
-    @State var name: String? = ""
+//    @State var name: String? = ""
     
     var body: some View {
         VStack {
             HStack {
-                Text("\(vm.memberInfo?.name ?? "")님 안녕하세요!")
+                Text("\(vm.memberInfo?.name ?? "학부모")님 안녕하세요!")
                     .font(.subtitle)
                     .foregroundStyle(Color.main900)
                     .padding(.top, 30)
