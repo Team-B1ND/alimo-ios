@@ -9,9 +9,12 @@
 import Foundation
 import SwiftUI
 
-struct Notice : View {
-    @ObservedObject var homeViewModel = HomeViewModel()
-    var body : some View{
+
+struct Notice: View {
+    var notificationspeaketitle: Text
+    var memberID: Text
+    
+    var body : some View {
         ZStack {
             Rectangle()
                 .foregroundColor(.main100)
@@ -21,26 +24,18 @@ struct Notice : View {
                 Image(Asset.loudSpeaker)
                     .renderingMode(.template)
                     .foregroundStyle(Color.main300)
-                Text(homeViewModel.notificationspeaketitle)
+                
+                notificationspeaketitle
                     .font(.label)
                     .foregroundColor(.main900)
-                Text("· \(homeViewModel.memberID ?? 0)")
+                
+                memberID
                     .font(.label)
                     .foregroundColor(.gray500)
                 Spacer()
             }
             .padding(.horizontal, 8)
         }
-        .onAppear{
-            Task { 
-                await homeViewModel.notificationspeake()
-            }
-
-        }
         .padding(.horizontal, 6)
     }
-}
-
-#Preview {
-    Notice()
 }

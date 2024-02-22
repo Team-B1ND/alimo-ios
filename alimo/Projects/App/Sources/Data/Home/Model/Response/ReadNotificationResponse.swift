@@ -10,7 +10,7 @@ import Foundation
 
 // MARK: - ReadNotificationResponse
 struct ReadNotificationResponse : Decodable {
-    let notificationID: Int
+    let notificationid: Int
     let title, content: String
     let speaker: Bool
     let createdAt, member: String

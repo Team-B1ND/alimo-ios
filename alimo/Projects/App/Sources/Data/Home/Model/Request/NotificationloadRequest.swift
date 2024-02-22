@@ -11,6 +11,7 @@ import Foundation
 //MARK: -
 struct NotificationloadRequest : Encodable {
     let pageRequest : Page
+    let category : String
 }
 
 // MARK: - Page

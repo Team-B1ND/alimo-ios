@@ -10,7 +10,8 @@ import Foundation
 import SwiftUI
 
 struct HomeView: View {
-//    var categories : [String] = []
+    
+    var categories : [String] = []
     @ObservedObject var homeViewModel = HomeViewModel()
     var hasNotice: Bool = true
     
@@ -19,7 +20,9 @@ struct HomeView: View {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 0) {
                     AlimoLogoBar()
-                    Notice()
+                    Notice(notificationspeaketitle: Text(homeViewModel.notificationspeaketitle), memberID: Text("\(homeViewModel.memberID ?? 0)"))
+                    
+                    
                     LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
                         Section(header: filterBar) {
                             if hasNotice {
@@ -43,26 +46,23 @@ struct HomeView: View {
                 }
             }
             .clipped()
-//            .onAppear{
-//                Task {
-//                    await homeViewModel.getcategory()
-//                    await homeViewModel.notificationspeake()
-////                    DispatchQueue.main.async {
-////                        homeViewModel.category = categories
-////                    }
-//                }
-//
-//            }
+            .task {
+                await homeViewModel.getcategory()
+                await homeViewModel.notificationspeake()
+                await homeViewModel.notificationload()
+                
+            }
+            
         }
     }
+    
+    private var filterBar: some View {
+        Category(category: homeViewModel.category)
+            .frame(minWidth: 0, maxWidth: .infinity)
+            .padding(.vertical, 12)
+            .background(Color.white)
+    }
 }
-private var filterBar: some View {
-    Category()
-        .frame(minWidth: 0, maxWidth: .infinity)
-        .padding(.vertical, 12)
-        .background(Color.white)
-}
-
 
 #Preview {
     HomeView()

@@ -8,6 +8,7 @@
 
 import Foundation
 
+@MainActor
 class HomeViewModel: ObservableObject {
     private let homeService = HomeService.live
     @Published var category : [String] = []
@@ -29,13 +30,25 @@ class HomeViewModel: ObservableObject {
         do {
             let notificationspeakeResponse = try await homeService.notificationspeaker()
             print(notificationspeakeResponse)
-            self.notificationspeaketitle = notificationspeakeResponse.data.title
-            self.memberID = notificationspeakeResponse.data.memberID
+            self.notificationspeaketitle = notificationspeakeResponse.title
+            self.memberID = notificationspeakeResponse.memberID
+
             
         } catch {
             print(error)
         }
     }
+    
+    func notificationload() async {
+        do {
+            let request = NotificationloadRequest(pageRequest: Page(page: 0, size: 0), category: "테스트") // NotificationloadRequest의 인스턴스 생성
+            let notificationloadResponse = try await homeService.notificationload(request) // 생성한 인스턴스를 인자로 전달
+            print("notificationload 결과 : \(notificationloadResponse)")
+        } catch {
+            print(error)
+        }
+    }
+
 }
 
 

@@ -12,3 +12,4 @@ import Foundation
 struct MemberCategorylistResponse: Decodable {
     let roles: [String]
 }
+

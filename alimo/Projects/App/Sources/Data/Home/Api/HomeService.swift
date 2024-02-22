@@ -13,7 +13,6 @@ fileprivate let client = AlimoHttpClient.live
 final class HomeService {
     private let emojiloadPath = "/emoji/load"
     private let commentcreatePath = "/comment/create"
-    private let bookmarkupdatePath = "/book_mark/update"
     private let notificationspeakerPath = "/notification/speaker"
     private let notificationreadPath = "/notification/read/"
     private let getcategoryPath = "/member/category-list"
@@ -34,17 +33,11 @@ final class HomeService {
                                  parameters: request)
     }
     
-    func bookmarkupdate(_ request: BookmarkupdateRequest) async throws -> Response {
-        try await client.request("\(bookmarkupdatePath)",
-                                 Response.self,
-                                 method: .post,
-                                 parameters: request)
-    }
-    
-    func notificationspeaker() async throws ->  ResponseData<NotificationspeakerResponse> {
+    func notificationspeaker() async throws -> Home {
         try await client.request("\(notificationspeakerPath)",
                                  ResponseData<NotificationspeakerResponse>.self,
                                  method: .get)
+        .data.toDomain()
     }
     
     func notificationread(_ request: NotificationreadRequest) async throws -> ResponseData<ReadNotificationResponse> {
@@ -61,9 +54,9 @@ final class HomeService {
     }
     
     
-    func notificationload(_ request: NotificationloadRequest) async throws -> ResponseData<CategoryResponse> {
+    func notificationload(_ request: NotificationloadRequest) async throws -> ResponseData<NotificationloadResponse> {
         try await client.request("\(notificationloadPath)",
-                                 ResponseData<CategoryResponse>.self,
+                                 ResponseData<NotificationloadResponse>.self,
                                  method: .get,
                                  parameters: request)
     }

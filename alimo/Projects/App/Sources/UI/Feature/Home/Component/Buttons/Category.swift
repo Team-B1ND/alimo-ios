@@ -11,8 +11,9 @@ import SwiftUI
 
 struct Category : View {
     var new : Bool = true
+    var category : [String]
     @State private var selectedIndex = 0
-    @ObservedObject var homeViewModel = HomeViewModel()
+//    @ObservedObject var homeViewModel = HomeViewModel()
     var body: some View {
         ScrollView(.horizontal, showsIndicators: true) {
             HStack(spacing: 12) {
@@ -30,11 +31,9 @@ struct Category : View {
                         }
                     }
                 }
-                //                ForEach(1...homeViewModel.category.count, id: \.self) { index in
-                //homeViewModel.category[index]
-                if homeViewModel.category.count > 0 {
-                    ForEach(0...homeViewModel.category.count, id: \.self) { index in
-                        AlimoSmallButton(homeViewModel.category[index], buttonType: selectedIndex == index ? .yellow : .none) {
+                if category.count > 0 {
+                    ForEach(0...category.count, id: \.self) { index in
+                        AlimoSmallButton(category[index], buttonType: selectedIndex == index ? .yellow : .none) {
                             selectedIndex = index
                         }
                         .overlay {
@@ -53,17 +52,13 @@ struct Category : View {
             }//hs
             .frame(maxWidth: .infinity, minHeight: 26)
         }//스크롤
-        .onAppear{
-            Task {
-                await homeViewModel.getcategory()
-            }
-
-        }
+//        .onAppear{
+//            Task {
+//                await homeViewModel.getcategory()
+//            }
+//
+//        }
         .padding(.horizontal, 16)
     }
-}
-
-#Preview {
-    Category()
 }
 

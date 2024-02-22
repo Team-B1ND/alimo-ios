@@ -13,3 +13,11 @@ struct NotificationspeakerResponse : Decodable {
     let title: String
     let memberID: Int?
 }
+
+extension NotificationspeakerResponse {
+    func toDomain() -> Home {
+        Home(notificationID: notificationID,
+             title: title,
+             memberID: memberID)
+    }
+}
