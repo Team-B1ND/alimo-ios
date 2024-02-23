@@ -10,19 +10,16 @@ import SwiftUI
 
 struct ParentJoinSecondView: View {
     
-    @ObservedObject var vm = ParentJoinViewModel()
+    @ObservedObject var vm: ParentJoinViewModel
     
     @Environment(\.dismiss) private var dismiss
     
-    @State var pwCheck: String = ""
     @State var showTextAlert: Bool = false
-    
-//    @State var name: String? = ""
     
     var body: some View {
         VStack {
             HStack {
-                Text("\(vm.memberInfo?.name ?? "학부모")님 안녕하세요!")
+                Text("\(nil ?? "학부모")님 안녕하세요!")
                     .font(.subtitle)
                     .foregroundStyle(Color.main900)
                     .padding(.top, 30)
@@ -35,7 +32,7 @@ struct ParentJoinSecondView: View {
             
             AlimoTextField("비밀번호", text: $vm.password, textFieldType: .password)
             
-            AlimoTextField("비밀번호 재입력", text: $pwCheck, textFieldType: .password)
+            AlimoTextField("비밀번호 재입력", text: $vm.pwCheck, textFieldType: .password)
             
             if showTextAlert {
                 
@@ -67,23 +64,25 @@ struct ParentJoinSecondView: View {
             }
             .padding(.bottom, 5)
             
-            let isCompleted = !vm.email.isEmpty && !vm.password.isEmpty && !pwCheck.isEmpty
-            let isSame = vm.password == pwCheck
+            let isCompleted = !vm.email.isEmpty && !vm.password.isEmpty && !vm.pwCheck.isEmpty
+            let isSame: Bool = vm.password == vm.pwCheck
             
-            let buttonType: AlimoButtonType = isCompleted ? .yellow : .none
+            let buttonType: AlimoButtonType = isCompleted && isSame ? .yellow : .none
             
-            NavigationLink {
-                ParentJoinThirdView()
+            NavigationLink(isActive: $vm.isCorrectSignUp) {
+                ParentJoinThirdView(vm: vm)
             } label: {
-                AlimoButton("다음", buttonType: buttonType) {
-                    showTextAlert = true
-                }
-                .disabled(isCompleted && isSame)
-                .padding(.bottom, 30)
             }
-        }
-        .task {
-            await vm.getInfo()
+            
+            let _ = print(isCompleted, isSame, vm.password, vm.pwCheck)
+            
+            AlimoButton("다음", buttonType: buttonType) {
+                Task {
+                    await vm.signUp()
+                }
+            }
+            .disabled(!(isCompleted && isSame))
+            .padding(.bottom, 30)
         }
         .onAppear() {
             showTextAlert = false

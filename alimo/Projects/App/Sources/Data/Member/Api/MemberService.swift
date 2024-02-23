@@ -15,10 +15,9 @@ struct MemberService {
     private let memberPath = "/member"
     
     func emailsVerificationRequest(_ email: String) async throws -> Response {
-        try await client.request(memberPath + "/emails/verifications",
+        try await client.request(memberPath + "/emails/verification-requests?email=\(email)",
                                  Response.self,
-                                 method: .post,
-                                 parameters: email)
+                                 method: .post)
     }
     
     func alarmOnOff() async throws -> Response {
@@ -35,7 +34,7 @@ struct MemberService {
     }
     
     func emailsVerifications(_ request: EmailsVerificationsRequest) async throws -> Response {
-        try await client.request(memberPath + "/emails/verification-requests",
+        try await client.request(memberPath + "/emails/verifications",
                                  Response.self,
                                  method: .get,
                                  parameters: request)

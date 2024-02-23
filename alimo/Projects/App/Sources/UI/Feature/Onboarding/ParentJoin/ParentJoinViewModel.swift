@@ -17,18 +17,22 @@ class ParentJoinViewModel: ObservableObject {
     private var memberService = MemberService.live
     private var authService = AuthService.live
     
-    // 학부모 정보
-    @Published var memberInfo: Member? = nil
+    @Published var memberId: Int? = nil
     
     // 부모님 이메일, 비밀번호
     @Published var email: String = ""
     @Published var password: String = ""
+    
+    // pw 확잉ㄴ
+    @Published var pwCheck: String = ""
     
     // 학생 코드
     @Published var childCode: String = ""
     
     // 학생 코드 인증 여부
     @Published var isCorrectChildCode: Bool = false
+    
+    @Published var isCorrectSignUp = false
     
     // dialog on/off 변수
     @Published var showChildCodeWrongDialog: Bool? = false
@@ -39,58 +43,7 @@ class ParentJoinViewModel: ObservableObject {
     // 이메일 인증 여부
     @Published var isCorrectEmailCode: Bool = false
     
-    func signUp() async {
-        
-        do {
-            
-            let _ = try await authService.signUp(SignUpRequest(email: email, password: password, fcmToken: fcmCache.getToken(of: .fcmToken), childCode: childCode, memberId: memberInfo?.memberId ?? -1))
-            
-        } catch {
-            
-        }
-        
-    }
-    
-    func emailsVerificationRequest() async {
-        
-        do {
-            
-            let _ = try await memberService.emailsVerificationRequest(memberService.getMemberInfo().email)
-            
-        } catch {
-            
-        }
-        
-    }
-    
-    func emailsVerifications() async {
-        
-        do {
-            
-            let _ = try await memberService.emailsVerifications(EmailsVerificationsRequest(email: memberService.getMemberInfo().email, code: code))
-            
-            isCorrectEmailCode = true
-            
-        } catch {
-            
-        }
-        
-    }
-    
-    func getInfo() async {
-        
-        do {
-            
-            memberInfo = try await memberService.getMemberInfo()
-            
-        } catch {
-            
-            print(error)
-            
-        }
-        
-    }
-    
+    // login first
     func verifyChildCode() async {
         
         var response: ResponseData<ChildCodeResponse>
@@ -100,7 +53,7 @@ class ParentJoinViewModel: ObservableObject {
             response = try await authService.verifyChildCode(childCode)
             
             isCorrectChildCode = response.data.isCorrectChildCode
-            memberInfo?.memberId = response.data.memberId
+            memberId = response.data.memberId
             
         } catch {
    
@@ -123,4 +76,57 @@ class ParentJoinViewModel: ObservableObject {
         
     }
     
+    // login second
+    func signUp() async {
+        
+        do {
+            
+            if let memberId = memberId {
+                
+                let request = SignUpRequest(email: email,
+                                            password: password,
+                                            fcmToken: fcmCache.getToken(of: .fcmToken),
+                                            childCode: childCode,
+                                            memberId: memberId)
+                print(request)
+                _ = try await authService.signUp(request).data
+                isCorrectSignUp = true
+            } else {
+                // handle error
+                return
+            }
+            
+        } catch {
+            print(error)
+        }
+        
+    }
+    
+    // login third
+    func emailsVerificationRequest() async {
+        
+        do {
+            
+            let _ = try await memberService.emailsVerificationRequest(email)
+            
+        } catch {
+            print(error)
+        }
+        
+    }
+    
+    // login last
+    func emailsVerifications() async {
+        
+        do {
+            
+            let _ = try await memberService.emailsVerifications(EmailsVerificationsRequest(email: memberService.getMemberInfo().email, code: code))
+            
+            isCorrectEmailCode = true
+            
+        } catch {
+            
+        }
+        
+    }
 }

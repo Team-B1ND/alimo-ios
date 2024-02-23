@@ -11,7 +11,7 @@ import Combine
 
 struct ParentJoinThirdView: View {
     
-    @ObservedObject var vm = ParentJoinViewModel()
+    @ObservedObject var vm: ParentJoinViewModel
     
     @Environment(\.dismiss) private var dismiss
     
