@@ -18,7 +18,7 @@ final class AuthService {
     }
     
     func signIn(_ request: SignInRequest) async throws -> ResponseData<TokenResponse> {
-        try await client.request("\(signInPath)/",
+        try await client.request("\(signInPath)",
                                  ResponseData<TokenResponse>.self,
                                  method: .post,
                                  parameters: request)
@@ -43,9 +43,9 @@ final class AuthService {
                                  method: .post)
     }
     
-    func signUp(_ request: SignUpRequest) async throws -> ResponseData<TokenResponse> {
-        try await client.request("\(signUpPath)/",
-                                 ResponseData<TokenResponse>.self,
+    func signUp(_ request: SignUpRequest) async throws -> Response {
+        try await client.request("\(signUpPath)",
+                                 Response.self,
                                  method: .post,
                                  parameters: request)
     }

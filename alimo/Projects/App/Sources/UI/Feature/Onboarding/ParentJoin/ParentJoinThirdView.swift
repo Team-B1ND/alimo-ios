@@ -11,7 +11,8 @@ import Combine
 
 struct ParentJoinThirdView: View {
     
-    @ObservedObject var vm = ParentJoinViewModel()
+    @ObservedObject var vm: ParentJoinViewModel
+    @EnvironmentObject var tm: TokenManager
     
     @Environment(\.dismiss) private var dismiss
     
@@ -66,7 +67,7 @@ struct ParentJoinThirdView: View {
                         .padding(.horizontal, 20)
                     
                 } else {
-                    AlimoTextField("인증 코드", text: $vm.code)
+                    AlimoTextField("인증 코드", text: $vm.code, textFieldType: .none(hasXMark: false))
                         .foregroundStyle(.red)
                     
                     HStack {
@@ -82,33 +83,14 @@ struct ParentJoinThirdView: View {
                                             timeRemaining -= 1
                                         }
                                     }
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .frame(width: 40, height: 36)
-                                        .foregroundStyle(Color.main50)
-                                    
-                                    AlimoSmallButton("확인", buttonType: .none) {
-                                        
-                                        Task {
-//                                            await vm.emailsVerifications()
-                                            // 인증 코드가 맞는지 확인해서 밑에 조건문
-                                        }
-                                        
-//                                        if inputAuthCode == vm.code {
-//                                            isAuthed = true
-//                                            showTextAlert = false
-//                                        } else {
-//                                            showTextAlert = true
-//                                        }
-                                    }
-                                }
                             }
                             .frame(height: 30)
+                            .padding(.trailing, 20)
                         } else {
                             AlimoSmallButton("인증요청", buttonType: .yellow) {
                                 
                                 Task {
-//                                    await vm.emailsVerificationRequest()
+                                    await vm.emailsVerificationRequest()
                                 }
                                 
                                 isSended = true
@@ -136,18 +118,16 @@ struct ParentJoinThirdView: View {
             
             Spacer()
             
-            if isAuthed {
-                AlimoButton("회원가입", buttonType: .yellow) {
-                    print(dummyText)
+            AlimoButton("확인", buttonType: .yellow) {
+                
+                Task {
+                    await vm.emailsVerifications { accessToken, refreshToken in
+                        tm.accessToken = accessToken
+                        tm.refreshToken = refreshToken
+                    }
                 }
-                .padding(.bottom, 30)
-            } else {
-                AlimoButton("회원가입", buttonType: .none) {
-                    print(dummyText)
-                }
-                .disabled(true)
-                .padding(.bottom, 30)
             }
+            .padding(.bottom, 30)
             
         }
         .onAppear {

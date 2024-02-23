@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 class ProfileViewModel: ObservableObject {
@@ -34,7 +35,7 @@ class ProfileViewModel: ObservableObject {
         do {
             
             memberInfo = try await memberService.getMemberInfo()
-            print(memberInfo)
+            print(memberInfo ?? "ProfileVM - member info is nil")
             
         } catch {
             print(error)

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 class ParentLoginViewModel: ObservableObject {
@@ -19,16 +20,15 @@ class ParentLoginViewModel: ObservableObject {
     func signIn(onSuccess: @escaping (String, String) -> Void) async {
         
         do {
+            let request = SignInRequest(email: email, password: pw)
+            let tokenResponse = try await authService.signIn(request)
             
-            let tokenResponse = try await authService.signIn(SignInRequest(email: email, password: pw))
-            
-            onSuccess(tokenResponse.data.accessToken, tokenResponse.data.refreshToken)
-            
+            withAnimation {
+                onSuccess(tokenResponse.data.accessToken, tokenResponse.data.refreshToken)
+            }
             
         } catch {
-            
+            print(error)
         }
-        
     }
-    
 }

@@ -11,8 +11,10 @@ import SwiftUI
 import FirebaseCore
 import FirebaseMessaging
 
+fileprivate let fcmCache = FcmCache.live
+
 class AppDelegate: NSObject, UIApplicationDelegate{
-    
+
     let gcmMessageIDKey = "gcm.message_id"
     
     // 앱이 켜졌을 때
@@ -65,6 +67,7 @@ extension AppDelegate: MessagingDelegate {
         print("토큰을 받았다")
         // Store this token to firebase and retrieve when to send message to someone...
         let dataDict: [String: String] = ["token": fcmToken ?? ""]
+        fcmCache.saveToken(dataDict["token"] ?? "", to: .fcmToken)
         
         // Store token in Firestore For Sending Notifications From Server in Future...
         
