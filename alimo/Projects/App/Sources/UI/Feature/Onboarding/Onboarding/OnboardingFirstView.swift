@@ -43,7 +43,11 @@ struct OnboardingFirstView: View {
                             .disabled(true)
                     }
                 }
-                AlimoDialog(showDialog: $showEasterEgg, title: "히히", description: "이걸 누르다닝 ㅋ")
+                .alert(isPresented: $showEasterEgg) {
+                    Alert(title: Text("히히 이걸 찾아니"),
+                          message: Text("대단하시네요"),
+                          dismissButton: .default(Text("닫기")))
+                }
             }
         }
     }
