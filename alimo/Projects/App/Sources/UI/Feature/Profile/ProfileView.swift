@@ -14,8 +14,6 @@ struct ProfileView: View {
     
     @EnvironmentObject var tm: TokenManager
     
-    @State var isOn: Bool = true
-    
     @State var isCodeClicked: Bool = false
     @State var isAnimating: Bool = false
     
@@ -76,7 +74,7 @@ struct ProfileView: View {
                         HStack {
                             Text("알림 설정")
                             Spacer()
-                            AlimoToggle(isOn: $isOn)
+                            AlimoToggle(isOn: $vm.isAlarmOn)
                         }
                         .padding(.horizontal, 20)
                         .padding(.bottom, 20)
@@ -142,7 +140,6 @@ struct ProfileView: View {
                                 }
                             }
                             .padding(.horizontal, 20)
-                            
                         }
                         .padding(.horizontal, 20)
                         .padding(.bottom, 10)

@@ -12,10 +12,26 @@ import Foundation
 class ProfileViewModel: ObservableObject {
     
     private let memberService = MemberService.live
+    private let memberCache = MemberCache.live
+    
+//    private let 
     
     @Published var memberInfo: Member? = nil
     
     @Published var categoryList: [String] = [""]
+    
+    @Published var isAlarmOn: Bool {
+        didSet {
+            memberCache.saveIsAlarmOn(isAlarmOn)
+//            Task {
+//                await alarmOnOff()
+//            }
+        }
+    }
+    
+    init() {
+        self.isAlarmOn = memberCache.getIsAlarmOn()
+    }
     
     func alarmOnOff() async {
     
