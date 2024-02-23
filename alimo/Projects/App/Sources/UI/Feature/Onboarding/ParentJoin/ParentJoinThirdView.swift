@@ -23,7 +23,11 @@ struct ParentJoinThirdView: View {
     var body: some View {
         VStack {
             HStack {
-                Text("이메일 인증 코드를 전송했어요")
+                let title = switch vm.emailPhase {
+                case .none: "이메일 인증 코드를 전송해 주세요"
+                case .sended: "이메일 인증 코드를 전송했어요"
+                }
+                Text(title)
                     .font(.subtitle)
                     .foregroundStyle(Color.main900)
                     .padding(.leading, 24)
@@ -31,86 +35,39 @@ struct ParentJoinThirdView: View {
                     .padding(.bottom, 10)
                 Spacer()
             }
-            
             ZStack {
-                if vm.emailPhase == .success {
-                    
-                    Rectangle()
-                        .frame(maxWidth: .infinity, maxHeight: 52)
-                        .foregroundStyle(Color.main50)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .overlay {
-                            ZStack {
-                                RoundedCorner(radius: Size.large.rawValue)
-                                    .stroke(Color.gray300, lineWidth: 1)
-                                HStack {
-                                    Text(vm.code)
-                                        .font(.bodyLight)
-                                        .foregroundStyle(Color.gray500)
-                                        .background(Color.main50)
-                                    
-                                    Spacer()
-                                    
-                                    Text("확인 완료!")
-                                        .font(.label)
-                                        .foregroundStyle(Color.gray500)
-                                        .background(Color.main50)
-                                }
-                                .padding(.horizontal, 16)
+                AlimoTextField("인증 코드",
+                               text: $vm.code,
+                               textFieldType: .none(hasXMark: false))
+                .foregroundStyle(.red)
+                HStack {
+                    Spacer()
+                    let emailPhase = vm.emailPhase
+                    if emailPhase == .none {
+                        AlimoSmallButton("인증요청") {
+                            Task {
+                                await vm.emailsVerificationRequest()
                             }
                         }
-                        .padding(.horizontal, 20)
-                    
-                } else {
-                    AlimoTextField("인증 코드", text: $vm.code, textFieldType: .none(hasXMark: false))
-                        .foregroundStyle(.red)
-                    
-                    HStack {
-                        Spacer()
-                        
-                        if vm.emailPhase == .sended {
-                            HStack {
-                                Text(convertSecondsToTime(timeInSeconds:timeRemaining))
-                                    .font(.label)
-                                    .foregroundStyle(Color.main500)
-                                    .onReceive(timer) { _ in
-                                        if timeRemaining != 0 {
-                                            timeRemaining -= 1
-                                        }
-                                    }
+                        .padding(.trailing, 10)
+                    } else {
+                        Text(convertSecondsToTime(timeInSeconds: timeRemaining))
+                            .font(.label)
+                            .foregroundStyle(Color.main500)
+                            .onReceive(timer) { _ in
+                                if timeRemaining != 0 {
+                                    timeRemaining -= 1
+                                }
                             }
-                            .frame(height: 30)
                             .padding(.trailing, 20)
-                        } else {
-                            AlimoSmallButton("인증요청", buttonType: .yellow) {
-                                Task {
-                                    await vm.emailsVerificationRequest()
-                                }
-                            }
-                        }
                     }
-                    .padding(.trailing, 30)
-                    
                 }
+                .padding(.horizontal, 20)
             }
             
-//            if showTextAlert {
-//                
-//                HStack {
-//                    Text("인증코드가 올바르지 않아요")
-//                        .font(.caption)
-//                        .foregroundStyle(Color.red500)
-//                    Spacer()
-//                }
-//                .padding(.horizontal, 20)
-//                .padding(.top, 5)
-//                
-//            }
-            
             Spacer()
-            
-            AlimoButton("확인", buttonType: .yellow) {
-                
+            let buttonType: AlimoButtonType = vm.emailPhase == .none ? .none : .yellow
+            AlimoButton("확인", buttonType: buttonType, isLoading: vm.isFetching) {
                 Task {
                     await vm.emailsVerifications { accessToken, refreshToken in
                         tm.accessToken = accessToken
@@ -118,13 +75,14 @@ struct ParentJoinThirdView: View {
                     }
                 }
             }
+            .disabled(vm.emailPhase == .none)
             .padding(.bottom, 30)
             
         }
         .onAppear {
             calcRemain()
         }
-        .navigationBarBackButtonHidden(true)
+        .navigationBarBackButtonHidden()
         .alimoToolbar("회원가입") {
             dismiss()
         }
@@ -138,7 +96,7 @@ struct ParentJoinThirdView: View {
     
     func calcRemain() {
         let calendar = Calendar.current
-        let targetTime : Date = calendar.date(byAdding: .second, value: 300, to: date, wrappingComponents: false) ?? Date()
+        let targetTime: Date = calendar.date(byAdding: .second, value: 300, to: date, wrappingComponents: false) ?? Date()
         let remainSeconds = Int(targetTime.timeIntervalSince(date))
         self.timeRemaining = remainSeconds
     }
