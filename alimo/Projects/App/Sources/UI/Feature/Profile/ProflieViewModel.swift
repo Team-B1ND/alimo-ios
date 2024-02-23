@@ -13,10 +13,26 @@ import SwiftUI
 class ProfileViewModel: ObservableObject {
     
     private let memberService = MemberService.live
+    private let memberCache = MemberCache.live
+    
+//    private let 
     
     @Published var memberInfo: Member? = nil
     
     @Published var categoryList: [String] = [""]
+    
+    @Published var isAlarmOn: Bool {
+        didSet {
+            memberCache.saveIsAlarmOn(isAlarmOn)
+//            Task {
+//                await alarmOnOff()
+//            }
+        }
+    }
+    
+    init() {
+        self.isAlarmOn = memberCache.getIsAlarmOn()
+    }
     
     func alarmOnOff() async {
     
@@ -35,10 +51,10 @@ class ProfileViewModel: ObservableObject {
         do {
             
             memberInfo = try await memberService.getMemberInfo()
-            print(memberInfo ?? "ProfileVM - member info is nil")
+            dump(memberInfo)
             
         } catch {
-            print(error)
+            debugPrint(error)
         }
         
     }
