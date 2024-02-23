@@ -22,7 +22,7 @@ class ParentJoinViewModel: ObservableObject {
     
     // 부모님 이메일, 비밀번호
     @Published var email: String = ""
-    @Published var password: String = ""
+    @Published var pw: String = ""
     
     // pw 확잉ㄴ
     @Published var pwCheck: String = ""
@@ -84,7 +84,7 @@ class ParentJoinViewModel: ObservableObject {
             if let memberId = memberId {
                 
                 let request = SignUpRequest(email: email,
-                                            password: password,
+                                            password: pw,
                                             fcmToken: fcmCache.getToken(of: .fcmToken),
                                             childCode: childCode,
                                             memberId: memberId)

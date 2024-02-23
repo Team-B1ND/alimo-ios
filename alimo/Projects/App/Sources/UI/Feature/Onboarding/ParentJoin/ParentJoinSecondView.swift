@@ -17,6 +17,11 @@ struct ParentJoinSecondView: View {
     @State var showTextAlert: Bool = false
     
     var body: some View {
+        
+        let isCompleted = !vm.email.isEmpty && !vm.pw.isEmpty && !vm.pwCheck.isEmpty
+        let isSame: Bool = vm.pw == vm.pwCheck
+        let isCorrectPw = Regex.validateInput(vm.pw) && Regex.validateInput(vm.pwCheck)
+        
         VStack {
             HStack {
                 Text("\(nil ?? "학부모")님 안녕하세요!")
@@ -30,22 +35,24 @@ struct ParentJoinSecondView: View {
             
             AlimoTextField("아이디", text: $vm.email)
             
-            AlimoTextField("비밀번호", text: $vm.password, textFieldType: .password)
+            AlimoTextField("비밀번호", text: $vm.pw, textFieldType: .password)
             
             AlimoTextField("비밀번호 재입력", text: $vm.pwCheck, textFieldType: .password)
             
-            if showTextAlert {
-                
-                HStack {
-                    Text("비밀번호가 다릅니다.")
-                        .font(.caption)
-                        .foregroundStyle(Color.red500)
-                    Spacer()
+            HStack {
+                Group {
+                    if !isCorrectPw && (!vm.pw.isEmpty || !vm.pwCheck.isEmpty) {
+                        Text("5~18자 영문, 숫자, 특수문자")
+                    } else if vm.pw != vm.pwCheck {
+                        Text("비밀번호가 일치하지 않습니다")
+                    }
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 5)
-                
+                .font(.caption)
+                .padding(.top, 4)
+                .foregroundStyle(Color.red500)
+                Spacer()
             }
+            .padding(.horizontal, 24)
             
             Spacer()
             
@@ -62,11 +69,7 @@ struct ParentJoinSecondView: View {
                         .underline()
                 }
             }
-            .padding(.bottom, 5)
-            
-            let isCompleted = !vm.email.isEmpty && !vm.password.isEmpty && !vm.pwCheck.isEmpty
-            let isSame: Bool = vm.password == vm.pwCheck
-            let isCorrectPw = Regex.validateInput(vm.password) && Regex.validateInput(vm.pwCheck)
+            .padding(.bottom, 16)
             
             let isOk = isCompleted && isSame && isCorrectPw
             
