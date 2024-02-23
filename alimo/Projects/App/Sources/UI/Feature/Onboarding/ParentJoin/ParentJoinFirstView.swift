@@ -70,16 +70,15 @@ struct ParentJoinFirstView: View {
                 NavigationLink(isActive: $vm.isCorrectChildCode) {
                     ParentJoinSecondView(vm: vm)
                 } label: {}
-                
             }
             .navigationBarBackButtonHidden()
             .alimoToolbar("회원가입") {
                 dismiss()
             }
         }
-        .alert(isPresented: $vm.showChildCodeWrongDialog) {
-            Alert(title: Text("올바르지 않은 학생 코드"),
-                  message: Text(""))
+        .alert(isPresented: $vm.showDialog) {
+            Alert(title: Text(vm.dialogMessage),
+                  dismissButton: .default(Text("닫기")))
         }
     }
 }

@@ -36,7 +36,8 @@ class ParentJoinViewModel: ObservableObject {
     @Published var isCorrectSignUp = false
     
     // dialog on/off 변수
-    @Published var showChildCodeWrongDialog: Bool = false
+    @Published var showDialog: Bool = false
+    @Published var dialogMessage = ""
     
     // 이메일 인증 코드
     @Published var code: String = ""
@@ -57,22 +58,19 @@ class ParentJoinViewModel: ObservableObject {
         } catch {
    
             let code = error.code
-            
             switch code {
             case 400:
-                print("code: \(code)")
-                showChildCodeWrongDialog = true
-                
+                dialogMessage = "사용 불가능한 학생 코드"
+                showDialog = true
             case 404:
-                print("code: \(code)")
-                showChildCodeWrongDialog = true
-                
+                dialogMessage = "학생 코드를 찾을 수 없습니다"
+                showDialog = true
             default:
-                print(error)
+                debugPrint(error)
+                dialogMessage = "알 수 없는 에러가 발생했습니다"
+                showDialog = true
             }
-            
         }
-        
     }
     
     // login second

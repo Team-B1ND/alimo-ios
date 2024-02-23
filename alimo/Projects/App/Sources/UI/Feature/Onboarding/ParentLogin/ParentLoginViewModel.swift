@@ -15,6 +15,8 @@ class ParentLoginViewModel: ObservableObject {
     @Published var email: String = ""
     @Published var pw: String = ""
     
+//    @Published var show
+    
     private let authService = AuthService.live
     
     func signIn(onSuccess: @escaping (String, String) -> Void) async {
@@ -28,7 +30,7 @@ class ParentLoginViewModel: ObservableObject {
             }
             
         } catch {
-            print(error)
+            debugPrint(error)
         }
     }
 }
