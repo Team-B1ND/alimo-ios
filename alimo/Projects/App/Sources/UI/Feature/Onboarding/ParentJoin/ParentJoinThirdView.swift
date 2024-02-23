@@ -16,11 +16,6 @@ struct ParentJoinThirdView: View {
     
     @Environment(\.dismiss) private var dismiss
     
-    @State var isAuthed: Bool = false
-    @State var isSended: Bool = false
-    
-    @State var showTextAlert: Bool = false
-    
     @State var timeRemaining : Int = 300
     let date = Date()
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -38,7 +33,7 @@ struct ParentJoinThirdView: View {
             }
             
             ZStack {
-                if isAuthed {
+                if vm.emailPhase == .success {
                     
                     Rectangle()
                         .frame(maxWidth: .infinity, maxHeight: 52)
@@ -73,7 +68,7 @@ struct ParentJoinThirdView: View {
                     HStack {
                         Spacer()
                         
-                        if isSended {
+                        if vm.emailPhase == .sended {
                             HStack {
                                 Text(convertSecondsToTime(timeInSeconds:timeRemaining))
                                     .font(.label)
@@ -88,33 +83,29 @@ struct ParentJoinThirdView: View {
                             .padding(.trailing, 20)
                         } else {
                             AlimoSmallButton("인증요청", buttonType: .yellow) {
-                                
                                 Task {
                                     await vm.emailsVerificationRequest()
                                 }
-                                
-                                isSended = true
                             }
                         }
-                        
                     }
                     .padding(.trailing, 30)
                     
                 }
             }
             
-            if showTextAlert {
-                
-                HStack {
-                    Text("인증코드가 올바르지 않아요")
-                        .font(.caption)
-                        .foregroundStyle(Color.red500)
-                    Spacer()
-                }
-                .padding(.horizontal, 20)
-                .padding(.top, 5)
-                
-            }
+//            if showTextAlert {
+//                
+//                HStack {
+//                    Text("인증코드가 올바르지 않아요")
+//                        .font(.caption)
+//                        .foregroundStyle(Color.red500)
+//                    Spacer()
+//                }
+//                .padding(.horizontal, 20)
+//                .padding(.top, 5)
+//                
+//            }
             
             Spacer()
             
@@ -136,9 +127,6 @@ struct ParentJoinThirdView: View {
         .navigationBarBackButtonHidden(true)
         .alimoToolbar("회원가입") {
             dismiss()
-        }
-        .onAppear {
-            showTextAlert = false
         }
     }
     

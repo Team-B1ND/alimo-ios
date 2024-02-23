@@ -38,6 +38,13 @@ class ParentJoinViewModel: ObservableObject {
     
     // MARK: third parent properties
     @Published var code: String = "" // 이메일 인증 코드
+    enum EmailPhase {
+        case none
+        case sended
+        case success
+        case fail
+    }
+    @Published var emailPhase: EmailPhase = .success
     
     
     // MARK: navigation link properties
