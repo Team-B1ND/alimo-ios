@@ -14,6 +14,7 @@ class HomeViewModel: ObservableObject {
     @Published var category : [String] = []
     @Published var notificationspeaketitle : String = ""
     @Published var memberID : Int? = nil
+    @Published var title : String = ""
 
     
     func getcategory() async {
@@ -41,8 +42,22 @@ class HomeViewModel: ObservableObject {
     
     func notificationload(_ selectedcategory : String) async {
         do {
-            let notificationloadResponse = try await homeService.notificationload(selectedcategory, pageRequest:NotificationloadRequest(pageRequest: Page(page: 0, size: 0)))
-            print("notificationload 결과 : \(notificationloadResponse)")
+            let notificationloadresponse = try await homeService.notificationload(selectedcategory, pageRequest:NotificationloadRequest(pageRequest: Page(page: 1, size: 10)))
+            self.title = notificationloadresponse.data.first?.title ?? ""
+            print("notificationload 결과 : \(notificationloadresponse)")
+            
+            
+        } catch {
+            print(error)
+        }
+    }
+    
+    func notificationread( _ notificationId : Int) async {
+        do {
+            let notificationreadresponse = try await homeService.notificationread(notificationId)
+            print("notificationread 결과 : \(notificationreadresponse)")
+            
+            
         } catch {
             print(error)
         }

@@ -15,7 +15,7 @@ final class HomeService {
     private let emojiloadPath = "/emoji/load"
     private let commentcreatePath = "/comment/create"
     private let notificationspeakerPath = "/notification/speaker"
-    private let notificationreadPath = "/notification/read/"
+    private let notificationreadPath = "/notification/read"
     private let getcategoryPath = "/member/category-list"
     private let notificationloadPath = "/notification/load"
     
@@ -41,11 +41,10 @@ final class HomeService {
         .data.toDomain()
     }
     
-    func notificationread(_ request: NotificationreadRequest) async throws -> ResponseData<ReadNotificationResponse> {
-        try await client.request("\(notificationreadPath)",
+    func notificationread(_ notificationId : Int) async throws -> ResponseData<ReadNotificationResponse> {
+        try await client.request("\(notificationreadPath)/?notificationId=\(notificationId)",
                                  ResponseData<ReadNotificationResponse>.self,
-                                 method: .get,
-                                 parameters: request)
+                                 method: .get)
     }
     
     func getcategory() async throws -> ResponseData<MemberCategorylistResponse> {

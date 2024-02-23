@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 struct Post: View {
-    
+//    var title : String
     var body: some View {
         HStack(spacing: 8) {
             VStack {

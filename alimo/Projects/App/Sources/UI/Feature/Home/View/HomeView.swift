@@ -28,7 +28,7 @@ struct HomeView: View {
                             if hasNotice {
                                 ForEach(1...3, id: \.self) { _ in
                                     VStack(spacing: 0) {
-                                        Post()
+                                        Post(/*title: $homeViewModel.notificationloadResponse.title*/)
                                         Divider()
                                             .foregroundStyle(Color.gray100)
                                     }
@@ -49,10 +49,11 @@ struct HomeView: View {
             .task {
                 await homeViewModel.getcategory()
                 await homeViewModel.notificationspeake()
-                
+//                테스트
 //                if homeViewModel.category.count >= 1 {
 //                    let selected = homeViewModel.category[selectedIndex]
-                    await homeViewModel.notificationload("테스트")
+                    await homeViewModel.notificationload("1학년")
+//                await homeViewModel.notificationread(1)
 //                }
             }
 
