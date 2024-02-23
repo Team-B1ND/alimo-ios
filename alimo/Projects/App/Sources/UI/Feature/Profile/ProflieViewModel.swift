@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 class ProfileViewModel: ObservableObject {

@@ -7,6 +7,10 @@
 //
 
 import Foundation
+import Alamofire
+import SwiftUI
+
+fileprivate let fcmCache = FcmCache.live
 
 @MainActor
 class ParentJoinViewModel: ObservableObject {
@@ -14,12 +18,14 @@ class ParentJoinViewModel: ObservableObject {
     private var memberService = MemberService.live
     private var authService = AuthService.live
     
-    // 학부모 정보
-    @Published var memberInfo: Member? = nil
+    @Published var memberId: Int? = nil
     
     // 부모님 이메일, 비밀번호
     @Published var email: String = ""
     @Published var password: String = ""
+    
+    // pw 확잉ㄴ
+    @Published var pwCheck: String = ""
     
     // 학생 코드
     @Published var childCode: String = ""
@@ -27,69 +33,96 @@ class ParentJoinViewModel: ObservableObject {
     // 학생 코드 인증 여부
     @Published var isCorrectChildCode: Bool = false
     
+    @Published var isCorrectSignUp = false
+    
     // dialog on/off 변수
-    @Published var showChildCodeWrongDialog: Bool = false
+    @Published var showChildCodeWrongDialog: Bool? = false
     
     // 이메일 인증 코드
     @Published var code: String = ""
     
+    
+    // login first
+    func verifyChildCode() async {
+        
+        var response: ResponseData<ChildCodeResponse>
+        
+        do {
+            
+            response = try await authService.verifyChildCode(childCode)
+            
+            isCorrectChildCode = response.data.isCorrectChildCode
+            memberId = response.data.memberId
+            
+        } catch {
+   
+            let code = error.code
+            
+            switch code {
+            case 400:
+                print("code: \(code)")
+                showChildCodeWrongDialog = true
+                
+            case 404:
+                print("code: \(code)")
+                showChildCodeWrongDialog = true
+                
+            default:
+                print(error)
+            }
+            
+        }
+        
+    }
+    
+    // login second
     func signUp() async {
         
         do {
             
-            // fcmToken이랑 memberId 어디서 가져오는지 모르겠어요
-            let _ = try await authService.signUp(SignUpRequest(email: email, password: password, fcmToken: "", childCode: childCode, memberId: 0))
+            if let memberId = memberId {
+                
+                let request = SignUpRequest(email: email,
+                                            password: password,
+                                            fcmToken: fcmCache.getToken(of: .fcmToken),
+                                            childCode: childCode,
+                                            memberId: memberId)
+                print(request)
+                _ = try await authService.signUp(request)
+                isCorrectSignUp = true
+            } else {
+                // handle error
+                return
+            }
             
         } catch {
-            
+            print(error)
         }
         
     }
     
+    // login third
     func emailsVerificationRequest() async {
-    
+        
         do {
             
-            let _ = try await memberService.emailsVerificationRequest(memberService.getMemberInfo().email)
+            let response = try await memberService.emailsVerificationRequest(email)
             
         } catch {
-            
+            print(error)
         }
         
     }
     
-    func emailsVerifications() async {
-    
-        do {
-            
-            let _ = try await memberService.emailsVerifications(EmailsVerificationsRequest(email: memberService.getMemberInfo().email, code: code))
-            
-        } catch {
-            
-        }
-        
-    }
-    
-    func getInfo() async {
+    // login last
+    func emailsVerifications(onSuccess: @escaping (String, String) -> Void) async {
         
         do {
-            
-            memberInfo = try await memberService.getMemberInfo()
-            
-        } catch {
-            
-        }
-        
-    }
-    
-    func verifyChildCode() async {
-        
-        do {
-            
-//            isCorrectChildCode = try await authService.verifyChildCode(childCode).data.isCorrectChildCode
-            isCorrectChildCode = try await authService.verifyChildCode("PcpVD3").data.isCorrectChildCode
-            
-            showChildCodeWrongDialog = isCorrectChildCode
+            let request = EmailsVerificationsRequest(email: email, code: code)
+            let response = try await memberService.emailsVerifications(request).data
+            withAnimation {
+                onSuccess(response.accessToken, response.refreshToken)
+            }
             
         } catch {
             print(error)

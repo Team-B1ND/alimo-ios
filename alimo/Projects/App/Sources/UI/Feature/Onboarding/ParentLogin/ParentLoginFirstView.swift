@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ParentLoginFirstView: View {
     
-    @ObservedObject var parentLoginViewModel = ParentLoginViewModel()
+    @ObservedObject var vm = ParentLoginViewModel()
     
     @EnvironmentObject var tm: TokenManager
     
@@ -27,9 +27,9 @@ struct ParentLoginFirstView: View {
                 Spacer()
             }
             
-            AlimoTextField("아이디를 입력하세요", text: $parentLoginViewModel.email)
+            AlimoTextField("아이디를 입력하세요", text: $vm.email)
             
-            AlimoTextField("비밀번호를 입력하세요", text: $parentLoginViewModel.pw, textFieldType: .password)
+            AlimoTextField("비밀번호를 입력하세요", text: $vm.pw, textFieldType: .password)
             
             NavigationLink {
                 ParentFindPWFirstView()
@@ -61,26 +61,22 @@ struct ParentLoginFirstView: View {
             }
             .padding(.bottom, 5)
             
-            if parentLoginViewModel.email != "" && parentLoginViewModel.pw != "" {
-                AlimoButton("로그인", buttonType: .yellow) {
-                    
-                    Task {
-                        await parentLoginViewModel.signIn {
-                            tm.accessToken = $0
-                            tm.refreshToken = $1
-                        }
+            let isCompleted = vm.email != "" && vm.pw != ""
+            let isCorrectPw = Regex.validateInput(vm.pw)
+            let isOk = isCompleted && isCorrectPw
+            
+            let buttonType: AlimoButtonType = isOk ? .yellow : .none
+            
+            AlimoButton("로그인", buttonType: buttonType) {
+                Task {
+                    await vm.signIn { accessToken, refreshToken in
+                        tm.accessToken = accessToken
+                        tm.refreshToken = refreshToken
                     }
-                    
                 }
-                .disabled(true)
-                .padding(.bottom, 30)
-            } else {
-                AlimoButton("로그인", buttonType: .none) {
-                    print(dummyText)
-                }
-                .disabled(true)
-                .padding(.bottom, 30)
             }
+            .disabled(!isOk)
+            .padding(.bottom, 30)
         }
         .navigationBarBackButtonHidden(true)
         .alimoToolbar("로그인") {
