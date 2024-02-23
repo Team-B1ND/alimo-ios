@@ -123,7 +123,9 @@ struct ProfileView: View {
                             .padding(.horizontal, 12)
                         
                         Button {
-                            tm.accessToken = ""
+                            withAnimation {
+                                tm.accessToken = ""
+                            }
                         } label: {
                             Text("로그아웃")
                                 .font(.bodyLight)

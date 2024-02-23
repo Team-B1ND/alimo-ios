@@ -85,7 +85,7 @@ struct ParentJoinThirdView: View {
                                     }
                             }
                             .frame(height: 30)
-                            .padding(.trailing, 32)
+                            .padding(.trailing, 20)
                         } else {
                             AlimoSmallButton("인증요청", buttonType: .yellow) {
                                 
@@ -124,13 +124,6 @@ struct ParentJoinThirdView: View {
                     await vm.emailsVerifications { accessToken, refreshToken in
                         tm.accessToken = accessToken
                         tm.refreshToken = refreshToken
-                    }
-                    
-                    if vm.isCorrectEmailCode {
-                        isAuthed = true
-                        showTextAlert = false
-                    } else {
-                        showTextAlert = true
                     }
                 }
             }

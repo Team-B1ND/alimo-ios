@@ -8,6 +8,7 @@
 
 import Foundation
 import CryptoKit
+import SwiftUI
 
 @MainActor
 class StudentLoginViewModel: ObservableObject {
@@ -36,7 +37,9 @@ class StudentLoginViewModel: ObservableObject {
                         let dodamResponse = try await authService.dodamToken(DodamTokenRequest(code: code, fcmToken: "rlaehdcks"))
                         print(dodamResponse.data.accessToken)
                         
-                        onSuccess(dodamResponse.data.accessToken)
+                        withAnimation {
+                            onSuccess(dodamResponse.data.accessToken)
+                        }
                     }
                 }
             }

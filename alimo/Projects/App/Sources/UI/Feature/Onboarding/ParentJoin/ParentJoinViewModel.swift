@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire
+import SwiftUI
 
 fileprivate let fcmCache = FcmCache.live
 
@@ -40,8 +41,6 @@ class ParentJoinViewModel: ObservableObject {
     // 이메일 인증 코드
     @Published var code: String = ""
     
-    // 이메일 인증 여부
-    @Published var isCorrectEmailCode: Bool = false
     
     // login first
     func verifyChildCode() async {
@@ -121,12 +120,12 @@ class ParentJoinViewModel: ObservableObject {
         do {
             let request = EmailsVerificationsRequest(email: email, code: code)
             let response = try await memberService.emailsVerifications(request).data
-            onSuccess(response.accessToken, response.refreshToken)
-            isCorrectEmailCode = true
+            withAnimation {
+                onSuccess(response.accessToken, response.refreshToken)
+            }
             
         } catch {
             print(error)
-            isCorrectEmailCode = false
         }
         
     }
