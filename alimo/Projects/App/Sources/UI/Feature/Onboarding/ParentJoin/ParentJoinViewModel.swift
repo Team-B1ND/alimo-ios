@@ -12,37 +12,37 @@ import SwiftUI
 
 fileprivate let fcmCache = FcmCache.live
 
+
 @MainActor
 class ParentJoinViewModel: ObservableObject {
     
     private var memberService = MemberService.live
     private var authService = AuthService.live
     
+    // MARK: global properties
+    @Published var isFetching = false
+    
+    // MARK: first parent properties
     @Published var memberId: Int? = nil
-    
-    // 부모님 이메일, 비밀번호
-    @Published var email: String = ""
-    @Published var pw: String = ""
-    
-    // pw 확잉ㄴ
-    @Published var pwCheck: String = ""
-    
-    // 학생 코드
     @Published var childCode: String = ""
-    
-    // 학생 코드 인증 여부
-    @Published var isCorrectChildCode: Bool = false
-    
-    @Published var isCorrectSignUp = false
-    
-    // dialog on/off 변수
     @Published var showDialog: Bool = false
     @Published var dialogMessage = ""
     
-    // 이메일 인증 코드
-    @Published var code: String = ""
-    @Published var isFetching = false
+    
+    // MARK: second parent properties
+    @Published var email: String = ""
+    @Published var pw: String = ""
+    @Published var pwCheck: String = ""
     @Published var childName: String? = nil
+    
+    
+    // MARK: third parent properties
+    @Published var code: String = "" // 이메일 인증 코드
+    
+    
+    // MARK: navigation link properties
+    @Published var isCorrectChildCode: Bool = false // 학생 코드 인증 여부
+    @Published var isCorrectSignUp = false // 1차 회원가입 여부
     
     
     // login first
