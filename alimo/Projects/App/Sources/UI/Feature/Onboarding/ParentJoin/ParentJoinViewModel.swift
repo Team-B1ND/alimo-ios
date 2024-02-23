@@ -119,13 +119,14 @@ class ParentJoinViewModel: ObservableObject {
     func emailsVerifications() async {
         
         do {
-            
-            let _ = try await memberService.emailsVerifications(EmailsVerificationsRequest(email: memberService.getMemberInfo().email, code: code))
+            let request = EmailsVerificationsRequest(email: email, code: code)
+            let _ = try await memberService.emailsVerifications(request)
             
             isCorrectEmailCode = true
             
         } catch {
-            
+            print(error)
+            isCorrectEmailCode = false
         }
         
     }

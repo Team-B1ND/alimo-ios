@@ -34,10 +34,9 @@ struct MemberService {
     }
     
     func emailsVerifications(_ request: EmailsVerificationsRequest) async throws -> Response {
-        try await client.request(memberPath + "/emails/verifications",
+        try await client.request(memberPath + "/emails/verifications?email=\(request.email)&code=\(request.code)",
                                  Response.self,
-                                 method: .get,
-                                 parameters: request)
+                                 method: .get)
     }
     
     func getCategoryList() async throws -> ResponseData<CategoryListResponse> {
