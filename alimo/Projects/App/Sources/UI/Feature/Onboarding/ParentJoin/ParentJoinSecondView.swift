@@ -26,7 +26,7 @@ struct ParentJoinSecondView: View {
         
         VStack {
             HStack {
-                Text("\(childName ?? "학부모")님 안녕하세요!")
+                Text("\(childName ?? "")\(childName != nil ? " " : "")학부모님 안녕하세요!")
                     .font(.subtitle)
                     .foregroundStyle(Color.main900)
                     .padding(.top, 30)
@@ -82,7 +82,7 @@ struct ParentJoinSecondView: View {
             } label: {
             }
             
-            AlimoButton("다음", buttonType: buttonType) {
+            AlimoButton("다음", buttonType: buttonType, isLoading: vm.isFetching) {
                 Task {
                     await vm.signUp()
                 }
@@ -90,12 +90,16 @@ struct ParentJoinSecondView: View {
             .disabled(!(isCompleted && isSame && isOk))
             .padding(.bottom, 30)
         }
-        .onAppear() {
+        .onAppear {
             showTextAlert = false
         }
-        .navigationBarBackButtonHidden(true)
+        .navigationBarBackButtonHidden()
         .alimoToolbar("회원가입") {
             dismiss()
+        }
+        .alert(isPresented: $vm.showDialog) {
+            Alert(title: Text(vm.dialogMessage),
+                  dismissButton: .default(Text("닫기")))
         }
     }
 }

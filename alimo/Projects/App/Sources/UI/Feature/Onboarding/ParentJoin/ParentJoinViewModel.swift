@@ -97,9 +97,10 @@ class ParentJoinViewModel: ObservableObject {
                 // handle error
                 return
             }
-            
         } catch {
-            print(error)
+            showDialog = true
+            dialogMessage = "알 수 없는 에러가 발생했습니다"
+            debugPrint(error)
         }
         
     }
