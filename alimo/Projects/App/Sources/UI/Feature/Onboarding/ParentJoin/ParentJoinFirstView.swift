@@ -14,8 +14,6 @@ struct ParentJoinFirstView: View {
     
     @Environment(\.dismiss) private var dismiss
     
-//    let dummyStudentCode: String = "123456"
-    
     var body: some View {
         ZStack {
             VStack(spacing: 0) {

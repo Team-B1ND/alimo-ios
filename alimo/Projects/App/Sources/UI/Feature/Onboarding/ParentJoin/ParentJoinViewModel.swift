@@ -119,8 +119,6 @@ class ParentJoinViewModel: ObservableObject {
                 print(error)
             }
             
-            isCorrectChildCode = true
-            
         }
         
     }
