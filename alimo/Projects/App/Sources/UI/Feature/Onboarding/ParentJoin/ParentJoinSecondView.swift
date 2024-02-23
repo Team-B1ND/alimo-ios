@@ -66,22 +66,25 @@ struct ParentJoinSecondView: View {
             
             let isCompleted = !vm.email.isEmpty && !vm.password.isEmpty && !vm.pwCheck.isEmpty
             let isSame: Bool = vm.password == vm.pwCheck
+            let isCorrectPw = Regex.validateInput(vm.password) && Regex.validateInput(vm.pwCheck)
             
-            let buttonType: AlimoButtonType = isCompleted && isSame ? .yellow : .none
+            let isOk = isCompleted && isSame && isCorrectPw
+            
+            let buttonType: AlimoButtonType = isOk ? .yellow : .none
             
             NavigationLink(isActive: $vm.isCorrectSignUp) {
                 ParentJoinThirdView(vm: vm)
             } label: {
             }
             
-            let _ = print(isCompleted, isSame, vm.password, vm.pwCheck)
+            let _ = print(isCompleted, isSame, isCorrectPw, vm.password, vm.pwCheck)
             
             AlimoButton("다음", buttonType: buttonType) {
                 Task {
                     await vm.signUp()
                 }
             }
-            .disabled(!(isCompleted && isSame))
+            .disabled(!(isCompleted && isSame && isOk))
             .padding(.bottom, 30)
         }
         .onAppear() {
