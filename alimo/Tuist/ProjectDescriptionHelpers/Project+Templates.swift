@@ -30,6 +30,7 @@ public extension Project {
             infoPlist: infoPlist,
             sources: sources,
             resources: resources,
+            entitlements: .file(path: "App.entitlements"), 
             dependencies: dependencies,
             settings: .settings(base: ["OTHER_LDFLAGS": .string("-ObjC")])
         )
