@@ -33,9 +33,9 @@ struct MemberService {
         .data.toDomain()
     }
     
-    func emailsVerifications(_ request: EmailsVerificationsRequest) async throws -> Response {
+    func emailsVerifications(_ request: EmailsVerificationsRequest) async throws -> ResponseData<TokenResponse> {
         try await client.request(memberPath + "/emails/verifications?email=\(request.email)&code=\(request.code)",
-                                 Response.self,
+                                 ResponseData<TokenResponse>.self,
                                  method: .get)
     }
     

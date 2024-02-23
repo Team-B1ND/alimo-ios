@@ -107,7 +107,7 @@ class ParentJoinViewModel: ObservableObject {
         
         do {
             
-            let _ = try await memberService.emailsVerificationRequest(email)
+            let response = try await memberService.emailsVerificationRequest(email)
             
         } catch {
             print(error)
@@ -116,12 +116,12 @@ class ParentJoinViewModel: ObservableObject {
     }
     
     // login last
-    func emailsVerifications() async {
+    func emailsVerifications(onSuccess: @escaping (String, String) -> Void) async {
         
         do {
             let request = EmailsVerificationsRequest(email: email, code: code)
-            let _ = try await memberService.emailsVerifications(request)
-            
+            let response = try await memberService.emailsVerifications(request).data
+            onSuccess(response.accessToken, response.refreshToken)
             isCorrectEmailCode = true
             
         } catch {
