@@ -39,7 +39,7 @@ struct ProfileView: View {
                                                .frame(width: 100, height: 100)
                                        } placeholder: {
                                            Circle()
-                                               .foregroundStyle(Color.main50)
+                                               .foregroundStyle(Color.gray100)
                                                .frame(width: 100, height: 100)
                                        }
                         } else {
