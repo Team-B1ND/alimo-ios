@@ -25,10 +25,8 @@ struct ProfileView: View {
             ZStack {
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 10) {
-                        
                         HStack {
                             AlimoLogo(type: .gray)
-                            
                             Spacer()
                         }
                         .padding(.top, 60)
@@ -86,51 +84,23 @@ struct ProfileView: View {
                     .background(Color.main50)
                     
                     VStack(alignment: .leading, spacing: 0) {
-                        NavigationLink {
-                            // 개인정보 이용 약관
+                        Button {
+                            print("ProfileView - 개인정보 이용 약관")
                         } label: {
-                            Rectangle()
-                                .frame(height: 60)
-                                .foregroundStyle(Color.main50)
-                                .overlay {
-                                    HStack {
-                                        Text("개인정보 이용 약관")
-                                            .font(Font.bodyLight)
-                                            .foregroundStyle(.black)
-                                        Spacer()
-                                    }
-                                    .padding(.leading, 20)
-                                }
+                            SettingCeil("개인정보 이용 약관")
                         }
                         
-                        NavigationLink {
-                            // 서비스 정책
+                        Button {
+                            print("ProfileView - 개인정보 이용 약관")
                         } label: {
-                            Rectangle()
-                                .frame(height: 60)
-                                .foregroundStyle(Color.main50)
-                                .overlay {
-                                    HStack {
-                                        Text("서비스 정책")
-                                            .font(Font.bodyLight)
-                                            .foregroundStyle(.black)
-                                        Spacer()
-                                    }
-                                    .padding(.leading, 20)
-                                }
+                            SettingCeil("서비스 정책")
                         }
                         
-                        HStack {
-                            Text("버전")
-                                .font(Font.bodyLight)
-                                .foregroundStyle(.black)
-                            Spacer()
-                            Text("v1.0.0")
+                        SettingCeil("버전") {
+                            Text("v\(version ?? " -")")
                                 .font(.bodyLight)
                                 .foregroundStyle(Color.gray500)
                         }
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 20)
                         
                         Divider()
                             .foregroundStyle(Color.gray100)
@@ -139,16 +109,9 @@ struct ProfileView: View {
                         Button {
                             tm.accessToken = ""
                         } label: {
-                            Text("로그아웃")
-                                .font(.bodyLight)
-                                .foregroundStyle(Color.red500)
+                            SettingCeil("로그아웃", foregroundColor: .red500)
                         }
-                        .padding(.leading, 20)
-                        .padding(.vertical, 20)
-                        
                     }
-                    .background(Color.main50)
-                    
                 }
                 .ignoresSafeArea()
                 .background(Color.gray100)
