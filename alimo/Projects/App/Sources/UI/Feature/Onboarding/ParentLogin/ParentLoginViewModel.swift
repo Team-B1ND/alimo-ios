@@ -19,16 +19,13 @@ class ParentLoginViewModel: ObservableObject {
     func signIn(onSuccess: @escaping (String, String) -> Void) async {
         
         do {
-            
-            let tokenResponse = try await authService.signIn(SignInRequest(email: email, password: pw))
+            let request = SignInRequest(email: email, password: pw)
+            let tokenResponse = try await authService.signIn(request)
             
             onSuccess(tokenResponse.data.accessToken, tokenResponse.data.refreshToken)
             
-            
         } catch {
-            
+            print(error)
         }
-        
     }
-    
 }

@@ -40,11 +40,8 @@ class StudentLoginViewModel: ObservableObject {
                     }
                 }
             }
-            
-        } catch(let e) {
-            print(e)
+        } catch {
+            print(error)
         }
-        
     }
-    
 }

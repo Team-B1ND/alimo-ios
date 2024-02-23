@@ -77,8 +77,6 @@ struct ParentJoinSecondView: View {
             } label: {
             }
             
-            let _ = print(isCompleted, isSame, isCorrectPw, vm.password, vm.pwCheck)
-            
             AlimoButton("다음", buttonType: buttonType) {
                 Task {
                     await vm.signUp()

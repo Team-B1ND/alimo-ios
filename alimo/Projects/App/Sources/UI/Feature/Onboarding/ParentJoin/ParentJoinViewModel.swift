@@ -89,7 +89,7 @@ class ParentJoinViewModel: ObservableObject {
                                             childCode: childCode,
                                             memberId: memberId)
                 print(request)
-                _ = try await authService.signUp(request).data
+                _ = try await authService.signUp(request)
                 isCorrectSignUp = true
             } else {
                 // handle error
