@@ -68,7 +68,7 @@ struct ParentJoinFirstView: View {
                 .padding(.bottom, 30)
                 
                 NavigationLink(isActive: $vm.isCorrectChildCode) {
-                    ParentJoinSecondView(vm: vm)
+                    ParentJoinSecondView(vm: vm, childName: vm.childName)
                 } label: {}
             }
             .navigationBarBackButtonHidden()

@@ -16,6 +16,8 @@ struct ParentJoinSecondView: View {
     
     @State var showTextAlert: Bool = false
     
+    let childName: String?
+    
     var body: some View {
         
         let isCompleted = !vm.email.isEmpty && !vm.pw.isEmpty && !vm.pwCheck.isEmpty
@@ -24,7 +26,7 @@ struct ParentJoinSecondView: View {
         
         VStack {
             HStack {
-                Text("\(nil ?? "학부모")님 안녕하세요!")
+                Text("\(childName ?? "학부모")님 안녕하세요!")
                     .font(.subtitle)
                     .foregroundStyle(Color.main900)
                     .padding(.top, 30)

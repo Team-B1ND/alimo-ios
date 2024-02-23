@@ -42,6 +42,7 @@ class ParentJoinViewModel: ObservableObject {
     // 이메일 인증 코드
     @Published var code: String = ""
     @Published var isFetching = false
+    @Published var childName: String? = nil
     
     
     // login first
@@ -54,11 +55,12 @@ class ParentJoinViewModel: ObservableObject {
             
             response = try await authService.verifyChildCode(childCode)
             
-            isCorrectChildCode = response.data.isCorrectChildCode
             memberId = response.data.memberId
             
+            childName = try await memberService.getNameByChildCode(childCode: childCode).data.name
+            
+            isCorrectChildCode = response.data.isCorrectChildCode
         } catch {
-   
             let code = error.code
             switch code {
             case 400:
