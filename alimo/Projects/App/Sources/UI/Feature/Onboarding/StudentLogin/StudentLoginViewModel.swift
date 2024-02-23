@@ -14,13 +14,16 @@ import SwiftUI
 class StudentLoginViewModel: ObservableObject {
     
     private let authService = AuthService.live
+    private let fcmCache = FcmCache.live
     
     @Published var id: String = ""
     @Published var pw: String = ""
     @Published var showError = false
+    @Published var isFetching = false
     
-    func signIn(onSuccess: @escaping (String) -> Void) async {
-    
+    func signIn(onSuccess: @escaping (String, String) -> Void) async {
+        isFetching = true
+        defer { isFetching = false }
         do {
             
             let encryptedPw = SHA512.hash(data: Data(pw.utf8))
@@ -35,11 +38,13 @@ class StudentLoginViewModel: ObservableObject {
                     
                     if let code = components.queryItems?.first(where: { $0.name == "code" })?.value {
                         print(code)
-                        let dodamResponse = try await authService.dodamToken(DodamTokenRequest(code: code, fcmToken: "rlaehdcks"))
-                        print(dodamResponse.data.accessToken)
+                        let fcmToken = fcmCache.getToken(of: .fcmToken)
+                        let request = DodamTokenRequest(code: code,
+                                                        fcmToken: fcmToken)
+                        let response = try await authService.dodamToken(request).data
                         
                         withAnimation {
-                            onSuccess(dodamResponse.data.accessToken)
+                            onSuccess(response.accessToken, response.refreshToken)
                         }
                     } else {
                         showError = true
