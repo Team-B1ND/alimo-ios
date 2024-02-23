@@ -30,18 +30,11 @@ struct CharacterField: View {
                 .frame(height: 52)
                 .clipShape(RoundedRectangle(cornerRadius: Size.large.rawValue))
                 .overlay {
-                    if focused == index {
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.gray500, lineWidth: 2)
-                    } else {
-                        if characters[index] != nil && characters[index] != "" {
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color.main500, lineWidth: 2)
-                        } else {
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color.gray300, lineWidth: 2)
-                        }
-                    }
+                    let strokeColor: Color =
+                    focused == index ? .gray500 :
+                    characters[index] != nil && characters[index] != "" ? .main500 : .gray400
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(strokeColor, lineWidth: 2)
                 }
         )
         .frame(maxWidth: .infinity, alignment: .center)
