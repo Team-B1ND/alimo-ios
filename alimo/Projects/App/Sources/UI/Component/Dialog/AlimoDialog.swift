@@ -8,52 +8,50 @@
 
 import SwiftUI
 
-struct AlimoDialog: View {
+struct AlimoDialog<C>: View where C: View {
     
-    @Binding var showDialog: Bool
+    @EnvironmentObject var dm: DialogManager
+    @Binding var showDialog: Bool {
+        didSet {
+            if showDialog {
+                dm.phase = .show
+            } else {
+                dm.phase = .none
+            }
+        }
+    }
     
     let title: String
-    let content: String
-    let buttonText: String
+    let description: String
+    let content: () -> C
+    
+    init(showDialog: Binding<Bool>,
+         title: String,
+         description: String,
+         content: @escaping (() -> C) = { EmptyView() }) {
+        self._showDialog = showDialog
+        self.title = title
+        self.description = description
+        self.content = content
+    }
     
     var body: some View {
-        Rectangle()
-            .opacity(0.3)
-            .ignoresSafeArea()
-            .overlay {
-                RoundedRectangle(cornerRadius: 8)
-                    .foregroundStyle(.white)
-                    .frame(width: 290, height: 160)
-                    .overlay {
-                        VStack {
-                            Text("\(title)")
-                                .font(.subtitle)
-                                .padding(.bottom, 7)
-                            
-                            Text("\(content)")
-                                .font(.bodyLight)
-                                .foregroundStyle(Color.gray500)
-                                .padding(.bottom, 8)
-                            
-                            HStack {
-                                Spacer()
-                                
-                                Button {
-                                    showDialog = false
-                                } label: {
-                                    Text("\(buttonText)")
-                                        .foregroundStyle(Color.gray500)
-                                        .frame(width: 50, height: 40)
-                                        .background(Color.gray100)
-                                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                                }
-                            }
-                            .padding(.horizontal, 30)
-                            .padding(.bottom, 5)
-                            
-                        }
-                    }
-                    .padding(.bottom, 100)
+        if showDialog {
+            VStack(spacing: 16) {
+                Text("\(title)")
+                    .font(.subtitle)
+                
+                Text("\(description)")
+                    .font(.bodyLight)
+                    .foregroundStyle(Color.gray500)
+                
+                content()
             }
+            .padding(.horizontal, 12)
+            .frame(minWidth: 260, maxWidth: 320)
+            .padding(.vertical, 24)
+            .background(Color.white)
+            .clipShape(RoundedCorner(radius: Size.normal.rawValue))
+        }
     }
 }

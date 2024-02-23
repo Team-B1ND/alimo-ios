@@ -9,6 +9,7 @@ struct AlimoApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(TokenManager())
+                .environmentObject(DialogManager())
         }
     }
 }
@@ -17,6 +18,7 @@ struct AlimoApp: App {
 private struct ContentView: View {
     
     @EnvironmentObject var tokenManager: TokenManager
+    @EnvironmentObject var dm: DialogManager
     @State var opacity = 1.0
     
     var body: some View {
@@ -27,6 +29,10 @@ private struct ContentView: View {
                 } else {
                     TabbarView()
                 }
+            }
+            if dm.phase == .show {
+                Color.black.opacity(0.3)
+                    .ignoresSafeArea()
             }
             if opacity > 0 {
                 LaunchScreenView()

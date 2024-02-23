@@ -10,43 +10,7 @@ import SwiftUI
 
 struct OnboardingFirstView: View {
     
-    @State var isClicked: Bool = false
-    @State var isAnimating: Bool = false
-    
-    @ViewBuilder
-    var snackBar: some View {
-        VStack {
-            Spacer()
-            
-            RoundedCorner(radius: 4)
-                .frame(height: 50)
-                .foregroundStyle(.white)
-                .shadow(radius: 4)
-                .overlay {
-                    HStack {
-                        
-                        Text("세션이 만료되었어요")
-                            .font(.body)
-                        Spacer()
-                        Button {
-                            isClicked = false
-                            isAnimating = false
-                        } label: {
-                            Text("닫기")
-                                .font(.bodyLight)
-                                .foregroundStyle(Color.yellow)
-                        }
-                        
-                    }
-                    .padding(.horizontal, 20)
-                }
-                .padding(.horizontal, 20)
-                .padding(.bottom, 10)
-                .offset(y : isAnimating ? 0 : 100)
-                .animation(.bouncy(duration: 0.5), value: isAnimating)
-            
-        }
-    }
+    @State var showEasterEgg: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -66,8 +30,7 @@ struct OnboardingFirstView: View {
                     .padding(.bottom, 72)
                     // 스낵바 테스트해 보고 싶어서 이미지를 버튼으로 만들어 놨어요
                     Button {
-                        isClicked = true
-                        isAnimating = true
+                        showEasterEgg = true
                     } label: {
                         Image(Asset.screen)
                     }
@@ -80,7 +43,7 @@ struct OnboardingFirstView: View {
                             .disabled(true)
                     }
                 }
-                snackBar
+                AlimoDialog(showDialog: $showEasterEgg, title: "히히", description: "이걸 누르다닝 ㅋ")
             }
         }
     }
