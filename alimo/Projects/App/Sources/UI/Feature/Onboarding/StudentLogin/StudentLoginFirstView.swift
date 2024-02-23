@@ -48,7 +48,7 @@ struct StudentLoginFirstView: View {
         }
         .navigationBarBackButtonHidden(true)
         .alimoToolbar("로그인") {
-            dismiss()
+            NavigationUtil.popToRootView()
         }
         .alert(isPresented: $vm.showError) {
             Alert(title: Text("로그인 할 수 없습니다"),

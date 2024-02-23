@@ -68,12 +68,13 @@ struct ParentJoinFirstView: View {
                 .padding(.bottom, 30)
                 
                 NavigationLink(isActive: $vm.isCorrectChildCode) {
-                    ParentJoinSecondView(vm: vm, childName: vm.childName)
+                    ParentJoinSecondView(childName: vm.childName)
+                        .environmentObject(vm)
                 } label: {}
             }
             .navigationBarBackButtonHidden()
             .alimoToolbar("회원가입") {
-                dismiss()
+                NavigationUtil.popToRootView()
             }
         }
         .alert(isPresented: $vm.showDialog) {

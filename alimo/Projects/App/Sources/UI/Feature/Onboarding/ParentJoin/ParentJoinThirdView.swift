@@ -11,7 +11,7 @@ import Combine
 
 struct ParentJoinThirdView: View {
     
-    @ObservedObject var vm: ParentJoinViewModel
+    @EnvironmentObject var vm: ParentJoinViewModel
     @EnvironmentObject var tm: TokenManager
     
     @Environment(\.dismiss) private var dismiss
@@ -77,14 +77,13 @@ struct ParentJoinThirdView: View {
             }
             .disabled(vm.emailPhase == .none)
             .padding(.bottom, 30)
-            
         }
         .onAppear {
             calcRemain()
         }
         .navigationBarBackButtonHidden()
         .alimoToolbar("회원가입") {
-            dismiss()
+            NavigationUtil.popToRootView()
         }
     }
     

@@ -10,11 +10,9 @@ import SwiftUI
 
 struct ParentJoinSecondView: View {
     
-    @ObservedObject var vm: ParentJoinViewModel
+    @EnvironmentObject var vm: ParentJoinViewModel
     
     @Environment(\.dismiss) private var dismiss
-    
-    @State var showTextAlert: Bool = false
     
     let childName: String?
     
@@ -78,7 +76,8 @@ struct ParentJoinSecondView: View {
             let buttonType: AlimoButtonType = isOk ? .yellow : .none
             
             NavigationLink(isActive: $vm.isCorrectSignUp) {
-                ParentJoinThirdView(vm: vm)
+                ParentJoinThirdView()
+                    .environmentObject(vm)
             } label: {
             }
             
@@ -90,12 +89,9 @@ struct ParentJoinSecondView: View {
             .disabled(!(isCompleted && isSame && isOk))
             .padding(.bottom, 30)
         }
-        .onAppear {
-            showTextAlert = false
-        }
         .navigationBarBackButtonHidden()
         .alimoToolbar("회원가입") {
-            dismiss()
+            NavigationUtil.popToRootView()
         }
         .alert(isPresented: $vm.showDialog) {
             Alert(title: Text(vm.dialogMessage),

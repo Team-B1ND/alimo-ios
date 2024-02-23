@@ -89,7 +89,7 @@ struct ParentLoginFirstView: View {
         }
         .navigationBarBackButtonHidden(true)
         .alimoToolbar("로그인") {
-            dismiss()
+            NavigationUtil.popToRootView()
         }
         .alert(isPresented: $vm.showDialog) {
             Alert(title: Text("아이디 또는 비밀번호가 잘못되었습니다"),

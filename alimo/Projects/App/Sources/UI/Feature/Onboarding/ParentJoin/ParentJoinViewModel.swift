@@ -49,7 +49,6 @@ class ParentJoinViewModel: ObservableObject {
     @Published var isCorrectChildCode: Bool = false // 학생 코드 인증 여부
     @Published var isCorrectSignUp = false // 1차 회원가입 여부
     
-    
     // login first
     func verifyChildCode() async {
         isFetching = true
@@ -141,6 +140,5 @@ class ParentJoinViewModel: ObservableObject {
         } catch {
             debugPrint(error)
         }
-        
     }
 }
