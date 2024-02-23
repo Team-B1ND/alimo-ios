@@ -122,6 +122,10 @@ class ParentJoinViewModel: ObservableObject {
             _ = try await memberService.emailsVerificationRequest(email)
         } catch {
             debugPrint(error)
+            let code = error.code
+            if code == 409 {
+                emailDialogMessage = "이미 해당 이메일은 사용중입니다"
+            }
             showWrongEmailDialog = true
         }
     }
