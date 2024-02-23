@@ -34,10 +34,10 @@ class ProfileViewModel: ObservableObject {
         do {
             
             memberInfo = try await memberService.getMemberInfo()
-            print(memberInfo)
+            dump(memberInfo)
             
         } catch {
-            print(error)
+            debugPrint(error)
         }
         
     }

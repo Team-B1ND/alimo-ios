@@ -34,10 +34,24 @@ struct ProfileView: View {
                         .padding(.top, 60)
                         .padding(.horizontal, 20)
                         
-                        Image(vm.memberInfo?.image ?? Asset.profileImage)
-                            .padding(.top, 30)
+                        if let image = vm.memberInfo?.image {
+                            AsyncImage(url: URL(string: image))
+                                       {
+                                           $0
+                                               .resizable()
+                                               .clipShape(Circle())
+                                               .frame(width: 100, height: 100)
+                                       } placeholder: {
+                                           Circle()
+                                               .foregroundStyle(Color.main50)
+                                               .frame(width: 100, height: 100)
+                                       }
+                        } else {
+                            AlimoAvatar(type: .large)
+                        }
                         
-                        Text(vm.memberInfo?.name ?? "") // 여기 서버 response 문제 있음
+                        
+                        Text(vm.memberInfo?.name ?? "")
                             .font(Font.body)
                             .padding(.top, 10)
                         
