@@ -41,11 +41,13 @@ class ParentJoinViewModel: ObservableObject {
     
     // 이메일 인증 코드
     @Published var code: String = ""
+    @Published var isFetching = false
     
     
     // login first
     func verifyChildCode() async {
-        
+        isFetching = true
+        defer { isFetching = false }
         var response: ResponseData<ChildCodeResponse>
         
         do {
@@ -75,7 +77,8 @@ class ParentJoinViewModel: ObservableObject {
     
     // login second
     func signUp() async {
-        
+        isFetching = true
+        defer { isFetching = false }
         do {
             
             if let memberId = memberId {
@@ -101,7 +104,8 @@ class ParentJoinViewModel: ObservableObject {
     
     // login third
     func emailsVerificationRequest() async {
-        
+        isFetching = true
+        defer { isFetching = false }
         do {
             
             let response = try await memberService.emailsVerificationRequest(email)

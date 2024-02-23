@@ -59,7 +59,7 @@ struct ParentJoinFirstView: View {
                 let isCompleted: Bool = vm.childCode.count == 6
                 let buttonType: AlimoButtonType = isCompleted ? .yellow : .none
                 
-                AlimoButton("다음", buttonType: buttonType) {
+                AlimoButton("다음", buttonType: buttonType, isLoading: vm.isFetching) {
                     Task {
                         await vm.verifyChildCode()
                     }
