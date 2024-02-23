@@ -42,6 +42,7 @@ struct AlimoTextField: View {
                           text: $text)
             }
         }
+        .autocorrectionDisabled()
         .focused($isFocused)
         .frame(maxWidth: .infinity, maxHeight: 52)
         .background(Color.white)
