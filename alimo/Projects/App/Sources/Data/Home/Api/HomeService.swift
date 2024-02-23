@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 fileprivate let client = AlimoHttpClient.live
 
 final class HomeService {
@@ -53,14 +54,13 @@ final class HomeService {
                                  method: .get)
     }
     
-    
-    func notificationload(_ category : String/* request: NotificationloadRequest*/) async throws -> ResponseData<NotificationloadResponse> {
-        try await client.request("\(notificationloadPath)/\(category)",
-                                 ResponseData<NotificationloadResponse>.self,
-                                 method: .get
-                               /*  parameters: request*/)
+
+
+    func notificationload(_ category: String, pageRequest: NotificationloadRequest) async throws -> HomeResponseData<NotificationloadResponse> {
+        try await client.request("\(notificationloadPath)/\(category)?page=\(pageRequest.pageRequest.page)&size=\(pageRequest.pageRequest.size)",
+                                 HomeResponseData<NotificationloadResponse>.self,
+                                 method: .get)
     }
-    
 }
 
 extension HomeService {

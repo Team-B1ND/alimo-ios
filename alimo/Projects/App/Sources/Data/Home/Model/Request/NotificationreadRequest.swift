@@ -10,5 +10,5 @@ import Foundation
 
 // MARK: NotificationreadRequest
 struct NotificationreadRequest : Encodable {
-    let notificationId : id
+    let notificationId : Int
 }

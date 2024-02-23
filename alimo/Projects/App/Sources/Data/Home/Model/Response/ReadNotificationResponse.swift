@@ -10,34 +10,19 @@ import Foundation
 
 // MARK: - ReadNotificationResponse
 struct ReadNotificationResponse : Decodable {
-    let notificationid: Int
+    let notificationId: Int
     let title, content: String
     let speaker: Bool
-    let createdAt, member: String
+    let createdAt: String
+    let memberId : Int
     let comments: [Comment]
 }
 
 // MARK: - Comment
 struct Comment: Decodable {
-    let commentID: ID
+    let commentID: Int
     let content, dateTime: String
-    let notice: Notices
-    let commentor: Commentor
-    let parent: String
+    let commentor: Int
+    let parent: Int
 }
 
-// MARK: - ID
-struct ID: Decodable {
-    let value: Int
-}
-
-// MARK: - Commentor
-struct Commentor: Decodable {
-    let memberID: ID
-    let name: String
-}
-
-// MARK: - Notice
-struct Notices: Decodable {
-    let notificationID: ID
-}

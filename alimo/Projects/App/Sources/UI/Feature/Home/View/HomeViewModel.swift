@@ -39,9 +39,9 @@ class HomeViewModel: ObservableObject {
         }
     }
     
-    func notificationload() async {
+    func notificationload(_ selectedcategory : String) async {
         do {
-            let notificationloadResponse = try await homeService.notificationload("테스트")
+            let notificationloadResponse = try await homeService.notificationload(selectedcategory, pageRequest:NotificationloadRequest(pageRequest: Page(page: 0, size: 0)))
             print("notificationload 결과 : \(notificationloadResponse)")
         } catch {
             print(error)

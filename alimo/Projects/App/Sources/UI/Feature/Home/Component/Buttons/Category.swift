@@ -12,13 +12,13 @@ import SwiftUI
 struct Category : View {
     var new : Bool = true
     var category : [String]
-    @State private var selectedIndex = 0
-//    @ObservedObject var homeViewModel = HomeViewModel()
+//    @State private var selectedIndex = 0
+    @Binding var selectedIndex: Int
     var body: some View {
         ScrollView(.horizontal, showsIndicators: true) {
             HStack(spacing: 12) {
-                AlimoSmallButton("전체", buttonType: selectedIndex == 0 ? .yellow : .none) {
-                    selectedIndex = 0
+                AlimoSmallButton("전체", buttonType: selectedIndex == -1 ? .yellow : .none) {
+                    selectedIndex = -1
                 }
                 .overlay {
                     if new {
@@ -52,12 +52,6 @@ struct Category : View {
             }//hs
             .frame(maxWidth: .infinity, minHeight: 26)
         }//스크롤
-//        .onAppear{
-//            Task {
-//                await homeViewModel.getcategory()
-//            }
-//
-//        }
         .padding(.horizontal, 16)
     }
 }

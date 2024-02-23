@@ -10,7 +10,7 @@ import Foundation
 
 struct NotificationloadResponse : Decodable {
     let createdAt, modifiedAt: String
-    let notificationID: Int
+    let notificationId: Int
     let title, content: String
     let speaker: Bool
     let images, files: [TingNotificationImageResponse]
@@ -20,25 +20,25 @@ struct NotificationloadResponse : Decodable {
 }
 
 struct Categoryies : Decodable {
-    let categoryID: Int
+    let categoryId: Int
     let categoryName: String
     let permissions: [MemberToRoleResponse]
 }
 
 struct MemberToRoleResponse: Decodable {
-    let permissionID: Int
+    let permissionId: Int
     let permissionName, member, category: String
 }
 
 struct TingNotificationImageResponse: Decodable {
-    let fileID: Int
-    let fileURL, fileName: String
+    let fileId: Int
+    let fileUrl, fileName: String
     let fileSize: Int
     let fileType: String
 }
 
 struct MemberInfo: Decodable {
-    let memberID: Int
+    let memberId: Int
     let email, password: String
     let grade, room, number: Int
     let name, fcmToken: String

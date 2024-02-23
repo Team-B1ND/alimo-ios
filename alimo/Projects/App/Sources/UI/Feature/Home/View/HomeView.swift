@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 struct HomeView: View {
-    
+    @State private var selectedIndex = -1
     var categories : [String] = []
     @ObservedObject var homeViewModel = HomeViewModel()
     var hasNotice: Bool = true
@@ -49,15 +49,25 @@ struct HomeView: View {
             .task {
                 await homeViewModel.getcategory()
                 await homeViewModel.notificationspeake()
-                await homeViewModel.notificationload()
                 
+//                if homeViewModel.category.count >= 1 {
+//                    let selected = homeViewModel.category[selectedIndex]
+                    await homeViewModel.notificationload("테스트")
+//                }
             }
-            
+
+//            .onChange(of: selectedIndex) { newValue in
+//                Task {
+//                    let selected = homeViewModel.category[newValue - 1]
+//                    await homeViewModel.notificationload(selected)
+//                }
+//            }
+
         }
     }
     
     private var filterBar: some View {
-        Category(category: homeViewModel.category)
+        Category(category: homeViewModel.category, selectedIndex: $selectedIndex)
             .frame(minWidth: 0, maxWidth: .infinity)
             .padding(.vertical, 12)
             .background(Color.white)
