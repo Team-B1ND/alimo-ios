@@ -67,7 +67,7 @@ struct ParentJoinThirdView: View {
                         .padding(.horizontal, 20)
                     
                 } else {
-                    AlimoTextField("인증 코드", text: $vm.code)
+                    AlimoTextField("인증 코드", text: $vm.code, textFieldType: .none(hasXMark: false))
                         .foregroundStyle(.red)
                     
                     HStack {

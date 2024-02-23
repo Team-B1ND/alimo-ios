@@ -28,7 +28,7 @@ struct ParentJoinSecondView: View {
                 Spacer()
             }
             
-            AlimoTextField("이메일", text: $vm.email)
+            AlimoTextField("아이디", text: $vm.email)
             
             AlimoTextField("비밀번호", text: $vm.password, textFieldType: .password)
             
