@@ -56,5 +56,10 @@ struct StudentLoginFirstView: View {
         .alimoToolbar("로그인") {
             dismiss()
         }
+        .alert(isPresented: $vm.showError) {
+            Alert(title: Text("로그인 할 수 없습니다"),
+                  message: Text("아이디 비밀번호를 다시 확인해 주세요"),
+                  dismissButton: .default(Text("확인")))
+        }
     }
 }

@@ -36,7 +36,7 @@ class ParentJoinViewModel: ObservableObject {
     @Published var isCorrectSignUp = false
     
     // dialog on/off 변수
-    @Published var showChildCodeWrongDialog: Bool? = false
+    @Published var showChildCodeWrongDialog: Bool = false
     
     // 이메일 인증 코드
     @Published var code: String = ""

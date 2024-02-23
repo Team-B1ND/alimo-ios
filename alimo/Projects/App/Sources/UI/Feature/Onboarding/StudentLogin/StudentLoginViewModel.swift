@@ -17,6 +17,7 @@ class StudentLoginViewModel: ObservableObject {
     
     @Published var id: String = ""
     @Published var pw: String = ""
+    @Published var showError = false
     
     func signIn(onSuccess: @escaping (String) -> Void) async {
     
@@ -40,11 +41,17 @@ class StudentLoginViewModel: ObservableObject {
                         withAnimation {
                             onSuccess(dodamResponse.data.accessToken)
                         }
+                    } else {
+                        showError = true
                     }
+                } else {
+                    showError = true
                 }
+            } else {
+                showError = true
             }
         } catch {
-            print(error)
+            showError = true
         }
     }
 }
