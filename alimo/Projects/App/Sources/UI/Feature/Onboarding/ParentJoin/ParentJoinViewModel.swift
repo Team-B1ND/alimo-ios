@@ -41,9 +41,11 @@ class ParentJoinViewModel: ObservableObject {
     enum EmailPhase {
         case none
         case sended
+        case failure
     }
     @Published var emailPhase: EmailPhase = .none
     @Published var showWrongEmailDialog = false
+    @Published var emailDialogMessage = ""
     
     // MARK: navigation link properties
     @Published var isCorrectChildCode: Bool = false // 학생 코드 인증 여부
@@ -114,6 +116,7 @@ class ParentJoinViewModel: ObservableObject {
     func emailsVerificationRequest() async {
         isFetching = true
         emailPhase = .sended
+        emailDialogMessage = "알 수 없는 에러가 발생했습니다"
         defer { isFetching = false }
         do {
             _ = try await memberService.emailsVerificationRequest(email)
@@ -126,10 +129,9 @@ class ParentJoinViewModel: ObservableObject {
     // login last
     func emailsVerifications(onSuccess: @escaping (String, String) -> Void) async {
         isFetching = true
-        
+        emailDialogMessage = "인증 코드가 올바르지 않습니다"
         defer {
             isFetching = false
-            emailPhase = .none
         }
         do {
             let request = EmailsVerificationsRequest(email: email, code: code)
@@ -138,6 +140,8 @@ class ParentJoinViewModel: ObservableObject {
                 onSuccess(response.accessToken, response.refreshToken)
             }
         } catch {
+            showWrongEmailDialog = true
+            emailPhase = .failure
             debugPrint(error)
         }
     }

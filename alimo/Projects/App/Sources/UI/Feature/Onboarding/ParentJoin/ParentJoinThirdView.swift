@@ -24,8 +24,8 @@ struct ParentJoinThirdView: View {
         VStack {
             HStack {
                 let title = switch vm.emailPhase {
-                case .none: "이메일 인증 코드를 전송해 주세요"
                 case .sended: "이메일 인증 코드를 전송했어요"
+                default: "이메일 인증 코드를 전송해 주세요"
                 }
                 Text(title)
                     .font(.subtitle)
@@ -55,8 +55,10 @@ struct ParentJoinThirdView: View {
                             .font(.label)
                             .foregroundStyle(Color.main500)
                             .onReceive(timer) { _ in
-                                if timeRemaining != 0 {
+                                if timeRemaining > 0 {
                                     timeRemaining -= 1
+                                } else {
+                                    vm.emailPhase = .none
                                 }
                             }
                             .padding(.trailing, 20)
@@ -66,7 +68,7 @@ struct ParentJoinThirdView: View {
             }
             
             Spacer()
-            let buttonType: AlimoButtonType = vm.emailPhase == .none ? .none : .yellow
+            let buttonType: AlimoButtonType = vm.emailPhase != .sended ? .none : .yellow
             AlimoButton("확인", buttonType: buttonType, isLoading: vm.isFetching) {
                 Task {
                     await vm.emailsVerifications { accessToken, refreshToken in
@@ -75,7 +77,7 @@ struct ParentJoinThirdView: View {
                     }
                 }
             }
-            .disabled(vm.emailPhase == .none)
+            .disabled(vm.emailPhase != .sended)
             .padding(.bottom, 30)
         }
         .onAppear {
@@ -84,6 +86,10 @@ struct ParentJoinThirdView: View {
         .navigationBarBackButtonHidden()
         .alimoToolbar("회원가입") {
             NavigationUtil.popToRootView()
+        }
+        .alert(isPresented: $vm.showWrongEmailDialog) {
+            Alert(title: Text(vm.emailDialogMessage),
+                  dismissButton: .default(Text("닫기")))
         }
     }
     
