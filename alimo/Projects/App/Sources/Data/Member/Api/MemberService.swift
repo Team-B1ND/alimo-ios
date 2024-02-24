@@ -20,8 +20,8 @@ struct MemberService {
                                  method: .post)
     }
     
-    func alarmOnOff() async throws -> Response {
-        try await client.request(memberPath + "/alarm-on-off",
+    func alarmOnOff(isOffAlarm: Bool) async throws -> Response {
+        try await client.request(memberPath + "/alarm-on-off?is_off_alarm=\(isOffAlarm)",
                                  Response.self,
                                  method: .post)
     }
