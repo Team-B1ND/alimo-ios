@@ -10,7 +10,11 @@ import Foundation
 import SwiftUI
 
 struct Post: View {
-//    var title : String
+    var image : SwiftUI.Image?
+    var title : String
+    var membername : String
+    var content : String
+    var createdAt : String
     var body: some View {
         HStack(spacing: 8) {
             VStack {
@@ -18,17 +22,21 @@ struct Post: View {
                 Spacer()
             }
             VStack(alignment: .leading, spacing: 0) {
-                Profile(newpost: true)
+                Profile(newpost: true, title : title, membername: membername)
                 NavigationLink {
                     DetailPostView()
                 } label: {
-                    Contents()
+                    Contents(content: content)
                         .padding(.top, 12)
+                    
+                    Postimage()
+                        .padding(.vertical)
                 }
-                Text("2023년 1월 33일 25시 -1분")
+                Text(createdAt)
                     .foregroundStyle(Color.gray500)
                     .font(.cute)
                     .padding(.top, 12)
+                
                 Icons()
                     .padding(.top, 12)
             }
@@ -39,7 +47,3 @@ struct Post: View {
     }
 }
 
-
-#Preview {
-    Post()
-}

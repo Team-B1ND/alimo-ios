@@ -10,17 +10,20 @@ import Foundation
 import SwiftUI
 
 struct Profile: View {
-    
     @State var newpost: Bool
+    var title : String 
+    var membername : String
     
-    init(newpost: Bool = false) {
+    init(newpost: Bool = false, title: String = "", membername : String = "") {
         self.newpost = newpost
+        self.title = title
+        self.membername = membername
     }
     
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 0) {
-                Text("수상한 사람 문화상품권 받으러 오세요")
+                Text(title)
                     .foregroundStyle(Color.black)
                     .font(.label)
                     .overlay {
@@ -32,7 +35,7 @@ struct Profile: View {
                             }
                         }
                     }
-                Text("빈윤미")
+                Text(membername)
                     .foregroundStyle(Color.gray600)
                     .font(.caption)
             }

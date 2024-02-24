@@ -10,8 +10,10 @@ import Foundation
 import SwiftUI
 
 struct Postimage : View {
+    var image : SwiftUI.Image?
     var body: some View {
-        Image(AppAsset.Assets.dummy.name)
+//        Image(AppAsset.Assets.dummy.name)
+        image?
             .resizable()
             .aspectRatio(contentMode: .fill)
             .frame(width: 320,height: 306)

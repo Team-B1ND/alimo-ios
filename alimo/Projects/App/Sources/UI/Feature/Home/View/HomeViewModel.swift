@@ -7,6 +7,9 @@
 //
 
 import Foundation
+import SwiftUI
+import AlamofireImage
+import Alamofire
 
 @MainActor
 class HomeViewModel: ObservableObject {
@@ -15,6 +18,10 @@ class HomeViewModel: ObservableObject {
     @Published var notificationspeaketitle : String = ""
     @Published var memberID : Int? = nil
     @Published var title : String = ""
+    @Published var content : String = ""
+    @Published var createdAt : String = ""
+    @Published var membername : String = ""
+    @Published var image: SwiftUI.Image? = nil
 
     
     func getcategory() async {
@@ -33,7 +40,7 @@ class HomeViewModel: ObservableObject {
             print(notificationspeakeResponse)
             self.notificationspeaketitle = notificationspeakeResponse.title
             self.memberID = notificationspeakeResponse.memberID
-
+            
             
         } catch {
             print(error)
@@ -43,9 +50,31 @@ class HomeViewModel: ObservableObject {
     func notificationload(_ selectedcategory : String) async {
         do {
             let notificationloadresponse = try await homeService.notificationload(selectedcategory, pageRequest:NotificationloadRequest(pageRequest: Page(page: 1, size: 1)))
-            self.title = notificationloadresponse.data.first?.title ?? ""
+            
             print("notificationload 결과 : \(notificationloadresponse)")
             
+            self.title = notificationloadresponse.data.first?.title ?? "제목"
+            self.content = notificationloadresponse.data.first?.content ?? "내용"
+            self.createdAt = notificationloadresponse.data.first?.createdAt ?? "날짜"
+            self.membername = notificationloadresponse.data.first?.member.name ?? "작성자"
+            
+            
+//            let imageUrlString = "테스트 url"
+//            if let imageUrl = URL(string: imageUrlString) {
+//                loadImageFromURL(imageUrl) { image in
+//                    if let image = image {
+//                        self.image = Image(uiImage: image)
+//                    }
+//                }
+//            }
+            if let imageUrlString = notificationloadresponse.data.first?.images.first?.fileUrl,
+               let imageUrl = URL(string: imageUrlString) {
+                loadImageFromURL(imageUrl) { image in
+                    if let image = image {
+                        self.image = Image(uiImage: image)
+                    }
+                }
+            }
             
         } catch {
             print(error)
@@ -62,7 +91,21 @@ class HomeViewModel: ObservableObject {
             print(error)
         }
     }
-
+    
+    
+    private func loadImageFromURL(_ url: URL, completion: @escaping (UIImage?) -> Void) {
+            AF.request(url).responseImage { response in
+                if case .success(let image) = response.result {
+                    completion(image)
+                    print("성공")
+                } else {
+                    completion(nil)
+                    print("실패")
+                }
+            }
+        }
+    
 }
+
 
 

@@ -28,7 +28,7 @@ struct HomeView: View {
                             if hasNotice {
                                 ForEach(1...3, id: \.self) { _ in
                                     VStack(spacing: 0) {
-                                        Post(/*title: $homeViewModel.notificationloadResponse.title*/)
+                                        Post(image: homeViewModel.image, title: homeViewModel.title, membername: homeViewModel.membername,content: homeViewModel.content, createdAt: homeViewModel.createdAt)
                                         Divider()
                                             .foregroundStyle(Color.gray100)
                                     }

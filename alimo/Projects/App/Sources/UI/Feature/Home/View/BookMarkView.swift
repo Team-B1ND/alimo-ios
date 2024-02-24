@@ -25,7 +25,7 @@ struct BookMarkView: View {
                     if hasPost {
                         ForEach(1...3, id: \.self) { _ in
                             NavigationLink(destination: DetailPostView()) {
-                                Post()
+                                Post(image: nil,title: "테스트", membername: "테스트",content: "테스트",createdAt: "테스트")
                             }
                             .padding(.bottom,30)
                         }
