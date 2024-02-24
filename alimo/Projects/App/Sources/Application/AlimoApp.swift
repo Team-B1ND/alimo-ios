@@ -27,7 +27,7 @@ private struct ContentView: View {
                 if tokenManager.accessToken.isEmpty {
                     OnboardingFirstView()
                 } else {
-                    TabbarView()
+                    MainView()
                 }
             }
             if dm.phase == .show {
