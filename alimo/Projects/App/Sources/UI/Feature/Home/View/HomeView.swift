@@ -52,8 +52,8 @@ struct HomeView: View {
 //                테스트
 //                if homeViewModel.category.count >= 1 {
 //                    let selected = homeViewModel.category[selectedIndex]
-                    await homeViewModel.notificationload("1학년")
-//                await homeViewModel.notificationread(1)
+                    await homeViewModel.notificationload("학생")
+//                await homeViewModel.notificationread(0)
 //                }
             }
 

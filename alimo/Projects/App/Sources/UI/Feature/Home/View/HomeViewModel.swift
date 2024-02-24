@@ -21,7 +21,7 @@ class HomeViewModel: ObservableObject {
         do {
             let getcategoryResponse = try await homeService.getcategory()
             self.category = getcategoryResponse.data.roles
-            print(category)
+            print(getcategoryResponse)
         } catch {
             print(error)
         }
@@ -42,7 +42,7 @@ class HomeViewModel: ObservableObject {
     
     func notificationload(_ selectedcategory : String) async {
         do {
-            let notificationloadresponse = try await homeService.notificationload(selectedcategory, pageRequest:NotificationloadRequest(pageRequest: Page(page: 1, size: 10)))
+            let notificationloadresponse = try await homeService.notificationload(selectedcategory, pageRequest:NotificationloadRequest(pageRequest: Page(page: 1, size: 1)))
             self.title = notificationloadresponse.data.first?.title ?? ""
             print("notificationload 결과 : \(notificationloadresponse)")
             

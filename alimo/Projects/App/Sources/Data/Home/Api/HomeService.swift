@@ -13,17 +13,25 @@ fileprivate let client = AlimoHttpClient.live
 
 final class HomeService {
     private let emojiloadPath = "/emoji/load"
+    private let emojistatusPath = "/emoji/status"
     private let commentcreatePath = "/comment/create"
     private let notificationspeakerPath = "/notification/speaker"
     private let notificationreadPath = "/notification/read"
     private let getcategoryPath = "/member/category-list"
     private let notificationloadPath = "/notification/load"
     
-    func emojiload(_ request: EmojiloadRequest) async throws -> Response {
-        try await client.request("\(emojiloadPath)",
+    
+    func emojiload(_ notificationId : Int) async throws -> Response {
+        try await client.request("\(emojistatusPath)/?notificationId=\(notificationId)",
                                  Response.self,
-                                 method: .get,
-                                 parameters: request)
+                                 method: .get)
+    }
+    
+    func emojistatus(_ notificationId : Int ,_ emoji : String) async throws -> Response {
+        try await client.request("\(emojistatusPath)/?notificationId=\(notificationId)",
+                                 Response.self,
+                                 method: .patch,
+                                 parameters: emoji)
     }
     
     

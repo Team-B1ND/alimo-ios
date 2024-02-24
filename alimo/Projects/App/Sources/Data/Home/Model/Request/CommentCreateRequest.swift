@@ -11,7 +11,7 @@ import Foundation
 // MARK: - CommentCreateRequest
 struct CommentCreateRequest: Encodable {
     let content: String
-    let notificationID, memberID: id
+    let notificationId : id
     let parent: String
 }
 
