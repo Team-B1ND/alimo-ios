@@ -23,14 +23,14 @@ struct MainView: View {
                 }
                 GeometryReader { reader in
                     ZStack(alignment: .bottom) {
-                        Color.white
-                            .ignoresSafeArea()
-                            .frame(height: reader.safeAreaInsets.bottom, alignment: .bottom)
+                        BottomNavigation(selectedTab: $selectedTab)
+                            .shadow(color: Color.black.opacity(0.04), radius: 12)
                         VStack {
                             Spacer()
-                            BottomNavigation(selectedTab: $selectedTab)
-                                .shadow(color: Color.black.opacity(0.04), radius: 12)
+                            Color.white
+                                .frame(height: reader.safeAreaInsets.bottom, alignment: .bottom)
                         }
+                        .ignoresSafeArea()
                     }
                 }
             }
