@@ -111,7 +111,8 @@ struct ProfileView: View {
             
         }
         .task {
-            await vm.getInfo()
+            await vm.fetchInfo()
+            await vm.fetchCategoryList()
         }
         .onAppear {
             UIScrollView.appearance().bounces = false

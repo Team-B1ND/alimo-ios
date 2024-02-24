@@ -17,7 +17,7 @@ class ProfileViewModel: ObservableObject {
     private let memberService = MemberService.live
     
     @Published var memberInfo: Member? = nil
-    @Published var categoryList: [String] = [""]
+    @Published var categoryList: [String] = []
     @Published var isAlarmOn: Bool = memberCache.getIsAlarmOn() {
         didSet {
             memberCache.saveIsAlarmOn(isAlarmOn)
@@ -39,7 +39,7 @@ class ProfileViewModel: ObservableObject {
         
     }
     
-    func getInfo() async {
+    func fetchInfo() async {
         do {
             memberInfo = try await memberService.getMemberInfo()
             dump(memberInfo)
@@ -52,17 +52,13 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
-    func getCategoryList() async {
-    
+    func fetchCategoryList() async {
         do {
-            
-            let roles = try await memberService.getCategoryList()
-            categoryList = roles.data.roles
-            
+            let roles = try await memberService.getCategoryList().data.roles
+            categoryList = roles
+            debugPrint(roles)
         } catch {
-            
+            debugPrint(error)
         }
-        
     }
-    
 }
