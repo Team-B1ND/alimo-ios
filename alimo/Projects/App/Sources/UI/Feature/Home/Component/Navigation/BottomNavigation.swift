@@ -28,5 +28,9 @@ struct BottomNavigation: View {
         .padding(.top, 10)
         .background(Color.white)
         .clipShape(RoundedCorner(radius: 12))
+        .onChange(of: selectedTab) { _ in
+            let impactMed = UIImpactFeedbackGenerator(style: .rigid)
+            impactMed.impactOccurred()
+        }
     }
 }
