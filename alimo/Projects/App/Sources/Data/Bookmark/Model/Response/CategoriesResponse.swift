@@ -9,8 +9,9 @@
 import Foundation
 
 struct CategoriesResponse: Decodable {
-    let categoryID: Int
+    let categoryId: Int
     let categoryName: String
     let permissions: [String]
 }
+
 

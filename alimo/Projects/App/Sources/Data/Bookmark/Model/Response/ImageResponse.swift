@@ -14,3 +14,4 @@ struct ImageResponse: Decodable {
     let fileSize: Int
     let fileType: String
 }
+

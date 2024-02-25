@@ -10,7 +10,7 @@ import Foundation
 
 struct MemberResponse: Decodable {
     let createdAt, modifiedAt: String
-    let memberID: Int
+    let memberId: Int
     let email, password: String
     let grade, room, number: Int
     let name, fcmToken: String
@@ -21,3 +21,5 @@ struct MemberResponse: Decodable {
     let memberToRoles: [MemberToRolesResponse]
     let tingProfileImage: ImageResponse
 }
+
+

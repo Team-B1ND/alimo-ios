@@ -18,3 +18,5 @@ struct NotificationResponse: Decodable {
     let categories: [CategoriesResponse]
     let tingNotificationImage: ImageResponse
 }
+
+

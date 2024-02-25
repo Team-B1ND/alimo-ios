@@ -9,7 +9,7 @@
 import Foundation
 
 struct MemberToRolesResponse: Decodable {
-    let permissionID: Int
+    let permissionId: Int
     let permissionName, member: String
     let category: CategoriesResponse
 }

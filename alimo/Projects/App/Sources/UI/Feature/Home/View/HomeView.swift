@@ -12,7 +12,7 @@ import SwiftUI
 struct HomeView: View {
     @State private var selectedIndex = -1
     var categories : [String] = []
-    @ObservedObject var homeViewModel = HomeViewModel()
+    @StateObject var homeViewModel = HomeViewModel()
     var hasNotice: Bool = true
     
     var body: some View {
@@ -52,7 +52,7 @@ struct HomeView: View {
 //                테스트
 //                if homeViewModel.category.count >= 1 {
 //                    let selected = homeViewModel.category[selectedIndex]
-                    await homeViewModel.notificationload("학생")
+                    await homeViewModel.notificationload("바인드")
 //                await homeViewModel.notificationread(0)
 //                }
             }
