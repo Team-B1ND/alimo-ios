@@ -14,9 +14,6 @@ struct ProfileView: View {
     
     @EnvironmentObject var tm: TokenManager
     
-    @State var isCodeClicked: Bool = false
-    @State var isAnimating: Bool = false
-    
     @State var showDialog: Bool = false
     
     var body: some View {
@@ -112,112 +109,34 @@ struct ProfileView: View {
             .ignoresSafeArea()
             .background(Color.gray100)
             
-            VStack {
-                Spacer()
-                
-                RoundedCorner(radius: 4)
-                    .frame(height: 50)
-                    .foregroundStyle(.white)
-                    .shadow(radius: 0)
-                    .overlay {
-                        HStack {
-                            Text("복사에 성공하였습니다!")
-                                .font(.body)
-                            
-                            Spacer()
-                            
-                            Button {
-                                isCodeClicked = false
-                                isAnimating = false
-                            } label: {
-                                
-                                Text("닫기")
-                                    .font(Font.bodyLight)
-                                    .foregroundStyle(Color.yellow)
-                                
-                            }
-                        }
-                        .padding(.horizontal, 20)
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 10)
-                    .offset(y : isAnimating ? 0 : 100)
-                    .animation(.bouncy(duration: 0.5), value: isAnimating)
-                
-            }
-            
-            if showDialog {
-                
-                Rectangle()
-                    .opacity(0.3)
-                    .ignoresSafeArea()
-                    .overlay {
-                        
-                        RoundedRectangle(cornerRadius: 8)
-                            .foregroundStyle(.white)
-                            .frame(width: 290, height: 160)
-                            .overlay {
-                                
-                                VStack {
-                                    
-                                    HStack {
-                                        Text("\(vm.memberInfo?.childCode ?? "")")
-                                            .font(.subtitle)
-                                        
-                                        Button {
-                                            
-                                            UIPasteboard.general.string = vm.memberInfo?.childCode ?? ""
-                                            showDialog = false
-                                            isCodeClicked = true
-                                            isAnimating = true
-                                            
-                                        } label: {
-                                            Image(Asset.copy)
-                                        }
-                                        
-                                    }
-                                    .padding(.bottom, 5)
-                                    
-                                    Text("부모님께만 공유해주세요")
-                                        .font(.bodyLight)
-                                        .foregroundStyle(Color.gray500)
-                                        .padding(.bottom, 5)
-                                    
-                                    HStack {
-                                        
-                                        Spacer()
-                                        
-                                        Button {
-                                            showDialog = false
-                                        } label: {
-                                            
-                                            Text("닫기")
-                                                .foregroundStyle(Color.gray500)
-                                                .frame(width: 50, height: 40)
-                                                .background(Color.gray100)
-                                                .clipShape(RoundedRectangle(cornerRadius: 12))
-                                            
-                                        }
-                                    }
-                                    .padding(.horizontal, 30)
-                                    .padding(.bottom, 5)
-                                    
-                                }
-                            }
-                            .padding(.bottom, 100)
-                        
-                    }
-            }
         }
-        
         .task {
-            await vm.getInfo()
+            await vm.fetchInfo()
+            await vm.fetchCategoryList()
         }
         .onAppear {
             UIScrollView.appearance().bounces = false
         }
         .onDisappear {
             UIScrollView.appearance().bounces = true
+        }
+        .alert(isPresented: $showDialog) {
+            var title: String
+            var message: String
+            if let memberInfo = vm.memberInfo {
+                title = memberInfo.childCode
+                message = "부모님께만 알려주세요"
+            } else {
+                title = "알 수 없는 에러"
+                message = "다시 시도해 주세요"
+            }
+            return Alert(title: Text(title),
+                         message: Text(message),
+                         primaryButton: .cancel(Text("닫기")),
+                         secondaryButton: .default(Text("복사")) {
+                guard let memberInfo = vm.memberInfo else { return }
+                UIPasteboard.general.string = memberInfo.childCode
+            })
         }
     }
 }

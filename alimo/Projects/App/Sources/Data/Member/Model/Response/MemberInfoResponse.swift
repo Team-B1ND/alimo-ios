@@ -17,7 +17,7 @@ struct MemberInfoResponse: Decodable {
     let name: String
     let image: String?
     let childCode: String
-    
+    let isOffAlarm: Bool
 }
 
 extension MemberInfoResponse {
@@ -29,7 +29,8 @@ extension MemberInfoResponse {
                number: number,
                name: name,
                image: image,
-               childCode: childCode)
+               childCode: childCode,
+               isOffAlarm: isOffAlarm)
     }
     
 }
