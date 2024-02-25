@@ -14,11 +14,16 @@ class ParentLoginViewModel: ObservableObject {
     
     @Published var email: String = ""
     @Published var pw: String = ""
+    @Published var isFetching = false
+    @Published var showDialog = false
+    
+//    @Published var show
     
     private let authService = AuthService.live
     
     func signIn(onSuccess: @escaping (String, String) -> Void) async {
-        
+        isFetching = true
+        defer { isFetching = false }
         do {
             let request = SignInRequest(email: email, password: pw)
             let tokenResponse = try await authService.signIn(request)
@@ -28,7 +33,8 @@ class ParentLoginViewModel: ObservableObject {
             }
             
         } catch {
-            print(error)
+            debugPrint(error)
+            showDialog = true
         }
     }
 }

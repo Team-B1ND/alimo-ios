@@ -32,29 +32,28 @@ struct StudentLoginFirstView: View {
             
             Spacer()
             
-            if vm.id != "" && vm.pw != "" {
-                AlimoButton("로그인", buttonType: .yellow) {
-                    Task {
-                        await vm.signIn() { accessToken in
-                            withAnimation {
-                                tm.accessToken = accessToken
-                            }
-                        }
+            let isComplete = vm.id != "" && vm.pw != ""
+            let buttonType: AlimoButtonType = isComplete ? .yellow : .none
+            let buttonText = vm.isFetching ? "" : "로그인"
+            AlimoButton(buttonText, buttonType: buttonType, isLoading: vm.isFetching) {
+                Task {
+                    await vm.signIn { accessToken, refreshToken in
+                        tm.accessToken = accessToken
+                        tm.refreshToken = refreshToken
                     }
                 }
-//                    .disabled(true)
-                .padding(.bottom, 30)
-            } else {
-                AlimoButton("로그인", buttonType: .none) {
-                    print(dummyText)
-                }
-                .disabled(true)
-                .padding(.bottom, 30)
             }
+            .disabled(!isComplete)
+            .padding(.bottom, 30)
         }
         .navigationBarBackButtonHidden(true)
         .alimoToolbar("로그인") {
-            dismiss()
+            NavigationUtil.popToRootView()
+        }
+        .alert(isPresented: $vm.showError) {
+            Alert(title: Text("로그인 할 수 없습니다"),
+                  message: Text("아이디 비밀번호를 다시 확인해 주세요"),
+                  dismissButton: .default(Text("확인")))
         }
     }
 }

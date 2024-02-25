@@ -44,6 +44,11 @@ struct MemberService {
                                  ResponseData<CategoryListResponse>.self,
                                  method: .get)
     }
+    
+    func getNameByChildCode(childCode: String) async throws -> ResponseData<MemberNameResponse> {
+        try await client.request(memberPath + "?childCode=\(childCode)",
+                                 ResponseData<MemberNameResponse>.self)
+    }
 }
 
 extension MemberService {

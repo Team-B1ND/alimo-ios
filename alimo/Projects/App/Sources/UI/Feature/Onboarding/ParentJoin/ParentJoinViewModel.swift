@@ -12,78 +12,87 @@ import SwiftUI
 
 fileprivate let fcmCache = FcmCache.live
 
+
 @MainActor
 class ParentJoinViewModel: ObservableObject {
     
     private var memberService = MemberService.live
     private var authService = AuthService.live
     
+    // MARK: global properties
+    @Published var isFetching = false
+    
+    // MARK: first parent properties
     @Published var memberId: Int? = nil
-    
-    // 부모님 이메일, 비밀번호
-    @Published var email: String = ""
-    @Published var password: String = ""
-    
-    // pw 확잉ㄴ
-    @Published var pwCheck: String = ""
-    
-    // 학생 코드
     @Published var childCode: String = ""
+    @Published var showDialog: Bool = false
+    @Published var dialogMessage = ""
     
-    // 학생 코드 인증 여부
-    @Published var isCorrectChildCode: Bool = false
     
-    @Published var isCorrectSignUp = false
+    // MARK: second parent properties
+    @Published var email: String = ""
+    @Published var pw: String = ""
+    @Published var pwCheck: String = ""
+    @Published var childName: String? = nil
     
-    // dialog on/off 변수
-    @Published var showChildCodeWrongDialog: Bool? = false
     
-    // 이메일 인증 코드
-    @Published var code: String = ""
+    // MARK: third parent properties
+    @Published var code: String = "" // 이메일 인증 코드
+    enum EmailPhase {
+        case none
+        case sended
+        case failure
+    }
+    @Published var emailPhase: EmailPhase = .none
+    @Published var showWrongEmailDialog = false
+    @Published var emailDialogMessage = ""
     
+    // MARK: navigation link properties
+    @Published var isCorrectChildCode: Bool = false // 학생 코드 인증 여부
+    @Published var isCorrectSignUp = false // 1차 회원가입 여부
     
     // login first
     func verifyChildCode() async {
-        
+        isFetching = true
+        defer { isFetching = false }
         var response: ResponseData<ChildCodeResponse>
         
         do {
             
             response = try await authService.verifyChildCode(childCode)
             
-            isCorrectChildCode = response.data.isCorrectChildCode
             memberId = response.data.memberId
             
-        } catch {
-   
-            let code = error.code
+            childName = try await memberService.getNameByChildCode(childCode: childCode).data.name
             
+            isCorrectChildCode = response.data.isCorrectChildCode
+        } catch {
+            let code = error.code
             switch code {
             case 400:
-                print("code: \(code)")
-                showChildCodeWrongDialog = true
-                
+                dialogMessage = "사용 불가능한 학생 코드"
+                showDialog = true
             case 404:
-                print("code: \(code)")
-                showChildCodeWrongDialog = true
-                
+                dialogMessage = "학생 코드를 찾을 수 없습니다"
+                showDialog = true
             default:
-                print(error)
+                debugPrint(error)
+                dialogMessage = "알 수 없는 에러가 발생했습니다"
+                showDialog = true
             }
-            
         }
-        
     }
     
     // login second
     func signUp() async {
-        
+        isFetching = true
+        defer { isFetching = false }
         do {
             
             if let memberId = memberId {
                 
                 let request = SignUpRequest(email: email,
-                                            password: password,
+                                            password: pw,
                                             fcmToken: fcmCache.getToken(of: .fcmToken),
                                             childCode: childCode,
                                             memberId: memberId)
@@ -92,41 +101,52 @@ class ParentJoinViewModel: ObservableObject {
                 isCorrectSignUp = true
             } else {
                 // handle error
-                return
+                showDialog = true
+                dialogMessage = "알 수 없는 에러가 발생했습니다"
             }
-            
         } catch {
-            print(error)
+            showDialog = true
+            dialogMessage = "알 수 없는 에러가 발생했습니다"
+            debugPrint(error)
         }
         
     }
     
     // login third
     func emailsVerificationRequest() async {
-        
+        isFetching = true
+        emailPhase = .sended
+        emailDialogMessage = "알 수 없는 에러가 발생했습니다"
+        defer { isFetching = false }
         do {
-            
-            let response = try await memberService.emailsVerificationRequest(email)
-            
+            _ = try await memberService.emailsVerificationRequest(email)
         } catch {
-            print(error)
+            debugPrint(error)
+            let code = error.code
+            if code == 409 {
+                emailDialogMessage = "이미 해당 이메일은 사용중입니다"
+            }
+            showWrongEmailDialog = true
         }
-        
     }
     
     // login last
     func emailsVerifications(onSuccess: @escaping (String, String) -> Void) async {
-        
+        isFetching = true
+        emailDialogMessage = "인증 코드가 올바르지 않습니다"
+        defer {
+            isFetching = false
+        }
         do {
             let request = EmailsVerificationsRequest(email: email, code: code)
             let response = try await memberService.emailsVerifications(request).data
             withAnimation {
                 onSuccess(response.accessToken, response.refreshToken)
             }
-            
         } catch {
-            print(error)
+            showWrongEmailDialog = true
+            emailPhase = .failure
+            debugPrint(error)
         }
-        
     }
 }

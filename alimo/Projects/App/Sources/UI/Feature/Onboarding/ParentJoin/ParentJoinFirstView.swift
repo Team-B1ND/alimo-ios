@@ -59,7 +59,7 @@ struct ParentJoinFirstView: View {
                 let isCompleted: Bool = vm.childCode.count == 6
                 let buttonType: AlimoButtonType = isCompleted ? .yellow : .none
                 
-                AlimoButton("다음", buttonType: buttonType) {
+                AlimoButton("다음", buttonType: buttonType, isLoading: vm.isFetching) {
                     Task {
                         await vm.verifyChildCode()
                     }
@@ -68,56 +68,18 @@ struct ParentJoinFirstView: View {
                 .padding(.bottom, 30)
                 
                 NavigationLink(isActive: $vm.isCorrectChildCode) {
-                    ParentJoinSecondView(vm: vm)
+                    ParentJoinSecondView(childName: vm.childName)
+                        .environmentObject(vm)
                 } label: {}
-                
             }
             .navigationBarBackButtonHidden()
             .alimoToolbar("회원가입") {
-                dismiss()
+                NavigationUtil.popToRootView()
             }
-            
-            if vm.showChildCodeWrongDialog ?? true {
-                Rectangle()
-                    .opacity(0.3)
-                    .ignoresSafeArea()
-                    .overlay {
-                        RoundedRectangle(cornerRadius: 8)
-                            .foregroundStyle(.white)
-                            .frame(width: 290, height: 160)
-                            .overlay {
-                                VStack {
-                                    Text("올바르지 않은 학생 코드")
-                                        .font(.subtitle)
-                                        .padding(.bottom, 7)
-                                    
-                                    Text("학생 코드를 다시 확인해 주세요")
-                                        .font(.bodyLight)
-                                        .foregroundStyle(Color.gray500)
-                                        .padding(.bottom, 8)
-                                    
-                                    HStack {
-                                        Spacer()
-                                        
-                                        Button {
-                                            vm.showChildCodeWrongDialog = false
-                                        } label: {
-                                            Text("닫기")
-                                                .foregroundStyle(Color.gray500)
-                                                .frame(width: 50, height: 40)
-                                                .background(Color.gray100)
-                                                .clipShape(RoundedRectangle(cornerRadius: 12))
-                                        }
-                                    }
-                                    .padding(.horizontal, 30)
-                                    .padding(.bottom, 5)
-                                    
-                                }
-                            }
-                            .padding(.bottom, 100)
-                    }
-            }
-            
+        }
+        .alert(isPresented: $vm.showDialog) {
+            Alert(title: Text(vm.dialogMessage),
+                  dismissButton: .default(Text("닫기")))
         }
     }
 }
