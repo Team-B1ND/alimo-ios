@@ -16,7 +16,7 @@ struct Member: Hashable {
     var number: Int?
     var name: String?
     var image: String?
-    var childCode: String
+    var childCode: String?
     var memberId: Int?
     var isOffAlarm: Bool
 }

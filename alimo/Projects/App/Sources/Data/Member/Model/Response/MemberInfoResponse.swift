@@ -16,7 +16,7 @@ struct MemberInfoResponse: Decodable {
     let number: Int?
     let name: String?
     let image: String?
-    let childCode: String
+    let childCode: String?
     let isOffAlarm: Bool
 }
 
