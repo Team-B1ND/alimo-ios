@@ -11,10 +11,10 @@ import Foundation
 struct Member: Hashable {
     
     var email: String
-    var grade: Int
-    var room: Int
-    var number: Int
-    var name: String
+    var grade: Int?
+    var room: Int?
+    var number: Int?
+    var name: String?
     var image: String?
     var childCode: String
     var memberId: Int?
