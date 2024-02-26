@@ -8,8 +8,8 @@
 
 import Foundation
 
-struct Home : Hashable {
-    var notificationID: Int?
+struct LoudSpeaker: Hashable {
+    var notificationId: Int
     var title: String
-    var memberID: Int?
+    var memberId: Int
 }

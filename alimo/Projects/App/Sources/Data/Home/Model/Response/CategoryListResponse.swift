@@ -8,8 +8,14 @@
 
 import Foundation
 
-// MARK: - MemberCategorylistResponse
-struct MemberCategorylistResponse: Decodable {
+
+struct CategoryListResponse: Decodable {
     let roles: [String]
+}
+
+extension CategoryListResponse {
+    func toDomain() -> CategoryList {
+        CategoryList(roles: roles)
+    }
 }
 

@@ -19,9 +19,9 @@ struct BookMarkView: View {
                     AlimoLogoBar()
                     
                     if hasPost {
-                        ForEach(1...3, id: \.self) { _ in
+                        ForEach(bookmarkViewModel.bookmarkList, id: \.notificationId) { notification in
                             NavigationLink(destination: DetailPostView()) {
-                                Post(image: nil,title: "테스트", membername: "테스트",content: "테스트",createdAt: "테스트")
+                                NotificationCeil(notification: notification)
                             }
                             .padding(.bottom,30)
                         }

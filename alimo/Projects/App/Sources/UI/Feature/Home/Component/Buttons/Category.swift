@@ -32,7 +32,7 @@ struct Category : View {
                     }
                 }
                 if category.count > 0 {
-                    ForEach(0...category.count, id: \.self) { index in
+                    ForEach(0..<category.count, id: \.self) { index in
                         AlimoSmallButton(category[index], buttonType: selectedIndex == index ? .yellow : .none) {
                             selectedIndex = index
                         }

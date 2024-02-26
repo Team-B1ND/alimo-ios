@@ -1,20 +1,29 @@
 //
-//  NotificationloadResponse.swift
+//  NotificationLoadResponse.swift
 //  App
 //
-//  Created by dgsw8th61 on 2/22/24.
+//  Created by dgsw8th71 on 2/26/24.
 //  Copyright © 2024 b8nd. All rights reserved.
 //
 
 import Foundation
 
-struct NotificationloadResponse : Decodable {
-    let createdAt, modifiedAt: String
+struct NotificationLoadResponse: Decodable {
     let notificationId: Int
-    let title, content: String
+    let title: String
+    let content: String
     let speaker: Bool
-    let images, files: [TingNotificationImageResponse]
-    let member: MemberInformationResponse
-    let categories: [CategoryInfoResponse]
-    let tingNotificationImage: TingNotificationImageResponse
+    let createdAt: String
+    let memberId: Int
+}
+
+extension NotificationLoadResponse {
+    func toDomain() -> Notification {
+        Notification(notificationId: notificationId,
+                     title: title,
+                     content: content,
+                     speaker: speaker,
+                     createdAt: createdAt,
+                     memberId: memberId)
+    }
 }

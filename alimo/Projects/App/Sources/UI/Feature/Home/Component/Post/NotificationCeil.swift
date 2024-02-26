@@ -9,12 +9,10 @@
 import Foundation
 import SwiftUI
 
-struct Post: View {
-    var image : SwiftUI.Image?
-    var title : String
-    var membername : String
-    var content : String
-    var createdAt : String
+struct NotificationCeil: View {
+    
+    let notification: Notification
+    
     var body: some View {
         HStack(spacing: 8) {
             VStack {
@@ -22,17 +20,17 @@ struct Post: View {
                 Spacer()
             }
             VStack(alignment: .leading, spacing: 0) {
-                Profile(newpost: true, title : title, membername: membername)
+                Profile(newpost: true, title: notification.title, membername: String(notification.memberId))
                 NavigationLink {
                     DetailPostView()
                 } label: {
-                    Contents(content: content)
+                    Contents(content: notification.content)
                         .padding(.top, 12)
                     
                     Postimage()
                         .padding(.vertical)
                 }
-                Text(createdAt)
+                Text(notification.createdAt)
                     .foregroundStyle(Color.gray500)
                     .font(.cute)
                     .padding(.top, 12)

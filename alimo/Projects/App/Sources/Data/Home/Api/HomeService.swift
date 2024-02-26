@@ -42,9 +42,9 @@ final class HomeService {
                                  parameters: request)
     }
     
-    func notificationspeaker() async throws -> Home {
+    func loudSpeaker() async throws -> LoudSpeaker {
         try await client.request("\(notificationspeakerPath)",
-                                 ResponseData<NotificationspeakerResponse>.self,
+                                 ResponseData<LoudSpeakerResponse>.self,
                                  method: .get)
         .data.toDomain()
     }
@@ -55,18 +55,18 @@ final class HomeService {
                                  method: .get)
     }
     
-    func getcategory() async throws -> ResponseData<MemberCategorylistResponse> {
+    func getcategory() async throws -> CategoryList {
         try await client.request("\(getcategoryPath)",
-                                 ResponseData<MemberCategorylistResponse>.self,
-                                 method: .get)
+                                 ResponseData<CategoryListResponse>.self,
+                                 method: .get).data.toDomain()
     }
     
 
 
-    func notificationload(_ category: String, pageRequest: NotificationloadRequest) async throws -> HomeResponseData<NotificationloadResponse> {
-        try await client.request("\(notificationloadPath)/\(category)?page=\(pageRequest.pageRequest.page)&size=\(pageRequest.pageRequest.size)",
-                                 HomeResponseData<NotificationloadResponse>.self,
-                                 method: .get)
+    func notificationLoad(_ category: String, pageRequest: NotificationloadRequest) async throws -> [Notification] {
+        try await client.request("\(notificationloadPath)/\(category)?page=\(pageRequest.page)&size=\(pageRequest.size)",
+                                 ResponseData<[NotificationLoadResponse]>.self,
+                                 method: .get).data.map { $0.toDomain() }
     }
 }
 

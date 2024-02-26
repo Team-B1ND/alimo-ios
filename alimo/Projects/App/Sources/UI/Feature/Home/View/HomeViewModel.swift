@@ -15,69 +15,34 @@ import Alamofire
 class HomeViewModel: ObservableObject {
     private let homeService = HomeService.live
     @Published var category : [String] = []
-    @Published var notificationspeaketitle : String = ""
-    @Published var memberID : Int? = nil
-    @Published var title : String = ""
-    @Published var content : String = ""
-    @Published var createdAt : String = ""
-    @Published var membername : String = ""
-    @Published var image: SwiftUI.Image? = nil
+    @Published var loudSpeaker: LoudSpeaker? = nil
+    @Published var notificationList: [Notification] = []
 
     
-    func getcategory() async {
+    func fetchCategoryList() async {
         do {
-            let getcategoryResponse = try await homeService.getcategory()
-            self.category = getcategoryResponse.data.roles
-            print(getcategoryResponse)
+            let roles = try await homeService.getcategory().roles
+            dump(roles)
+            category = roles
         } catch {
-            print(error)
+            debugPrint(error)
         }
     }
     
-    func notificationspeake() async {
+    func fetchLoudSpeaker() async {
         do {
-            let notificationspeakeResponse = try await homeService.notificationspeaker()
-            print(notificationspeakeResponse)
-            self.notificationspeaketitle = notificationspeakeResponse.title
-            self.memberID = notificationspeakeResponse.memberID
-            
-            
+            loudSpeaker = try await homeService.loudSpeaker()
         } catch {
-            print(error)
+            debugPrint(error)
         }
     }
     
-    func notificationload(_ selectedcategory : String) async {
+    func fetchNotifications(_ selectedcategory: String) async {
         do {
-            let notificationloadresponse = try await homeService.notificationload(selectedcategory, pageRequest:NotificationloadRequest(pageRequest: Page(page: 1, size: 1)))
-            
-            print("notificationload 결과 : \(notificationloadresponse)")
-            
-            self.title = notificationloadresponse.data.first?.title ?? "제목"
-            self.content = notificationloadresponse.data.first?.content ?? "내용"
-            self.createdAt = notificationloadresponse.data.first?.createdAt ?? "날짜"
-            self.membername = notificationloadresponse.data.first?.member.name ?? "작성자"
-            
-            
-//            let imageUrlString = "테스트 url"
-//            if let imageUrl = URL(string: imageUrlString) {
-//                loadImageFromURL(imageUrl) { image in
-//                    if let image = image {
-//                        self.image = Image(uiImage: image)
-//                    }
-//                }
-//            }
-            if let imageUrlString = notificationloadresponse.data.first?.images.first?.fileUrl,
-               let imageUrl = URL(string: imageUrlString) {
-                loadImageFromURL(imageUrl) { image in
-                    if let image = image {
-                        self.image = Image(uiImage: image)
-                    }
-                }
-            }
-            
+            let request = NotificationloadRequest(page: 1, size: 10)
+            notificationList = try await homeService.notificationLoad(selectedcategory, pageRequest: request)
         } catch {
-            print(error)
+            debugPrint(error)
         }
     }
     

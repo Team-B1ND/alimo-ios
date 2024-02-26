@@ -47,9 +47,9 @@ final class BookmarkService {
                                  method: .post)
     }
     
-    func bookmarkload(_ category : String , _ pageRequest: NotificationloadRequest ) async throws -> HomeResponseData<BookmarkloadResponse> {
-        try await client.request("\(bookmarkloadPath)/\(category)?page=\(pageRequest.pageRequest.page)&size=\(pageRequest.pageRequest.size)",
-                                 HomeResponseData<BookmarkloadResponse>.self,
+    func bookmarkload(_ category : String , _ pageRequest: NotificationloadRequest ) async throws -> ResponseData<BookmarkloadResponse> {
+        try await client.request("\(bookmarkloadPath)/\(category)?page=\(pageRequest.page)&size=\(pageRequest.size)",
+                                 ResponseData<BookmarkloadResponse>.self,
                                  method: .get)
     }
 }

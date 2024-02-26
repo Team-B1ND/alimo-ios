@@ -12,7 +12,7 @@ import SwiftUI
 struct HomeView: View {
     @State private var selectedIndex = -1
     var categories : [String] = []
-    @StateObject var homeViewModel = HomeViewModel()
+    @StateObject var vm = HomeViewModel()
     var hasNotice: Bool = true
     
     var body: some View {
@@ -20,15 +20,15 @@ struct HomeView: View {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 0) {
                     AlimoLogoBar()
-                    Notice(notificationspeaketitle: Text(homeViewModel.notificationspeaketitle), memberID: Text("\(homeViewModel.memberID ?? 0)"))
+                    Notice(notificationspeaketitle: Text(vm.loudSpeaker?.title ?? ""), memberID: Text("\(vm.loudSpeaker?.memberId ?? 0)"))
                     
                     
                     LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
                         Section(header: filterBar) {
                             if hasNotice {
-                                ForEach(1...3, id: \.self) { _ in
+                                ForEach(vm.notificationList, id: \.self) { notification in
                                     VStack(spacing: 0) {
-                                        Post(image: homeViewModel.image, title: homeViewModel.title, membername: homeViewModel.membername,content: homeViewModel.content, createdAt: homeViewModel.createdAt)
+                                        NotificationCeil(notification: notification)
                                         Divider()
                                             .foregroundStyle(Color.gray100)
                                     }
@@ -47,28 +47,15 @@ struct HomeView: View {
             }
             .clipped()
             .task {
-                await homeViewModel.getcategory()
-                await homeViewModel.notificationspeake()
-//                테스트
-//                if homeViewModel.category.count >= 1 {
-//                    let selected = homeViewModel.category[selectedIndex]
-                    await homeViewModel.notificationload("바인드")
-//                await homeViewModel.notificationread(0)
-//                }
+                await vm.fetchCategoryList()
+                await vm.fetchLoudSpeaker()
+                await vm.fetchNotifications("1학년")
             }
-
-//            .onChange(of: selectedIndex) { newValue in
-//                Task {
-//                    let selected = homeViewModel.category[newValue - 1]
-//                    await homeViewModel.notificationload(selected)
-//                }
-//            }
-
         }
     }
     
     private var filterBar: some View {
-        Category(category: homeViewModel.category, selectedIndex: $selectedIndex)
+        Category(category: vm.category, selectedIndex: $selectedIndex)
             .frame(minWidth: 0, maxWidth: .infinity)
             .padding(.vertical, 12)
             .background(Color.white)

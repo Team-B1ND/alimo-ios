@@ -9,11 +9,5 @@
 import Foundation
 
 struct NotificationloadRequest : Encodable {
-    let pageRequest : Page
-//    let category : String
-}
-
-
-struct Page: Encodable {
     let page, size: Int
 }

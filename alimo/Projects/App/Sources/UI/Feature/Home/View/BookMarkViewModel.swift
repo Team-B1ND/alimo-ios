@@ -12,18 +12,17 @@ import Foundation
 class BookMarkViewModel: ObservableObject {
     private let bookmarkService = BookmarkService.live
     
+    @Published var bookmarkList: [Notification] = []
+    
     func bookmarkload(_ selectedcategory : String) async {
         do {
-            let notificationloadresponse = try await bookmarkService.bookmarkload(selectedcategory, NotificationloadRequest(pageRequest: Page(page: 1, size: 1)))
+//            let notificationloadresponse = try await bookmarkService.bookmarkload(selectedcategory, NotificationloadRequest(pageRequest: Page(page: 1, size: 1)))
             
-            print("notificationload 결과 : \(notificationloadresponse)")
+//            print("notificationload 결과 : \(notificationloadresponse)")
         } catch {
-            print(error)
+            debugPrint(error)
         }
     }
-    
-
-    
 }
 
 
