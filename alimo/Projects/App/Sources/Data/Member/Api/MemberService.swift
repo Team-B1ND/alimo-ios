@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 fileprivate let client = AlimoHttpClient.live
 
@@ -32,6 +33,27 @@ struct MemberService {
                                  method: .post)
     }
     
+    func modifyMember(image: UIImage) async throws -> Response? {
+        guard let imageData = image.jpegData(compressionQuality: 0.5) else {
+            print("Failed to convert image to data")
+            return nil
+        }
+        return try await client.upload(multipartFormData: {
+            $0.append(imageData, withName: "image")
+        }, to: memberPath + "/modify", Response.self, method: .patch)
+    }
+    
+    func getNameByChildCode(childCode: String) async throws -> ResponseData<MemberNameResponse> {
+        try await client.request(memberPath + "?childCode=\(childCode)",
+                                 ResponseData<MemberNameResponse>.self)
+    }
+    
+    func byebye() async throws -> Response {
+        try await client.request(memberPath,
+                                 Response.self,
+                                 method: .delete)
+    }
+    
     func getMemberInfo() async throws -> Member {
         try await client.request(memberPath + "/info",
                                  ResponseData<MemberInfoResponse>.self,
@@ -51,16 +73,6 @@ struct MemberService {
                                  method: .get)
     }
     
-    func getNameByChildCode(childCode: String) async throws -> ResponseData<MemberNameResponse> {
-        try await client.request(memberPath + "?childCode=\(childCode)",
-                                 ResponseData<MemberNameResponse>.self)
-    }
-    
-    func byebye() async throws -> Response {
-        try await client.request(memberPath,
-                                 Response.self,
-                                 method: .delete)
-    }
 }
 
 extension MemberService {
