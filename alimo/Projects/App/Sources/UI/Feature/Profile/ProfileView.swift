@@ -17,107 +17,101 @@ struct ProfileView: View {
     @State var showDialog: Bool = false
     
     var body: some View {
-        ZStack {
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 10) {
-                    HStack {
-                        AlimoLogo(type: .gray)
-                        Spacer()
-                    }
-                    .padding(.top, 60)
-                    .padding(.horizontal, 20)
-                    
-                    if let image = vm.memberInfo?.image {
-                        AsyncImage(url: URL(string: image))
-                        {
-                            $0
-                                .resizable()
-                                .clipShape(Circle())
-                                .frame(width: 100, height: 100)
-                        } placeholder: {
-                            Circle()
-                                .foregroundStyle(Color.gray100)
-                                .frame(width: 100, height: 100)
+        GeometryReader { reader in
+            ZStack {
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 10) {
+                        AlimoLogoBar()
+                        if let image = vm.memberInfo?.image {
+                            AsyncImage(url: URL(string: image))
+                            {
+                                $0
+                                    .resizable()
+                                    .clipShape(Circle())
+                                    .frame(width: 100, height: 100)
+                            } placeholder: {
+                                Circle()
+                                    .foregroundStyle(Color.gray100)
+                                    .frame(width: 100, height: 100)
+                            }
+                        } else {
+                            AlimoAvatar(type: .large)
                         }
-                    } else {
-                        AlimoAvatar(type: .large)
-                    }
-                    
-                    Text(vm.memberInfo?.name ?? "")
-                        .font(Font.body)
-                        .padding(.top, 10)
-                    
-                    Button {
-                        showDialog = true
-                    } label: {
-                        Text("학생코드")
-                            .font(.caption)
-                            .foregroundStyle(Color.gray500)
-                            .underline()
-                    }
-                    
-                    AlimoFlowLayout(mode: .scrollable,
-                               items: vm.categoryList) {
-                        Text($0)
-                            .font(.caption)
-                            .foregroundStyle(Color.gray500)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 5)
-                            .background(Color.gray100)
-                            .clipShape(Capsule())
-                    }
-                               .padding()
-                    
-                    SettingCeil("알림 설정") {
-                        AlimoToggle(isOn: $vm.isAlarmOn)
-                    }
-                }
-                .background(Color.main50)
-                
-                VStack(spacing: 0) {
-                    Button {
-                        print("ProfileView - 개인정보 이용 약관")
-                    } label: {
-                        SettingCeil("개인정보 이용 약관")
-                    }
-                    
-                    Button {
-                        print("ProfileView - 개인정보 이용 약관")
-                    } label: {
-                        SettingCeil("서비스 정책")
-                    }
-                    
-                    SettingCeil("버전") {
-                        Text("v\(version ?? " -")")
-                            .font(.bodyLight)
-                            .foregroundStyle(Color.gray500)
-                    }
-                    
-                    Divider()
-                        .foregroundStyle(Color.gray100)
-                        .padding(.horizontal, 12)
-                    
-                    Button {
-                        withAnimation {
-                            tm.accessToken = ""
+                        
+                        Text(vm.memberInfo?.name ?? "")
+                            .font(Font.body)
+                            .padding(.top, 10)
+                        Button {
+                            showDialog = true
+                        } label: {
+                            Text("학생코드")
+                                .font(.caption)
+                                .foregroundStyle(Color.gray500)
+                                .underline()
                         }
-                    } label: {
-                        SettingCeil("로그아웃", foregroundColor: .red500)
+                        
+                        AlimoFlowLayout(mode: .scrollable,
+                                        items: vm.categoryList) {
+                            Text($0)
+                                .font(.caption)
+                                .foregroundStyle(Color.gray500)
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 5)
+                                .background(Color.gray100)
+                                .clipShape(Capsule())
+                        }
+                                        .padding()
+                        
+                        SettingCeil("알림 설정") {
+                            AlimoToggle(isOn: $vm.isAlarmOn)
+                        }
                     }
+                    .background(Color.main50)
                     
-                    Button {
-                        Task {
-                            await vm.byebye {
+                    VStack(spacing: 0) {
+                        Button {
+                            print("ProfileView - 개인정보 이용 약관")
+                        } label: {
+                            SettingCeil("개인정보 이용 약관")
+                        }
+                        
+                        Button {
+                            print("ProfileView - 개인정보 이용 약관")
+                        } label: {
+                            SettingCeil("서비스 정책")
+                        }
+                        
+                        SettingCeil("버전") {
+                            Text("v\(version ?? " -")")
+                                .font(.bodyLight)
+                                .foregroundStyle(Color.gray500)
+                        }
+                        
+                        Divider()
+                            .foregroundStyle(Color.gray100)
+                            .padding(.horizontal, 12)
+                        
+                        Button {
+                            withAnimation {
                                 tm.accessToken = ""
                             }
+                        } label: {
+                            SettingCeil("로그아웃", foregroundColor: .red500)
                         }
-                    } label: {
-                        SettingCeil("회원탈퇴", foregroundColor: .red500)
+                        
+                        Button {
+                            Task {
+                                await vm.byebye {
+                                    tm.accessToken = ""
+                                }
+                            }
+                        } label: {
+                            SettingCeil("회원탈퇴", foregroundColor: .red500)
+                        }
                     }
                 }
+                .background(Color.gray100)
             }
-            .ignoresSafeArea()
-            .background(Color.gray100)
         }
         .onAppear {
             UIScrollView.appearance().bounces = false
