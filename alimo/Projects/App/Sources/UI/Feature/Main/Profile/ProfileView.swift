@@ -101,6 +101,7 @@ struct ProfileView: View {
                 Button {
                     withAnimation {
                         tm.accessToken = ""
+                        tm.refreshToken = ""
                     }
                 } label: {
                     SettingCeil("로그아웃", foregroundColor: .red500)
