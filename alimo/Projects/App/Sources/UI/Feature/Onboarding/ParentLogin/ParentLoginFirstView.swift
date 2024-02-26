@@ -20,7 +20,7 @@ struct ParentLoginFirstView: View {
         
         
         let isCompleted = vm.email != "" && vm.pw != ""
-        let isCorrectPw = Regex.validateInput(vm.pw)
+        let isCorrectPw = Regex.validatePassword(vm.pw)
         let isOk = isCompleted && isCorrectPw
         
         VStack {

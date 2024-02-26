@@ -9,7 +9,7 @@
 import Foundation
 
 struct Regex {
-    static func validateInput(_ input: String) -> Bool {
+    static func validatePassword(_ input: String) -> Bool {
         let pattern = #"^[a-zA-Z0-9!@#$%^&*()-_+=?<>]{5,18}$"#
         let regex = try! NSRegularExpression(pattern: pattern)
         let range = NSRange(location: 0, length: input.utf16.count)

@@ -20,7 +20,7 @@ struct ParentJoinSecondView: View {
         
         let isCompleted = !vm.email.isEmpty && !vm.pw.isEmpty && !vm.pwCheck.isEmpty
         let isSame: Bool = vm.pw == vm.pwCheck
-        let isCorrectPw = Regex.validateInput(vm.pw) && Regex.validateInput(vm.pwCheck)
+        let isCorrectPw = Regex.validatePassword(vm.pw) && Regex.validatePassword(vm.pwCheck)
         
         VStack {
             HStack {
