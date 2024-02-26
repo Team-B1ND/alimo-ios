@@ -39,6 +39,9 @@ struct MainView: View {
                 }
             }
         }
+        .onAppear {
+            endTextEditing()
+        }
         .task {
             await homeVM.fetchCategoryList()
             await homeVM.fetchLoudSpeaker()
