@@ -31,12 +31,18 @@ class DefaultInterceptor: RequestInterceptor {
         
         let refreshToken = authCache.getToken(of: .refreshToken)
         let request = RefreshRequest(refreshToken: refreshToken)
+        
+        print("refreshToken - \(refreshToken)")
+        
         Task {
             do {
                 let response = try await authService.refresh(request)
+                print("-- refreshed --")
+                print(response)
                 authCache.saveToken(response.data.accessToken, to: .accessToken)
                 completion(.retry)
             } catch {
+                print("-- lost session --")
                 completion(.doNotRetryWithError(error))
             }
         }
