@@ -93,3 +93,24 @@ extension View {
         )
     }
 }
+
+struct ViewOffsetKey: PreferenceKey {
+    typealias Value = CGFloat
+    static var defaultValue = CGFloat.zero
+    static func reduce(value: inout Value, nextValue: () -> Value) {
+        value += nextValue()
+    }
+}
+
+extension View {
+    func showShadow(show: Bool) -> some View {
+        Group {
+            if show {
+                self
+                    .shadow(color: Color.black.opacity(0.08), radius: 18, y: 6)
+            } else {
+                self
+            }
+        }
+    }
+}
