@@ -20,6 +20,14 @@ class HomeViewModel: ObservableObject {
     @Published var category : [String] = []
     @Published var loudSpeaker: LoudSpeaker? = nil
     @Published var notificationList: [Notification] = []
+    
+    @Published var selectedIndex = -1 {
+        didSet {
+            Task {
+                await fetchNotifications()
+            }
+        }
+    }
 
     
     func fetchCategoryList() async {
@@ -40,10 +48,11 @@ class HomeViewModel: ObservableObject {
         }
     }
     
-    func fetchNotifications(_ selectedcategory: String) async {
+    func fetchNotifications() async {
         do {
+            let selectedCategory = selectedIndex == -1 ? "all" : category[selectedIndex]
             let request = PageRequest(page: 1, size: 10)
-            notificationList = try await notificationService.getNotificationByCategory(category: selectedcategory, request: request)
+            notificationList = try await notificationService.getNotificationByCategory(category: selectedCategory, request: request)
         } catch {
             debugPrint(error)
         }

@@ -13,7 +13,6 @@ struct HomeView: View {
     
     @ObservedObject var vm: HomeViewModel
     
-    @State private var selectedIndex = -1
     @State private var scrollViewOffset: CGFloat = 0 {
         didSet {
             if isSelectorReached != (scrollViewOffset >= 84) {
@@ -29,12 +28,12 @@ struct HomeView: View {
         let category = vm.category
         ScrollView(.horizontal, showsIndicators: true) {
             HStack(spacing: 12) {
-                AlimoSmallButton("전체", buttonType: selectedIndex == -1 ? .yellow : .none) {
-                    selectedIndex = -1
+                AlimoSmallButton("전체", buttonType: vm.selectedIndex == -1 ? .yellow : .none) {
+                    vm.selectedIndex = -1
                 }
                 ForEach(0..<category.count, id: \.self) { index in
-                    AlimoSmallButton(category[index], buttonType: selectedIndex == index ? .yellow : .none) {
-                        selectedIndex = index
+                    AlimoSmallButton(category[index], buttonType: vm.selectedIndex == index ? .yellow : .none) {
+                        vm.selectedIndex = index
                     }
                 }
             }

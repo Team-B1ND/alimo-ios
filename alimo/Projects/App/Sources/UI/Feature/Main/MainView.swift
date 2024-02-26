@@ -42,7 +42,7 @@ struct MainView: View {
         .task {
             await homeVM.fetchCategoryList()
             await homeVM.fetchLoudSpeaker()
-            await homeVM.fetchNotifications("1학년")
+            await homeVM.fetchNotifications()
             
             await profileVM.fetchInfo()
             await profileVM.fetchCategoryList()
