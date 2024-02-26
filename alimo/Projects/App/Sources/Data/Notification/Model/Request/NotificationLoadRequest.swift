@@ -8,6 +8,6 @@
 
 import Foundation
 
-struct NotificationloadRequest : Encodable {
+struct NotificationLoadRequest : Encodable {
     let page, size: Int
 }
