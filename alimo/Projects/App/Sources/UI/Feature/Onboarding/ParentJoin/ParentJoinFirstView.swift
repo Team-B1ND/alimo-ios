@@ -14,8 +14,6 @@ struct ParentJoinFirstView: View {
     
     @Environment(\.dismiss) private var dismiss
     
-//    let dummyStudentCode: String = "123456"
-    
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
@@ -61,7 +59,7 @@ struct ParentJoinFirstView: View {
                 let isCompleted: Bool = vm.childCode.count == 6
                 let buttonType: AlimoButtonType = isCompleted ? .yellow : .none
                 
-                AlimoButton("다음", buttonType: buttonType) {
+                AlimoButton("다음", buttonType: buttonType, isLoading: vm.isFetching) {
                     Task {
                         await vm.verifyChildCode()
                     }
@@ -70,136 +68,18 @@ struct ParentJoinFirstView: View {
                 .padding(.bottom, 30)
                 
                 NavigationLink(isActive: $vm.isCorrectChildCode) {
-                    ParentJoinSecondView()
+                    ParentJoinSecondView(childName: vm.childName)
+                        .environmentObject(vm)
                 } label: {}
-                
             }
             .navigationBarBackButtonHidden()
             .alimoToolbar("회원가입") {
-                dismiss()
-            }
-            
-            if vm.showChildCodeWrongDialog {
-                Rectangle()
-                    .opacity(0.3)
-                    .ignoresSafeArea()
-                    .overlay {
-                        RoundedRectangle(cornerRadius: 8)
-                            .foregroundStyle(.white)
-                            .frame(width: 290, height: 160)
-                            .overlay {
-                                VStack {
-                                    Text("올바르지 않은 학생 코드")
-                                        .font(.subtitle)
-                                        .padding(.bottom, 7)
-                                    
-                                    Text("학생 코드를 다시 확인해 주세요")
-                                        .font(.bodyLight)
-                                        .foregroundStyle(Color.gray500)
-                                        .padding(.bottom, 8)
-                                    
-                                    HStack {
-                                        Spacer()
-                                        
-                                        Button {
-                                            vm.isCorrectChildCode = true
-                                        } label: {
-                                            Text("닫기")
-                                                .foregroundStyle(Color.gray500)
-                                                .frame(width: 50, height: 40)
-                                                .background(Color.gray100)
-                                                .clipShape(RoundedRectangle(cornerRadius: 12))
-                                        }
-                                    }
-                                    .padding(.horizontal, 30)
-                                    .padding(.bottom, 5)
-                                    
-                                }
-                            }
-                            .padding(.bottom, 100)
-                    }
-            }
-            
-        }
-    }
-}
-
-struct CharacterField: View {
-    @State var character: String = ""
-    @FocusState var focused: Int?
-    @Binding var characters: [Int : String]
-    
-    var index: Int
-    var onChange: ((_ index: Int, _ char: String) -> Void)
-    
-    var body: some View {
-        TextField(text: $character) {
-            Text("")
-                .font(.body)
-        }
-        .lineLimit(1)
-        .multilineTextAlignment(.center)
-        .background(
-            RoundedRectangle(cornerRadius: 8)
-                .foregroundStyle(.white)
-                .frame(height: 52)
-                .clipShape(RoundedRectangle(cornerRadius: Size.large.rawValue))
-                .overlay {
-                    if focused == index {
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.gray500, lineWidth: 2)
-                    } else {
-                        if characters[index] != nil && characters[index] != "" {
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color.main500, lineWidth: 2)
-                        } else {
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color.gray300, lineWidth: 2)
-                        }
-                    }
-                }
-        )
-        .frame(maxWidth: .infinity, alignment: .center)
-        .focused($focused, equals: index)
-        .onChange(of: character) { newValue in
-            onChange(index, character)
-            
-            if newValue.count > 1 {
-                character = String(newValue[newValue.startIndex..<newValue.index(newValue.startIndex, offsetBy: 1)])
+                NavigationUtil.popToRootView()
             }
         }
-        .padding(.horizontal, 3)
-        
-    }
-}
-
-struct SeparatedTextField: View {
-    var length: Int // 입력받은 글자 수
-    @FocusState var focused: Int?
-    // index별로 글자를 저장할 dictionary
-    @State var characters: [Int : String] = [:]
-    
-    @Binding var string: String
-    
-    var body: some View {
-        HStack {
-            ForEach(0..<length) { i in
-                CharacterField(focused: _focused, characters: $characters, index: i) { i, c in
-                    focused = c.isEmpty ? i - 1 : i + 1
-                    characters[i] = c
-                    string = getString()
-                }
-            }
-        }.padding([.vertical], 16)
-    }
-    
-    func getString() -> String {
-        var str = ""
-        for i in 0..<length {
-            if let c = characters[i] {
-                str += c
-            }
+        .alert(isPresented: $vm.showDialog) {
+            Alert(title: Text(vm.dialogMessage),
+                  dismissButton: .default(Text("닫기")))
         }
-        return str
     }
 }

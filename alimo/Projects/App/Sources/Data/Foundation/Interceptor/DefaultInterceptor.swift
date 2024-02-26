@@ -9,23 +9,36 @@
 import Alamofire
 import Foundation
 
+fileprivate let authService = AuthService.live
+fileprivate let authCache = AuthCache.live
+
 class DefaultInterceptor: RequestInterceptor {
     func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
         var modifiedRequest = urlRequest
-        modifiedRequest.setValue("Bearer " + (UserDefaults.standard.string(forKey: "accessToken") ?? ""), forHTTPHeaderField: "Authorization")
+        modifiedRequest.setValue("Bearer " + authCache.getToken(of: .accessToken), forHTTPHeaderField: "Authorization")
         
         completion(.success(modifiedRequest))
-        //        print(urlRequest.headers)
-        //        var modifiedRequest = urlRequest
-        //        modifiedRequest.setValue("Bearer " + (UserDefaults.standard.string(forKey: "accessToken") ?? ""), forHTTPHeaderField: "Authorization")
-        
-        //        completion(.success(urlRequest))
     }
     
     func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
         
-        // add condition & to refresh
+        debugPrint(request)
         
-        completion(.doNotRetry)
+        guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 403 else {
+            completion(.doNotRetryWithError(error))
+            return
+        }
+        
+        let refreshToken = authCache.getToken(of: .refreshToken)
+        let request = RefreshRequest(refreshToken: refreshToken)
+        Task {
+            do {
+                let response = try await authService.refresh(request)
+                authCache.saveToken(response.data.accessToken, to: .accessToken)
+                completion(.retry)
+            } catch {
+                completion(.doNotRetryWithError(error))
+            }
+        }
     }
 }

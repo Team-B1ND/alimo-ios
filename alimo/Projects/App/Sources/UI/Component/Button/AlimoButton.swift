@@ -12,13 +12,16 @@ struct AlimoButton: View {
     
     var text: String
     var buttonType: AlimoButtonType
+    var isLoading: Bool
     var callback: () -> Void
     
     init(_ text: String, 
          buttonType: AlimoButtonType = .yellow,
+         isLoading: Bool = false,
          callback: @escaping () -> Void) {
         self.text = text
         self.buttonType = buttonType
+        self.isLoading = isLoading
         self.callback = callback
     }
     
@@ -26,13 +29,19 @@ struct AlimoButton: View {
         Button {
             callback()
         } label: {
-            Text(text)
+            Text(!isLoading ? text : "")
                 .font(.body)
                 .frame(maxWidth: .infinity, maxHeight: 54)
                 .foregroundStyle(buttonType.foregroundColor)
                 .background(buttonType.backgroundColor)
                 .clipShape(RoundedRectangle(cornerRadius: Size.large.rawValue))
+                .overlay {
+                    if isLoading {
+                        ProgressView()
+                    }
+                }
         }
         .padding(.horizontal, 20)
+        .disabled(isLoading)
     }
 }

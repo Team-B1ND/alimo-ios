@@ -18,7 +18,7 @@ final class AuthService {
     }
     
     func signIn(_ request: SignInRequest) async throws -> ResponseData<TokenResponse> {
-        try await client.request("\(signInPath)/",
+        try await client.request("\(signInPath)",
                                  ResponseData<TokenResponse>.self,
                                  method: .post,
                                  parameters: request)
@@ -31,10 +31,12 @@ final class AuthService {
     }
     
     func refresh(_ request: RefreshRequest) async throws -> ResponseData<RefreshResponse> {
-        try await client.request("\(refreshPath)/",
-                                 ResponseData<RefreshResponse>.self,
-                                 method: .post,
-                                 parameters: request)
+        try await AF.request(baseUrl + "/refresh",
+                             method: .post,
+                             parameters: request,
+                             encoder: JSONParameterEncoder.default)
+        .validate()
+        .serializingDecodable(ResponseData<RefreshResponse>.self).value
     }
     
     func verifyChildCode(_ childCode: String) async throws -> ResponseData<ChildCodeResponse> {
@@ -43,9 +45,9 @@ final class AuthService {
                                  method: .post)
     }
     
-    func signUp(_ request: SignUpRequest) async throws -> ResponseData<TokenResponse> {
-        try await client.request("\(signUpPath)/",
-                                 ResponseData<TokenResponse>.self,
+    func signUp(_ request: SignUpRequest) async throws -> Response {
+        try await client.request("\(signUpPath)",
+                                 Response.self,
                                  method: .post,
                                  parameters: request)
     }

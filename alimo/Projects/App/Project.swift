@@ -30,6 +30,8 @@ let project = Project.makeModule(
         "UIUserInterfaceStyle":"Light",
         "NSAppTransportSecurity": [
             "NSAllowsArbitraryLoads": .boolean(true)
-        ]
+        ],
+        "FirebaseAppDelegateProxyEnabled": .boolean(false),
+        "UIBackgroundModes": ["fetch", "remote-notification", "remove-notification"]
     ])
 )

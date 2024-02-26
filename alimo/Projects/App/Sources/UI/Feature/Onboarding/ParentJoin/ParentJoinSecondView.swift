@@ -10,20 +10,21 @@ import SwiftUI
 
 struct ParentJoinSecondView: View {
     
-    @ObservedObject var vm = ParentJoinViewModel()
+    @EnvironmentObject var vm: ParentJoinViewModel
     
     @Environment(\.dismiss) private var dismiss
     
-    @State var pwCheck: String = ""
-    
-    @State var showTextAlert: Bool = false
-    
-    @State var name: String? = ""
+    let childName: String?
     
     var body: some View {
+        
+        let isCompleted = !vm.email.isEmpty && !vm.pw.isEmpty && !vm.pwCheck.isEmpty
+        let isSame: Bool = vm.pw == vm.pwCheck
+        let isCorrectPw = Regex.validateInput(vm.pw) && Regex.validateInput(vm.pwCheck)
+        
         VStack {
             HStack {
-                Text("\(vm.memberInfo?.name ?? "")님 안녕하세요!")
+                Text("\(childName ?? "")\(childName != nil ? " " : "")학부모님 안녕하세요!")
                     .font(.subtitle)
                     .foregroundStyle(Color.main900)
                     .padding(.top, 30)
@@ -34,22 +35,24 @@ struct ParentJoinSecondView: View {
             
             AlimoTextField("이메일", text: $vm.email)
             
-            AlimoTextField("비밀번호", text: $vm.password, textFieldType: .password)
+            AlimoTextField("비밀번호", text: $vm.pw, textFieldType: .password)
             
-            AlimoTextField("비밀번호 재입력", text: $pwCheck, textFieldType: .password)
+            AlimoTextField("비밀번호 재입력", text: $vm.pwCheck, textFieldType: .password)
             
-            if showTextAlert {
-                
-                HStack {
-                    Text("비밀번호가 다릅니다.")
-                        .font(.caption)
-                        .foregroundStyle(Color.red500)
-                    Spacer()
+            HStack {
+                Group {
+                    if !isCorrectPw && (!vm.pw.isEmpty || !vm.pwCheck.isEmpty) {
+                        Text("5~18자 영문, 숫자, 특수문자")
+                    } else if vm.pw != vm.pwCheck {
+                        Text("비밀번호가 일치하지 않습니다")
+                    }
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 5)
-                
+                .font(.caption)
+                .padding(.top, 4)
+                .foregroundStyle(Color.red500)
+                Spacer()
             }
+            .padding(.horizontal, 24)
             
             Spacer()
             
@@ -66,32 +69,33 @@ struct ParentJoinSecondView: View {
                         .underline()
                 }
             }
-            .padding(.bottom, 5)
+            .padding(.bottom, 16)
             
-            let isCompleted = !vm.email.isEmpty && !vm.password.isEmpty && !pwCheck.isEmpty
-            let isSame = vm.password == pwCheck
+            let isOk = isCompleted && isSame && isCorrectPw
             
-            let buttonType: AlimoButtonType = isCompleted ? .yellow : .none
+            let buttonType: AlimoButtonType = isOk ? .yellow : .none
             
-            NavigationLink {
+            NavigationLink(isActive: $vm.isCorrectSignUp) {
                 ParentJoinThirdView()
+                    .environmentObject(vm)
             } label: {
-                AlimoButton("다음", buttonType: buttonType) {
-                    showTextAlert = true
-                }
-                .disabled(isCompleted && isSame)
-                .padding(.bottom, 30)
             }
+            
+            AlimoButton("다음", buttonType: buttonType, isLoading: vm.isFetching) {
+                Task {
+                    await vm.signUp()
+                }
+            }
+            .disabled(!(isCompleted && isSame && isOk))
+            .padding(.bottom, 30)
         }
-        .task {
-            await vm.getInfo()
-        }
-        .onAppear() {
-            showTextAlert = false
-        }
-        .navigationBarBackButtonHidden(true)
+        .navigationBarBackButtonHidden()
         .alimoToolbar("회원가입") {
-            dismiss()
+            NavigationUtil.popToRootView()
+        }
+        .alert(isPresented: $vm.showDialog) {
+            Alert(title: Text(vm.dialogMessage),
+                  dismissButton: .default(Text("닫기")))
         }
     }
 }

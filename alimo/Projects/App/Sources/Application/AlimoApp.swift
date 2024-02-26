@@ -3,10 +3,13 @@ import SwiftUI
 @main
 struct AlimoApp: App {
     
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(TokenManager())
+                .environmentObject(DialogManager())
         }
     }
 }
@@ -15,6 +18,7 @@ struct AlimoApp: App {
 private struct ContentView: View {
     
     @EnvironmentObject var tokenManager: TokenManager
+    @EnvironmentObject var dm: DialogManager
     @State var opacity = 1.0
     
     var body: some View {
@@ -23,8 +27,12 @@ private struct ContentView: View {
                 if tokenManager.accessToken.isEmpty {
                     OnboardingFirstView()
                 } else {
-                    TabbarView()
+                    MainView()
                 }
+            }
+            if dm.phase == .show {
+                Color.black.opacity(0.3)
+                    .ignoresSafeArea()
             }
             if opacity > 0 {
                 LaunchScreenView()

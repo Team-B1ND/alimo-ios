@@ -15,14 +15,13 @@ struct MemberService {
     private let memberPath = "/member"
     
     func emailsVerificationRequest(_ email: String) async throws -> Response {
-        try await client.request(memberPath + "/emails/verifications",
+        try await client.request(memberPath + "/emails/verification-requests?email=\(email)",
                                  Response.self,
-                                 method: .post,
-                                 parameters: email)
+                                 method: .post)
     }
     
-    func alarmOnOff() async throws -> Response {
-        try await client.request(memberPath + "/alarm-on-off",
+    func alarmOnOff(isOffAlarm: Bool) async throws -> Response {
+        try await client.request(memberPath + "/alarm-on-off?is_off_alarm=\(isOffAlarm)",
                                  Response.self,
                                  method: .post)
     }
@@ -34,17 +33,27 @@ struct MemberService {
         .data.toDomain()
     }
     
-    func emailsVerifications(_ request: EmailsVerificationsRequest) async throws -> Response {
-        try await client.request(memberPath + "/emails/verification-requests",
-                                 Response.self,
-                                 method: .get,
-                                 parameters: request)
+    func emailsVerifications(_ request: EmailsVerificationsRequest) async throws -> ResponseData<TokenResponse> {
+        try await client.request(memberPath + "/emails/verifications?email=\(request.email)&code=\(request.code)",
+                                 ResponseData<TokenResponse>.self,
+                                 method: .get)
     }
     
     func getCategoryList() async throws -> ResponseData<CategoryListResponse> {
         try await client.request(memberPath + "/category-list",
                                  ResponseData<CategoryListResponse>.self,
                                  method: .get)
+    }
+    
+    func getNameByChildCode(childCode: String) async throws -> ResponseData<MemberNameResponse> {
+        try await client.request(memberPath + "?childCode=\(childCode)",
+                                 ResponseData<MemberNameResponse>.self)
+    }
+    
+    func byebye() async throws -> Response {
+        try await client.request(memberPath,
+                                 Response.self,
+                                 method: .delete)
     }
 }
 

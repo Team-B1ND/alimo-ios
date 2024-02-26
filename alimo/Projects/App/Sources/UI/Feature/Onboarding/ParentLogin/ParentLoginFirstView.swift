@@ -10,13 +10,19 @@ import SwiftUI
 
 struct ParentLoginFirstView: View {
     
-    @ObservedObject var parentLoginViewModel = ParentLoginViewModel()
+    @ObservedObject var vm = ParentLoginViewModel()
     
     @EnvironmentObject var tm: TokenManager
     
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
+        
+        
+        let isCompleted = vm.email != "" && vm.pw != ""
+        let isCorrectPw = Regex.validateInput(vm.pw)
+        let isOk = isCompleted && isCorrectPw
+        
         VStack {
             HStack {
                 Text("학부모님 안녕하세요!")
@@ -27,22 +33,28 @@ struct ParentLoginFirstView: View {
                 Spacer()
             }
             
-            AlimoTextField("아이디를 입력하세요", text: $parentLoginViewModel.email)
+            AlimoTextField("아이디를 입력하세요", text: $vm.email)
             
-            AlimoTextField("비밀번호를 입력하세요", text: $parentLoginViewModel.pw, textFieldType: .password)
+            AlimoTextField("비밀번호를 입력하세요", text: $vm.pw, textFieldType: .password)
             
-            NavigationLink {
-                ParentFindPWFirstView()
-            } label: {
-                HStack {
-                    Spacer()
+            HStack {
+                if !isCorrectPw && !vm.pw.isEmpty {
+                    Text("5~18자 영문, 숫자, 특수문자")
+                        .font(.caption)
+                        .padding(.top, 4)
+                        .foregroundStyle(Color.red500)
+                }
+                Spacer()
+                NavigationLink {
+                    ParentFindPWFirstView()
+                } label: {
                     Text("비밀번호 찾기")
                         .font(.caption)
                         .foregroundStyle(Color.gray500)
-                        .padding(.top, 5)
-                        .padding(.trailing, 24)
+                        .padding(.top, 4)
                 }
             }
+            .padding(.horizontal, 24)
             
             Spacer()
             
@@ -61,30 +73,27 @@ struct ParentLoginFirstView: View {
             }
             .padding(.bottom, 5)
             
-            if parentLoginViewModel.email != "" && parentLoginViewModel.pw != "" {
-                AlimoButton("로그인", buttonType: .yellow) {
-                    
-                    Task {
-                        await parentLoginViewModel.signIn {
-                            tm.accessToken = $0
-                            tm.refreshToken = $1
-                        }
+            
+            let buttonType: AlimoButtonType = isOk ? .yellow : .none
+            
+            AlimoButton("로그인", buttonType: buttonType, isLoading: vm.isFetching) {
+                Task {
+                    await vm.signIn { accessToken, refreshToken in
+                        tm.accessToken = accessToken
+                        tm.refreshToken = refreshToken
                     }
-                    
                 }
-                .disabled(true)
-                .padding(.bottom, 30)
-            } else {
-                AlimoButton("로그인", buttonType: .none) {
-                    print(dummyText)
-                }
-                .disabled(true)
-                .padding(.bottom, 30)
             }
+            .disabled(!isOk)
+            .padding(.bottom, 30)
         }
         .navigationBarBackButtonHidden(true)
         .alimoToolbar("로그인") {
-            dismiss()
+            NavigationUtil.popToRootView()
+        }
+        .alert(isPresented: $vm.showDialog) {
+            Alert(title: Text("아이디 또는 비밀번호가 잘못되었습니다"),
+                  dismissButton: .default(Text("닫기")))
         }
     }
 }

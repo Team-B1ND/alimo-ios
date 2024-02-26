@@ -7,6 +7,9 @@
 //
 
 import Foundation
+import SwiftUI
+
+fileprivate let memberCache = MemberCache.live
 
 @MainActor
 class ProfileViewModel: ObservableObject {
@@ -14,45 +17,65 @@ class ProfileViewModel: ObservableObject {
     private let memberService = MemberService.live
     
     @Published var memberInfo: Member? = nil
+    @Published var categoryList: [String] = []
+    @Published var isAlarmOn: Bool = memberCache.getIsAlarmOn() {
+        didSet {
+            memberCache.saveIsAlarmOn(isAlarmOn)
+            Task {
+                await setAlarm(isAlarmOff: !isAlarmOn)
+            }
+        }
+    }
     
-    @Published var categoryList: [String] = [""]
+    @Published var isLoading = false
     
-    func alarmOnOff() async {
+    
+    private func setAlarm(isAlarmOff: Bool) async {
     
         do {
-            
-            let _ = try await memberService.alarmOnOff()
-            
+            _ = try await memberService.alarmOnOff(isOffAlarm: isAlarmOff)
+            print("ProfileVM - isAlarmOff - \(isAlarmOff)")
         } catch {
-            
+            debugPrint(error)
         }
         
     }
     
-    func getInfo() async {
-        
+    func fetchInfo() async {
+        isLoading = true
+        defer { isLoading = false }
         do {
-            
             memberInfo = try await memberService.getMemberInfo()
-            print(memberInfo)
+            dump(memberInfo)
             
+            guard let memberInfo else { return }
+            
+            isAlarmOn = !memberInfo.isOffAlarm
         } catch {
-            print(error)
+            debugPrint(error)
         }
-        
     }
     
-    func getCategoryList() async {
-    
+    func fetchCategoryList() async {
+        isLoading = true
+        defer { isLoading = false }
         do {
-            
-            let roles = try await memberService.getCategoryList()
-            categoryList = roles.data.roles
-            
+            let roles = try await memberService.getCategoryList().data.roles
+            categoryList = roles
+            debugPrint(roles)
         } catch {
-            
+            debugPrint(error)
         }
-        
     }
     
+    func byebye(onSuccess: @escaping () -> Void) async {
+        do {
+            _ = try await memberService.byebye()
+            withAnimation {
+                onSuccess()
+            }
+        } catch {
+            debugPrint(error)
+        }
+    }
 }

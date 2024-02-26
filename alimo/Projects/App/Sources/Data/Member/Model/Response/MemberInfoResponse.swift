@@ -11,13 +11,13 @@ import Foundation
 struct MemberInfoResponse: Decodable {
     
     let email: String
-    let grade: Int
-    let room: Int
-    let number: Int
-    let name: String
+    let grade: Int?
+    let room: Int?
+    let number: Int?
+    let name: String?
     let image: String?
-    let childCode: String
-    
+    let childCode: String?
+    let isOffAlarm: Bool
 }
 
 extension MemberInfoResponse {
@@ -29,7 +29,8 @@ extension MemberInfoResponse {
                number: number,
                name: name,
                image: image,
-               childCode: childCode)
+               childCode: childCode,
+               isOffAlarm: isOffAlarm)
     }
     
 }

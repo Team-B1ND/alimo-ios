@@ -14,13 +14,9 @@ struct BookMarkView: View {
     @StateObject var bookmarkViewModel = BookMarkViewModel()
     var body: some View {
         NavigationStack {
-            ScrollView(showsIndicators : false){
+            ScrollView(showsIndicators : false) {
                 VStack{
-                    HStack{
-                        AlimoLogo(type: .gray)
-                            .padding(.leading,20)
-                        Spacer()
-                    }
+                    AlimoLogoBar()
                     
                     if hasPost {
                         ForEach(1...3, id: \.self) { _ in
