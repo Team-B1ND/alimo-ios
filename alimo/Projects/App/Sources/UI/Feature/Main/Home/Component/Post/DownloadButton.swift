@@ -9,43 +9,38 @@
 import Foundation
 import SwiftUI
 
-struct Downloadbutton : View {
+struct DownloadButton: View {
     var body: some View {
-        ZStack{
+        ZStack {
             Rectangle()
-                .frame(width: 300,height: 45)
+                .frame(width: 300, height: 45)
                 .cornerRadius(3)
                 .foregroundColor(.gray100)
-                .overlay{
-                    HStack{
+                .overlay {
+                    HStack {
                         Image("Image")
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .frame(width: 30, height: 35)
                             .clipShape(Circle())
                             .padding()
-                        
                         Spacer()
-                        
-                        VStack(alignment : .leading){
+                        VStack(alignment: .leading){
                             Text("B1nd인턴+여행계획서.pptx")
                                 .font(.label)
-                            HStack{
+                            HStack {
                                 Text("191.3 KB")
                                     .font(.cute)
-                                
                                 Spacer()
                             }
                         }
-                        
                         Spacer()
-                        
                         Button {
-                            //
+                            
                         } label: {
                             Image("Download")
                                 .resizable()
-                                .frame(width: 10,height: 16)
+                                .frame(width: 10, height: 16)
                                 .padding()
                         }
                     }
@@ -55,5 +50,5 @@ struct Downloadbutton : View {
 }
 
 #Preview {
-    Downloadbutton()
+    DownloadButton()
 }
