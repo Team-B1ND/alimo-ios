@@ -34,6 +34,7 @@ fileprivate let dummyContent = """
 
 struct NotificationDetailView: View {
     
+    @StateObject private var keyboardHandler = KeyboardHandler()
     @Environment(\.dismiss) var dismiss
     @State var isButtonPressed = false
     @State var commentText = ""
@@ -120,6 +121,33 @@ struct NotificationDetailView: View {
         }
     }
     
+    @ViewBuilder
+    private var commentInput: some View {
+        HStack {
+            TextField("댓글을 남겨보세요", text: $commentText)
+            Button {
+                
+            } label: {
+                Image("Send")
+                    .resizable()
+                    .renderingMode(.template)
+                    .foregroundStyle(Color.gray600)
+                    .frame(width: 24, height: 24)
+            }
+            .toTrailing()
+        }
+        .padding(.vertical, 16)
+        .padding(.horizontal, 20)
+        .background(Color.white)
+        .overlay(
+            Rectangle()
+                .frame(height: 1)
+                .foregroundStyle(Color.gray100)
+                .padding(.top, -1)
+                .toTop()
+        )
+    }
+    
     
     var body: some View {
         ZStack {
@@ -142,33 +170,8 @@ struct NotificationDetailView: View {
                         .frame(height: 108)
                 }
             }
-            VStack {
-                Spacer()
-                ZStack {
-                    Rectangle()
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 75)
-                        .cornerRadius(5)
-                        .shadow(color: .gray300, radius: 3, x: 0, y: -3)
-                    
-                    TextField("댓글을 남겨보세요", text: $commentText)
-                        .padding(.bottom,20)
-                        .padding(.leading,25)
-                    HStack{
-                        Spacer()
-                        Button(action: {
-                            //댓글 보내기
-                        }, label: {
-                            Image("Send")
-                            
-                        })
-                        .padding(.bottom,20)
-                        .padding(.trailing,25)
-                    }
-                }
-            }
-            .ignoresSafeArea()
+            commentInput
+                .toBottom()
         }
         .toolbar(.hidden, for: .tabBar)
         .navigationBarBackButtonHidden()
@@ -178,5 +181,8 @@ struct NotificationDetailView: View {
             Image(systemName: "arrow.left")
                 .foregroundColor(.black)
         })
+        .onTapGesture {
+            endTextEditing()
+        }
     }
 }
