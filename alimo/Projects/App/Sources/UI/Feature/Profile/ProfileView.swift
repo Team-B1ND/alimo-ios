@@ -53,13 +53,7 @@ struct ProfileView: View {
                 }
                 
                 AlimoFlowLayout(mode: .scrollable, items: vm.categoryList) {
-                    Text($0)
-                        .font(.caption)
-                        .foregroundStyle(Color.gray500)
-                        .padding(.horizontal, 8)
-                        .padding(.bottom, 8)
-                        .background(Color.gray100)
-                        .clipShape(Capsule())
+                    AlimoSmallButton($0, buttonType: .none) {}.disabled(true)
                 }
                 .padding(.top, 36)
                 .padding(.horizontal, 12)
