@@ -14,6 +14,12 @@ struct MemberService {
     
     private let memberPath = "/member"
     
+    func findPw(pw: String) async throws -> Response {
+        try await client.request(memberPath + "/find-pw",
+                                 Response.self,
+                                 method: .post)
+    }
+    
     func emailsVerificationRequest(_ email: String) async throws -> Response {
         try await client.request(memberPath + "/emails/verification-requests?email=\(email)",
                                  Response.self,
