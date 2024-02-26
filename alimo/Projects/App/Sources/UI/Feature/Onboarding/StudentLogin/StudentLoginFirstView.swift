@@ -46,7 +46,7 @@ struct StudentLoginFirstView: View {
             .disabled(!isComplete)
             .padding(.bottom, 30)
         }
-        .navigationBarBackButtonHidden(true)
+        .navigationBarBackButtonHidden()
         .alimoToolbar("로그인") {
             NavigationUtil.popToRootView()
         }
