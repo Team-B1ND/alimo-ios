@@ -49,6 +49,12 @@ struct MemberService {
         try await client.request(memberPath + "?childCode=\(childCode)",
                                  ResponseData<MemberNameResponse>.self)
     }
+    
+    func byebye() async throws -> Response {
+        try await client.request(memberPath,
+                                 Response.self,
+                                 method: .delete)
+    }
 }
 
 extension MemberService {
