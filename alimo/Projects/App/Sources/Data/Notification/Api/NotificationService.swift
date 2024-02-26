@@ -23,10 +23,13 @@ final class NotificationService {
         .data.toDomain()
     }
     
-    func getNotification(id: Int) async throws -> Notification {
-        try await client.request("\(notificationPath)/read/\(id)", ResponseData<ReadNotificationResponse>.self).data
+    func getNotification(id: Int) async throws -> NotificationRead {
+        try await client.request("\(notificationPath)/read/\(id)", ResponseData<NotificationReadResponse>.self).data.toDomain()
     }
     
+    func getNotificationByCategory(category: String, request: PageRequest) async throws -> [Notification] {
+        try await client.request("\(notificationPath)/load/\(category)?page=\(request.page)&size=\(request.size)", ResponseData<[NotificationLoadResponse]>.self).data.map { $0.toDomain() }
+    }
 }
 
 extension NotificationService {

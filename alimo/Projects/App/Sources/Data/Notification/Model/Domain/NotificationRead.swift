@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ReadNotification: Hashable {
+struct NotificationRead: Hashable {
     var notificationId: Int
     var title: String
     var content: String
