@@ -20,7 +20,7 @@ fileprivate let dummyComment = [
                      ])
 ]
 
-struct DetailPostView : View {
+struct NotificationDetailView: View {
     
     @Environment(\.dismiss) var dismiss
     
@@ -94,5 +94,5 @@ struct DetailPostView : View {
 }
 
 #Preview {
-    DetailPostView()
+    NotificationDetailView()
 }

@@ -12,7 +12,7 @@ import SwiftUI
 struct Morebutton : View {
     @State private var isShowingDetail = false
     var body: some View {
-            NavigationLink(destination: DetailPostView()) {
+            NavigationLink(destination: NotificationDetailView()) {
                 Text("...더보기")
                     .font(.cute)
                     .foregroundColor(.gray500)

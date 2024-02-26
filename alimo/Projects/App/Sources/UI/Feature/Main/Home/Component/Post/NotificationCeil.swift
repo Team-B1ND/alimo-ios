@@ -22,7 +22,7 @@ struct NotificationCeil: View {
             VStack(alignment: .leading, spacing: 0) {
                 Profile(newpost: true, title: notification.title, membername: String(notification.memberId))
                 NavigationLink {
-                    DetailPostView()
+                    NotificationDetailView()
                 } label: {
                     Contents(content: notification.content)
                         .padding(.top, 12)

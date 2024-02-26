@@ -20,7 +20,7 @@ struct Icons: View {
             } label: {
                 PostIcon("AddImoji")
             }
-            NavigationLink(destination: DetailPostView()) {
+            NavigationLink(destination: NotificationDetailView()) {
                 PostIcon("Chat")
             }
             

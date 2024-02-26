@@ -20,7 +20,7 @@ struct BookMarkView: View {
                     
                     if hasPost {
                         ForEach(bookmarkViewModel.bookmarkList, id: \.notificationId) { notification in
-                            NavigationLink(destination: DetailPostView()) {
+                            NavigationLink(destination: NotificationDetailView()) {
                                 NotificationCeil(notification: notification)
                             }
                             .padding(.bottom,30)
