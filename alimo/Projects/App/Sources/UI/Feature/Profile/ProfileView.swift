@@ -108,7 +108,7 @@ struct ProfileView: View {
                     Button {
                         Task {
                             await vm.byebye {
-//                                tm.accessToken = ""
+                                tm.accessToken = ""
                             }
                         }
                     } label: {
@@ -126,7 +126,6 @@ struct ProfileView: View {
         }
         .onAppear {
             UIScrollView.appearance().bounces = false
-            UserDefaults.standard.set("", forKey: "accessToken")
         }
         .onDisappear {
             UIScrollView.appearance().bounces = true
