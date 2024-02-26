@@ -31,10 +31,12 @@ final class AuthService {
     }
     
     func refresh(_ request: RefreshRequest) async throws -> ResponseData<RefreshResponse> {
-        try await client.request("\(refreshPath)/",
-                                 ResponseData<RefreshResponse>.self,
-                                 method: .post,
-                                 parameters: request)
+        try await AF.request(baseUrl + "/refresh",
+                             method: .post,
+                             parameters: request,
+                             encoder: JSONParameterEncoder.default)
+        .validate()
+        .serializingDecodable(ResponseData<RefreshResponse>.self).value
     }
     
     func verifyChildCode(_ childCode: String) async throws -> ResponseData<ChildCodeResponse> {

@@ -104,6 +104,16 @@ struct ProfileView: View {
                     } label: {
                         SettingCeil("로그아웃", foregroundColor: .red500)
                     }
+                    
+                    Button {
+                        Task {
+                            await vm.byebye {
+                                tm.accessToken = ""
+                            }
+                        }
+                    } label: {
+                        SettingCeil("회원탈퇴", foregroundColor: .red500)
+                    }
                 }
             }
             .ignoresSafeArea()
@@ -123,8 +133,8 @@ struct ProfileView: View {
         .alert(isPresented: $showDialog) {
             var title: String
             var message: String
-            if let memberInfo = vm.memberInfo {
-                title = memberInfo.childCode
+            if let childCode = vm.memberInfo?.childCode {
+                title = childCode
                 message = "부모님께만 알려주세요"
             } else {
                 title = "알 수 없는 에러"

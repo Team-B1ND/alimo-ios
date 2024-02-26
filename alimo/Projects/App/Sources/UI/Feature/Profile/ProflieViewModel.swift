@@ -61,4 +61,15 @@ class ProfileViewModel: ObservableObject {
             debugPrint(error)
         }
     }
+    
+    func byebye(onSuccess: @escaping () -> Void) async {
+        do {
+            _ = try await memberService.byebye()
+            withAnimation {
+                onSuccess()
+            }
+        } catch {
+            debugPrint(error)
+        }
+    }
 }
