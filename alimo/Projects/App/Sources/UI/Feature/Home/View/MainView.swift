@@ -12,6 +12,7 @@ import SwiftUI
 struct MainView: View {
     
     @State private var selectedTab = BottomNavigationType.home
+    @StateObject private var profileVM = ProfileViewModel()
     
     var body: some View {
         NavigationStack {
@@ -19,7 +20,7 @@ struct MainView: View {
                 switch selectedTab {
                 case .home: HomeView()
                 case .bookmark: BookMarkView()
-                case .my: ProfileView()
+                case .my: ProfileView(vm: profileVM)
                 }
                 GeometryReader { reader in
                     ZStack(alignment: .bottom) {
@@ -34,6 +35,10 @@ struct MainView: View {
                     }
                 }
             }
+        }
+        .task {
+            await profileVM.fetchInfo()
+            await profileVM.fetchCategoryList()
         }
     }
 }

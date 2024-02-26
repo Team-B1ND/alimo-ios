@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ProfileView: View {
     
-    @StateObject var vm = ProfileViewModel()
+    @ObservedObject var vm: ProfileViewModel
     
     @EnvironmentObject var tm: TokenManager
     
@@ -118,11 +118,6 @@ struct ProfileView: View {
             }
             .ignoresSafeArea()
             .background(Color.gray100)
-            
-        }
-        .task {
-            await vm.fetchInfo()
-            await vm.fetchCategoryList()
         }
         .onAppear {
             UIScrollView.appearance().bounces = false

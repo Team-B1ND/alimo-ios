@@ -27,10 +27,12 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
+    @Published var isLoading = false
+    
+    
     private func setAlarm(isAlarmOff: Bool) async {
     
         do {
-            
             _ = try await memberService.alarmOnOff(isOffAlarm: isAlarmOff)
             print("ProfileVM - isAlarmOff - \(isAlarmOff)")
         } catch {
@@ -40,6 +42,8 @@ class ProfileViewModel: ObservableObject {
     }
     
     func fetchInfo() async {
+        isLoading = true
+        defer { isLoading = false }
         do {
             memberInfo = try await memberService.getMemberInfo()
             dump(memberInfo)
@@ -53,6 +57,8 @@ class ProfileViewModel: ObservableObject {
     }
     
     func fetchCategoryList() async {
+        isLoading = true
+        defer { isLoading = false }
         do {
             let roles = try await memberService.getCategoryList().data.roles
             categoryList = roles
