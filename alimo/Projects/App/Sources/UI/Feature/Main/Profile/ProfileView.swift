@@ -10,11 +10,16 @@ import SwiftUI
 
 struct ProfileView: View {
     
+    enum Dialog {
+        case childCode, error, deleteMember
+    }
+    
     @ObservedObject var vm: ProfileViewModel
     
     @EnvironmentObject var tm: TokenManager
     
     @State var showDialog: Bool = false
+    @State var dialog = Dialog.childCode
     
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -43,6 +48,11 @@ struct ProfileView: View {
                     .font(Font.body)
                     .padding(.top, 24)
                 Button {
+                    if vm.memberInfo?.childCode == nil {
+                        dialog = .error
+                    } else {
+                        dialog = .childCode
+                    }
                     showDialog = true
                 } label: {
                     Text("학생코드")
@@ -97,11 +107,8 @@ struct ProfileView: View {
                 }
                 
                 Button {
-                    Task {
-                        await vm.byebye {
-                            tm.accessToken = ""
-                        }
-                    }
+                    dialog = .deleteMember
+                    showDialog = true
                 } label: {
                     SettingCeil("회원탈퇴", foregroundColor: .red500)
                 }
@@ -111,22 +118,30 @@ struct ProfileView: View {
                 .frame(height: 100)
         }
         .alert(isPresented: $showDialog) {
-            var title: String
-            var message: String
-            if let childCode = vm.memberInfo?.childCode {
-                title = childCode
-                message = "부모님께만 알려주세요"
-            } else {
-                title = "알 수 없는 에러"
-                message = "다시 시도해 주세요"
+            switch dialog {
+            case .childCode:
+                Alert(title: Text(vm.memberInfo?.childCode ?? ""),
+                      message: Text("부모님께만 알려주세요"),
+                      primaryButton: .cancel(Text("닫기")),
+                      secondaryButton: .default(Text("복사")) {
+                    guard let memberInfo = vm.memberInfo else { return }
+                    UIPasteboard.general.string = memberInfo.childCode
+                })
+            case .error:
+                Alert(title: Text("알 수 없는 에러"),
+                      message: Text("다시 시도해 주세요"),
+                      dismissButton: .default(Text("닫기")))
+            case .deleteMember:
+                Alert(title: Text("정말 탈퇴하시겠습니까?"),
+                      primaryButton: .cancel(Text("아니요")),
+                      secondaryButton: .destructive(Text("탈퇴")) {
+                    Task {
+                        await vm.byebye {
+                            tm.accessToken = ""
+                        }
+                    }
+                })
             }
-            return Alert(title: Text(title),
-                         message: Text(message),
-                         primaryButton: .cancel(Text("닫기")),
-                         secondaryButton: .default(Text("복사")) {
-                guard let memberInfo = vm.memberInfo else { return }
-                UIPasteboard.general.string = memberInfo.childCode
-            })
         }
     }
 }
