@@ -24,6 +24,7 @@ struct NotificationDetailView: View {
     
     @Environment(\.dismiss) var dismiss
     @State var isButtonPressed = false
+    @State var commentText = ""
     
     @ViewBuilder
     private var comment: some View {
@@ -68,7 +69,8 @@ struct NotificationDetailView: View {
     private var content: some View {
         HStack(spacing: 8) {
             VStack {
-                AlimoAvatar().padding(.leading, 12)
+                AlimoAvatar()
+                    .padding(.leading, 12)
                 Spacer()
             }
             VStack(alignment: .leading, spacing: 0) {

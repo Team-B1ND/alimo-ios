@@ -11,8 +11,8 @@ import SwiftUI
 
 struct ProfileCeil: View {
     @State var isNew: Bool
-    var title : String
-    var membername : String
+    var title: String
+    var membername: String
     
     init(isNew: Bool = false, title: String = "", membername : String = "") {
         self.isNew = isNew
@@ -30,7 +30,7 @@ struct ProfileCeil: View {
                         HStack {
                             Spacer()
                             AlimoBadge()
-                                .offset(x: 10, y: -10)
+                                .offset(x: 12, y: -10)
                         }
                     }
                 }
