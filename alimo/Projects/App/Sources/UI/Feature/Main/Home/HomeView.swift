@@ -10,9 +10,9 @@ import Foundation
 import SwiftUI
 
 struct HomeView: View {
+    
     @State private var selectedIndex = -1
-    var categories : [String] = []
-    @StateObject var vm = HomeViewModel()
+    @ObservedObject var vm: HomeViewModel
     var hasNotice: Bool = true
     
     var body: some View {
@@ -46,11 +46,6 @@ struct HomeView: View {
                 }
             }
             .clipped()
-            .task {
-                await vm.fetchCategoryList()
-                await vm.fetchLoudSpeaker()
-                await vm.fetchNotifications("1학년")
-            }
         }
     }
     
@@ -60,8 +55,4 @@ struct HomeView: View {
             .padding(.vertical, 12)
             .background(Color.white)
     }
-}
-
-#Preview {
-    HomeView()
 }

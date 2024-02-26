@@ -13,12 +13,13 @@ struct MainView: View {
     
     @State private var selectedTab = BottomNavigationType.home
     @StateObject private var profileVM = ProfileViewModel()
+    @StateObject private var homeVM = HomeViewModel()
     
     var body: some View {
         NavigationStack {
             ZStack {
                 switch selectedTab {
-                case .home: HomeView()
+                case .home: HomeView(vm: homeVM)
                 case .bookmark: BookMarkView()
                 case .my: ProfileView(vm: profileVM)
                 }
@@ -39,6 +40,10 @@ struct MainView: View {
             }
         }
         .task {
+            await homeVM.fetchCategoryList()
+            await homeVM.fetchLoudSpeaker()
+            await homeVM.fetchNotifications("1학년")
+            
             await profileVM.fetchInfo()
             await profileVM.fetchCategoryList()
         }

@@ -12,7 +12,6 @@ import SwiftUI
 struct Category : View {
     var new : Bool = true
     var category : [String]
-//    @State private var selectedIndex = 0
     @Binding var selectedIndex: Int
     var body: some View {
         ScrollView(.horizontal, showsIndicators: true) {
