@@ -23,52 +23,93 @@ fileprivate let dummyComment = [
 struct NotificationDetailView: View {
     
     @Environment(\.dismiss) var dismiss
+    @State var isButtonPressed = false
+    
+    @ViewBuilder
+    private var comment: some View {
+        LazyVStack {
+            ForEach(dummyComment, id: \.0) { p in
+                VStack {
+                    CommentCeil(p.1, isParent: true)
+                        .padding(.leading, 12)
+                        .zIndex(1)
+                    ForEach(Array(p.2.enumerated()), id: \.1.0) { idx, c in
+                        let len: CGFloat = CGFloat((idx == 0
+                                                    ? p.1 : p.2[idx - 1].1).filter { $0 == "\n" }.count)
+                        ZStack {
+                            CommentCeil(c.1, isParent: false)
+                                .padding(.leading, 44 + 12)
+                            let radius: CGFloat = 3
+                            let height: CGFloat = 62 + len * 20 + radius
+                            
+                            Path { path in
+                                path.move(to: CGPoint(x: 0, y: 0))
+                                path.addLine(to: CGPoint(x: 0, y: height))
+                                path.addArc(center: CGPoint(x: radius, y: height),
+                                            radius: radius,
+                                            startAngle: Angle(degrees: -180),
+                                            endAngle: Angle(degrees: 90),
+                                            clockwise: true)
+                                path.addLine(to: CGPoint(x: 16, y: height + radius))
+                            }
+                            .stroke(style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+                            .padding(.leading, 27)
+                            .foregroundStyle(Color.gray100)
+                            .offset(y: -height + 20)
+                        }
+                        
+                    }
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private var content: some View {
+        HStack(spacing: 8) {
+            VStack {
+                AlimoAvatar().padding(.leading, 12)
+                Spacer()
+            }
+            VStack(alignment: .leading, spacing: 0) {
+                ProfileCeil()
+                DetailContents()
+                    .padding(.top, 12)
+                Text("2023년 1월 33일 25시 -1분")
+                    .foregroundStyle(Color.gray500)
+                    .font(.cute)
+                    .padding(.top, 12)
+                
+                HStack {
+                    Spacer()
+                    
+                    Button {
+                        isButtonPressed.toggle()
+                    } label: {
+                        Image(isButtonPressed ? AppAsset.Assets.clickedBookmark.name : AppAsset.Assets.bookmark.name)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 24, height: 24)
+                    }
+                }
+                .padding(.top, 12)
+            }
+        }
+    }
     
     var body: some View {
         ZStack {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 0) {
-                    DetailPost()
+                    content
+                        .padding(.top, 20)
+                        .padding(.trailing, 16)
+                        .padding(.bottom, 12)
                     Divider()
                     Emoji()
                         .padding(.top, 16)
-                    LazyVStack {
-                        ForEach(dummyComment, id: \.0) { p in
-                            VStack {
-                                CommentCeil(p.1, isParent: true)
-                                    .padding(.leading, 12)
-                                    .zIndex(1)
-                                ForEach(Array(p.2.enumerated()), id: \.1.0) { idx, c in
-                                    let len: CGFloat = CGFloat((idx == 0
-                                                                ? p.1 : p.2[idx - 1].1).filter { $0 == "\n" }.count)
-                                    let _ = print(len)
-                                    ZStack {
-                                        CommentCeil(c.1, isParent: false)
-                                            .padding(.leading, 44 + 12)
-                                        let radius: CGFloat = 3
-                                        let height: CGFloat = 62 + len * 20 + radius
-                                        
-                                        Path { path in
-                                            path.move(to: CGPoint(x: 0, y: 0))
-                                            path.addLine(to: CGPoint(x: 0, y: height))
-                                            path.addArc(center: CGPoint(x: radius, y: height),
-                                                        radius: radius,
-                                                        startAngle: Angle(degrees: -180),
-                                                        endAngle: Angle(degrees: 90),
-                                                        clockwise: true)
-                                            path.addLine(to: CGPoint(x: 16, y: height + radius))
-                                        }
-                                        .stroke(style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
-                                        .padding(.leading, 27)
-                                        .foregroundStyle(Color.gray100)
-                                        .offset(y: -height + 20)
-                                    }
-                                    
-                                }
-                            }
-                        }
-                    }
-                    .padding(.top, 16)
+                    comment
+                        .padding(.top, 16)
                     Rectangle()
                         .padding(.top, 24)
                         .foregroundStyle(Color.gray100)

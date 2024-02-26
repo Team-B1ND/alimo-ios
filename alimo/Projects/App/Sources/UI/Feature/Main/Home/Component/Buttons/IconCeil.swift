@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-struct Icons: View {
+struct IconCeil: View {
     
     @State var isButtonPressed = false
     
@@ -49,5 +49,5 @@ struct Icons: View {
 
 
 #Preview {
-    Icons()
+    IconCeil()
 }
