@@ -60,7 +60,7 @@ class ProfileViewModel: ObservableObject {
         isLoading = true
         defer { isLoading = false }
         do {
-            let roles = try await memberService.getCategoryList().data.roles
+            let roles = try await memberService.getCategoryList().roles
             categoryList = roles
             debugPrint(roles)
         } catch {

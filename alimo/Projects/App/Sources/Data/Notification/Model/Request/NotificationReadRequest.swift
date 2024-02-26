@@ -8,6 +8,6 @@
 
 import Foundation
 
-struct NotificationReadRequest : Encodable {
-    let notificationId : Int
+struct NotificationReadRequest: Encodable {
+    let notificationId: Int
 }

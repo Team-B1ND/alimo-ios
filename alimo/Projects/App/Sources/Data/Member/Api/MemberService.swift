@@ -67,10 +67,10 @@ struct MemberService {
                                  method: .get)
     }
     
-    func getCategoryList() async throws -> ResponseData<CategoryListResponse> {
+    func getCategoryList() async throws -> CategoryList {
         try await client.request(memberPath + "/category-list",
                                  ResponseData<CategoryListResponse>.self,
-                                 method: .get)
+                                 method: .get).data.toDomain()
     }
     
 }

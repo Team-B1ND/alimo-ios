@@ -28,7 +28,7 @@ final class NotificationService {
     }
     
     func getNotificationByCategory(category: String, request: PageRequest) async throws -> [Notification] {
-        try await client.request("\(notificationPath)/load/\(category)?page=\(request.page)&size=\(request.size)", ResponseData<[NotificationLoadResponse]>.self).data.map { $0.toDomain() }
+        try await client.request("\(notificationPath)/load?page=\(request.page)&size=\(request.size)&category=\(category)", ResponseData<[NotificationLoadResponse]>.self).data.map { $0.toDomain() }
     }
 }
 

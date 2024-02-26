@@ -13,7 +13,10 @@ import Alamofire
 
 @MainActor
 class HomeViewModel: ObservableObject {
-    private let homeService = HomeService.live
+    private let categoryService = CategoryService.live
+    private let memberService = MemberService.live
+    private let notificationService = NotificationService.live
+    
     @Published var category : [String] = []
     @Published var loudSpeaker: LoudSpeaker? = nil
     @Published var notificationList: [Notification] = []
@@ -21,7 +24,7 @@ class HomeViewModel: ObservableObject {
     
     func fetchCategoryList() async {
         do {
-            let roles = try await homeService.getcategory().roles
+            let roles = try await memberService.getCategoryList().roles
             dump(roles)
             category = roles
         } catch {
@@ -31,7 +34,7 @@ class HomeViewModel: ObservableObject {
     
     func fetchLoudSpeaker() async {
         do {
-            loudSpeaker = try await homeService.loudSpeaker()
+            loudSpeaker = try await notificationService.loudSpeaker()
         } catch {
             debugPrint(error)
         }
@@ -39,38 +42,10 @@ class HomeViewModel: ObservableObject {
     
     func fetchNotifications(_ selectedcategory: String) async {
         do {
-            let request = NotificationloadRequest(page: 1, size: 10)
-            notificationList = try await homeService.notificationLoad(selectedcategory, pageRequest: request)
+            let request = PageRequest(page: 1, size: 10)
+            notificationList = try await notificationService.getNotificationByCategory(category: selectedcategory, request: request)
         } catch {
             debugPrint(error)
         }
     }
-    
-    func notificationread( _ notificationId : Int) async {
-        do {
-            let notificationreadresponse = try await homeService.notificationread(notificationId)
-            print("notificationread 결과 : \(notificationreadresponse)")
-            
-            
-        } catch {
-            print(error)
-        }
-    }
-    
-    
-    private func loadImageFromURL(_ url: URL, completion: @escaping (UIImage?) -> Void) {
-            AF.request(url).responseImage { response in
-                if case .success(let image) = response.result {
-                    completion(image)
-                    print("성공")
-                } else {
-                    completion(nil)
-                    print("실패")
-                }
-            }
-        }
-    
 }
-
-
-
