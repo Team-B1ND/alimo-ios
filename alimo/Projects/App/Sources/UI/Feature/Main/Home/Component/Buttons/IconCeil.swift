@@ -15,14 +15,8 @@ struct IconCeil: View {
     
     var body: some View {
         HStack(spacing: 8) {
-            Button {
-                
-            } label: {
-                PostIcon("AddImoji")
-            }
-            NavigationLink(destination: NotificationDetailView()) {
-                PostIcon("Chat")
-            }
+            PostIcon("AddImoji")
+            PostIcon("Chat")
             
             Spacer()
             

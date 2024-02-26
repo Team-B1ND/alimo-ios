@@ -14,13 +14,13 @@ struct BookMarkView: View {
     @StateObject var bookmarkViewModel = BookMarkViewModel()
     var body: some View {
         NavigationStack {
-            ScrollView(showsIndicators : false) {
+            ScrollView(showsIndicators: false) {
                 VStack{
                     AlimoLogoBar()
                     
                     if hasPost {
                         ForEach(bookmarkViewModel.bookmarkList, id: \.notificationId) { notification in
-                            NavigationLink(destination: NotificationDetailView()) {
+                            NavigationLink(destination: NotificationDetailView(notification: notification)) {
                                 NotificationCeil(notification: notification)
                             }
                             .padding(.bottom,30)
