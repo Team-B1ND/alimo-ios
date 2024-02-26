@@ -8,14 +8,8 @@
 
 import Foundation
 
-// MARK: - CommentCreateRequest
-struct CommentCreateRequest: Encodable {
+struct CreateCommentRequest: Encodable {
     let content: String
-    let notificationId : id
+    let notificationId: Int
     let parent: String
-}
-
-// MARK: - id
-struct id : Encodable {
-    let value: Int
 }
