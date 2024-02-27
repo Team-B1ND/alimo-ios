@@ -68,6 +68,7 @@ class ParentJoinViewModel: ObservableObject {
             isCorrectChildCode = response.data.isCorrectChildCode
         } catch {
             let code = error.code
+            print(code)
             switch code {
             case 400:
                 dialogMessage = "사용 불가능한 학생 코드"

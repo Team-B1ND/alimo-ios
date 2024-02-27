@@ -14,8 +14,12 @@ final class EmojiService {
     
     private let emojiPath = "/emoji"
     
-    func patchEmoji(notificationId: String, emoji: String) async throws -> Response {
+    func patchEmoji(notificationId: Int, emoji: String) async throws -> Response {
         try await client.request("\(emojiPath)/status/\(notificationId)", Response.self, method: .patch)
+    }
+    
+    func loadEmoji(notificationId: Int) async throws -> [Emoji] {
+        try await client.request("\(emojiPath)/load/\(notificationId)", [EmojiResponse].self).map { $0.toDomain() }
     }
     
 }

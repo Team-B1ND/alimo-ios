@@ -20,10 +20,9 @@ struct BookMarkView: View {
                     
                     if hasPost {
                         ForEach(bookmarkViewModel.bookmarkList, id: \.notificationId) { notification in
-                            NavigationLink(destination: NotificationDetailView(notification: notification)) {
-                                NotificationCeil(notification: notification)
-                            }
-                            .padding(.bottom,30)
+//                            NavigationLink(destination: NotificationDetailView(notification: notification)) {
+//                                NotificationCeil(notification: notification)
+//                            }
                         }
 
                             .padding(.top,10)
@@ -45,8 +44,4 @@ struct BookMarkView: View {
             await bookmarkViewModel.bookmarkload("바인드")
         }
     }
-}
-
-#Preview {
-    BookMarkView()
 }

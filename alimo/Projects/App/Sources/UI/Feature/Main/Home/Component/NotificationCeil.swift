@@ -11,7 +11,7 @@ import SwiftUI
 
 struct NotificationCeil: View {
     
-    let notification: Notification
+    var notification: Notification
     
     @ViewBuilder
     private var avatar: some View {

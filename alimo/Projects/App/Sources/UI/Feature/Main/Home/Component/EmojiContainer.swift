@@ -8,20 +8,10 @@
 
 import SwiftUI
 
-struct Emoji: View {
-    @State private var selectedButton: String?
+struct EmojiContainer: View {
+    @State private var selectedButton: Emoji?
     
-    let emojis = [
-        "Ok", "heart", "funny", "Sad", "Angry"
-    ]
-    
-    var emojiNum: [String: Int] = [
-        "Ok": 66,
-        "heart": 11,
-        "funny": 22,
-        "Sad": 22,
-        "Angry": 33
-    ]
+    var emojies: [Emoji]
     
     var body: some View {
         ZStack {
@@ -31,20 +21,20 @@ struct Emoji: View {
                 .cornerRadius(5)
             
             HStack {
-                ForEach(emojis, id: \.self) { emoji in
-                    Button(action: {
-                        selectedButton = selectedButton == emoji ? nil : emoji
-                    }) {
-                        emojiImage(name: emoji, num: emojiNum[emoji] ?? 0, isSelected: selectedButton == emoji)
-                    }
-                }
+//                ForEach(emojies, id: \.self) { emoji in
+//                    Button {
+//                        selectedButton = selectedButton == emoji ? nil : emoji
+//                    } label: {
+//                        emojiImage(image: emoji.image, num: emoji.count, isSelected: selectedButton == emoji)
+//                    }
+//                }
             }
         }
     }
     
-    func emojiImage(name: String, num: Int, isSelected: Bool) -> some View {
+    func emojiImage(image: String, num: Int, isSelected: Bool) -> some View {
         HStack {
-            Image(name)
+            Image(image)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width:  20, height:  20)
@@ -57,8 +47,4 @@ struct Emoji: View {
                 .opacity(isSelected ? 1.0 : 0.5)
         }
     }
-}
-
-#Preview {
-    Emoji()
 }
