@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct EmojiContainer: View {
-    @State private var selectedButton: Emoji?
     
+    @Binding var selectedEmoji: Emoji?
     var emojies: [Emoji]
     
     var body: some View {
@@ -24,9 +24,9 @@ struct EmojiContainer: View {
                 ForEach(emojies, id: \.self) { emoji in
                     if let emojiType = emoji.emojiType {
                         Button {
-                            selectedButton = selectedButton == emoji ? nil : emoji
+                            selectedEmoji = selectedEmoji == emoji ? nil : emoji
                         } label: {
-                            emojiImage(image: emojiType.image, num: emoji.count, isSelected: selectedButton == emoji)
+                            emojiImage(image: emojiType.image, num: emoji.count, isSelected: selectedEmoji == emoji)
                         }
                     }
                 }

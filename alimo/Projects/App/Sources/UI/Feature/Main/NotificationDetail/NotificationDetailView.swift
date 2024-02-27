@@ -153,7 +153,7 @@ struct NotificationDetailView: View {
                         .padding(.trailing, 16)
                     Divider()
                         .padding(.top, 16)
-                    EmojiContainer(emojies: vm.emojies)
+                    EmojiContainer(selectedEmoji: $vm.selectedEmoji, emojies: vm.emojies)
                         .padding(.top, 16)
                     comment
                         .padding(.top, 16)

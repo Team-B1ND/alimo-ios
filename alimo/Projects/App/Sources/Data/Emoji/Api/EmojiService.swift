@@ -14,8 +14,8 @@ final class EmojiService {
     
     private let emojiPath = "/emoji"
     
-    func patchEmoji(notificationId: Int, emoji: String) async throws -> Response {
-        try await client.request("\(emojiPath)/status/\(notificationId)", Response.self, method: .patch)
+    func patchEmoji(notificationId: Int, request: PatchEmojiRequest) async throws -> Response {
+        try await client.request("\(emojiPath)/status/\(notificationId)", Response.self, method: .patch, parameters: request)
     }
     
     func loadEmoji(notificationId: Int) async throws -> [Emoji] {
