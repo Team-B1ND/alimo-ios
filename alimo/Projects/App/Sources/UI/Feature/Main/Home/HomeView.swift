@@ -50,7 +50,9 @@ struct HomeView: View {
         ScrollView(showsIndicators: false) {
             VStack(spacing: 0) {
                 AlimoLogoBar()
-                Notice(notificationspeaketitle: Text(vm.loudSpeaker?.title ?? ""), memberID: Text("\(vm.loudSpeaker?.memberId ?? 0)"))
+                if let loudSpeaker = vm.loudSpeaker {
+                    Notice(notificationspeaketitle: Text(loudSpeaker.title), memberID: Text("\(loudSpeaker.memberId)"))
+                }
                 
                 LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
                     Section(header: categorySelector) {

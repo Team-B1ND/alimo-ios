@@ -21,7 +21,7 @@ struct NotificationCeil: View {
     
     @ViewBuilder
     private var profile: some View {
-        ProfileCeil(isNew: true, title: notification.title, membername: String(notification.memberId))
+        ProfileCeil(isNew: false, title: notification.title, membername: String(notification.memberId))
     }
     
     @ViewBuilder

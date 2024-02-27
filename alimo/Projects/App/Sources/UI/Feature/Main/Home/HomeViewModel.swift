@@ -36,6 +36,7 @@ class HomeViewModel: ObservableObject {
             dump(roles)
             category = roles
         } catch {
+            category = []
             debugPrint(error)
         }
     }
@@ -44,6 +45,7 @@ class HomeViewModel: ObservableObject {
         do {
             loudSpeaker = try await notificationService.loudSpeaker()
         } catch {
+            loudSpeaker = nil
             debugPrint(error)
         }
     }
@@ -54,6 +56,7 @@ class HomeViewModel: ObservableObject {
             let request = PageRequest(page: 1, size: 10)
             notificationList = try await notificationService.getNotificationByCategory(category: selectedCategory, request: request)
         } catch {
+            notificationList = []
             debugPrint(error)
         }
     }
