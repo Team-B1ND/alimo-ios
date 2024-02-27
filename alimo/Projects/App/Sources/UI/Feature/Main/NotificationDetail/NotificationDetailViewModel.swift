@@ -26,6 +26,7 @@ final class NotificationDetailViewModel: ObservableObject {
     func fetchEmojies() async {
         do {
             emojies = try await emojiService.loadEmoji(notificationId: notificationId)
+            dump(emojies)
         } catch {
             debugPrint(error)
         }
@@ -34,6 +35,7 @@ final class NotificationDetailViewModel: ObservableObject {
     func fetchNotification() async {
         do {
             notification = try await notificationService.getNotification(id: notificationId)
+            dump(notification)
         } catch {
             debugPrint(error)
         }

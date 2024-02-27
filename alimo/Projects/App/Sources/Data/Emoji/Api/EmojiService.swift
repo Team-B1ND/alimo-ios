@@ -19,7 +19,7 @@ final class EmojiService {
     }
     
     func loadEmoji(notificationId: Int) async throws -> [Emoji] {
-        try await client.request("\(emojiPath)/load/\(notificationId)", [EmojiResponse].self).map { $0.toDomain() }
+        try await client.request("\(emojiPath)/load/\(notificationId)", ResponseData<[EmojiResponse]>.self).data.map { $0.toDomain() }
     }
     
 }

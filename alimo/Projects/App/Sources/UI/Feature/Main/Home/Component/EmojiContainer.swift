@@ -21,13 +21,15 @@ struct EmojiContainer: View {
                 .cornerRadius(5)
             
             HStack {
-//                ForEach(emojies, id: \.self) { emoji in
-//                    Button {
-//                        selectedButton = selectedButton == emoji ? nil : emoji
-//                    } label: {
-//                        emojiImage(image: emoji.image, num: emoji.count, isSelected: selectedButton == emoji)
-//                    }
-//                }
+                ForEach(emojies, id: \.self) { emoji in
+                    if let emojiType = emoji.emojiType {
+                        Button {
+                            selectedButton = selectedButton == emoji ? nil : emoji
+                        } label: {
+                            emojiImage(image: emojiType.image, num: emoji.count, isSelected: selectedButton == emoji)
+                        }
+                    }
+                }
             }
         }
     }

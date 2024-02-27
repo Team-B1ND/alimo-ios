@@ -67,11 +67,8 @@ struct HomeView: View {
                                     .onAppear {
                                         guard let index = vm.notificationList.firstIndex(where: { $0.notificationId == notification.notificationId }) else { return }
                                         
-                                        print("Hello World \(index)")
-                                        
                                         if index % pagingInterval == (pagingInterval - 1) {
                                             
-                                            print("GOo")
                                             Task {
                                                 await vm.fetchNotifications(isNew: false)
                                             }
