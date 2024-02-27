@@ -18,7 +18,9 @@ final class CommentService {
         try await client.request("\(commentPath)/create", Response.self, method: .post)
     }
     
-//    func deleteComment(request: )
+    func deleteComment(commentId: Int) async throws -> Response {
+        try await client.request("\(commentPath)/delete", Response.self, method: .delete)
+    }
     
 }
 
