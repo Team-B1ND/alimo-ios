@@ -52,7 +52,7 @@ extension Date {
            let d = c.day,
            let h = c.hour,
            let mi = c.minute {
-            var AMPMText = h >= 12 ? "오후" : "오전"
+            let AMPMText = h >= 12 ? "오후" : "오전"
             text = "\(y)년 \(m)월 \(d)일 \(AMPMText) \(h):\(mi)"
         }
         return text

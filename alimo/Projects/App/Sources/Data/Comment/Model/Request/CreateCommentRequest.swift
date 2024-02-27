@@ -10,6 +10,5 @@ import Foundation
 
 struct CreateCommentRequest: Encodable {
     let content: String
-    let notificationId: Int
-    let parent: String
+    let parentId: Int?
 }

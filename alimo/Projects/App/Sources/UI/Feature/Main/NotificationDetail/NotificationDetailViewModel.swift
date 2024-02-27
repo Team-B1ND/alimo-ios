@@ -10,6 +10,7 @@ import Foundation
 
 fileprivate let emojiService = EmojiService.live
 fileprivate let notificationService = NotificationService.live
+fileprivate let commentService = CommentService.live
 
 @MainActor
 final class NotificationDetailViewModel: ObservableObject {
@@ -28,6 +29,7 @@ final class NotificationDetailViewModel: ObservableObject {
             }
         }
     }
+    @Published var contentText = ""
     
     init(notificationId: Int) {
         self.notificationId = notificationId
@@ -56,6 +58,18 @@ final class NotificationDetailViewModel: ObservableObject {
             let request = PatchEmojiRequest(reaction: emoji.rawValue)
             _ = try await emojiService.patchEmoji(notificationId: notificationId, request: request)
             print("NotificationDetailVM - fetching to patch emoji success")
+        } catch {
+            debugPrint(error)
+        }
+    }
+    
+    func createComment() async {
+        defer { contentText = "" }
+        do {
+            let request = CreateCommentRequest(content: contentText,
+                                               parentId: nil)
+            _ = try await commentService.createComment(notificationId: notificationId, request: request)
+            print("NotificationDetailVM - comment created")
         } catch {
             debugPrint(error)
         }

@@ -14,8 +14,8 @@ final class CommentService {
     
     private let commentPath = "/comment"
     
-    func createComment(request: CreateCommentRequest) async throws -> Response {
-        try await client.request("\(commentPath)/create", Response.self, method: .post)
+    func createComment(notificationId: Int, request: CreateCommentRequest) async throws -> Response {
+        try await client.request("\(commentPath)/create/\(notificationId)", Response.self, method: .post, parameters: request)
     }
     
     func deleteComment(commentId: Int) async throws -> Response {

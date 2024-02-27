@@ -26,7 +26,6 @@ struct NotificationDetailView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject var vm: NotificationDetailViewModel
     @State var isButtonPressed = false
-    @State var commentText = ""
     
     @ViewBuilder
     private var avatar: some View {
@@ -108,7 +107,6 @@ struct NotificationDetailView: View {
                             .foregroundStyle(Color.gray100)
                             .offset(y: -height + 20)
                         }
-                        
                     }
                 }
             }
@@ -118,9 +116,12 @@ struct NotificationDetailView: View {
     @ViewBuilder
     private var commentInput: some View {
         HStack {
-            TextField("댓글을 남겨보세요", text: $commentText)
+            TextField("댓글을 남겨보세요", text: $vm.contentText)
             Button {
-                
+                Task {
+                    await vm.createComment()
+                    await vm.fetchNotification()
+                }
             } label: {
                 Image("Send")
                     .resizable()
