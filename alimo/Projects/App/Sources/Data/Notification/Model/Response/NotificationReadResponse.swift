@@ -24,7 +24,7 @@ extension NotificationReadResponse {
                          title: title,
                          content: content,
                          speaker: speaker,
-                         createdAt: createdAt,
+                         createdAt: Date.fromString(createdAt),
                          memberId: memberId,
                          comments: comments.map{ $0.toDomain() })
     }

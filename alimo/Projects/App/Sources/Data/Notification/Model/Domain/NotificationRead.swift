@@ -13,7 +13,7 @@ struct NotificationRead: Hashable {
     var title: String
     var content: String
     var speaker: Bool
-    var createdAt: String
+    var createdAt: Date
     var memberId: Int
     var comments: [Comment]
 }

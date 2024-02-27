@@ -53,7 +53,7 @@ struct NotificationDetailView: View {
     @ViewBuilder
     private var info: some View {
         if let notification = vm.notification {
-            Text(notification.createdAt)
+            Text(notification.createdAt.ymdText)
                 .foregroundStyle(Color.gray500)
                 .font(.cute)
                 .padding(.top, 12)

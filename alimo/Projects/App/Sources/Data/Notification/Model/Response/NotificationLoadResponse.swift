@@ -23,7 +23,7 @@ extension NotificationLoadResponse {
                      title: title,
                      content: content,
                      speaker: speaker,
-                     createdAt: createdAt,
+                     createdAt: Date.fromString(createdAt),
                      memberId: memberId)
     }
 }
