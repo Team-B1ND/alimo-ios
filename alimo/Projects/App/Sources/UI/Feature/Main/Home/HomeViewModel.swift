@@ -20,11 +20,12 @@ class HomeViewModel: ObservableObject {
     @Published var category : [String] = []
     @Published var loudSpeaker: LoudSpeaker? = nil
     @Published var notificationList: [Notification] = []
+    @Published var page = 1
     
     @Published var selectedIndex = -1 {
         didSet {
             Task {
-                await fetchNotifications()
+                await fetchNotifications(isNew: true)
             }
         }
     }
@@ -50,13 +51,28 @@ class HomeViewModel: ObservableObject {
         }
     }
     
-    func fetchNotifications() async {
+    func fetchNotifications(isNew: Bool) async {
         do {
+            let nextPage = isNew ? 1 : page + 1
+            print("HomeVM - fetching notifications... nextPage: \(nextPage)")
             let selectedCategory = selectedIndex == -1 ? "all" : category[selectedIndex]
-            let request = PageRequest(page: 1, size: 10)
-            notificationList = try await notificationService.getNotificationByCategory(category: selectedCategory, request: request)
+            let request = PageRequest(page: nextPage, size: pagingInterval)
+            
+            let notifications = try await notificationService.getNotificationByCategory(category: selectedCategory, request: request)
+            dump(notifications)
+            if isNew {
+                notificationList = notifications
+            } else {
+                notificationList.append(contentsOf: notifications)
+            }
+            
+            if !notifications.isEmpty {
+                page = nextPage
+            }
+            
         } catch {
             notificationList = []
+            page = 1
             debugPrint(error)
         }
     }

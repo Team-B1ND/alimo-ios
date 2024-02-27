@@ -9,6 +9,7 @@
 import Foundation
 
 struct Notification: Hashable {
+    var uuidString = UUID().uuidString
     var notificationId: Int
     var title: String
     var content: String

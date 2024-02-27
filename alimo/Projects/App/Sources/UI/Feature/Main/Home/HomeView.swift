@@ -57,13 +57,29 @@ struct HomeView: View {
                 LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
                     Section(header: categorySelector) {
                         if hasNotice {
-                            ForEach(vm.notificationList, id: \.self) { notification in
-                                VStack(spacing: 0) {
-                                    NotificationCeil(notification: notification)
-                                    Divider()
-                                        .foregroundStyle(Color.gray100)
+                            LazyVStack(spacing: 0) {
+                                ForEach(vm.notificationList, id: \.uuidString) { notification in
+                                    VStack(spacing: 0) {
+                                        NotificationCeil(notification: notification)
+                                        Divider()
+                                            .foregroundStyle(Color.gray100)
+                                    }
+                                    .onAppear {
+                                        guard let index = vm.notificationList.firstIndex(where: { $0.notificationId == notification.notificationId }) else { return }
+                                        
+                                        print("Hello World \(index)")
+                                        
+                                        if index % pagingInterval == (pagingInterval - 1) {
+                                            
+                                            print("GOo")
+                                            Task {
+                                                await vm.fetchNotifications(isNew: false)
+                                            }
+                                        }
+                                    }
                                 }
                             }
+                            .padding(.bottom, 100)
                         } else {
                             Image(AppAsset.Assets.noNotice.name)
                                 .padding(.top, 115)
@@ -75,14 +91,19 @@ struct HomeView: View {
                     }
                 }
             }
-            .background(GeometryReader {
-                Color.clear.preference(key: ViewOffsetKey.self,
-                                       value: -$0.frame(in: .named("scroll")).origin.y)
-            })
+            .background(
+                GeometryReader {
+                    Color.clear.preference(key: ViewOffsetKey.self,
+                                           value: -$0.frame(in: .named("scroll")).origin.y)
+                }
+            )
             .onPreferenceChange(ViewOffsetKey.self) {
                 scrollViewOffset = $0
             }
         }
         .coordinateSpace(name: "scroll")
+        .refreshable {
+            await vm.fetchNotifications(isNew: true)
+        }
     }
 }

@@ -24,3 +24,5 @@ var build: String? {
 
     return build
 }
+
+public let pagingInterval = 15

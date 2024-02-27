@@ -45,7 +45,7 @@ struct MainView: View {
         .task {
             await homeVM.fetchCategoryList()
             await homeVM.fetchLoudSpeaker()
-            await homeVM.fetchNotifications()
+            await homeVM.fetchNotifications(isNew: true)
             
             await profileVM.fetchInfo()
             await profileVM.fetchCategoryList()
