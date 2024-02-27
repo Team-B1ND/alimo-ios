@@ -50,7 +50,7 @@ struct NotificationCeil: View {
             avatar
             VStack(alignment: .leading, spacing: 0) {
                 NavigationLink {
-                    NotificationDetailView(notification: notification)
+                    NotificationDetailView(vm: NotificationDetailViewModel(notificationId: notification.notificationId))
                 } label: {
                     VStack(alignment: .leading, spacing: 0) {
                         profile

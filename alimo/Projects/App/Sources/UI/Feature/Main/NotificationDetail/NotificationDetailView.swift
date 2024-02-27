@@ -24,9 +24,9 @@ struct NotificationDetailView: View {
     
     @StateObject private var keyboardHandler = KeyboardHandler()
     @Environment(\.dismiss) var dismiss
+    @StateObject var vm: NotificationDetailViewModel
     @State var isButtonPressed = false
     @State var commentText = ""
-    var notification: Notification
     
     @ViewBuilder
     private var avatar: some View {
@@ -36,24 +36,30 @@ struct NotificationDetailView: View {
     
     @ViewBuilder
     private var profile: some View {
-        ProfileCeil(isNew: false, title: notification.title, membername: String(notification.memberId))
+        if let notification = vm.notification {
+            ProfileCeil(isNew: false, title: notification.title, membername: String(notification.memberId))
+        }
     }
     
     @ViewBuilder
     private var content: some View {
-        Text(notification.content)
-            .font(.caption)
-            .lineSpacing(5)
+        if let notification = vm.notification {
+            Text(notification.content)
+                .font(.caption)
+                .lineSpacing(5)
+        }
     }
     
     @ViewBuilder
     private var info: some View {
-        Text(notification.createdAt)
-            .foregroundStyle(Color.gray500)
-            .font(.cute)
-            .padding(.top, 12)
-        IconCeil()
-            .padding(.top, 10)
+        if let notification = vm.notification {
+            Text(notification.createdAt)
+                .foregroundStyle(Color.gray500)
+                .font(.cute)
+                .padding(.top, 12)
+            IconCeil()
+                .padding(.top, 10)
+        }
     }
     
     @ViewBuilder
@@ -171,6 +177,10 @@ struct NotificationDetailView: View {
         })
         .onTapGesture {
             endTextEditing()
+        }
+        .task {
+            await vm.fetchEmojies()
+            await vm.fetchNotification()
         }
     }
 }

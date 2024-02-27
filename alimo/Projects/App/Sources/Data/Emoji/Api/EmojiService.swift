@@ -23,3 +23,7 @@ final class EmojiService {
     }
     
 }
+
+extension EmojiService {
+    static let live = EmojiService()
+}
