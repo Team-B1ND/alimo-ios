@@ -164,6 +164,12 @@ struct NotificationDetailView: View {
                         .frame(height: 108)
                 }
             }
+            .refreshable {
+                Task {
+                    await vm.fetchEmojies()
+                    await vm.fetchNotification()
+                }
+            }
             commentInput
                 .toBottom()
         }
