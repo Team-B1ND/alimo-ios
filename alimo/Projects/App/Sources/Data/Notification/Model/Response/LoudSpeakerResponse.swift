@@ -11,13 +11,13 @@ import Foundation
 struct LoudSpeakerResponse : Decodable {
     let notificationId: Int
     let title: String
-    let memberId: Int
+    let name: String
 }
 
 extension LoudSpeakerResponse {
     func toDomain() -> LoudSpeaker {
         LoudSpeaker(notificationId: notificationId,
                     title: title,
-                    memberId: memberId)
+                    name: name)
     }
 }

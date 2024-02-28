@@ -51,7 +51,7 @@ struct HomeView: View {
             VStack(spacing: 0) {
                 AlimoLogoBar()
                 if let loudSpeaker = vm.loudSpeaker {
-                    Notice(notificationspeaketitle: Text(loudSpeaker.title), memberID: Text("\(loudSpeaker.memberId)"))
+                    Notice(notificationspeaketitle: Text(loudSpeaker.title), memberID: Text(loudSpeaker.name))
                 }
                 
                 LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {

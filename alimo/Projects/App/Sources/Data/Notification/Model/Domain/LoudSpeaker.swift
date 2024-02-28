@@ -11,5 +11,5 @@ import Foundation
 struct LoudSpeaker: Hashable {
     var notificationId: Int
     var title: String
-    var memberId: Int
+    var name: String
 }
