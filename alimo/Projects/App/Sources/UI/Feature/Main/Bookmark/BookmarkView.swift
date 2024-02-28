@@ -57,10 +57,10 @@ struct BookmarkView: View {
             .onPreferenceChange(ViewOffsetKey.self) {
                 scrollViewOffset = $0
             }
-            .coordinateSpace(name: "scroll")
-            .refreshable {
-                await vm.fetchNotifications(isNew: true)
-            }
+        }
+        .coordinateSpace(name: "scroll")
+        .refreshable {
+            await vm.fetchNotifications(isNew: true)
         }
     }
 }

@@ -37,20 +37,20 @@ import Foundation
 fileprivate let client = AlimoHttpClient.live
 
 final class BookmarkService {
-    private let bookmarkPath = "/book_mark"
+    private let bookmarkPath = "/bookmark"
 
 
-    func bookmarkupdate(_ notificationId : Int ) async throws -> Response {
-        try await client.request("\(bookmarkPath)/update/\(notificationId)",
+    func patchBookmark(notificationId: Int) async throws -> Response {
+        try await client.request("\(bookmarkPath)/patch/\(notificationId)",
                                  Response.self,
                                  method: .post)
     }
-//    
-//    func getBookmarkByCategory(_ category: String , _ pageRequest: NotificationloadRequest ) async throws -> ResponseData<BookmarkloadResponse> {
-//        try await client.request("\(bookmarkloadPath)/\(category)?page=\(pageRequest.page)&size=\(pageRequest.size)",
-//                                 ResponseData<BookmarkloadResponse>.self,
-//                                 method: .get)
-//    }
+    
+    func getBookmarkByCategory(category: String, pageRequest: PageRequest) async throws -> [Notification] {
+        try await client.request("\(bookmarkPath)/load/\(category)?page=\(pageRequest.page)&size=\(pageRequest.size)",
+                                 ResponseData<[NotificationLoadResponse]>.self,
+                                 method: .get).data.map { $0.toDomain() }
+    }
 }
 
 extension BookmarkService {

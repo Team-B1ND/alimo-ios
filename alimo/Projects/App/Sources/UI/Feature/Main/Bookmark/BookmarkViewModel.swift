@@ -13,7 +13,7 @@ class BookmarkViewModel: ObservableObject {
     
     private let categoryService = CategoryService.live
     private let memberService = MemberService.live
-    private let notificationService = NotificationService.live
+    private let bookmarkService = BookmarkService.live
     
     @Published var category : [String] = []
     @Published var loudSpeaker: LoudSpeaker? = nil
@@ -35,7 +35,7 @@ class BookmarkViewModel: ObservableObject {
             let selectedCategory = selectedIndex == -1 ? "all" : category[selectedIndex]
             let request = PageRequest(page: nextPage, size: pagingInterval)
             
-            let notifications = try await notificationService.getNotificationByCategory(category: selectedCategory, request: request)
+            let notifications = try await bookmarkService.getBookmarkByCategory(category: selectedCategory, pageRequest: request)
             dump(notifications)
             if isNew {
                 notificationList = notifications
