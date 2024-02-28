@@ -12,6 +12,7 @@ fileprivate let emojiService = EmojiService.live
 fileprivate let notificationService = NotificationService.live
 fileprivate let commentService = CommentService.live
 fileprivate let memberService = MemberService.live
+fileprivate let bookmarkService = BookmarkService.live
 
 @MainActor
 final class NotificationDetailViewModel: ObservableObject {
@@ -32,6 +33,7 @@ final class NotificationDetailViewModel: ObservableObject {
     }
     @Published var contentText = ""
     private var isNotificationFetching = false
+    @Published var isBookmarked = false
     
     init(notificationId: Int) {
         self.notificationId = notificationId
@@ -77,6 +79,15 @@ final class NotificationDetailViewModel: ObservableObject {
                                                parentId: nil)
             _ = try await commentService.createComment(notificationId: notificationId, request: request)
             print("NotificationDetailVM - comment created")
+        } catch {
+            debugPrint(error)
+        }
+    }
+    
+    func patchBookmark() async {
+        do {
+            let res = try await bookmarkService.patchBookmark(notificationId: notificationId)
+            dump(res)
         } catch {
             debugPrint(error)
         }

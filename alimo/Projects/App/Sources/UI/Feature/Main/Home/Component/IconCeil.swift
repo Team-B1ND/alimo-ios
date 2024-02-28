@@ -11,7 +11,7 @@ import SwiftUI
 
 struct IconCeil: View {
     
-    @State var isButtonPressed = false
+    @Binding var isBookmarked: Bool
     
     var body: some View {
         HStack(spacing: 8) {
@@ -21,9 +21,9 @@ struct IconCeil: View {
             Spacer()
             
             Button {
-                isButtonPressed.toggle()
+                isBookmarked.toggle()
             } label: {
-                Image(isButtonPressed ? AppAsset.Assets.clickedBookmark.name : AppAsset.Assets.bookmark.name)
+                Image(isBookmarked ? AppAsset.Assets.clickedBookmark.name : AppAsset.Assets.bookmark.name)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 24, height: 24)
@@ -38,10 +38,4 @@ struct IconCeil: View {
             .foregroundStyle(Color.gray500)
             .frame(width: 24, height: 24)
     }
-}
-
-
-
-#Preview {
-    IconCeil()
 }

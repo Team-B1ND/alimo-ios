@@ -25,7 +25,6 @@ struct NotificationDetailView: View {
     @StateObject private var keyboardHandler = KeyboardHandler()
     @Environment(\.dismiss) var dismiss
     @StateObject var vm: NotificationDetailViewModel
-    @State var isButtonPressed = false
     
     @ViewBuilder
     private var avatar: some View {
@@ -56,7 +55,7 @@ struct NotificationDetailView: View {
                 .foregroundStyle(Color.gray500)
                 .font(.cute)
                 .padding(.top, 12)
-            IconCeil()
+            IconCeil(isBookmarked: $vm.isBookmarked)
                 .padding(.top, 10)
         }
     }
@@ -175,6 +174,11 @@ struct NotificationDetailView: View {
             }
             commentInput
                 .toBottom()
+        }
+        .onChange(of: vm.isBookmarked) { _ in
+            Task {
+                await vm.patchBookmark()
+            }
         }
         .navigationBarBackButtonHidden()
         .alimoToolbar("") {

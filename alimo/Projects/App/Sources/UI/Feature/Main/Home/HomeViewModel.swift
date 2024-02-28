@@ -16,6 +16,7 @@ class HomeViewModel: ObservableObject {
     private let categoryService = CategoryService.live
     private let memberService = MemberService.live
     private let notificationService = NotificationService.live
+    private let bookmarkService = BookmarkService.live
     
     @Published var category : [String] = []
     @Published var loudSpeaker: LoudSpeaker? = nil
@@ -73,6 +74,15 @@ class HomeViewModel: ObservableObject {
         } catch {
             notificationList = []
             page = 1
+            debugPrint(error)
+        }
+    }
+    
+    func patchBookmark(notificationId: Int) async {
+        do {
+            let res = try await bookmarkService.patchBookmark(notificationId: notificationId)
+            dump(res)
+        } catch {
             debugPrint(error)
         }
     }

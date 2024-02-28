@@ -12,6 +12,8 @@ import SwiftUI
 struct NotificationCeil: View {
     
     var notification: Notification
+    var onClickBookmark: () -> Void
+    @State var isBookmarked = false
     
     @ViewBuilder
     private var avatar: some View {
@@ -41,7 +43,7 @@ struct NotificationCeil: View {
             .foregroundStyle(Color.gray500)
             .font(.cute)
             .padding(.top, 12)
-        IconCeil()
+        IconCeil(isBookmarked: $isBookmarked)
             .padding(.top, 10)
     }
     
@@ -61,6 +63,9 @@ struct NotificationCeil: View {
                 info
             }
             .padding(.leading, 8)
+        }
+        .onChange(of: isBookmarked) { _ in
+            onClickBookmark()
         }
         .padding(.leading, 12)
         .padding(.top, 20)
