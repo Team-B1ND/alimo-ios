@@ -14,13 +14,14 @@ struct MainView: View {
     @State private var selectedTab = BottomNavigationType.home
     @StateObject private var profileVM = ProfileViewModel()
     @StateObject private var homeVM = HomeViewModel()
+    @StateObject private var bookmarkVM = BookmarkViewModel()
     
     var body: some View {
         NavigationStack {
             ZStack {
                 switch selectedTab {
                 case .home: HomeView(vm: homeVM)
-                case .bookmark: BookMarkView()
+                case .bookmark: BookmarkView(vm: bookmarkVM)
                 case .my: ProfileView(vm: profileVM)
                 }
                 GeometryReader { reader in
@@ -47,12 +48,10 @@ struct MainView: View {
             await homeVM.fetchLoudSpeaker()
             await homeVM.fetchNotifications(isNew: true)
             
+            await bookmarkVM.fetchNotifications(isNew: true)
+            
             await profileVM.fetchInfo()
             await profileVM.fetchCategoryList()
         }
     }
-}
-
-#Preview {
-    MainView()
 }
