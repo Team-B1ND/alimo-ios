@@ -25,7 +25,7 @@ let project = Project.makeModule(
     resources: ["Resources/**"],
     infoPlist: .extendingDefault(with: [
         "UIMainStoryboardFile": "",
-        "UILaunchStoryboardName": "LaunchScreen.storyboard",
+        "UILaunchStoryboardName": "LaunchScreen",
         "ENABLE_TESTS": .boolean(true),
         "UIUserInterfaceStyle":"Light",
         "NSAppTransportSecurity": [
