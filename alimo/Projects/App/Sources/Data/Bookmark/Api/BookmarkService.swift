@@ -47,7 +47,7 @@ final class BookmarkService {
     }
     
     func getBookmarkByCategory(category: String, pageRequest: PageRequest) async throws -> [Notification] {
-        try await client.request("\(bookmarkPath)/load/\(category)?page=\(pageRequest.page)&size=\(pageRequest.size)",
+        try await client.request("\(bookmarkPath)/load?page=\(pageRequest.page)&size=\(pageRequest.size)",
                                  ResponseData<[NotificationLoadResponse]>.self,
                                  method: .get).data.map { $0.toDomain() }
     }
