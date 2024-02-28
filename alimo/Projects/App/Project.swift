@@ -25,13 +25,13 @@ let project = Project.makeModule(
     resources: ["Resources/**"],
     infoPlist: .extendingDefault(with: [
         "UIMainStoryboardFile": "",
-        "UILaunchStoryboardName": "LaunchScreen",
+        "UILaunchStoryboardName": "LaunchScreen.storyboard",
         "ENABLE_TESTS": .boolean(true),
         "UIUserInterfaceStyle":"Light",
         "NSAppTransportSecurity": [
             "NSAllowsArbitraryLoads": .boolean(true)
         ],
         "FirebaseAppDelegateProxyEnabled": .boolean(false),
-        "UIBackgroundModes": ["fetch", "remote-notification", "remove-notification"]
+        "UIBackgroundModes": ["fetch", "remote-notification"]
     ])
 )
