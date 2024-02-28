@@ -11,6 +11,7 @@ import Foundation
 fileprivate let emojiService = EmojiService.live
 fileprivate let notificationService = NotificationService.live
 fileprivate let commentService = CommentService.live
+fileprivate let memberService = MemberService.live
 
 @MainActor
 final class NotificationDetailViewModel: ObservableObject {
@@ -30,9 +31,16 @@ final class NotificationDetailViewModel: ObservableObject {
         }
     }
     @Published var contentText = ""
+    private var isNotificationFetching = false
+    private var isProfileFetching = false
+    @Published var member: Member? = nil
     
     init(notificationId: Int) {
         self.notificationId = notificationId
+    }
+    
+    func getIsFetching() -> Bool {
+        return isNotificationFetching && isProfileFetching
     }
     
     func fetchEmojies() async {
@@ -48,6 +56,14 @@ final class NotificationDetailViewModel: ObservableObject {
         do {
             notification = try await notificationService.getNotification(id: notificationId)
             dump(notification)
+        } catch {
+            debugPrint(error)
+        }
+    }
+    
+    func fetchMember() async {
+        do {
+            member = try await memberService.getMemberInfo()
         } catch {
             debugPrint(error)
         }

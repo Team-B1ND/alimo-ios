@@ -29,7 +29,7 @@ struct NotificationDetailView: View {
     
     @ViewBuilder
     private var avatar: some View {
-        AlimoAvatar()
+        AlimoAvatar(vm.member?.image)
             .toTop()
     }
     
@@ -94,23 +94,24 @@ struct NotificationDetailView: View {
                             let radius: CGFloat = 3
                             let height: CGFloat = 62 + len * 20 + radius
                             
-                            Path { path in
-                                path.move(to: CGPoint(x: 0, y: 0))
-                                path.addLine(to: CGPoint(x: 0, y: height))
-                                path.addArc(center: CGPoint(x: radius, y: height),
-                                            radius: radius,
-                                            startAngle: Angle(degrees: -180),
-                                            endAngle: Angle(degrees: 90),
-                                            clockwise: true)
-                                path.addLine(to: CGPoint(x: 16, y: height + radius))
-                            }
-                            .stroke(style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
-                            .padding(.leading, 27)
-                            .foregroundStyle(Color.gray100)
-                            .offset(y: -height + 20)
+//                            Path { path in
+//                                path.move(to: CGPoint(x: 0, y: 0))
+//                                path.addLine(to: CGPoint(x: 0, y: height))
+//                                path.addArc(center: CGPoint(x: radius, y: height),
+//                                            radius: radius,
+//                                            startAngle: Angle(degrees: -180),
+//                                            endAngle: Angle(degrees: 90),
+//                                            clockwise: true)
+//                                path.addLine(to: CGPoint(x: 16, y: height + radius))
+//                            }
+//                            .stroke(style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+//                            .padding(.leading, 27)
+//                            .foregroundStyle(Color.gray100)
+//                            .offset(y: -height + 20)
                         }
                     }
                 }
+                .padding(.trailing, 8)
             }
         }
     }
@@ -147,6 +148,7 @@ struct NotificationDetailView: View {
     
     
     var body: some View {
+        let isFetching = vm.getIsFetching()
         ZStack {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 0) {
@@ -174,14 +176,10 @@ struct NotificationDetailView: View {
             commentInput
                 .toBottom()
         }
-        .toolbar(.hidden, for: .tabBar)
         .navigationBarBackButtonHidden()
-        .navigationBarItems(leading: Button(action: {
+        .alimoToolbar("") {
             dismiss()
-        }) {
-            Image(systemName: "arrow.left")
-                .foregroundColor(.black)
-        })
+        }
         .onTapGesture {
             endTextEditing()
         }
