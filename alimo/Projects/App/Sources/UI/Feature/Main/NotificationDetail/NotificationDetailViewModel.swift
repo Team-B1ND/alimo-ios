@@ -32,15 +32,13 @@ final class NotificationDetailViewModel: ObservableObject {
     }
     @Published var contentText = ""
     private var isNotificationFetching = false
-    private var isProfileFetching = false
-    @Published var member: Member? = nil
     
     init(notificationId: Int) {
         self.notificationId = notificationId
     }
     
     func getIsFetching() -> Bool {
-        return isNotificationFetching && isProfileFetching
+        return isNotificationFetching
     }
     
     func fetchEmojies() async {
@@ -54,16 +52,9 @@ final class NotificationDetailViewModel: ObservableObject {
     
     func fetchNotification() async {
         do {
-            notification = try await notificationService.getNotification(id: notificationId)
+            let notification = try await notificationService.getNotification(id: notificationId)
+            self.notification = notification
             dump(notification)
-        } catch {
-            debugPrint(error)
-        }
-    }
-    
-    func fetchMember() async {
-        do {
-            member = try await memberService.getMemberInfo()
         } catch {
             debugPrint(error)
         }

@@ -29,7 +29,7 @@ struct NotificationDetailView: View {
     
     @ViewBuilder
     private var avatar: some View {
-        AlimoAvatar(vm.member?.image)
+        AlimoAvatar()
             .toTop()
     }
     
