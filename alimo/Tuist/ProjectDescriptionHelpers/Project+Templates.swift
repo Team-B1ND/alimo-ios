@@ -15,7 +15,7 @@ public extension Project {
         infoPlist: InfoPlist = .default
     ) -> Project {
         let settings: Settings = .settings(
-            base: [:],
+            base: ["DEVELOPMENT_TEAM": "\(teamId)"],
             configurations: [
                 .debug(name: .debug),
                 .release(name: .release)
