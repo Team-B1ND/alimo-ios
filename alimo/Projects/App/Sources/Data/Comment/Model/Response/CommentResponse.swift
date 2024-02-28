@@ -11,17 +11,15 @@ import Foundation
 struct CommentResponse: Decodable {
     let commentId: Int
     let content: String
-    let dateTime: String
     let commentor: Int
-    let parent: Int
+    let subComments: [SubCommentResponse]
 }
 
 extension CommentResponse {
     func toDomain() -> Comment {
         Comment(commentId: commentId,
                 content: content,
-                dateTime: dateTime,
                 commentor: commentor,
-                parent: parent)
+                subComments: subComments.map { $0.toDomain() })
     }
 }

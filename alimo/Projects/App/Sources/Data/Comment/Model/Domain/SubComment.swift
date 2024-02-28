@@ -1,16 +1,15 @@
 //
-//  Comment.swift
+//  SubComment.swift
 //  App
 //
-//  Created by dgsw8th71 on 2/26/24.
+//  Created by dgsw8th71 on 2/28/24.
 //  Copyright © 2024 b8nd. All rights reserved.
 //
 
 import Foundation
 
-struct Comment: Hashable {
+struct SubComment: Hashable {
     var commentId: Int
     var content: String
     var commentor: Int
-    var subComments: [SubComment]
 }
