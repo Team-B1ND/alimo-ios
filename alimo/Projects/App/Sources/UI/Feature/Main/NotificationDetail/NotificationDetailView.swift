@@ -160,6 +160,8 @@ struct NotificationDetailView: View {
                         .padding(.top, 16)
                     comment
                         .padding(.top, 16)
+                    Spacer()
+                        .frame(height: 100)
                 }
                 .background(Color.white)
             }
