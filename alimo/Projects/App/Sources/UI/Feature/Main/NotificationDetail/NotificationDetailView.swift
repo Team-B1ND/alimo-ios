@@ -78,16 +78,18 @@ struct NotificationDetailView: View {
     @ViewBuilder
     private var comment: some View {
         LazyVStack {
-            ForEach(dummyComment, id: \.0) { p in
+            ForEach(vm.notification?.comments ?? [], id: \.commentId) { p in
                 VStack {
-                    CommentCeil(p.1, isParent: true)
+                    CommentCeil(p)
                         .padding(.leading, 12)
                         .zIndex(1)
-                    ForEach(Array(p.2.enumerated()), id: \.1.0) { idx, c in
+                    let subComments = p.subComments
+                    ForEach(0..<subComments.count, id: \.self) { idx in
+                        let c = subComments[idx]
                         let len: CGFloat = CGFloat((idx == 0
-                                                    ? p.1 : p.2[idx - 1].1).filter { $0 == "\n" }.count)
+                                                    ? p.content : subComments[idx - 1].content).filter { $0 == "\n" }.count)
                         ZStack {
-                            CommentCeil(c.1, isParent: false)
+                            SubCommentCeil(c)
                                 .padding(.leading, 44 + 12)
                             let radius: CGFloat = 3
                             let height: CGFloat = 62 + len * 20 + radius
@@ -158,12 +160,8 @@ struct NotificationDetailView: View {
                         .padding(.top, 16)
                     comment
                         .padding(.top, 16)
-                    Rectangle()
-                        .padding(.top, 24)
-                        .foregroundStyle(Color.gray100)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 108)
                 }
+                .background(Color.white)
             }
             .refreshable {
                 Task {

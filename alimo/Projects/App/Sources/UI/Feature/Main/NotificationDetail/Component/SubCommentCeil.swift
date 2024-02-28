@@ -9,11 +9,11 @@
 import Foundation
 import SwiftUI
 
-struct CommentCeil: View {
+struct SubCommentCeil: View {
     
-    var comment: Comment
+    var comment: SubComment
     
-    init(_ comment: Comment) {
+    init(_ comment: SubComment) {
         self.comment = comment
     }
     
@@ -36,13 +36,6 @@ struct CommentCeil: View {
                             .foregroundStyle(Color.gray500)
                             .font(.cute)
                         
-                        Button {
-                            
-                        } label: {
-                            Text("답글달기")
-                                .font(.cute)
-                                .foregroundColor(.gray500)
-                        }
                     }
                     .padding(.top, 4)
                 }
