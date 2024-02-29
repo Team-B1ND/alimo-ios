@@ -55,8 +55,13 @@ struct NotificationDetailView: View {
                 .foregroundStyle(Color.gray500)
                 .font(.cute)
                 .padding(.top, 12)
-            IconCeil(isBookmarked: $vm.isBookmarked)
-                .padding(.top, 10)
+            IconCeil(isBookmarked: vm.isBookmarked) {
+                Task {
+                    await vm.patchBookmark()
+                    await vm.fetchNotification()
+                }
+            }
+            .padding(.top, 10)
         }
     }
     

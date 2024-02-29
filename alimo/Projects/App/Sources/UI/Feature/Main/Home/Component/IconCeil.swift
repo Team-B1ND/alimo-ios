@@ -11,7 +11,8 @@ import SwiftUI
 
 struct IconCeil: View {
     
-    @Binding var isBookmarked: Bool
+    var isBookmarked: Bool
+    var onClickBookmark: () -> Void
     
     var body: some View {
         HStack(spacing: 8) {
@@ -21,7 +22,7 @@ struct IconCeil: View {
             Spacer()
             
             Button {
-                isBookmarked.toggle()
+                onClickBookmark()
             } label: {
                 Image(isBookmarked ? AppAsset.Assets.clickedBookmark.name : AppAsset.Assets.bookmark.name)
                     .resizable()
