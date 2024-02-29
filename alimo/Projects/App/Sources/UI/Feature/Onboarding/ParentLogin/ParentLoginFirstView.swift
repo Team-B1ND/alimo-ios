@@ -45,14 +45,14 @@ struct ParentLoginFirstView: View {
                         .foregroundStyle(Color.red500)
                 }
                 Spacer()
-                NavigationLink {
-                    ParentFindPWFirstView()
-                } label: {
-                    Text("비밀번호 찾기")
-                        .font(.caption)
-                        .foregroundStyle(Color.gray500)
-                        .padding(.top, 4)
-                }
+//                NavigationLink {
+//                    ParentFindPWFirstView()
+//                } label: {
+//                    Text("비밀번호 찾기")
+//                        .font(.caption)
+//                        .foregroundStyle(Color.gray500)
+//                        .padding(.top, 4)
+//                }
             }
             .padding(.horizontal, 24)
             

@@ -32,11 +32,19 @@ struct ParentJoinFirstView: View {
                 
                 HStack {
                     Spacer()
-                    Text("학생 코드가 무엇인가요?")
-                        .font(.caption)
-                        .foregroundStyle(Color.gray500)
-                        .padding(.trailing, 24)
-                        .padding(.top, 8)
+                    NavigationLink {
+                        AlimoWebView(url: URL(string: "https://subsequent-grouse.super.site/")!)
+                            .navigationBarBackButtonHidden()
+                            .alimoToolbar("") {
+                                dismiss()
+                            }
+                    } label: {
+                        Text("학생 코드가 무엇인가요?")
+                            .font(.caption)
+                            .foregroundStyle(Color.gray500)
+                            .padding(.trailing, 24)
+                            .padding(.top, 8)
+                    }
                 }
                 
                 Spacer()
