@@ -24,7 +24,7 @@ enum BottomNavigationType: CaseIterable {
     var image: String {
         switch self {
         case .home: "Home"
-        case .bookmark: "Bookmark"
+        case .bookmark: "BookMark_tabbar"
         case .my: "Profile"
         }
     }

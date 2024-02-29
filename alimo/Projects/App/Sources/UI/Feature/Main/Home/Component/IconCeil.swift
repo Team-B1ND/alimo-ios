@@ -24,10 +24,19 @@ struct IconCeil: View {
             Button {
                 onClickBookmark()
             } label: {
-                Image(isBookmarked ? AppAsset.Assets.clickedBookmark.name : AppAsset.Assets.bookmark.name)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 24, height: 24)
+                if isBookmarked {
+                    Image(AppAsset.Assets.clickedBookmark.name)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 24, height: 24)
+                } else {
+                    Image(AppAsset.Assets.bookmark.name)
+                        .resizable()
+                        .renderingMode(.template)
+                        .foregroundStyle(Color.gray500)
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 24, height: 24)
+                }
             }
         }
     }
