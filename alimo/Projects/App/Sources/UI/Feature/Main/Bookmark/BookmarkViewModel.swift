@@ -55,9 +55,10 @@ class BookmarkViewModel: ObservableObject {
     }
     
     
-    func patchBookmark() async {
+    func patchBookmark(notificationId: Int) async {
         do {
-//            let res = bookmarkService.patchBookmark(notificationId: notification)
+            let res = try await bookmarkService.patchBookmark(notificationId: notificationId)
+            dump(res)
         } catch {
             debugPrint(error)
         }

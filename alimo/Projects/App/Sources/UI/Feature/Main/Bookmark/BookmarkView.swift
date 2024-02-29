@@ -32,7 +32,8 @@ struct BookmarkView: View {
                         VStack(spacing: 0) {
                             NotificationCeil(notification: notification) {
                                 Task {
-//                                    await vm.path
+                                    await vm.patchBookmark(notificationId: notification.notificationId)
+                                    await vm.fetchNotifications(isNew: true)
                                 }
                             }
                             Divider()
