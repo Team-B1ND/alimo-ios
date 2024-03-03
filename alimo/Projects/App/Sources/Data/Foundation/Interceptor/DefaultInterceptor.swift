@@ -38,7 +38,7 @@ class DefaultInterceptor: RequestInterceptor {
             do {
                 let response = try await authService.refresh(request)
                 print("-- refreshed --")
-                print(response)
+                dump(response)
                 authCache.saveToken(response.data.accessToken, to: .accessToken)
                 completion(.retry)
             } catch {

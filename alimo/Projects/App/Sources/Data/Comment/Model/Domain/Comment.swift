@@ -12,5 +12,7 @@ struct Comment: Hashable {
     var commentId: Int
     var content: String
     var commentor: Int
+    var createdAt: Date
+    var profileImage: String
     var subComments: [SubComment]
 }

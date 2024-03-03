@@ -12,6 +12,8 @@ struct CommentResponse: Decodable {
     let commentId: Int
     let content: String
     let commentor: Int
+    let createdAt: String
+    let profileImage: String
     let subComments: [SubCommentResponse]
 }
 
@@ -20,6 +22,8 @@ extension CommentResponse {
         Comment(commentId: commentId,
                 content: content,
                 commentor: commentor,
+                createdAt: Date.fromString(createdAt),
+                profileImage: profileImage,
                 subComments: subComments.map { $0.toDomain() })
     }
 }

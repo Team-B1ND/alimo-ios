@@ -12,12 +12,16 @@ struct SubCommentResponse: Decodable {
     let commentId: Int
     let content: String
     let commentor: Int
+    let createdAt: String
+    let profileImage: String
 }
 
 extension SubCommentResponse {
     func toDomain() -> SubComment {
         SubComment(commentId: commentId,
                    content: content,
-                   commentor: commentor)
+                   commentor: commentor,
+                   createdAt: Date.fromString(createdAt),
+                   profileImage: profileImage)
     }
 }
