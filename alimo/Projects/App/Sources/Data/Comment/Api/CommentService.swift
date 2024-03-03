@@ -19,7 +19,11 @@ final class CommentService {
     }
     
     func deleteComment(commentId: Int) async throws -> Response {
-        try await client.request("\(commentPath)/delete", Response.self, method: .delete)
+        try await client.request("\(commentPath)/delete/\(commentId)", Response.self, method: .delete)
+    }
+    
+    func deleteSubComment(commentId: Int) async throws -> Response {
+        try await client.request("\(commentPath)/deleteSub/\(commentId)", Response.self, method: .delete)
     }
     
 }
