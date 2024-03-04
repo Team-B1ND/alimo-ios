@@ -13,5 +13,5 @@ struct SubComment: Hashable {
     var content: String
     var commentor: Int
     var createdAt: Date
-    var profileImage: String
+    var profileImage: String?
 }

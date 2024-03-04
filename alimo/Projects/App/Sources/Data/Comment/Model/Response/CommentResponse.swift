@@ -13,7 +13,7 @@ struct CommentResponse: Decodable {
     let content: String
     let commentor: String
     let createdAt: String
-    let profileImage: String
+    let profileImage: String?
     let subComments: [SubCommentResponse]
 }
 
