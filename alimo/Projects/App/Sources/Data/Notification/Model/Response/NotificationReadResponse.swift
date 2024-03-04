@@ -15,6 +15,9 @@ struct NotificationReadResponse: Decodable {
     let speaker: Bool
     let createdAt: String
     let memberId: Int
+    let name: String
+    let images: [ImageOrFileResponse]
+    let files: [ImageOrFileResponse]
     let comments: [CommentResponse]
 }
 
@@ -26,6 +29,9 @@ extension NotificationReadResponse {
                          speaker: speaker,
                          createdAt: Date.fromString(createdAt),
                          memberId: memberId,
+                         name: name,
+                         images: images.map { $0.toDomain() },
+                         files: files.map { $0.toDomain() },
                          comments: comments.map{ $0.toDomain() })
     }
 }

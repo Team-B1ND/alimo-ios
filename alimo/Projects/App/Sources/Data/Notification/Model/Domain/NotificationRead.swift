@@ -15,5 +15,8 @@ struct NotificationRead: Hashable {
     var speaker: Bool
     var createdAt: Date
     var memberId: Int
+    var name: String
+    var images: [ImageOrFile]
+    var files: [ImageOrFile]
     var comments: [Comment]
 }

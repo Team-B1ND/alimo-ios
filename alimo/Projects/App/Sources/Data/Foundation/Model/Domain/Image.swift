@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ImageOrFile {
+struct ImageOrFile: Hashable {
     var fileId: Int
     var fileUrl: String
     var fileName: String
