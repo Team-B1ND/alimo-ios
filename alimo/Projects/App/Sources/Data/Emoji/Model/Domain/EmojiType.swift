@@ -15,7 +15,7 @@ enum EmojiType: String, CaseIterable {
     case sad = "SAD"
     case angry = "ANGRY"
     
-    static func fromString(_ str: String) -> EmojiType? {
+    static func fromString(_ str: String?) -> EmojiType? {
         for emojiType in EmojiType.allCases {
             if emojiType.rawValue == str {
                 return emojiType

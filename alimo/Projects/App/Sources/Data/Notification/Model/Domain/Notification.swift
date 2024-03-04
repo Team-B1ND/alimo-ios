@@ -16,4 +16,10 @@ struct Notification: Hashable {
     var speaker: Bool
     var createdAt: Date
     var memberId: Int
+    var name: String
+    var profileImage: String
+    var isBookMarked: Bool
+    var emoji: EmojiType?
+    var images: [ImageOrFile]
+    var files: [ImageOrFile]
 }

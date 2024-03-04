@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct LoudSpeakerResponse : Decodable {
+struct LoudSpeakerResponse: Decodable {
     let notificationId: Int
     let title: String
     let name: String
