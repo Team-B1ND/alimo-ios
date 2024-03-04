@@ -13,14 +13,11 @@ struct NotificationCeil: View {
     
     var notification: Notification
     var onClickBookmark: () -> Void
-    var isBookmarked: Bool
     
     init(notification: Notification,
-         isBookmarked: Bool = false,
          onClickBookmark: @escaping () -> Void) {
         self.notification = notification
         self.onClickBookmark = onClickBookmark
-        self.isBookmarked = isBookmarked
     }
     
     @ViewBuilder
@@ -31,7 +28,7 @@ struct NotificationCeil: View {
     
     @ViewBuilder
     private var profile: some View {
-        ProfileCeil(isNew: false, title: notification.title, membername: String(notification.memberId))
+        ProfileCeil(isNew: false, title: notification.title, membername: notification.name)
     }
     
     @ViewBuilder
@@ -51,7 +48,7 @@ struct NotificationCeil: View {
             .foregroundStyle(Color.gray500)
             .font(.cute)
             .padding(.top, 12)
-        IconCeil(isBookmarked: isBookmarked) {
+        IconCeil(emoji: notification.emoji, isBookmarked: notification.isBookMarked) {
             onClickBookmark()
         }
         .padding(.top, 10)
@@ -73,9 +70,6 @@ struct NotificationCeil: View {
                 info
             }
             .padding(.leading, 8)
-        }
-        .onChange(of: isBookmarked) { _ in
-            onClickBookmark()
         }
         .padding(.leading, 12)
         .padding(.top, 20)

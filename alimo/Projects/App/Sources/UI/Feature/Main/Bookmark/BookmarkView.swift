@@ -30,7 +30,7 @@ struct BookmarkView: View {
                 LazyVStack(spacing: 0) {
                     ForEach(vm.notificationList, id: \.uuidString) { notification in
                         VStack(spacing: 0) {
-                            NotificationCeil(notification: notification, isBookmarked: true) {
+                            NotificationCeil(notification: notification) {
                                 Task {
                                     await vm.patchBookmark(notificationId: notification.notificationId)
                                     await vm.fetchNotifications(isNew: true)

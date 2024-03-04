@@ -11,12 +11,17 @@ import SwiftUI
 
 struct IconCeil: View {
     
+    var emoji: EmojiType?
     var isBookmarked: Bool
     var onClickBookmark: () -> Void
     
     var body: some View {
         HStack(spacing: 8) {
-            PostIcon("AddImoji")
+            if let emoji = emoji {
+                PostIcon(emoji.image)
+            } else {
+                PostIcon("AddImoji")
+            }
             PostIcon("Chat")
             
             Spacer()
