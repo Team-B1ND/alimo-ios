@@ -12,7 +12,7 @@ struct ImageOrFileResponse: Decodable {
     let fileUrl: String
     let fileName: String
     let fileSize: Int // 단위: byte
-    let fileType: String // 파일 확장자
+    let filetype: String // 파일 확장자
     let imageOrFile: String
 }
 
@@ -21,7 +21,7 @@ extension ImageOrFileResponse {
         ImageOrFile(fileUrl: fileUrl,
                     fileName: fileName,
                     fileSize: fileSize,
-                    fileType: fileType,
+                    filetype: filetype,
                     imageOrFile: ImageOrFileType.fromString(imageOrFile))
     }
 }

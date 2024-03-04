@@ -12,6 +12,6 @@ struct ImageOrFile: Hashable {
     var fileUrl: String
     var fileName: String
     var fileSize: Int
-    var fileType: String
+    var filetype: String
     var imageOrFile: ImageOrFileType?
 }
