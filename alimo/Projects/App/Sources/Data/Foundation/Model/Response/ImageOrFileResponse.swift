@@ -9,19 +9,19 @@
 import Foundation
 
 struct ImageOrFileResponse: Decodable {
-    let fileId: Int
     let fileUrl: String
     let fileName: String
-    let fileType: String
+    let fileSize: Int // 단위: byte
+    let fileType: String // 파일 확장자
     let imageOrFile: String
 }
 
 extension ImageOrFileResponse {
     func toDomain() -> ImageOrFile {
-        ImageOrFile(fileId: fileId,
-              fileUrl: fileUrl,
-              fileName: fileName,
-              fileType: fileType,
-              imageOrFile: ImageOrFileType.fromString(imageOrFile))
+        ImageOrFile(fileUrl: fileUrl,
+                    fileName: fileName,
+                    fileSize: fileSize,
+                    fileType: fileType,
+                    imageOrFile: ImageOrFileType.fromString(imageOrFile))
     }
 }

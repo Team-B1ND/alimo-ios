@@ -9,9 +9,9 @@
 import Foundation
 
 struct ImageOrFile: Hashable {
-    var fileId: Int
     var fileUrl: String
     var fileName: String
+    var fileSize: Int
     var fileType: String
     var imageOrFile: ImageOrFileType?
 }
