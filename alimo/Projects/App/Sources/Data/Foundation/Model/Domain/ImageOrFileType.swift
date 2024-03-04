@@ -8,13 +8,13 @@
 
 import Foundation
 
-enum ImageOrFile: String, CaseIterable {
+enum ImageOrFileType: String, CaseIterable {
     case image = "IMAGE"
     case file = "FILE"
     
-    static func fromString(_ str: String) -> ImageOrFile? {
-        var result: ImageOrFile?
-        ImageOrFile.allCases.forEach {
+    static func fromString(_ str: String) -> ImageOrFileType? {
+        var result: ImageOrFileType?
+        ImageOrFileType.allCases.forEach {
             if $0.rawValue == str {
                 result = $0
             }

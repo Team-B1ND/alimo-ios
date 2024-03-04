@@ -8,10 +8,10 @@
 
 import Foundation
 
-struct Image {
+struct ImageOrFile {
     var fileId: Int
     var fileUrl: String
     var fileName: String
     var fileType: String
-    var imageOrFile: ImageOrFile?
+    var imageOrFile: ImageOrFileType?
 }

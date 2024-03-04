@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ImageResponse: Decodable {
+struct ImageOrFileResponse: Decodable {
     let fileId: Int
     let fileUrl: String
     let fileName: String
@@ -16,12 +16,12 @@ struct ImageResponse: Decodable {
     let imageOrFile: String
 }
 
-extension ImageResponse {
-    func toDomain() -> Image {
-        Image(fileId: fileId,
+extension ImageOrFileResponse {
+    func toDomain() -> ImageOrFile {
+        ImageOrFile(fileId: fileId,
               fileUrl: fileUrl,
               fileName: fileName,
               fileType: fileType,
-              imageOrFile: ImageOrFile.fromString(imageOrFile))
+              imageOrFile: ImageOrFileType.fromString(imageOrFile))
     }
 }
