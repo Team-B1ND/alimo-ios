@@ -18,11 +18,14 @@ struct IconCeil: View {
     var body: some View {
         HStack(spacing: 8) {
             if let emoji = emoji {
-                PostIcon(emoji.image)
+                Image(emoji.image)
+                    .resizable()
+                    .frame(width: 24, height: 24)
             } else {
-                PostIcon("AddImoji")
+                Image("AddImoji")
+                    .resizable()
+                    .frame(width: 24, height: 24)
             }
-            PostIcon("Chat")
             
             Spacer()
             
@@ -44,13 +47,5 @@ struct IconCeil: View {
                 }
             }
         }
-    }
-    
-    private func PostIcon(_ name: String) -> some View {
-        Image(name)
-            .resizable()
-            .renderingMode(.template)
-            .foregroundStyle(Color.gray500)
-            .frame(width: 24, height: 24)
     }
 }
