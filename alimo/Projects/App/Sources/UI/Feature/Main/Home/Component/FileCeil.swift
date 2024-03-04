@@ -12,6 +12,7 @@ import SwiftUI
 struct FileCeil: View {
     
     var file: ImageOrFile
+    var onClickDownload: () -> Void
     
     var body: some View {
         
@@ -33,7 +34,7 @@ struct FileCeil: View {
             .padding(.leading, 12)
             Spacer()
             Button {
-                
+                onClickDownload()
             } label: {
                 Image("Download")
                     .resizable()

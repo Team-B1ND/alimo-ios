@@ -69,7 +69,9 @@ struct NotificationDetailView: View {
     private var downloads: some View {
         VStack {
             ForEach(vm.notification?.files ?? [], id: \.self) { file in
-                FileCeil(file: file)
+                FileCeil(file: file) {
+                    // TODO: Download file
+                }
             }
         }
     }
