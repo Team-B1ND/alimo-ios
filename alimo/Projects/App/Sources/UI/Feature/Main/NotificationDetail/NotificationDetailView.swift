@@ -66,12 +66,23 @@ struct NotificationDetailView: View {
     }
     
     @ViewBuilder
+    private var downloads: some View {
+        VStack {
+            ForEach(vm.notification?.files ?? [], id: \.self) { file in
+                FileCeil(file: file)
+            }
+        }
+    }
+    
+    @ViewBuilder
     private var notificationContainer: some View {
         HStack(spacing: 0) {
             avatar
             VStack(alignment: .leading, spacing: 0) {
                 profile
                 content
+                    .padding(.top, 12)
+                downloads
                     .padding(.top, 12)
                 info
             }
@@ -149,7 +160,6 @@ struct NotificationDetailView: View {
                 .toTop()
         )
     }
-    
     
     var body: some View {
         let isFetching = vm.getIsFetching()
