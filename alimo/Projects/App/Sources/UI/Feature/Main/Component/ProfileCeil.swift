@@ -24,7 +24,7 @@ struct ProfileCeil: View {
         VStack(alignment: .leading, spacing: 0) {
             Text(title)
                 .foregroundStyle(Color.black)
-                .font(.label)
+                .font(.bodyLight)
                 .overlay {
                     if isNew {
                         HStack {
@@ -36,7 +36,7 @@ struct ProfileCeil: View {
                 }
             Text(membername)
                 .foregroundStyle(Color.gray600)
-                .font(.caption)
+                .font(.label)
         }
         .toLeading()
     }

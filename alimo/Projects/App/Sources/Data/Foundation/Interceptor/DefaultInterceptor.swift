@@ -14,6 +14,8 @@ fileprivate let authCache = AuthCache.live
 
 class DefaultInterceptor: RequestInterceptor {
     func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
+        
+        print("URL: \(urlRequest.url?.absoluteString ?? "")")
         var modifiedRequest = urlRequest
         modifiedRequest.setValue("Bearer " + authCache.getToken(of: .accessToken), forHTTPHeaderField: "Authorization")
         

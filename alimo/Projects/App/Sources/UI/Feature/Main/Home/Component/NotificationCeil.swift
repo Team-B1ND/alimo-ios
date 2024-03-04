@@ -35,7 +35,7 @@ struct NotificationCeil: View {
     private var content: some View {
         Text(notification.content)
             .lineLimit(6)
-            .font(.caption)
+            .font(.label)
             .foregroundColor(.main900)
             .fixedSize(horizontal: false, vertical: true)
             .multilineTextAlignment(.leading)

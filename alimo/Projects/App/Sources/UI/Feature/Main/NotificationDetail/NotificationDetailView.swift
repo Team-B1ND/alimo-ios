@@ -43,7 +43,7 @@ struct NotificationDetailView: View {
     private var content: some View {
         if let notification = vm.notification {
             Text(notification.content)
-                .font(.caption)
+                .font(.label)
                 .lineSpacing(5)
         }
     }
