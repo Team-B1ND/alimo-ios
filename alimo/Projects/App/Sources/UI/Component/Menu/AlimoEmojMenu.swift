@@ -86,7 +86,11 @@ struct Menus: View {
     var callback: (EmojiType) -> Void
     
     var body: some View {
+        
         ForEach(EmojiType.allCases, id: \.self) { emoji in
+            
+            let backgroundColor: Color = selectedEmoji == emoji ? .gray100 : .white
+            
             Button {
                 callback(emoji)
                 withAnimation {
@@ -98,6 +102,8 @@ struct Menus: View {
                     .resizable()
                     .frame(width: 28, height: 28)
             }
+            .background(backgroundColor)
+            .cornerRadius(4)
         }
     }
 }

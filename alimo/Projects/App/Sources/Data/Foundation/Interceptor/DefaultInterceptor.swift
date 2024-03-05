@@ -30,7 +30,7 @@ class DefaultInterceptor: RequestInterceptor {
             return
         }
         print("URL String: \(url.absoluteString)")
-        guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401, url.absoluteString.contains("refresh") else {
+        guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401, !url.absoluteString.contains("refresh") else {
             completion(.doNotRetryWithError(error))
             return
         }
