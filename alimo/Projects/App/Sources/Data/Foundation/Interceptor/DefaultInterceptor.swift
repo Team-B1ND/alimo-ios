@@ -25,8 +25,12 @@ class DefaultInterceptor: RequestInterceptor {
     func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
         
         debugPrint(request)
-        
-        guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 403 else {
+        guard let url = request.request?.url else {
+            completion(.doNotRetryWithError(error))
+            return
+        }
+        print("URL String: \(url.absoluteString)")
+        guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401, url.absoluteString.contains("refresh") else {
             completion(.doNotRetryWithError(error))
             return
         }
