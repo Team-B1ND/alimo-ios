@@ -32,7 +32,7 @@ struct BookmarkView: View {
                         VStack(spacing: 0) {
                             NotificationCeil(notification: notification) { emoji in
                                 Task {
-//                                    await vm.patch
+                                    await vm.patchEmoji(emoji: emoji, notificationId: notification.notificationId)
                                 }
                             } onClickBookmark: {
                                 Task {
@@ -71,9 +71,7 @@ struct BookmarkView: View {
             await vm.fetchNotifications(isNew: true)
         }
         .task {
-            
             await vm.fetchNotifications(isNew: true)
-            
         }
     }
 }
