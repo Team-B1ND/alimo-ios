@@ -63,7 +63,6 @@ struct HomeView: View {
                                         NotificationCeil(notification: notification) {
                                             Task {
                                                 await vm.patchBookmark(notificationId: notification.notificationId)
-                                                await vm.fetchNotifications(isNew: true)
                                             }
                                         }
                                         Divider()

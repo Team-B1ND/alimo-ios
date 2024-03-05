@@ -82,6 +82,11 @@ class HomeViewModel: ObservableObject {
         do {
             let res = try await bookmarkService.patchBookmark(notificationId: notificationId)
             dump(res)
+            notificationList.enumerated().forEach { idx, i in
+                if i.notificationId == notificationId {
+                    notificationList[idx].isBookMarked.toggle()
+                }
+            }
         } catch {
             debugPrint(error)
         }
