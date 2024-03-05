@@ -17,14 +17,16 @@ struct IconCeil: View {
     
     var body: some View {
         HStack(spacing: 8) {
-            if let emoji = emoji {
-                Image(emoji.image)
-                    .resizable()
-                    .frame(width: 24, height: 24)
-            } else {
-                Image("AddImoji")
-                    .resizable()
-                    .frame(width: 24, height: 24)
+            AlimoEmojiMenu {
+                if let emoji = emoji {
+                    Image(emoji.image)
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                } else {
+                    Image("AddImoji")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                }
             }
             
             Spacer()
