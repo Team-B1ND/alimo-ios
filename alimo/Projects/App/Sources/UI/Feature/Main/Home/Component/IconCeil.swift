@@ -13,22 +13,25 @@ struct IconCeil: View {
     
     var emoji: EmojiType?
     var isBookmarked: Bool
+    var hasEmoji = true
     var onClickEmoji: (EmojiType) -> Void
     var onClickBookmark: () -> Void
     
     var body: some View {
         HStack(spacing: 8) {
-            AlimoEmojiMenu {
-                onClickEmoji($0)
-            } content: {
-                if let emoji = emoji {
-                    Image(emoji.image)
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                } else {
-                    Image("AddImoji")
-                        .resizable()
-                        .frame(width: 24, height: 24)
+            if hasEmoji {
+                AlimoEmojiMenu {
+                    onClickEmoji($0)
+                } content: {
+                    if let emoji = emoji {
+                        Image(emoji.image)
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                    } else {
+                        Image("AddImoji")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                    }
                 }
             }
             

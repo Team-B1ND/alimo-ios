@@ -10,8 +10,9 @@ import SwiftUI
 
 struct EmojiContainer: View {
     
-    @Binding var selectedEmoji: Emoji?
+    var selectedEmoji: EmojiType?
     var emojies: [Emoji]
+    var onClickEmoji: (EmojiType) -> Void
     
     var body: some View {
         ZStack {
@@ -24,9 +25,9 @@ struct EmojiContainer: View {
                 ForEach(emojies, id: \.self) { emoji in
                     if let emojiType = emoji.emojiType {
                         Button {
-                            selectedEmoji = selectedEmoji == emoji ? nil : emoji
+                            onClickEmoji(emojiType)
                         } label: {
-                            emojiImage(image: emojiType.image, num: emoji.count, isSelected: selectedEmoji == emoji)
+                            emojiImage(image: emojiType.image, num: emoji.count, isSelected: selectedEmoji == emojiType)
                         }
                     }
                 }

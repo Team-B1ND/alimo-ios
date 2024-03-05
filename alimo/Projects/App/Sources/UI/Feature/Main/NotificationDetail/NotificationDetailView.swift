@@ -55,14 +55,18 @@ struct NotificationDetailView: View {
                 .foregroundStyle(Color.gray500)
                 .font(.cute)
                 .padding(.top, 12)
-            IconCeil(isBookmarked: vm.isBookmarked) { emoji in
-                
-            } onClickBookmark: {
-                Task {
-                    await vm.patchBookmark()
+            if let notification = vm.notification {
+                IconCeil(isBookmarked: notification.isBookMarked, hasEmoji: false) { emoji in
+                    Task {
+                        await vm.patchEmoji(emoji: emoji)
+                    }
+                } onClickBookmark: {
+                    Task {
+                        await vm.patchBookmark()
+                    }
                 }
+                .padding(.top, 10)
             }
-            .padding(.top, 10)
         }
     }
     
@@ -121,20 +125,20 @@ struct NotificationDetailView: View {
                             let radius: CGFloat = 3
                             let height: CGFloat = 62 + len * 20 + radius
                             
-//                            Path { path in
-//                                path.move(to: CGPoint(x: 0, y: 0))
-//                                path.addLine(to: CGPoint(x: 0, y: height))
-//                                path.addArc(center: CGPoint(x: radius, y: height),
-//                                            radius: radius,
-//                                            startAngle: Angle(degrees: -180),
-//                                            endAngle: Angle(degrees: 90),
-//                                            clockwise: true)
-//                                path.addLine(to: CGPoint(x: 16, y: height + radius))
-//                            }
-//                            .stroke(style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
-//                            .padding(.leading, 27)
-//                            .foregroundStyle(Color.gray100)
-//                            .offset(y: -height + 20)
+                            //                            Path { path in
+                            //                                path.move(to: CGPoint(x: 0, y: 0))
+                            //                                path.addLine(to: CGPoint(x: 0, y: height))
+                            //                                path.addArc(center: CGPoint(x: radius, y: height),
+                            //                                            radius: radius,
+                            //                                            startAngle: Angle(degrees: -180),
+                            //                                            endAngle: Angle(degrees: 90),
+                            //                                            clockwise: true)
+                            //                                path.addLine(to: CGPoint(x: 16, y: height + radius))
+                            //                            }
+                            //                            .stroke(style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+                            //                            .padding(.leading, 27)
+                            //                            .foregroundStyle(Color.gray100)
+                            //                            .offset(y: -height + 20)
                         }
                     }
                 }
@@ -184,8 +188,12 @@ struct NotificationDetailView: View {
                         .padding(.trailing, 16)
                     Divider()
                         .padding(.top, 16)
-                    EmojiContainer(selectedEmoji: $vm.selectedEmoji, emojies: vm.emojies)
-                        .padding(.top, 16)
+                    EmojiContainer(selectedEmoji: vm.selectedEmoji, emojies: vm.emojies) { emoji in
+                        Task {
+                            await vm.patchEmoji(emoji: emoji)
+                        }
+                    }
+                    .padding(.top, 16)
                     comment
                         .padding(.top, 16)
                     Spacer()
@@ -201,11 +209,6 @@ struct NotificationDetailView: View {
             }
             commentInput
                 .toBottom()
-        }
-        .onChange(of: vm.isBookmarked) { _ in
-            Task {
-                await vm.patchBookmark()
-            }
         }
         .navigationBarBackButtonHidden()
         .alimoToolbar("") {

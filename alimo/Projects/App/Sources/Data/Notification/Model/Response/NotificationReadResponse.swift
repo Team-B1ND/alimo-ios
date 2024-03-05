@@ -16,6 +16,9 @@ struct NotificationReadResponse: Decodable {
     let createdAt: String
     let memberId: Int
     let name: String
+    let profileImage: String
+    let isBookMarked: Bool
+    let emoji: String?
     let images: [ImageOrFileResponse]
     let files: [ImageOrFileResponse]
     let comments: [CommentResponse]
@@ -30,6 +33,9 @@ extension NotificationReadResponse {
                          createdAt: Date.fromString(createdAt),
                          memberId: memberId,
                          name: name,
+                         profileImage: profileImage,
+                         isBookMarked: isBookMarked,
+                         emoji: EmojiType.fromString(emoji),
                          images: images.map { $0.toDomain() },
                          files: files.map { $0.toDomain() },
                          comments: comments.map{ $0.toDomain() })
