@@ -25,6 +25,10 @@ struct NotificationDetailView: View {
     @StateObject private var keyboardHandler = KeyboardHandler()
     @Environment(\.dismiss) var dismiss
     @StateObject var vm: NotificationDetailViewModel
+    enum Field {
+        case comment
+    }
+    @FocusState private var commentInputState: Field?
     
     @ViewBuilder
     private var avatar: some View {
@@ -110,6 +114,7 @@ struct NotificationDetailView: View {
                 VStack {
                     CommentCeil(p) {
                         vm.selectedComment = p
+                        commentInputState = .comment
                     }
                     .padding(.leading, 12)
                     .zIndex(1)
@@ -151,6 +156,7 @@ struct NotificationDetailView: View {
         HStack {
             let subCommentText = vm.selectedComment?.commentor == nil ? "" : vm.selectedComment!.commentor + "님에게 "
             TextField("\(subCommentText)댓글을 남겨보세요", text: $vm.contentText)
+                .focused($commentInputState, equals: .comment)
             Button {
                 Task {
                     await vm.createComment()
@@ -182,30 +188,33 @@ struct NotificationDetailView: View {
         ZStack {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 0) {
-                    Group {
-                        notificationContainer
-                            .padding(.top, 20)
-                            .padding(.leading, 12)
-                            .padding(.trailing, 16)
-                        Divider()
-                            .padding(.top, 16)
-                        EmojiContainer(selectedEmoji: vm.selectedEmoji, emojies: vm.emojies) { emoji in
-                            Task {
-                                await vm.patchEmoji(emoji: emoji)
-                            }
-                        }
+                    notificationContainer
+                        .padding(.top, 20)
+                        .padding(.leading, 12)
+                        .padding(.trailing, 16)
+                    Divider()
                         .padding(.top, 16)
+                    EmojiContainer(selectedEmoji: vm.selectedEmoji, emojies: vm.emojies) { emoji in
+                        Task {
+                            await vm.patchEmoji(emoji: emoji)
+                        }
                     }
-                    .onTapGesture {
-                        print("NotificationDetailV - remove sub commenting")
-                        vm.selectedComment = nil
-                    }
+                    .padding(.top, 16)
                     comment
                         .padding(.top, 16)
                     Spacer()
                         .frame(height: 100)
                 }
                 .background(Color.white)
+                .onTapGesture {
+                    if vm.contentText.isEmpty {
+                        print("NotificationDetailV - normal comment mode")
+                        vm.selectedComment = nil
+                    } else {
+                        print("NotificationDetailV - commentting.. yet")
+                    }
+                    endTextEditing()
+                }
             }
             .refreshable {
                 Task {
@@ -219,9 +228,6 @@ struct NotificationDetailView: View {
         .navigationBarBackButtonHidden()
         .alimoToolbar("") {
             dismiss()
-        }
-        .onTapGesture {
-            endTextEditing()
         }
         .task {
             await vm.fetchEmojies()
