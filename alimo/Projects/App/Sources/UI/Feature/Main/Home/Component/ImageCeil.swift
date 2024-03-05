@@ -16,7 +16,7 @@ struct ImageCeil: View {
     var body: some View {
         
         HStack(spacing: 0) {
-            Image("File")
+            Image("Image")
                 .resizable()
                 .frame(width: 28, height: 28)
             VStack(alignment: .leading, spacing: 0) {

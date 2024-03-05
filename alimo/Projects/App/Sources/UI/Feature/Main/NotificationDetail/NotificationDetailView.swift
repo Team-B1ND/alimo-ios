@@ -82,15 +82,6 @@ struct NotificationDetailView: View {
     }
     
     @ViewBuilder
-    private var images: some View {
-        VStack {
-            ForEach(vm.notification?.images ?? [], id: \.self) { image in
-                
-            }
-        }
-    }
-    
-    @ViewBuilder
     private var notificationContainer: some View {
         HStack(spacing: 0) {
             avatar
@@ -100,6 +91,12 @@ struct NotificationDetailView: View {
                     .padding(.top, 12)
                 downloads
                     .padding(.top, 12)
+                if !(vm.notification?.images ?? []).isEmpty {
+                    ImageCeil(images: vm.notification?.images ?? []) {
+                        // TODO: Download images
+                    }
+                    .padding(.top, 8)
+                }
                 info
             }
             .padding(.leading, 8)
