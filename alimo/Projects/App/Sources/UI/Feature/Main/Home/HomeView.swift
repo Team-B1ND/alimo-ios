@@ -110,5 +110,10 @@ struct HomeView: View {
         .refreshable {
             await vm.fetchNotifications(isNew: true)
         }
+        .task {
+            await vm.fetchCategoryList()
+            await vm.fetchLoudSpeaker()
+            await vm.fetchNotifications(isNew: true)
+        }
     }
 }

@@ -144,5 +144,9 @@ struct ProfileView: View {
                 })
             }
         }
+        .task {
+            await vm.fetchInfo()
+            await vm.fetchCategoryList()
+        }
     }
 }

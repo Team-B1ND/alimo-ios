@@ -70,5 +70,10 @@ struct BookmarkView: View {
         .refreshable {
             await vm.fetchNotifications(isNew: true)
         }
+        .task {
+            
+            await vm.fetchNotifications(isNew: true)
+            
+        }
     }
 }
