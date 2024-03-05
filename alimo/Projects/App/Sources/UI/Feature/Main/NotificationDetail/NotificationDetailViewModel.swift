@@ -24,6 +24,7 @@ final class NotificationDetailViewModel: ObservableObject {
     @Published var selectedEmoji: EmojiType? = nil
     @Published var contentText = ""
     private var isNotificationFetching = false
+    @Published var selectedComment: Comment? = nil
     
     init(notificationId: Int) {
         self.notificationId = notificationId
@@ -56,8 +57,9 @@ final class NotificationDetailViewModel: ObservableObject {
     func createComment() async {
         defer { contentText = "" }
         do {
+            let parentId = selectedComment == nil ? nil : selectedComment!.commentId
             let request = CreateCommentRequest(content: contentText,
-                                               parentId: nil)
+                                               parentId: parentId)
             _ = try await commentService.createComment(notificationId: notificationId, request: request)
             print("NotificationDetailVM - comment created")
         } catch {

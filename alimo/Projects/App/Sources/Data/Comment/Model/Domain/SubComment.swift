@@ -11,7 +11,7 @@ import Foundation
 struct SubComment: Hashable {
     var commentId: Int
     var content: String
-    var commentor: Int
+    var commentor: String
     var createdAt: Date
     var profileImage: String?
 }

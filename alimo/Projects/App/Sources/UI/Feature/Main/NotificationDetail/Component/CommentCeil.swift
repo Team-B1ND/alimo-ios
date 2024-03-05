@@ -12,9 +12,12 @@ import SwiftUI
 struct CommentCeil: View {
     
     var comment: Comment
+    var onClickSubComment: () -> Void
     
-    init(_ comment: Comment) {
+    init(_ comment: Comment,
+         onClickSubComment: @escaping () -> Void) {
         self.comment = comment
+        self.onClickSubComment = onClickSubComment
     }
     
     var body: some View {
@@ -37,7 +40,7 @@ struct CommentCeil: View {
                             .font(.cute)
                         
                         Button {
-                            
+                            onClickSubComment()
                         } label: {
                             Text("답글달기")
                                 .font(.cute)

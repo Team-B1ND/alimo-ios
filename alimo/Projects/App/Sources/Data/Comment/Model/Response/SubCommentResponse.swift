@@ -11,7 +11,7 @@ import Foundation
 struct SubCommentResponse: Decodable {
     let commentId: Int
     let content: String
-    let commentor: Int
+    let commentor: String
     let createdAt: String
     let profileImage: String?
 }

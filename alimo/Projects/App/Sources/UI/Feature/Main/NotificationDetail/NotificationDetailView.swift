@@ -108,9 +108,11 @@ struct NotificationDetailView: View {
         LazyVStack {
             ForEach(vm.notification?.comments ?? [], id: \.commentId) { p in
                 VStack {
-                    CommentCeil(p)
-                        .padding(.leading, 12)
-                        .zIndex(1)
+                    CommentCeil(p) {
+                        vm.selectedComment = p
+                    }
+                    .padding(.leading, 12)
+                    .zIndex(1)
                     let subComments = p.subComments
                     ForEach(0..<subComments.count, id: \.self) { idx in
                         let c = subComments[idx]
@@ -147,7 +149,8 @@ struct NotificationDetailView: View {
     @ViewBuilder
     private var commentInput: some View {
         HStack {
-            TextField("댓글을 남겨보세요", text: $vm.contentText)
+            let subCommentText = vm.selectedComment?.commentor == nil ? "" : vm.selectedComment!.commentor + "님에게 "
+            TextField("\(subCommentText)댓글을 남겨보세요", text: $vm.contentText)
             Button {
                 Task {
                     await vm.createComment()
@@ -179,18 +182,24 @@ struct NotificationDetailView: View {
         ZStack {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 0) {
-                    notificationContainer
-                        .padding(.top, 20)
-                        .padding(.leading, 12)
-                        .padding(.trailing, 16)
-                    Divider()
-                        .padding(.top, 16)
-                    EmojiContainer(selectedEmoji: vm.selectedEmoji, emojies: vm.emojies) { emoji in
-                        Task {
-                            await vm.patchEmoji(emoji: emoji)
+                    Group {
+                        notificationContainer
+                            .padding(.top, 20)
+                            .padding(.leading, 12)
+                            .padding(.trailing, 16)
+                        Divider()
+                            .padding(.top, 16)
+                        EmojiContainer(selectedEmoji: vm.selectedEmoji, emojies: vm.emojies) { emoji in
+                            Task {
+                                await vm.patchEmoji(emoji: emoji)
+                            }
                         }
+                        .padding(.top, 16)
                     }
-                    .padding(.top, 16)
+                    .onTapGesture {
+                        print("NotificationDetailV - remove sub commenting")
+                        vm.selectedComment = nil
+                    }
                     comment
                         .padding(.top, 16)
                     Spacer()
