@@ -21,16 +21,7 @@ final class NotificationDetailViewModel: ObservableObject {
     
     @Published var emojies: [Emoji] = []
     @Published var notification: NotificationRead? = nil
-    @Published var selectedEmoji: EmojiType? = nil {
-        didSet {
-            Task {
-                if let emojiType = selectedEmoji {
-                    await patchEmoji(emoji: emojiType)
-                    await fetchEmojies()
-                }
-            }
-        }
-    }
+    @Published var selectedEmoji: EmojiType? = nil
     @Published var contentText = ""
     private var isNotificationFetching = false
     
@@ -55,7 +46,7 @@ final class NotificationDetailViewModel: ObservableObject {
         do {
             let notification = try await notificationService.getNotification(id: notificationId)
             self.notification = notification
-            self.selectedEmoji = notification.emoji
+            selectedEmoji = notification.emoji
             dump(notification)
         } catch {
             debugPrint(error)
@@ -98,8 +89,10 @@ final class NotificationDetailViewModel: ObservableObject {
                 // handle notification emoji
                 if notification.emoji == emoji {
                     notification.emoji = nil
+                    selectedEmoji = nil
                 } else {
                     notification.emoji = emoji
+                    selectedEmoji = emoji
                 }
                 self.notification = notification
             }
