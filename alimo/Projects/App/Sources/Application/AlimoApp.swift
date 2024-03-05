@@ -10,6 +10,7 @@ struct AlimoApp: App {
             ContentView()
                 .environmentObject(TokenManager())
                 .environmentObject(DialogManager())
+                .environmentObject(DownloadManager())
         }
     }
 }

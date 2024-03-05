@@ -32,6 +32,8 @@ let project = Project.makeModule(
             "NSAllowsArbitraryLoads": .boolean(true)
         ],
         "FirebaseAppDelegateProxyEnabled": .boolean(false),
-        "UIBackgroundModes": ["fetch", "remote-notification"]
+        "UIBackgroundModes": ["fetch", "remote-notification"],
+        "NSPhotoLibraryUsageDescription": "알리모에서 이미지를 저장하려면 '사진'에 접근해야 합니다.",
+        "NSDocumentsFolderUsageDescription": "알리모에서 파일을 저장하려면 '파일'에 접근해야 합니다."
     ])
 )

@@ -24,6 +24,7 @@ struct NotificationDetailView: View {
     
     @StateObject private var keyboardHandler = KeyboardHandler()
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var downloadManager: DownloadManager
     @StateObject var vm: NotificationDetailViewModel
     enum Field {
         case comment
@@ -80,6 +81,13 @@ struct NotificationDetailView: View {
             ForEach(vm.notification?.files ?? [], id: \.self) { file in
                 FileCeil(file: file) {
                     // TODO: Download file
+                    Task {
+                        await vm.downloadFile(file: file) { data in
+                            Task {
+                                await downloadManager.saveFileToDocuments(data: data, fileName: file.fileName)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -95,11 +103,22 @@ struct NotificationDetailView: View {
                     .padding(.top, 12)
                 downloads
                     .padding(.top, 12)
-                if !(vm.notification?.images ?? []).isEmpty {
-                    ImageCeil(images: vm.notification?.images ?? []) {
-                        // TODO: Download images
+                if let images = vm.notification?.images {
+                    if !images.isEmpty {
+                        ImageCeil(images: vm.notification?.images ?? []) {
+                            // TODO: Download images
+                            images.forEach { image in
+                                Task {
+                                    await vm.downloadImage(image: image) { downloadedImage in
+                                        Task {
+                                            await downloadManager.saveImageToPhotos(image: downloadedImage)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        .padding(.top, 8)
                     }
-                    .padding(.top, 8)
                 }
                 info
             }

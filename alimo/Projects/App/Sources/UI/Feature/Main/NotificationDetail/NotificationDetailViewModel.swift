@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 fileprivate let emojiService = EmojiService.live
 fileprivate let notificationService = NotificationService.live
@@ -102,4 +103,41 @@ final class NotificationDetailViewModel: ObservableObject {
             debugPrint(error)
         }
     }
+    
+    func downloadImage(image: ImageOrFile, callback: @escaping (UIImage) -> Void) async {
+        guard let url = URL(string: image.fileUrl) else {
+            print("NotificationDetailVM - Invalid URL")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                print("NotificationDetailVM - Failed to download image: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            
+            if let image = UIImage(data: data) {
+                callback(image)
+            } else {
+                print("NotificationDetailVM - Invalid image data")
+            }
+        }.resume()
+    }
+    func downloadFile(file: ImageOrFile,
+                      callback: @escaping (Data) -> Void) async {
+        guard let url = URL(string: file.fileUrl) else {
+            print("NotificationDetailVM - Invalid URL")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                print("NotificationDetailVM - Failed to download file: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            
+            callback(data)
+        }.resume()
+    }
+    
 }
