@@ -60,7 +60,11 @@ struct HomeView: View {
                             LazyVStack(spacing: 0) {
                                 ForEach(vm.notificationList, id: \.uuidString) { notification in
                                     VStack(spacing: 0) {
-                                        NotificationCeil(notification: notification) {
+                                        NotificationCeil(notification: notification) { emoji in
+                                            Task {
+                                                await vm.patchEmoji(emoji: emoji, notificationId: notification.notificationId)
+                                            }
+                                        } onClickBookmark: {
                                             Task {
                                                 await vm.patchBookmark(notificationId: notification.notificationId)
                                             }

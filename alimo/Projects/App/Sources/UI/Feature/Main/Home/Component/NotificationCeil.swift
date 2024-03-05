@@ -12,11 +12,14 @@ import SwiftUI
 struct NotificationCeil: View {
     
     var notification: Notification
+    var onClickEmoji: (EmojiType) -> Void
     var onClickBookmark: () -> Void
     
     init(notification: Notification,
+         onClickEmoji: @escaping (EmojiType) -> Void,
          onClickBookmark: @escaping () -> Void) {
         self.notification = notification
+        self.onClickEmoji = onClickEmoji
         self.onClickBookmark = onClickBookmark
     }
     
@@ -49,6 +52,8 @@ struct NotificationCeil: View {
             .font(.cute)
             .padding(.top, 12)
         IconCeil(emoji: notification.emoji, isBookmarked: notification.isBookMarked) {
+            onClickEmoji($0)
+        } onClickBookmark: {
             onClickBookmark()
         }
         .padding(.top, 10)

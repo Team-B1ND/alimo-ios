@@ -55,10 +55,11 @@ struct NotificationDetailView: View {
                 .foregroundStyle(Color.gray500)
                 .font(.cute)
                 .padding(.top, 12)
-            IconCeil(isBookmarked: vm.isBookmarked) {
+            IconCeil(isBookmarked: vm.isBookmarked) { emoji in
+                
+            } onClickBookmark: {
                 Task {
                     await vm.patchBookmark()
-                    await vm.fetchNotification()
                 }
             }
             .padding(.top, 10)

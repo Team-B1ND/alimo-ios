@@ -17,6 +17,7 @@ class HomeViewModel: ObservableObject {
     private let memberService = MemberService.live
     private let notificationService = NotificationService.live
     private let bookmarkService = BookmarkService.live
+    private let emojiService = EmojiService.live
     
     @Published var category : [String] = []
     @Published var loudSpeaker: LoudSpeaker? = nil
@@ -85,6 +86,25 @@ class HomeViewModel: ObservableObject {
             notificationList.enumerated().forEach { idx, i in
                 if i.notificationId == notificationId {
                     notificationList[idx].isBookMarked.toggle()
+                }
+            }
+        } catch {
+            debugPrint(error)
+        }
+    }
+    
+    func patchEmoji(emoji: EmojiType, notificationId: Int) async {
+        do {
+            let request = PatchEmojiRequest(reaction: emoji.rawValue)
+            let res = try await emojiService.patchEmoji(notificationId: notificationId, request: request)
+            dump(res)
+            notificationList.enumerated().forEach { idx, i in
+                if i.notificationId == notificationId {
+                    if i.emoji == emoji {
+                        notificationList[idx].emoji = nil
+                    } else {
+                        notificationList[idx].emoji = emoji
+                    }
                 }
             }
         } catch {
