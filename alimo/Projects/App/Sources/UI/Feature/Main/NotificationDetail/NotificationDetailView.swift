@@ -22,14 +22,21 @@ fileprivate let dummyComment = [
 
 struct NotificationDetailView: View {
     
+    enum Field {
+        case comment
+    }
+    enum Dialog {
+        case file
+        case image
+    }
+    
     @StateObject private var keyboardHandler = KeyboardHandler()
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var downloadManager: DownloadManager
     @StateObject var vm: NotificationDetailViewModel
-    enum Field {
-        case comment
-    }
     @FocusState private var commentInputState: Field?
+    @State var showDialog = false
+    @State var dialog = Dialog.file
     
     @ViewBuilder
     private var avatar: some View {
@@ -85,7 +92,8 @@ struct NotificationDetailView: View {
                         await vm.downloadFile(file: file) { data in
                             Task {
                                 await downloadManager.saveFileToDocuments(data: data, fileName: file.fileName)
-                                
+                                dialog = .file
+                                showDialog = true
                             }
                         }
                     }
@@ -108,14 +116,14 @@ struct NotificationDetailView: View {
                     if !images.isEmpty {
                         ImageCeil(images: vm.notification?.images ?? []) {
                             // TODO: Download images
-                            images.forEach { image in
-                                Task {
-                                    await vm.downloadImage(image: image) { downloadedImage in
-                                        Task {
-                                            await downloadManager.saveImageToPhotos(image: downloadedImage)
-                                        }
+                            Task {
+                                await vm.downloadImages(images: vm.notification?.images ?? []) { images in
+                                    images.forEach {
+                                        downloadManager.saveImageToPhotos(image: $0)
                                     }
                                 }
+                                dialog = .image
+                                showDialog = true
                             }
                         }
                         .padding(.top, 8)
@@ -252,6 +260,16 @@ struct NotificationDetailView: View {
         .task {
             await vm.fetchEmojies()
             await vm.fetchNotification()
+        }
+        .alert(isPresented: $showDialog) {
+            switch dialog {
+            case .file:
+                Alert(title: Text("파일 다운로드 성공"),
+                      dismissButton: .default(Text("닫기")))
+            case .image:
+                Alert(title: Text("이미지 다운로드 성공"),
+                      dismissButton: .default(Text("닫기")))
+            }
         }
     }
 }

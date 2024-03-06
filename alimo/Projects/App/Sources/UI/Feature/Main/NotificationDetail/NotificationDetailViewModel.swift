@@ -104,6 +104,16 @@ final class NotificationDetailViewModel: ObservableObject {
         }
     }
     
+    func downloadImages(images: [ImageOrFile], callback: @escaping ([UIImage]) -> Void) async {
+        var result: [UIImage] = []
+        for image in images {
+            await downloadImage(image: image) {
+                result.append($0)
+            }
+        }
+        callback(result)
+    }
+    
     func downloadImage(image: ImageOrFile, callback: @escaping (UIImage) -> Void) async {
         guard let url = URL(string: image.fileUrl) else {
             print("NotificationDetailVM - Invalid URL")

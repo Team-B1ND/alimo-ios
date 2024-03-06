@@ -11,11 +11,11 @@ import SwiftUI
 
 final class DownloadManager: ObservableObject {
     
-    func saveImageToPhotos(image: UIImage) async {
+    func saveImageToPhotos(image: UIImage) {
         UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
     }
-        
-    func saveFileToDocuments(data: Data, fileName: String) async {
+    
+    func saveFileToDocuments(data: Data, fileName: String) {
         if let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
             let filePath = documentsPath.appendingPathComponent(fileName)
             
