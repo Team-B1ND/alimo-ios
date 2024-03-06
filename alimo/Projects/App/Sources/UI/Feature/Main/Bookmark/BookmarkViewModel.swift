@@ -30,7 +30,7 @@ class BookmarkViewModel: ObservableObject {
             print("HomeVM - fetching notifications... nextPage: \(nextPage)")
             let request = PageRequest(page: nextPage, size: pagingInterval)
             
-            let notifications = try await bookmarkService.getBookmarkByCategory(category: "all", pageRequest: request)
+            let notifications = try await bookmarkService.getBookmarkByCategory(category: "null", pageRequest: request)
             dump(notifications)
             if isNew {
                 notificationList = notifications

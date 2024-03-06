@@ -57,7 +57,7 @@ class HomeViewModel: ObservableObject {
         do {
             let nextPage = isNew ? 1 : page + 1
             print("HomeVM - fetching notifications... nextPage: \(nextPage)")
-            let selectedCategory = selectedIndex == -1 ? "all" : category[selectedIndex]
+            let selectedCategory = selectedIndex == -1 ? "null" : category[selectedIndex]
             let request = PageRequest(page: nextPage, size: pagingInterval)
             
             let notifications = try await notificationService.getNotificationByCategory(category: selectedCategory, request: request)
