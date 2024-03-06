@@ -91,7 +91,7 @@ struct NotificationDetailView: View {
                     Task {
                         await vm.downloadFile(file: file) { data in
                             Task {
-                                await downloadManager.saveFileToDocuments(data: data, fileName: file.fileName)
+                                downloadManager.saveFileToDocuments(data: data, fileName: file.fileName)
                                 dialog = .file
                                 showDialog = true
                             }
