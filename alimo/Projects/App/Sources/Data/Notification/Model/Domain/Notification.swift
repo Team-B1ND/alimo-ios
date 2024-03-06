@@ -17,7 +17,7 @@ struct Notification: Hashable {
     var createdAt: Date
     var memberId: Int
     var name: String
-    var profileImage: String
+    var profileImage: String?
     var isBookMarked: Bool
     var emoji: EmojiType?
     var images: [ImageOrFile]

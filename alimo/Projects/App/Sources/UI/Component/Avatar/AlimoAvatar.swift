@@ -32,7 +32,3 @@ struct AlimoAvatar: View {
             .clipShape(Circle())
     }
 }
-
-#Preview {
-    AlimoAvatar()
-}

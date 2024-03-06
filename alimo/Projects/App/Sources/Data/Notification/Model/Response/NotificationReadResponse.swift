@@ -16,7 +16,7 @@ struct NotificationReadResponse: Decodable {
     let createdAt: String
     let memberId: Int
     let name: String
-    let profileImage: String
+    let profileImage: String?
     let isBookMarked: Bool
     let emoji: String?
     let images: [ImageOrFileResponse]

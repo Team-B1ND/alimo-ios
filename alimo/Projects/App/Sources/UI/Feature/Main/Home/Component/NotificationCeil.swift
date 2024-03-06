@@ -25,8 +25,14 @@ struct NotificationCeil: View {
     
     @ViewBuilder
     private var avatar: some View {
-        AlimoAvatar()
-            .toTop()
+        Group {
+            if let profileImage = notification.profileImage {
+                AlimoAsyncAvatar(profileImage)
+            } else {
+                AlimoAvatar()
+            }
+        }
+        .toTop()
     }
     
     @ViewBuilder

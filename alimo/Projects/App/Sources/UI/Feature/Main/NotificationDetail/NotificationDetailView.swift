@@ -40,14 +40,20 @@ struct NotificationDetailView: View {
     
     @ViewBuilder
     private var avatar: some View {
-        AlimoAvatar()
-            .toTop()
+        Group {
+            if let profileImage = vm.notification?.profileImage {
+                AlimoAsyncAvatar(profileImage)
+            } else {
+                AlimoAvatar()
+            }
+        }
+        .toTop()
     }
     
     @ViewBuilder
     private var profile: some View {
         if let notification = vm.notification {
-            ProfileCeil(isNew: false, title: notification.title, membername: String(notification.memberId))
+            ProfileCeil(isNew: false, title: notification.title, membername: notification.name)
         }
     }
     
@@ -138,7 +144,7 @@ struct NotificationDetailView: View {
     @ViewBuilder
     private var comment: some View {
         LazyVStack {
-            ForEach(vm.notification?.comments ?? [], id: \.commentId) { p in
+            ForEach(vm.notification?.comments.sorted { $0.createdAt < $1.createdAt } ?? [], id: \.commentId) { p in
                 VStack {
                     CommentCeil(p) {
                         vm.selectedComment = p
@@ -146,7 +152,7 @@ struct NotificationDetailView: View {
                     }
                     .padding(.leading, 12)
                     .zIndex(1)
-                    let subComments = p.subComments
+                    let subComments = p.subComments.sorted { $0.createdAt < $1.createdAt }
                     ForEach(0..<subComments.count, id: \.self) { idx in
                         let c = subComments[idx]
                         let len: CGFloat = CGFloat((idx == 0
@@ -185,18 +191,21 @@ struct NotificationDetailView: View {
             let subCommentText = vm.selectedComment?.commentor == nil ? "" : vm.selectedComment!.commentor + "님에게 "
             TextField("\(subCommentText)댓글을 남겨보세요", text: $vm.contentText)
                 .focused($commentInputState, equals: .comment)
+            let isCommentEmpty = vm.contentText.isEmpty
             Button {
                 Task {
                     await vm.createComment()
                     await vm.fetchNotification()
                 }
             } label: {
+                let imojiColor: Color = isCommentEmpty ? .gray300 : .gray600
                 Image("Send")
                     .resizable()
                     .renderingMode(.template)
-                    .foregroundStyle(Color.gray600)
+                    .foregroundStyle(imojiColor)
                     .frame(width: 24, height: 24)
             }
+            .disabled(isCommentEmpty)
             .toTrailing()
         }
         .padding(.vertical, 16)

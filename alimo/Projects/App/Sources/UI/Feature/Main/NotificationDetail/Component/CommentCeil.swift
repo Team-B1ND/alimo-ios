@@ -23,7 +23,11 @@ struct CommentCeil: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(alignment: .top) {
-                AlimoAvatar(type: .small)
+                if let profileImage = comment.profileImage {
+                    AlimoAsyncAvatar(profileImage)
+                } else {
+                    AlimoAvatar(type: .small)
+                }
                 
                 VStack(alignment: .leading, spacing: 0) {
                     Text("\(comment.commentor)")
@@ -35,7 +39,7 @@ struct CommentCeil: View {
                         .padding(.top, 2)
                         .lineSpacing(5)
                     HStack(spacing: 8) {
-                        Text("2023년 1월 1일 오후 1시")
+                        Text(comment.createdAt.ymdText)
                             .foregroundStyle(Color.gray500)
                             .font(.cute)
                         
