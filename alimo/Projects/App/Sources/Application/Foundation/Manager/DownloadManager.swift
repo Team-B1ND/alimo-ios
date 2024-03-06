@@ -16,14 +16,15 @@ final class DownloadManager: ObservableObject {
     }
         
     func saveFileToDocuments(data: Data, fileName: String) async {
-        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let filePath = documentsPath.appendingPathComponent(fileName)
-        
-        do {
-            try data.write(to: filePath)
-            print("File saved successfully at \(filePath)")
-        } catch {
-            print("Failed to save file: \(error.localizedDescription)")
+        if let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            let filePath = documentsPath.appendingPathComponent(fileName)
+            
+            do {
+                try data.write(to: filePath)
+                print("File saved successfully at \(filePath)")
+            } catch {
+                print("Failed to save file: \(error.localizedDescription)")
+            }
         }
     }
 }
