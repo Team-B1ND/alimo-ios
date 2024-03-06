@@ -85,6 +85,7 @@ struct NotificationDetailView: View {
                         await vm.downloadFile(file: file) { data in
                             Task {
                                 await downloadManager.saveFileToDocuments(data: data, fileName: file.fileName)
+                                
                             }
                         }
                     }

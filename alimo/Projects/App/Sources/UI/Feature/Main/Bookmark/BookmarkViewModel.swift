@@ -20,8 +20,11 @@ class BookmarkViewModel: ObservableObject {
     @Published var loudSpeaker: LoudSpeaker? = nil
     @Published var notificationList: [Notification] = []
     @Published var page = 1
+    @Published var fetching = true
     
     func fetchNotifications(isNew: Bool) async {
+        fetching = true
+        defer { fetching = false }
         do {
             let nextPage = isNew ? 1 : page + 1
             print("HomeVM - fetching notifications... nextPage: \(nextPage)")
@@ -48,6 +51,7 @@ class BookmarkViewModel: ObservableObject {
     
     
     func patchBookmark(notificationId: Int) async {
+        
         do {
             let res = try await bookmarkService.patchBookmark(notificationId: notificationId)
             dump(res)
