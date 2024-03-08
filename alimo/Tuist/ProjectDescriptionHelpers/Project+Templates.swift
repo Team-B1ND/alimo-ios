@@ -14,11 +14,13 @@ public extension Project {
         resources: ResourceFileElements? = nil,
         infoPlist: InfoPlist = .default
     ) -> Project {
+        var baseSettings = SettingsDictionary()
+            .debugInformationFormat(.dwarfWithDsym)
         let settings: Settings = .settings(
             base: ["DEVELOPMENT_TEAM": "\(teamId)"],
             configurations: [
-                .debug(name: .debug),
-                .release(name: .release)
+                .debug(name: .debug, settings: baseSettings),
+                .release(name: .release, settings: baseSettings)
             ], defaultSettings: .recommended)
 
         let appTarget = Target(
