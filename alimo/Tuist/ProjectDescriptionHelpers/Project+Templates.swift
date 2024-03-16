@@ -14,11 +14,13 @@ public extension Project {
         resources: ResourceFileElements? = nil,
         infoPlist: InfoPlist = .default
     ) -> Project {
+        var baseSettings = SettingsDictionary()
+            .debugInformationFormat(.dwarfWithDsym)
         let settings: Settings = .settings(
-            base: [:],
+            base: ["DEVELOPMENT_TEAM": "\(teamId)"],
             configurations: [
-                .debug(name: .debug),
-                .release(name: .release)
+                .debug(name: .debug, settings: baseSettings),
+                .release(name: .release, settings: baseSettings)
             ], defaultSettings: .recommended)
 
         let appTarget = Target(
@@ -30,7 +32,9 @@ public extension Project {
             infoPlist: infoPlist,
             sources: sources,
             resources: resources,
-            dependencies: dependencies
+            entitlements: .file(path: "App.entitlements"), 
+            dependencies: dependencies,
+            settings: .settings(base: ["OTHER_LDFLAGS": .string("-ObjC")])
         )
         
         let schemes: [Scheme] = [.makeScheme(target: .debug, name: name)]

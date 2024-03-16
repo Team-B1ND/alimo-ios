@@ -24,7 +24,7 @@ struct AlimoBadge: View {
                 if type.hasLabel {
                     Text("N")
                         .foregroundStyle(Color.white)
-                        .font(Font.custom(Pretendard.medium.rawValue, size: 8))
+                        .font(Font(AppFontFamily.Pretendard.medium.font(size: 8)))
                 }
             }
     }

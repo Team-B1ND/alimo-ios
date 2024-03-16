@@ -11,17 +11,12 @@ import SwiftUI
 extension Font {
     
     // pretendard
-    static let title = Font.custom(Pretendard.bold.rawValue, size: 24)
-    static let subtitle = Font.custom(Pretendard.bold.rawValue, size: 20)
-    static let body = Font.custom(Pretendard.bold.rawValue, size: 16)
-    static let bodyLight = Font.custom(Pretendard.medium.rawValue, size: 16)
-    static let label = Font.custom(Pretendard.medium.rawValue, size: 14)
-    static let caption = Font.custom(Pretendard.medium.rawValue, size: 12)
-    static let cute = Font.custom(Pretendard.medium.rawValue, size: 10)
-}
-
-enum Pretendard: String {
-    
-    case bold = "Pretendard-Bold"
-    case medium = "Pretendard-Medium"
+    static let title = Font(AppFontFamily.Pretendard.bold.font(size: 24))
+    static let subtitle = Font(AppFontFamily.Pretendard
+        .bold.font(size: 20))
+    static let body = Font(AppFontFamily.Pretendard.bold.font(size: 16))
+    static let bodyLight = Font(AppFontFamily.Pretendard.medium.font(size: 16))
+    static let label = Font(AppFontFamily.Pretendard.medium.font(size: 14))
+    static let caption = Font(AppFontFamily.Pretendard.medium.font(size: 12))
+    static let cute = Font(AppFontFamily.Pretendard.medium.font(size: 10))
 }

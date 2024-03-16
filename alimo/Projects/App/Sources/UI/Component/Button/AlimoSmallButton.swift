@@ -28,7 +28,7 @@ struct AlimoSmallButton: View {
         } label: {
             Text(text)
                 .font(.label)
-                .frame(maxHeight: 36)
+                .frame(height: 30)
                 .padding(.horizontal, Size.large.rawValue)
                 .foregroundStyle(buttonType.foregroundColor)
                 .background(buttonType.backgroundColor)
