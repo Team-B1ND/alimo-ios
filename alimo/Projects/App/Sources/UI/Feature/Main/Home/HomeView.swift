@@ -72,14 +72,12 @@ struct HomeView: View {
                                         Divider()
                                             .foregroundStyle(Color.gray100)
                                     }
-                                    .onAppear {
+                                    .task {
                                         guard let index = vm.notificationList.firstIndex(where: { $0.notificationId == notification.notificationId }) else { return }
                                         
                                         if index % pagingInterval == (pagingInterval - 1) {
                                             
-                                            Task {
-                                                await vm.fetchNotifications(isNew: false)
-                                            }
+                                            await vm.fetchNotifications(isNew: false)
                                         }
                                     }
                                 }
