@@ -11,6 +11,7 @@ import Foundation
 struct CommentResponse: Decodable {
     let commentId: Int
     let content: String
+    let commenterId : Int
     let commentor: String
     let createdAt: String
     let profileImage: String?
@@ -21,6 +22,7 @@ extension CommentResponse {
     func toDomain() -> Comment {
         Comment(commentId: commentId,
                 content: content,
+                commenterId: commenterId,
                 commentor: commentor,
                 createdAt: Date.fromString(createdAt),
                 profileImage: profileImage,
