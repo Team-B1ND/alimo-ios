@@ -44,7 +44,7 @@ struct MemberService {
     }
     
     func getNameByChildCode(childCode: String) async throws -> ResponseData<MemberNameResponse> {
-        try await client.request(memberPath + "?childCode=\(childCode)",
+        try await client.request(memberPath + "/student-search?child-code=\(childCode)",
                                  ResponseData<MemberNameResponse>.self)
     }
     
