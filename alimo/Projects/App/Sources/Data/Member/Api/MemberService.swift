@@ -68,7 +68,7 @@ struct MemberService {
     }
     
     func getCategoryList() async throws -> CategoryList {
-        try await client.request(memberPath + "/category-list",
+        try await client.request("/category/list" + memberPath,
                                  ResponseData<CategoryListResponse>.self,
                                  method: .get).data.toDomain()
     }
