@@ -11,7 +11,7 @@ let dependencies = Dependencies(
                     requirement: .upToNextMajor(from: "4.3.0")),
             .remote(url: "https://github.com/CSolanaM/SkeletonUI.git", requirement: .branch("master")),
             .remote(url: "https://github.com/apple/swift-crypto.git", requirement: .upToNextMajor(from: "3.0.0")),
-            .remote(url: "https://github.com/firebase/firebase-ios-sdk", requirement: .exact("10.23.1"))
+            .remote(url: "https://github.com/firebase/firebase-ios-sdk", requirement: .exact("10.19.0"))
         ]
     ),
     platforms: [.iOS]
