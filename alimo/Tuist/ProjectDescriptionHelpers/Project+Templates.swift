@@ -33,7 +33,8 @@ public extension Project {
             sources: sources,
             resources: resources,
             entitlements: .file(path: "App.entitlements"), 
-            dependencies: dependencies
+            dependencies: dependencies,
+            settings: .settings(base: ["OTHER_LDFLAGS": .string("-ObjC")])
         )
         
         let schemes: [Scheme] = [.makeScheme(target: .debug, name: name)]
