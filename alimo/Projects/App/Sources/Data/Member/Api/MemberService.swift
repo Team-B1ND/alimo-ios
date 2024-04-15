@@ -28,7 +28,7 @@ struct MemberService {
     }
     
     func alarmOnOff(isOffAlarm: Bool) async throws -> Response {
-        try await client.request(memberPath + "/alarm-on-off?is_off_alarm=\(isOffAlarm)",
+        try await client.request(memberPath + "/alarm?status=\(isOffAlarm)",
                                  Response.self,
                                  method: .post)
     }
@@ -44,7 +44,7 @@ struct MemberService {
     }
     
     func getNameByChildCode(childCode: String) async throws -> ResponseData<MemberNameResponse> {
-        try await client.request(memberPath + "?childCode=\(childCode)",
+        try await client.request(memberPath + "/student-search?child-code=\(childCode)",
                                  ResponseData<MemberNameResponse>.self)
     }
     
@@ -68,7 +68,7 @@ struct MemberService {
     }
     
     func getCategoryList() async throws -> CategoryList {
-        try await client.request(memberPath + "/category-list",
+        try await client.request("/category/list" + memberPath,
                                  ResponseData<CategoryListResponse>.self,
                                  method: .get).data.toDomain()
     }

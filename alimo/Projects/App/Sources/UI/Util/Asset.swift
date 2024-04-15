@@ -20,10 +20,10 @@ class Asset {
     static let show = "Show"
     static let loudSpeaker = "LoudSpeaker"
     static let xMark = "XMark"
+    static let profileImage = "ProfileImage"
     static let screen = "Screen"
     static let lightStudent = "LightStudent"
     static let lightParent = "LightParent"
     static let darkStudent = "DarkStudent"
     static let darkParent = "DarkParent"
-    static let profileImage = "ProfileImage"
 }

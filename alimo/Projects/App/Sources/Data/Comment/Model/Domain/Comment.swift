@@ -11,6 +11,7 @@ import Foundation
 struct Comment: Hashable {
     var commentId: Int
     var content: String
+    var commenterId: Int
     var commentor: String
     var createdAt: Date
     var profileImage: String?
