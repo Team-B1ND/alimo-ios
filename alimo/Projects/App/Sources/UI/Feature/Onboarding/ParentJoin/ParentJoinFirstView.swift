@@ -33,11 +33,7 @@ struct ParentJoinFirstView: View {
                 HStack {
                     Spacer()
                     NavigationLink {
-                        AlimoWebView(url: URL(string: "https://subsequent-grouse.super.site/")!)
-                            .navigationBarBackButtonHidden()
-                            .alimoToolbar("") {
-                                dismiss()
-                            }
+                        WhatIsChildCodeView()
                     } label: {
                         Text("학생 코드가 무엇인가요?")
                             .font(.caption)
