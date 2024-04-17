@@ -18,6 +18,8 @@ struct ProfileView: View {
     
     @EnvironmentObject var tm: TokenManager
     
+    @Environment(\.dismiss) private var dismiss
+    
     @State var showDialog: Bool = false
     @State var dialog = Dialog.childCode
     
@@ -75,8 +77,9 @@ struct ProfileView: View {
                 Color.gray100
                     .frame(height: 10)
                     .frame(maxWidth: .infinity)
-                Button {
-                    print("ProfileView - 개인정보 이용 약관")
+                
+                NavigationLink {
+                    PrivacyPolicyView()
                 } label: {
                     SettingCeil("개인정보 이용 약관")
                 }
