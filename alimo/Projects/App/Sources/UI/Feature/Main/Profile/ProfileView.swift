@@ -84,8 +84,8 @@ struct ProfileView: View {
                     SettingCeil("개인정보 이용 약관")
                 }
                 
-                Button {
-                    print("ProfileView - 개인정보 이용 약관")
+                NavigationLink {
+                    ServicePolicyView()
                 } label: {
                     SettingCeil("서비스 정책")
                 }
