@@ -146,10 +146,23 @@ struct NotificationDetailView: View {
         LazyVStack {
             ForEach(vm.notification?.comments.sorted { $0.createdAt < $1.createdAt } ?? [], id: \.commentId) { p in
                 VStack {
-                    CommentCeil(p) {
-                        vm.selectedComment = p
-                        commentInputState = .comment
-                    }
+//                    CommentCeil(p) {
+//                        vm.selectedComment = p
+//                        commentInputState = .comment
+//                    }
+                    
+                    CommentCeil(
+                        p,
+                        onClickSubComment: {
+                            vm.selectedComment = p
+                            commentInputState = .comment
+                        },
+                        deleteComment: {
+                            Task{
+                                await vm.deleteComment(commentId: p.commentId)
+                            }
+                        })
+    
                     .padding(.leading, 12)
                     .zIndex(1)
                     let subComments = p.subComments.sorted { $0.createdAt < $1.createdAt }

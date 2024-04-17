@@ -13,11 +13,14 @@ struct CommentCeil: View {
     
     var comment: Comment
     var onClickSubComment: () -> Void
+    var deleteComment: () -> Void
+    @State private var showing = false
     
     init(_ comment: Comment,
-         onClickSubComment: @escaping () -> Void) {
+         onClickSubComment: @escaping () -> Void,deleteComment: @escaping () -> Void) {
         self.comment = comment
         self.onClickSubComment = onClickSubComment
+        self.deleteComment = deleteComment
     }
     
     var body: some View {
@@ -30,9 +33,28 @@ struct CommentCeil: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    Text("\(comment.commentor)")
-                        .font(.caption)
-                        .bold()
+                    HStack{
+                        Text("\(comment.commentor)")
+                            .font(.caption)
+                            .bold()
+                        Spacer()
+                        
+                        Button {
+                            showing = true
+                        }label: {
+                            Image("Roundbutton")
+                                .resizable()
+                                .frame(width: 17,height: 17)
+                            
+                        }
+                        .alert("댓글을 삭제합니다", isPresented: $showing) {
+                            Button("취소") {}
+                            Button("삭제") {deleteComment()}
+                            
+                        } message: {
+                            Text("댓글을 삭제 하겠습니까?")
+                        }
+                    }
                     
                     Text(comment.content)
                         .font(.caption)
