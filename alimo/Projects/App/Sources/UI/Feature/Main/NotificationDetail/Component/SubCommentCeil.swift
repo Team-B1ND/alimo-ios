@@ -12,10 +12,13 @@ import SwiftUI
 struct SubCommentCeil: View {
     
     var comment: SubComment
+    var deleteComment: () -> Void
     
-    init(_ comment: SubComment) {
+    init(_ comment: SubComment, deleteComment: @escaping () -> Void) {
         self.comment = comment
+        self.deleteComment = deleteComment
     }
+
     
     var body: some View {
         VStack(spacing: 0) {
