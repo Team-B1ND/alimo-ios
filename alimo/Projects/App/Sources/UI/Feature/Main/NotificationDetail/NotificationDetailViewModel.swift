@@ -70,7 +70,7 @@ final class NotificationDetailViewModel: ObservableObject {
     
     func deleteComment(commentId : Int) async {
         do {
-            let request = try await commentService.deleteComment(commentId: commentId)
+            _ = try await commentService.deleteComment(commentId: commentId)
             
         } catch{
             debugPrint(error)
@@ -80,7 +80,7 @@ final class NotificationDetailViewModel: ObservableObject {
     
     func deleteSubComment(commentId : Int) async {
         do {
-            let request = try await commentService.deleteSubComment(commentId : commentId)
+            _ = try await commentService.deleteSubComment(commentId : commentId)
         } catch {
             debugPrint(error)
         }
