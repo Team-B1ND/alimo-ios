@@ -12,11 +12,12 @@ import SwiftUI
 struct SubCommentCeil: View {
     
     var comment: SubComment
-    var deleteComment: () -> Void
+    var deleteSubComment: () -> Void
+    @State private var showing = false
     
-    init(_ comment: SubComment, deleteComment: @escaping () -> Void) {
+    init(_ comment: SubComment, deleteSubComment: @escaping () -> Void) {
         self.comment = comment
-        self.deleteComment = deleteComment
+        self.deleteSubComment = deleteSubComment
     }
 
     
@@ -30,9 +31,28 @@ struct SubCommentCeil: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    Text("\(comment.commentor)")
-                        .font(.caption)
-                        .bold()
+                    HStack{
+                        Text("\(comment.commentor)")
+                            .font(.caption)
+                            .bold()
+                        Spacer()
+                        
+                        Button {
+                            showing = true
+                        }label: {
+                            Image("Roundbutton")
+                                .resizable()
+                                .frame(width: 17,height: 17)
+                            
+                        }
+                        .alert("댓글을 삭제합니다", isPresented: $showing) {
+                            Button("취소") {}
+                            Button("삭제") {deleteSubComment()}
+                            
+                        } message: {
+                            Text("댓글을 삭제 하겠습니까?")
+                        }
+                    }
                     
                     Text(comment.content)
                         .font(.caption)
