@@ -68,6 +68,26 @@ final class NotificationDetailViewModel: ObservableObject {
         }
     }
     
+    func deleteComment(commentId : Int) async {
+        do {
+            let deleteComment = try await commentService.deleteComment(commentId: commentId)
+            dump(deleteComment)
+            
+        } catch{
+            debugPrint(error)
+        }
+    }
+    
+    
+    func deleteSubComment(commentId : Int) async {
+        do {
+            let deleteSubComment = try await commentService.deleteSubComment(commentId : commentId)
+            dump(deleteSubComment)
+        } catch {
+            debugPrint(error)
+        }
+    }
+    
     func patchBookmark() async {
         do {
             if var notification = notification {
