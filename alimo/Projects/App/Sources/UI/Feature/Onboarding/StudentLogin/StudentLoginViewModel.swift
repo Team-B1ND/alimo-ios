@@ -25,11 +25,7 @@ class StudentLoginViewModel: ObservableObject {
         isFetching = true
         defer { isFetching = false }
         do {
-            
-            let encryptedPw = SHA512.hash(data: Data(pw.utf8))
-            let hashedString = encryptedPw.compactMap { String(format: "%02x", $0) }.joined()
-            
-            let code = try await authService.dauthToken(DauthTokenRequest(id: id, pw: hashedString, clientId: dauthId, redirectUrl: baseUrl + "/redirect"))
+            let code = try await authService.dauthToken(.init(id: id, pw: pw, clientId: dauthId, redirectUrl: baseUrl + "/redirect"))
             
             let urlString = code.data.location
 
