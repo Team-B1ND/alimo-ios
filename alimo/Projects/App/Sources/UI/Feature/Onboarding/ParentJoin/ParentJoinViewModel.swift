@@ -115,10 +115,8 @@ class ParentJoinViewModel: ObservableObject {
     
     // login third
     func emailsVerificationRequest() async {
-        isFetching = true
         emailPhase = .sended
         emailDialogMessage = "알 수 없는 에러가 발생했습니다"
-        defer { isFetching = false }
         do {
             _ = try await memberService.emailsVerificationRequest(email)
         } catch {
