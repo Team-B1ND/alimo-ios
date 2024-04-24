@@ -26,11 +26,11 @@ struct IconCeil: View {
                     if let emoji = emoji {
                         Image(emoji.image)
                             .resizable()
-                            .frame(width: 24, height: 24)
+                            .frame(width: 28, height: 28)
                     } else {
                         Image("AddImoji")
                             .resizable()
-                            .frame(width: 24, height: 24)
+                            .frame(width: 28, height: 28)
                     }
                 }
             }
@@ -44,14 +44,14 @@ struct IconCeil: View {
                     Image(AppAsset.Assets.clickedBookmark.name)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 24, height: 24)
+                        .frame(width: 28, height: 28)
                 } else {
                     Image(AppAsset.Assets.bookmark.name)
                         .resizable()
                         .renderingMode(.template)
                         .foregroundStyle(Color.gray500)
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 24, height: 24)
+                        .frame(width: 28, height: 28)
                 }
             }
         }
