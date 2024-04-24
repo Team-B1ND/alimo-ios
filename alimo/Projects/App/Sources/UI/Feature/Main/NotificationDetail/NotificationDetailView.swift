@@ -66,7 +66,6 @@ struct NotificationDetailView: View {
             Text(notification.createdAt.ymdText)
                 .foregroundStyle(Color.gray500)
                 .font(.caption)
-                .padding(.top, 12)
             if let notification = vm.notification {
                 IconCeil(isBookmarked: notification.isBookMarked, hasEmoji: false) { emoji in
                     Task {
@@ -77,14 +76,13 @@ struct NotificationDetailView: View {
                         await vm.patchBookmark()
                     }
                 }
-                .padding(.top, 10)
             }
         }
     }
     
     @ViewBuilder
     private var downloads: some View {
-        VStack {
+        VStack(spacing: 8) {
             ForEach(vm.notification?.files ?? [], id: \.self) { file in
                 FileCeil(file: file) {
                     // TODO: Download file
@@ -110,26 +108,31 @@ struct NotificationDetailView: View {
                 profile
                 content
                     .padding(.top, 12)
-                downloads
-                    .padding(.top, 12)
-                if let images = vm.notification?.images {
-                    if !images.isEmpty {
-                        ImageCeil(images: vm.notification?.images ?? []) {
-                            // TODO: Download images
-                            Task {
-                                await vm.downloadImages(images: vm.notification?.images ?? []) { images in
-                                    images.forEach {
-                                        downloadManager.saveImageToPhotos(image: $0)
+                VStack(spacing: 8) {
+                    if !(vm.notification?.files.isEmpty ?? true) {
+                        downloads
+                    }
+                    if let images = vm.notification?.images {
+                        VStack(spacing: 8) {
+                            if !images.isEmpty {
+                                ImageCeil(images: vm.notification?.images ?? []) {
+                                    // TODO: Download images
+                                    Task {
+                                        await vm.downloadImages(images: vm.notification?.images ?? []) { images in
+                                            images.forEach {
+                                                downloadManager.saveImageToPhotos(image: $0)
+                                            }
+                                        }
+                                        dialog = .image
+                                        showDialog = true
                                     }
                                 }
-                                dialog = .image
-                                showDialog = true
                             }
                         }
-                        .padding(.top, 8)
                     }
                 }
                 info
+                    .padding(.top, 12)
             }
             .padding(.leading, 8)
         }
