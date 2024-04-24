@@ -33,6 +33,7 @@ struct NotificationDetailView: View {
     @StateObject private var keyboardHandler = KeyboardHandler()
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var downloadManager: DownloadManager
+    @EnvironmentObject private var appState: AppState
     @StateObject var vm: NotificationDetailViewModel
     @FocusState private var commentInputState: Field?
     @State var showDialog = false
@@ -135,11 +136,13 @@ struct NotificationDetailView: View {
     
     @ViewBuilder
     private var comment: some View {
+        let memberId = appState.member?.memberId ?? 0
         LazyVStack {
             ForEach(vm.notification?.comments.sorted { $0.createdAt < $1.createdAt } ?? [], id: \.commentId) { p in
                 VStack {
                     CommentCeil(
                         p,
+                        isMe: p.commenterId == memberId,
                         onClickSubComment: {
                             vm.selectedComment = p
                             commentInputState = .comment
@@ -150,7 +153,6 @@ struct NotificationDetailView: View {
                                 await vm.fetchNotification()
                             }
                         })
-    
                     .padding(.leading, 12)
                     .zIndex(1)
                     let subComments = p.subComments.sorted { $0.createdAt < $1.createdAt }
@@ -159,13 +161,16 @@ struct NotificationDetailView: View {
                         let len: CGFloat = CGFloat((idx == 0
                                                     ? p.content : subComments[idx - 1].content).filter { $0 == "\n" }.count)
                         ZStack {
-                            SubCommentCeil(c) {
+                            SubCommentCeil(
+                                c,
+                                isMe: c.commenterId == memberId
+                            ) {
                                 Task{
                                     await vm.deleteSubComment(commentId: c.commentId)
                                     await vm.fetchNotification()
                                 }
                             }
-                                .padding(.leading, 44 + 12)
+                            .padding(.leading, 44 + 12)
                             let radius: CGFloat = 3
                             let height: CGFloat = 62 + len * 20 + radius
                             
@@ -186,7 +191,6 @@ struct NotificationDetailView: View {
                         }
                     }
                 }
-                .padding(.trailing, 8)
             }
         }
     }
@@ -267,7 +271,7 @@ struct NotificationDetailView: View {
                     await vm.fetchNotification()
                 }
             }
-            .alert("게시글을 불러올 수 없습니다", 
+            .alert("게시글을 불러올 수 없습니다",
                    isPresented: .init(get: { vm.flow == .failure }, set: { _ in dismiss() })) {
                 Button("확인", role: .cancel) {}
             }
