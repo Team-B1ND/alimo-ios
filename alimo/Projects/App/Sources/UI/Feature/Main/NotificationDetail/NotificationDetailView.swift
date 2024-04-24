@@ -205,6 +205,7 @@ struct NotificationDetailView: View {
             let subCommentText = vm.selectedComment?.commentor == nil ? "" : vm.selectedComment!.commentor + "님에게 "
             TextField("\(subCommentText)댓글을 남겨보세요", text: $vm.contentText)
                 .focused($commentInputState, equals: .comment)
+                .autocorrectionDisabled()
             let isCommentEmpty = vm.contentText.isEmpty
             Button {
                 Task {

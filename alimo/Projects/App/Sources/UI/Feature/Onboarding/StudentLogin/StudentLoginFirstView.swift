@@ -17,19 +17,15 @@ struct StudentLoginFirstView: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        VStack {
-            HStack {
-                Text("도담도담 계정으로 로그인해주세요!")
-                    .font(.subtitle)
-                    .padding(.leading, 24)
-                    .padding(.top, 30)
-                    .padding(.bottom, 10)
-                Spacer()
-            }
-            
+        VStack(spacing: 8) {
+            Text("도담도담 계정으로 로그인해주세요!")
+                .font(.subtitle)
+                .padding(.leading, 24)
+                .padding(.top, 30)
+                .padding(.bottom, 10)
+                .toLeading()
             AlimoTextField("아이디를 입력하세요", text: $vm.id)
-            AlimoTextField("비밀번호를 입력하세요", text: $vm.pw, textFieldType: .password)
-            
+            AlimoTextField("비밀번호를 입력하세요", text: $vm.pw, type: .password)
             Spacer()
             
             let isComplete = vm.id != "" && vm.pw != ""
@@ -45,6 +41,9 @@ struct StudentLoginFirstView: View {
             }
             .disabled(!isComplete)
             .padding(.bottom, 30)
+        }
+        .onTapGesture {
+            endTextEditing()
         }
         .navigationBarBackButtonHidden()
         .alimoToolbar("로그인") {

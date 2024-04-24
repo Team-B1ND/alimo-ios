@@ -38,7 +38,7 @@ struct ParentJoinThirdView: View {
             ZStack {
                 AlimoTextField("인증 코드",
                                text: $vm.code,
-                               textFieldType: .none(hasXMark: false))
+                               type: .none(hasXMark: false))
                 .foregroundStyle(.red)
                 HStack {
                     Spacer()
