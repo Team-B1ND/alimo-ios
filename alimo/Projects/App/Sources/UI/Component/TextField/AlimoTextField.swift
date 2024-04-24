@@ -70,7 +70,9 @@ struct AlimoTextFieldStyle: TextFieldStyle {
         let strokeColor: Color = isFocused ? .main500 : .gray300
         return configuration
             .textInputAutocapitalization(.never)
+            .keyboardType(.asciiCapable)
             .autocorrectionDisabled()
+            .textContentType(.init(rawValue: ""))
             .focused($isFocused)
             .frame(height: 52)
             .background(Color.white) // for background color
@@ -90,7 +92,9 @@ struct AlimoTextFieldStyle: TextFieldStyle {
                         case .none(let hasXMark):
                             if hasXMark && !text.isEmpty {
                                 Image(Asset.xMark)
+                                    .resizable()
                                     .renderingMode(.template)
+                                    .frame(width: 32, height: 32)
                                     .foregroundStyle(Color.gray500)
                                     .onTapGesture {
                                         text = ""
@@ -98,7 +102,9 @@ struct AlimoTextFieldStyle: TextFieldStyle {
                             }
                         case .password:
                             Image(isHide ? Asset.hide : Asset.show)
+                                .resizable()
                                 .renderingMode(.template)
+                                .frame(width: 28, height: 28)
                                 .foregroundStyle(Color.gray500)
                                 .onTapGesture {
                                     isHide.toggle()
@@ -108,5 +114,8 @@ struct AlimoTextFieldStyle: TextFieldStyle {
                     .padding(.trailing, 16)
                 }
             )
+            .onTapGesture {
+                isFocused = true
+            }
     }
 }
