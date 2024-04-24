@@ -22,7 +22,9 @@ class AppDelegate: NSObject, UIApplicationDelegate{
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
     ) -> Bool {
-        
+        // remove Constraint warning
+        UserDefaults.standard.set(false, forKey: "_UIConstraintBasedLayoutLogUnsatisfiable")
+
         // 파이어베이스 설정
         FirebaseApp.configure()
         
