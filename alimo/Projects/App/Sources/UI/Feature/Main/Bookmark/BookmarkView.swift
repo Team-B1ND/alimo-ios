@@ -28,34 +28,51 @@ struct BookmarkView: View {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 0) {
                     AlimoLogoBar()
-                    LazyVStack(spacing: 0) {
-                        ForEach(vm.notificationList, id: \.uuidString) { notification in
-                            VStack(spacing: 0) {
-                                NotificationCeil(notification: notification) { emoji in
-                                    Task {
-                                        await vm.patchEmoji(emoji: emoji, notificationId: notification.notificationId)
-                                    }
-                                } onClickBookmark: {
-                                    Task {
-                                        await vm.patchBookmark(notificationId: notification.notificationId)
-                                    }
-                                }
-                                Divider()
-                                    .foregroundStyle(Color.gray100)
+                    switch vm.flow {
+                    case .fetching:
+                        LazyVStack(spacing: 0) {
+                            ForEach(0..<4, id: \.self) { _ in
+                                NotificationCellShimmer()
                             }
-                            .onAppear {
-                                guard let index = vm.notificationList.firstIndex(where: { $0.notificationId == notification.notificationId }) else { return }
-                                
-                                if index % pagingInterval == (pagingInterval - 1) {
+                        }
+                        .shimmer()
+                    case .success:
+                        LazyVStack(spacing: 0) {
+                            ForEach(vm.notificationList, id: \.uuidString) { notification in
+                                VStack(spacing: 0) {
+                                    NotificationCeil(notification: notification) { emoji in
+                                        Task {
+                                            await vm.patchEmoji(emoji: emoji, notificationId: notification.notificationId)
+                                        }
+                                    } onClickBookmark: {
+                                        Task {
+                                            await vm.patchBookmark(notificationId: notification.notificationId)
+                                        }
+                                    }
+                                    Divider()
+                                        .foregroundStyle(Color.gray100)
+                                }
+                                .onAppear {
+                                    guard let index = vm.notificationList.firstIndex(where: { $0.notificationId == notification.notificationId }) else { return }
                                     
-                                    Task {
-                                        await vm.fetchNotifications(isNew: false)
+                                    if index % pagingInterval == (pagingInterval - 1) {
+                                        Task {
+                                            await vm.fetchNotifications(isNew: false)
+                                        }
                                     }
                                 }
                             }
                         }
+                        .padding(.bottom, 100)
+                    case .failure:
+                        Image(AppAsset.Assets.noNotice.name)
+                            .padding(.top, 115)
+                        Text("북마크를 불러올 수 없어요")
+                            .font(.subtitle)
+                            .foregroundStyle(Color.gray500)
+                            .padding(.top, 32)
+                        
                     }
-                    .padding(.bottom, 100)
                 }
                 
                 .background(
@@ -68,7 +85,7 @@ struct BookmarkView: View {
                     scrollViewOffset = $0
                 }
                 .overlay {
-                    if !vm.fetching && vm.notificationList.isEmpty {
+                    if .success == vm.flow && vm.notificationList.isEmpty {
                         VStack(spacing: 32) {
                             Image("NoBookMark")
                                 .resizable()
@@ -83,7 +100,9 @@ struct BookmarkView: View {
             }
             .coordinateSpace(name: "scroll")
             .refreshable {
-                await vm.fetchNotifications(isNew: true)
+                Task {
+                    await vm.fetchNotifications(isNew: true)
+                }
             }
         }
         .task {
