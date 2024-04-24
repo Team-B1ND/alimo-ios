@@ -27,7 +27,6 @@ struct AlimoAvatar: View {
     var body: some View {
         Image(image)
             .resizable()
-            .aspectRatio(contentMode: .fill)
             .frame(width: type.size, height: type.size)
             .clipShape(Circle())
     }
