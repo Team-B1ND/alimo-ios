@@ -12,13 +12,21 @@ import Foundation
 import UIKit
 
 final class DauthHttpClient {
+    
+    private let session: Session = {
+        let configuration = URLSessionConfiguration.af.default
+        let apiLogger = APIEventLogger()
+        let session = Session(configuration: configuration, eventMonitors: [apiLogger])
+        return session
+    }()
+    
     func request<Parameters: Encodable,
                  Response: Decodable>(_ url: String,
                                       _ responseType: Response.Type = VoidResponse.self,
                                       method: HTTPMethod,
                                       parameters: Parameters? = nil,
                                       headers: HTTPHeaders? = nil) async throws -> Response {
-        try await AF.request(dodamUrl + url,
+        try await session.request(dodamUrl + url,
                              method: method,
                              parameters: parameters,
                              encoder: JSONParameterEncoder.default,
@@ -31,7 +39,7 @@ final class DauthHttpClient {
                                       _ responseType: Response.Type = VoidResponse.self,
                                       method: HTTPMethod = .get,
                                       headers: HTTPHeaders? = nil) async throws -> Response {
-        try await AF.request(dodamUrl + url,
+        try await session.request(dodamUrl + url,
                              method: method,
                              headers: headers)
         .validate()
@@ -41,7 +49,7 @@ final class DauthHttpClient {
     func requestImage(_ url: String,
                       method: HTTPMethod = .get,
                       headers: HTTPHeaders? = nil) async throws -> UIImage {
-        try await AF.request(dodamUrl + url,
+        try await session.request(dodamUrl + url,
                              method: method,
                              headers: headers)
         .validate()
@@ -56,7 +64,7 @@ final class DauthHttpClient {
                                      headers: HTTPHeaders? = nil,
                                      interceptor: RequestInterceptor? = nil,
                                      fileManager: FileManager = .default) async throws -> Response {
-        try await AF.upload(multipartFormData: multipartFormData,
+        try await session.upload(multipartFormData: multipartFormData,
                             to: dodamUrl + url,
                             usingThreshold: encodingMemoryThreshold,
                             method: method,
