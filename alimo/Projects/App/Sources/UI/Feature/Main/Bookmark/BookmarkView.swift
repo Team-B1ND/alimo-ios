@@ -106,6 +106,7 @@ struct BookmarkView: View {
             }
         }
         .task {
+            vm.flow = .fetching
             await vm.fetchNotifications(isNew: true)
         }
     }

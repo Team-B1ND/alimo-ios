@@ -23,11 +23,11 @@ struct SubCommentCeil: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            HStack(alignment: .top) {
+            HStack(alignment: .top, spacing: 12) {
                 AlimoAsyncAvatar(comment.profileImage, type: .small)
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    HStack{
+                    HStack {
                         Text("\(comment.commentor)")
                             .font(.caption)
                             .bold()
@@ -35,7 +35,7 @@ struct SubCommentCeil: View {
                         
                         Button {
                             showing = true
-                        }label: {
+                        } label: {
                             Image("Roundbutton")
                                 .resizable()
                                 .frame(width: 17,height: 17)
@@ -62,7 +62,6 @@ struct SubCommentCeil: View {
                     }
                     .padding(.top, 4)
                 }
-                .padding(.leading, 12)
                 Spacer()
             }
             .padding(.top, 8)

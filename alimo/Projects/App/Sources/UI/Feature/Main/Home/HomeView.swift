@@ -119,6 +119,7 @@ struct HomeView: View {
             }
         }
         .task {
+            vm.flow = .fetching
             await vm.fetchCategoryList()
             await vm.fetchLoudSpeaker()
             await vm.fetchNotifications(isNew: true)

@@ -231,33 +231,36 @@ struct NotificationDetailView: View {
     var body: some View {
         ZStack {
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 0) {
-                    notificationContainer
-                        .padding(.top, 20)
-                        .padding(.leading, 12)
-                        .padding(.trailing, 16)
-                    Divider()
-                        .padding(.top, 16)
-                    EmojiContainer(selectedEmoji: vm.selectedEmoji, emojies: vm.emojies) { emoji in
-                        Task {
-                            await vm.patchEmoji(emoji: emoji)
+                switch vm.flow {
+                case .fetching:
+                    NotificationCellShimmer()
+                        .shimmer()
+                default:
+                    VStack(spacing: 0) {
+                        notificationContainer
+                            .padding(.top, 20)
+                            .padding(.leading, 12)
+                            .padding(.trailing, 16)
+                        Divider()
+                            .padding(.top, 16)
+                        EmojiContainer(selectedEmoji: vm.selectedEmoji, emojies: vm.emojies) { emoji in
+                            Task {
+                                await vm.patchEmoji(emoji: emoji)
+                            }
                         }
-                    }
-                    .padding(.top, 16)
-                    comment
                         .padding(.top, 16)
-                    Spacer()
-                        .frame(height: 100)
-                }
-                .background(Color.white)
-                .onTapGesture {
-                    if vm.contentText.isEmpty {
-                        print("NotificationDetailV - normal comment mode")
-                        vm.selectedComment = nil
-                    } else {
-                        print("NotificationDetailV - commentting.. yet")
+                        comment
+                            .padding(.top, 16)
+                        Spacer()
+                            .frame(height: 100)
                     }
-                    endTextEditing()
+                    .background(Color.white)
+                    .onTapGesture {
+                        if vm.contentText.isEmpty {
+                            vm.selectedComment = nil
+                        }
+                        endTextEditing()
+                    }
                 }
             }
             .refreshable {
@@ -265,6 +268,10 @@ struct NotificationDetailView: View {
                     await vm.fetchEmojies()
                     await vm.fetchNotification()
                 }
+            }
+            .alert("게시글을 불러올 수 없습니다", 
+                   isPresented: .init(get: { vm.flow == .failure }, set: { _ in dismiss() })) {
+                Button("확인", role: .cancel) {}
             }
             commentInput
                 .toBottom()
