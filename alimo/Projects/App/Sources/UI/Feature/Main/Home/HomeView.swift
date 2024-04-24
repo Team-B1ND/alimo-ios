@@ -26,7 +26,7 @@ struct HomeView: View {
     @ViewBuilder
     private var categorySelector: some View {
         let category = vm.category
-        ScrollView(.horizontal, showsIndicators: true) {
+        ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 12) {
                 AlimoSmallButton("전체", buttonType: vm.selectedIndex == -1 ? .yellow : .none) {
                     vm.selectedIndex = -1
