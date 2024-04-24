@@ -26,11 +26,7 @@ struct CommentCeil: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(alignment: .top) {
-                if let profileImage = comment.profileImage {
-                    AlimoAsyncAvatar(profileImage)
-                } else {
-                    AlimoAvatar(type: .small)
-                }
+                AlimoAsyncAvatar(comment.profileImage, type: .small)
                 
                 VStack(alignment: .leading, spacing: 0) {
                     HStack{

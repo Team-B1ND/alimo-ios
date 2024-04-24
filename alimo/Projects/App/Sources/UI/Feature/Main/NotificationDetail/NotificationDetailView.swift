@@ -40,14 +40,8 @@ struct NotificationDetailView: View {
     
     @ViewBuilder
     private var avatar: some View {
-        Group {
-            if let profileImage = vm.notification?.profileImage {
-                AlimoAsyncAvatar(profileImage)
-            } else {
-                AlimoAvatar()
-            }
-        }
-        .toTop()
+        AlimoAsyncAvatar(vm.notification?.profileImage)
+            .toTop()
     }
     
     @ViewBuilder
@@ -167,7 +161,7 @@ struct NotificationDetailView: View {
                         let len: CGFloat = CGFloat((idx == 0
                                                     ? p.content : subComments[idx - 1].content).filter { $0 == "\n" }.count)
                         ZStack {
-                            SubCommentCeil(c){
+                            SubCommentCeil(c) {
                                 Task{
                                     await vm.deleteSubComment(commentId: c.commentId)
                                     await vm.fetchNotification()
@@ -235,7 +229,6 @@ struct NotificationDetailView: View {
     }
     
     var body: some View {
-        let isFetching = vm.getIsFetching()
         ZStack {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 0) {

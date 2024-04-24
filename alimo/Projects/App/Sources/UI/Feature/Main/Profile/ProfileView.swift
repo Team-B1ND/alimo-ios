@@ -27,24 +27,8 @@ struct ProfileView: View {
         ScrollView(showsIndicators: false) {
             VStack(spacing: 0) {
                 AlimoLogoBar()
-                Group {
-                    if let image = vm.memberInfo?.image {
-                        AsyncImage(url: URL(string: image))
-                        {
-                            $0
-                                .resizable()
-                                .clipShape(Circle())
-                                .frame(width: 100, height: 100)
-                        } placeholder: {
-                            Circle()
-                                .foregroundStyle(Color.gray100)
-                                .frame(width: 100, height: 100)
-                        }
-                    } else {
-                        AlimoAvatar(type: .large)
-                    }
-                }
-                .padding(.top, 46)
+                AlimoAsyncAvatar(vm.memberInfo?.image, type: .large)
+                    .padding(.top, 46)
                 
                 Text(vm.memberInfo?.name ?? "")
                     .font(Font.body)
