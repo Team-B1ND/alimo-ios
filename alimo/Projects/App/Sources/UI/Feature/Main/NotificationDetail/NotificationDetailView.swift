@@ -33,21 +33,17 @@ struct NotificationDetailView: View {
     @StateObject private var keyboardHandler = KeyboardHandler()
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var downloadManager: DownloadManager
+    @EnvironmentObject private var appState: AppState
     @StateObject var vm: NotificationDetailViewModel
     @FocusState private var commentInputState: Field?
     @State var showDialog = false
     @State var dialog = Dialog.file
+    @State var reader: ScrollViewProxy?
     
     @ViewBuilder
     private var avatar: some View {
-        Group {
-            if let profileImage = vm.notification?.profileImage {
-                AlimoAsyncAvatar(profileImage)
-            } else {
-                AlimoAvatar()
-            }
-        }
-        .toTop()
+        AlimoAsyncAvatar(vm.notification?.profileImage)
+            .toTop()
     }
     
     @ViewBuilder
@@ -60,9 +56,7 @@ struct NotificationDetailView: View {
     @ViewBuilder
     private var content: some View {
         if let notification = vm.notification {
-            Text(notification.content)
-                .font(.label)
-                .lineSpacing(5)
+            TextWrapper(notification.content, font: AppFontFamily.Pretendard.medium.font(size: 16))
         }
     }
     
@@ -71,8 +65,7 @@ struct NotificationDetailView: View {
         if let notification = vm.notification {
             Text(notification.createdAt.ymdText)
                 .foregroundStyle(Color.gray500)
-                .font(.cute)
-                .padding(.top, 12)
+                .font(.caption)
             if let notification = vm.notification {
                 IconCeil(isBookmarked: notification.isBookMarked, hasEmoji: false) { emoji in
                     Task {
@@ -83,14 +76,13 @@ struct NotificationDetailView: View {
                         await vm.patchBookmark()
                     }
                 }
-                .padding(.top, 10)
             }
         }
     }
     
     @ViewBuilder
     private var downloads: some View {
-        VStack {
+        VStack(spacing: 8) {
             ForEach(vm.notification?.files ?? [], id: \.self) { file in
                 FileCeil(file: file) {
                     // TODO: Download file
@@ -116,26 +108,31 @@ struct NotificationDetailView: View {
                 profile
                 content
                     .padding(.top, 12)
-                downloads
-                    .padding(.top, 12)
-                if let images = vm.notification?.images {
-                    if !images.isEmpty {
-                        ImageCeil(images: vm.notification?.images ?? []) {
-                            // TODO: Download images
-                            Task {
-                                await vm.downloadImages(images: vm.notification?.images ?? []) { images in
-                                    images.forEach {
-                                        downloadManager.saveImageToPhotos(image: $0)
+                VStack(spacing: 8) {
+                    if !(vm.notification?.files.isEmpty ?? true) {
+                        downloads
+                    }
+                    if let images = vm.notification?.images {
+                        VStack(spacing: 8) {
+                            if !images.isEmpty {
+                                ImageCeil(images: vm.notification?.images ?? []) {
+                                    // TODO: Download images
+                                    Task {
+                                        await vm.downloadImages(images: vm.notification?.images ?? []) { images in
+                                            images.forEach {
+                                                downloadManager.saveImageToPhotos(image: $0)
+                                            }
+                                        }
+                                        dialog = .image
+                                        showDialog = true
                                     }
                                 }
-                                dialog = .image
-                                showDialog = true
                             }
                         }
-                        .padding(.top, 8)
                     }
                 }
                 info
+                    .padding(.top, 12)
             }
             .padding(.leading, 8)
         }
@@ -143,11 +140,13 @@ struct NotificationDetailView: View {
     
     @ViewBuilder
     private var comment: some View {
+        let memberId = appState.member?.memberId ?? 0
         LazyVStack {
             ForEach(vm.notification?.comments.sorted { $0.createdAt < $1.createdAt } ?? [], id: \.commentId) { p in
                 VStack {
                     CommentCeil(
                         p,
+                        isMe: p.commenterId == memberId,
                         onClickSubComment: {
                             vm.selectedComment = p
                             commentInputState = .comment
@@ -158,7 +157,6 @@ struct NotificationDetailView: View {
                                 await vm.fetchNotification()
                             }
                         })
-    
                     .padding(.leading, 12)
                     .zIndex(1)
                     let subComments = p.subComments.sorted { $0.createdAt < $1.createdAt }
@@ -167,13 +165,16 @@ struct NotificationDetailView: View {
                         let len: CGFloat = CGFloat((idx == 0
                                                     ? p.content : subComments[idx - 1].content).filter { $0 == "\n" }.count)
                         ZStack {
-                            SubCommentCeil(c){
+                            SubCommentCeil(
+                                c,
+                                isMe: c.commenterId == memberId
+                            ) {
                                 Task{
                                     await vm.deleteSubComment(commentId: c.commentId)
                                     await vm.fetchNotification()
                                 }
                             }
-                                .padding(.leading, 44 + 12)
+                            .padding(.leading, 44 + 12)
                             let radius: CGFloat = 3
                             let height: CGFloat = 62 + len * 20 + radius
                             
@@ -194,7 +195,6 @@ struct NotificationDetailView: View {
                         }
                     }
                 }
-                .padding(.trailing, 8)
             }
         }
     }
@@ -211,14 +211,17 @@ struct NotificationDetailView: View {
                 Task {
                     await vm.createComment()
                     await vm.fetchNotification()
+                    withAnimation {
+                        self.reader?.scrollTo("bottom")
+                    }
                 }
             } label: {
-                let imojiColor: Color = isCommentEmpty ? .gray300 : .gray600
+                let imojiColor: Color = isCommentEmpty ? .gray300 : .gray700
                 Image("Send")
                     .resizable()
                     .renderingMode(.template)
                     .foregroundStyle(imojiColor)
-                    .frame(width: 24, height: 24)
+                    .frame(width: 28, height: 28)
             }
             .disabled(isCommentEmpty)
             .toTrailing()
@@ -236,42 +239,55 @@ struct NotificationDetailView: View {
     }
     
     var body: some View {
-        let isFetching = vm.getIsFetching()
         ZStack {
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 0) {
-                    notificationContainer
-                        .padding(.top, 20)
-                        .padding(.leading, 12)
-                        .padding(.trailing, 16)
-                    Divider()
-                        .padding(.top, 16)
-                    EmojiContainer(selectedEmoji: vm.selectedEmoji, emojies: vm.emojies) { emoji in
-                        Task {
-                            await vm.patchEmoji(emoji: emoji)
+            ScrollViewReader { reader in
+                ScrollView(showsIndicators: false) {
+                    switch vm.flow {
+                    case .fetching:
+                        NotificationCellShimmer()
+                            .shimmer()
+                    default:
+                        VStack(spacing: 0) {
+                            notificationContainer
+                                .padding(.top, 20)
+                                .padding(.leading, 12)
+                                .padding(.trailing, 16)
+                            Divider()
+                                .padding(.top, 16)
+                            EmojiContainer(selectedEmoji: vm.selectedEmoji, emojies: vm.emojies) { emoji in
+                                Task {
+                                    await vm.patchEmoji(emoji: emoji)
+                                }
+                            }
+                            .padding(.top, 16)
+                            comment
+                                .padding(.top, 16)
+                            Spacer()
+                                .frame(height: 100)
+                                .id("bottom")
+                        }
+                        .background(Color.white)
+                        .onTapGesture {
+                            if vm.contentText.isEmpty {
+                                vm.selectedComment = nil
+                            }
+                            endTextEditing()
+                        }
+                        .onAppear {
+                            self.reader = reader
                         }
                     }
-                    .padding(.top, 16)
-                    comment
-                        .padding(.top, 16)
-                    Spacer()
-                        .frame(height: 100)
                 }
-                .background(Color.white)
-                .onTapGesture {
-                    if vm.contentText.isEmpty {
-                        print("NotificationDetailV - normal comment mode")
-                        vm.selectedComment = nil
-                    } else {
-                        print("NotificationDetailV - commentting.. yet")
+                .refreshable {
+                    Task {
+                        vm.flow = .fetching
+                        await vm.fetchEmojies()
+                        await vm.fetchNotification()
                     }
-                    endTextEditing()
                 }
-            }
-            .refreshable {
-                Task {
-                    await vm.fetchEmojies()
-                    await vm.fetchNotification()
+                .alert("게시글을 불러올 수 없습니다",
+                       isPresented: .init(get: { vm.flow == .failure }, set: { _ in dismiss() })) {
+                    Button("확인", role: .cancel) {}
                 }
             }
             commentInput
@@ -282,6 +298,7 @@ struct NotificationDetailView: View {
             dismiss()
         }
         .task {
+            vm.flow = .fetching
             await vm.fetchEmojies()
             await vm.fetchNotification()
         }

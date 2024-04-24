@@ -20,11 +20,15 @@ class BookmarkViewModel: ObservableObject {
     @Published var loudSpeaker: LoudSpeaker? = nil
     @Published var notificationList: [Notification] = []
     @Published var page = 1
-    @Published var fetching = true
+    enum FetchFlow {
+        case fetching
+        case success
+        case failure
+    }
+    @Published var flow: FetchFlow = .fetching
     
     func fetchNotifications(isNew: Bool) async {
-        fetching = true
-        defer { fetching = false }
+        flow = .fetching
         do {
             let nextPage = isNew ? 1 : page + 1
             print("HomeVM - fetching notifications... nextPage: \(nextPage)")
@@ -41,14 +45,14 @@ class BookmarkViewModel: ObservableObject {
             if !notifications.isEmpty {
                 page = nextPage
             }
-            
+            flow = .success
         } catch {
             notificationList = []
             page = 1
             debugPrint(error)
+            flow = .failure
         }
     }
-    
     
     func patchBookmark(notificationId: Int) async {
         

@@ -25,14 +25,8 @@ struct NotificationCeil: View {
     
     @ViewBuilder
     private var avatar: some View {
-        Group {
-            if let profileImage = notification.profileImage {
-                AlimoAsyncAvatar(profileImage)
-            } else {
-                AlimoAvatar()
-            }
-        }
-        .toTop()
+        AlimoAsyncAvatar(notification.profileImage)
+            .toTop()
     }
     
     @ViewBuilder
@@ -42,20 +36,16 @@ struct NotificationCeil: View {
     
     @ViewBuilder
     private var content: some View {
-        Text(notification.content)
-            .lineLimit(6)
-            .font(.label)
-            .foregroundColor(.main900)
+        TextWrapper(notification.content, font: AppFontFamily.Pretendard.medium.font(size: 16))
             .fixedSize(horizontal: false, vertical: true)
             .multilineTextAlignment(.leading)
-            .lineSpacing(5)
     }
     
     @ViewBuilder
     private var info: some View {
         Text(notification.createdAt.ymdText)
             .foregroundStyle(Color.gray500)
-            .font(.cute)
+            .font(.caption)
             .padding(.top, 12)
         IconCeil(emoji: notification.emoji, isBookmarked: notification.isBookMarked) {
             onClickEmoji($0)

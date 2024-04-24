@@ -16,45 +16,10 @@ class ProfileViewModel: ObservableObject {
     
     private let memberService = MemberService.live
     
-    @Published var memberInfo: Member? = nil
     @Published var categoryList: [String] = []
-    @Published var isAlarmOn: Bool = memberCache.getIsAlarmOn() {
-        didSet {
-            memberCache.saveIsAlarmOn(isAlarmOn)
-            Task {
-                await setAlarm(isAlarmOff: !isAlarmOn)
-            }
-        }
-    }
+    
     
     @Published var isLoading = false
-    
-    
-    private func setAlarm(isAlarmOff: Bool) async {
-    
-        do {
-            _ = try await memberService.alarmOnOff(isOffAlarm: isAlarmOff)
-            print("ProfileVM - isAlarmOff - \(isAlarmOff)")
-        } catch {
-            debugPrint(error)
-        }
-        
-    }
-    
-    func fetchInfo() async {
-        isLoading = true
-        defer { isLoading = false }
-        do {
-            memberInfo = try await memberService.getMemberInfo()
-            dump(memberInfo)
-            
-            guard let memberInfo else { return }
-            
-            isAlarmOn = !memberInfo.isOffAlarm
-        } catch {
-            debugPrint(error)
-        }
-    }
     
     func fetchCategoryList() async {
         isLoading = true
@@ -62,7 +27,7 @@ class ProfileViewModel: ObservableObject {
         do {
             let roles = try await memberService.getCategoryList().roles
             categoryList = roles
-            debugPrint(roles)
+            dump(roles)
         } catch {
             debugPrint(error)
         }

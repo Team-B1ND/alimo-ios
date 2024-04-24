@@ -17,7 +17,7 @@ struct ProfileView: View {
     @ObservedObject var vm: ProfileViewModel
     
     @EnvironmentObject var tm: TokenManager
-    
+    @EnvironmentObject private var appState: AppState
     @Environment(\.dismiss) private var dismiss
     
     @State var showDialog: Bool = false
@@ -27,30 +27,14 @@ struct ProfileView: View {
         ScrollView(showsIndicators: false) {
             VStack(spacing: 0) {
                 AlimoLogoBar()
-                Group {
-                    if let image = vm.memberInfo?.image {
-                        AsyncImage(url: URL(string: image))
-                        {
-                            $0
-                                .resizable()
-                                .clipShape(Circle())
-                                .frame(width: 100, height: 100)
-                        } placeholder: {
-                            Circle()
-                                .foregroundStyle(Color.gray100)
-                                .frame(width: 100, height: 100)
-                        }
-                    } else {
-                        AlimoAvatar(type: .large)
-                    }
-                }
-                .padding(.top, 46)
+                AlimoAsyncAvatar(appState.member?.image, type: .large)
+                    .padding(.top, 46)
                 
-                Text(vm.memberInfo?.name ?? "")
+                Text(appState.member?.name ?? "")
                     .font(Font.body)
                     .padding(.top, 24)
                 Button {
-                    if vm.memberInfo?.childCode == nil {
+                    if appState.member?.childCode == nil {
                         dialog = .error
                     } else {
                         dialog = .childCode
@@ -71,7 +55,7 @@ struct ProfileView: View {
                 .padding(.horizontal, 12)
                 
                 SettingCeil("알림 설정") {
-                    AlimoToggle(isOn: $vm.isAlarmOn)
+                    AlimoToggle(isOn: $appState.isAlarmOn)
                 }
                 .padding(.top, 28)
                 Color.gray100
@@ -124,11 +108,11 @@ struct ProfileView: View {
         .alert(isPresented: $showDialog) {
             switch dialog {
             case .childCode:
-                Alert(title: Text(vm.memberInfo?.childCode ?? ""),
+                Alert(title: Text(appState.member?.childCode ?? ""),
                       message: Text("부모님께만 알려주세요"),
                       primaryButton: .cancel(Text("닫기")),
                       secondaryButton: .default(Text("복사")) {
-                    guard let memberInfo = vm.memberInfo else { return }
+                    guard let memberInfo = appState.member else { return }
                     UIPasteboard.general.string = memberInfo.childCode
                 })
             case .error:
@@ -148,7 +132,7 @@ struct ProfileView: View {
             }
         }
         .task {
-            await vm.fetchInfo()
+            appState.fetchMember()
             await vm.fetchCategoryList()
         }
     }

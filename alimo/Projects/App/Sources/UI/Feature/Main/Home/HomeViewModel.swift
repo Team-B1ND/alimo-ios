@@ -32,6 +32,12 @@ class HomeViewModel: ObservableObject {
         }
     }
 
+    enum FetchFlow {
+        case fetching
+        case success
+        case failure
+    }
+    @Published var flow: FetchFlow = .fetching
     
     func fetchCategoryList() async {
         do {
@@ -71,11 +77,12 @@ class HomeViewModel: ObservableObject {
             if !notifications.isEmpty {
                 page = nextPage
             }
-            
+            flow = .success
         } catch {
             notificationList = []
             page = 1
             debugPrint(error)
+            flow = .failure
         }
     }
     

@@ -11,62 +11,65 @@ import SwiftUI
 
 struct SubCommentCeil: View {
     
+    private var isMe: Bool
     var comment: SubComment
     var deleteSubComment: () -> Void
-    @State private var showing = false
+    @State private var showDeleting = false
     
-    init(_ comment: SubComment, deleteSubComment: @escaping () -> Void) {
+    init(
+        _ comment: SubComment,
+        isMe: Bool,
+        deleteSubComment: @escaping () -> Void
+    ) {
         self.comment = comment
+        self.isMe = isMe
         self.deleteSubComment = deleteSubComment
     }
-
     
     var body: some View {
         VStack(spacing: 0) {
-            HStack(alignment: .top) {
-                if let profileImage = comment.profileImage {
-                    AlimoAsyncAvatar(profileImage)
-                } else {
-                    AlimoAvatar(type: .small)
-                }
+            HStack(alignment: .top, spacing: 12) {
+                AlimoAsyncAvatar(comment.profileImage, type: .small)
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    HStack{
+                    HStack {
                         Text("\(comment.commentor)")
-                            .font(.caption)
+                            .font(.label)
                             .bold()
                         Spacer()
-                        
-                        Button {
-                            showing = true
-                        }label: {
-                            Image("Roundbutton")
-                                .resizable()
-                                .frame(width: 17,height: 17)
-                            
-                        }
-                        .alert("댓글을 삭제합니다", isPresented: $showing) {
-                            Button("취소") {}
-                            Button("삭제") {deleteSubComment()}
-                            
-                        } message: {
-                            Text("댓글을 삭제 하겠습니까?")
+                        if isMe {
+                            Menu {
+                                Button("삭제하기", role: .destructive) {
+                                    showDeleting = true
+                                }
+                            } label: {
+                                Image("Roundbutton")
+                                    .resizable()
+                                    .foregroundStyle(Color.gray500)
+                                    .frame(width: 20, height: 20)
+                            }
+                            .alert("정말 댓글을 삭제 하시겠습니까?", isPresented: $showDeleting) {
+                                Button("취소") {}
+                                Button("삭제", role: .destructive) {
+                                    deleteSubComment()
+                                }
+                            } message: {
+                                Text("댓글을 삭제 하겠습니까?")
+                            }
                         }
                     }
                     
                     Text(comment.content)
-                        .font(.caption)
+                        .font(.label)
                         .padding(.top, 2)
                         .lineSpacing(5)
                     HStack(spacing: 8) {
                         Text(comment.createdAt.ymdText)
                             .foregroundStyle(Color.gray500)
-                            .font(.cute)
-                        
+                            .font(.caption)
                     }
                     .padding(.top, 4)
                 }
-                .padding(.leading, 12)
                 Spacer()
             }
             .padding(.top, 8)

@@ -11,6 +11,7 @@ struct AlimoApp: App {
                 .environmentObject(TokenManager())
                 .environmentObject(DialogManager())
                 .environmentObject(DownloadManager())
+                .environmentObject(AppState())
         }
     }
 }
