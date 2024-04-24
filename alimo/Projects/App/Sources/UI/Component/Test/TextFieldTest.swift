@@ -15,9 +15,9 @@ struct TextFieldTest: View {
     
     var body: some View {
         VStack {
-            AlimoTextField("아이디를 입력하세요", text: $id, textFieldType: .none(hasXMark: false))
+            AlimoTextField("아이디를 입력하세요", text: $id, type: .none(hasXMark: false))
             AlimoTextField("아이디를 입력하세요", text: $id)
-            AlimoTextField("비밀번호를 입력하세요", text: $pw, textFieldType: .password)
+            AlimoTextField("비밀번호를 입력하세요", text: $pw, type: .password)
         }
     }
 }
