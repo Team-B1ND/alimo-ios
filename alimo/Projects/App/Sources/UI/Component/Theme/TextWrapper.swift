@@ -9,7 +9,7 @@ public struct TextWrapper: UIViewRepresentable {
     public init(
         _ text: String,
         font: UIFont,
-        lineSpacing: CGFloat = 6,
+        lineSpacing: CGFloat = 5,
         allowTruncating: Bool = false
     ) {
         self.text = text
@@ -32,6 +32,16 @@ public struct TextWrapper: UIViewRepresentable {
             textView.textContainer.maximumNumberOfLines = 3
             textView.textContainer.lineBreakMode = .byTruncatingTail
         }
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = lineSpacing
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: font,
+            .paragraphStyle: paragraphStyle
+        ]
+        let attributedString = NSAttributedString(string: text, attributes: attributes)
+        textView.attributedText = attributedString
+        
         textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         textView.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         textView.textContainerInset = .zero
