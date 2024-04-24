@@ -98,6 +98,7 @@ struct NotificationDetailView: View {
                 }
             }
         }
+        .padding(.top, 8)
     }
     
     @ViewBuilder
