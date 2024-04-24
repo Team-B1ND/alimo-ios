@@ -54,9 +54,7 @@ struct NotificationDetailView: View {
     @ViewBuilder
     private var content: some View {
         if let notification = vm.notification {
-            Text(notification.content)
-                .font(.label)
-                .lineSpacing(5)
+            TextWrapper(notification.content, font: AppFontFamily.Pretendard.medium.font(size: 16))
         }
     }
     
