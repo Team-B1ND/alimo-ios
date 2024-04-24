@@ -38,6 +38,7 @@ struct NotificationDetailView: View {
     @FocusState private var commentInputState: Field?
     @State var showDialog = false
     @State var dialog = Dialog.file
+    @State var reader: ScrollViewProxy?
     
     @ViewBuilder
     private var avatar: some View {
@@ -206,6 +207,9 @@ struct NotificationDetailView: View {
                 Task {
                     await vm.createComment()
                     await vm.fetchNotification()
+                    withAnimation {
+                        self.reader?.scrollTo("bottom")
+                    }
                 }
             } label: {
                 let imojiColor: Color = isCommentEmpty ? .gray300 : .gray700
@@ -232,49 +236,55 @@ struct NotificationDetailView: View {
     
     var body: some View {
         ZStack {
-            ScrollView(showsIndicators: false) {
-                switch vm.flow {
-                case .fetching:
-                    NotificationCellShimmer()
-                        .shimmer()
-                default:
-                    VStack(spacing: 0) {
-                        notificationContainer
-                            .padding(.top, 20)
-                            .padding(.leading, 12)
-                            .padding(.trailing, 16)
-                        Divider()
-                            .padding(.top, 16)
-                        EmojiContainer(selectedEmoji: vm.selectedEmoji, emojies: vm.emojies) { emoji in
-                            Task {
-                                await vm.patchEmoji(emoji: emoji)
+            ScrollViewReader { reader in
+                ScrollView(showsIndicators: false) {
+                    switch vm.flow {
+                    case .fetching:
+                        NotificationCellShimmer()
+                            .shimmer()
+                    default:
+                        VStack(spacing: 0) {
+                            notificationContainer
+                                .padding(.top, 20)
+                                .padding(.leading, 12)
+                                .padding(.trailing, 16)
+                            Divider()
+                                .padding(.top, 16)
+                            EmojiContainer(selectedEmoji: vm.selectedEmoji, emojies: vm.emojies) { emoji in
+                                Task {
+                                    await vm.patchEmoji(emoji: emoji)
+                                }
                             }
-                        }
-                        .padding(.top, 16)
-                        comment
                             .padding(.top, 16)
-                        Spacer()
-                            .frame(height: 100)
-                    }
-                    .background(Color.white)
-                    .onTapGesture {
-                        if vm.contentText.isEmpty {
-                            vm.selectedComment = nil
+                            comment
+                                .padding(.top, 16)
+                            Spacer()
+                                .frame(height: 100)
+                                .id("bottom")
                         }
-                        endTextEditing()
+                        .background(Color.white)
+                        .onTapGesture {
+                            if vm.contentText.isEmpty {
+                                vm.selectedComment = nil
+                            }
+                            endTextEditing()
+                        }
+                        .onAppear {
+                            self.reader = reader
+                        }
                     }
                 }
-            }
-            .refreshable {
-                Task {
-                    vm.flow = .fetching
-                    await vm.fetchEmojies()
-                    await vm.fetchNotification()
+                .refreshable {
+                    Task {
+                        vm.flow = .fetching
+                        await vm.fetchEmojies()
+                        await vm.fetchNotification()
+                    }
                 }
-            }
-            .alert("게시글을 불러올 수 없습니다",
-                   isPresented: .init(get: { vm.flow == .failure }, set: { _ in dismiss() })) {
-                Button("확인", role: .cancel) {}
+                .alert("게시글을 불러올 수 없습니다",
+                       isPresented: .init(get: { vm.flow == .failure }, set: { _ in dismiss() })) {
+                    Button("확인", role: .cancel) {}
+                }
             }
             commentInput
                 .toBottom()
