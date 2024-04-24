@@ -208,12 +208,12 @@ struct NotificationDetailView: View {
                     await vm.fetchNotification()
                 }
             } label: {
-                let imojiColor: Color = isCommentEmpty ? .gray300 : .gray600
+                let imojiColor: Color = isCommentEmpty ? .gray300 : .gray700
                 Image("Send")
                     .resizable()
                     .renderingMode(.template)
                     .foregroundStyle(imojiColor)
-                    .frame(width: 24, height: 24)
+                    .frame(width: 28, height: 28)
             }
             .disabled(isCommentEmpty)
             .toTrailing()
@@ -267,6 +267,7 @@ struct NotificationDetailView: View {
             }
             .refreshable {
                 Task {
+                    vm.flow = .fetching
                     await vm.fetchEmojies()
                     await vm.fetchNotification()
                 }
@@ -283,6 +284,7 @@ struct NotificationDetailView: View {
             dismiss()
         }
         .task {
+            vm.flow = .fetching
             await vm.fetchEmojies()
             await vm.fetchNotification()
         }

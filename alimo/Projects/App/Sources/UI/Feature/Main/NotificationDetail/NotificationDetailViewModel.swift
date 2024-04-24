@@ -47,7 +47,6 @@ final class NotificationDetailViewModel: ObservableObject {
     }
     
     func fetchNotification() async {
-        flow = .fetching
         do {
             let notification = try await notificationService.getNotification(id: notificationId)
             self.notification = notification
