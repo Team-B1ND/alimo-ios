@@ -14,12 +14,17 @@ import FirebaseMessaging
 fileprivate let fcmCache = FcmCache.live
 
 class AppDelegate: NSObject, UIApplicationDelegate{
-
+    
     let gcmMessageIDKey = "gcm.message_id"
     
     // 앱이 켜졌을 때
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
+    ) -> Bool {
+        // remove Constraint warning
+        UserDefaults.standard.set(false, forKey: "_UIConstraintBasedLayoutLogUnsatisfiable")
+
         // 파이어베이스 설정
         FirebaseApp.configure()
         
@@ -41,9 +46,7 @@ class AppDelegate: NSObject, UIApplicationDelegate{
         
         application.registerForRemoteNotifications()
         
-        
         // Setting Up Cloud Messaging...
-        // 메세징 델리겟
         Messaging.messaging().delegate = self
         
         UNUserNotificationCenter.current().delegate = self
@@ -55,65 +58,48 @@ class AppDelegate: NSObject, UIApplicationDelegate{
         print("fcm token registed")
         Messaging.messaging().apnsToken = deviceToken
     }
-    
 }
 
-// Cloud Messaging...
 extension AppDelegate: MessagingDelegate {
     
     // fcm 등록 토큰을 받았을 때
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-
-        print("토큰을 받았다")
-        // Store this token to firebase and retrieve when to send message to someone...
+        
         let dataDict: [String: String] = ["token": fcmToken ?? ""]
         fcmCache.saveToken(dataDict["token"] ?? "", to: .fcmToken)
-        
-        // Store token in Firestore For Sending Notifications From Server in Future...
-        
-        print(dataDict)
-     
     }
 }
 
-// User Notifications...[AKA InApp Notification...]
-
 @available(iOS 10, *)
 extension AppDelegate: UNUserNotificationCenterDelegate {
-  
+    
     // 푸시 메세지가 앱이 켜져있을 때 나올떄
-  func userNotificationCenter(_ center: UNUserNotificationCenter,
-                              willPresent notification: UNNotification,
-                              withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions)
-                                -> Void) {
-      
-    let userInfo = notification.request.content.userInfo
-
-    
-    // Do Something With MSG Data...
-    if let messageID = userInfo[gcmMessageIDKey] {
-        print("Message ID: \(messageID)")
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        
+        let userInfo = notification.request.content.userInfo
+        
+        
+        // Do Something With MSG Data...
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
+        }
+        
+        
+        print(userInfo)
+        
+        completionHandler([[.banner, .badge, .sound]])
     }
     
-    
-    print(userInfo)
-
-    completionHandler([[.banner, .badge, .sound]])
-  }
-
     // 푸시메세지를 받았을 떄
-  func userNotificationCenter(_ center: UNUserNotificationCenter,
-                              didReceive response: UNNotificationResponse,
-                              withCompletionHandler completionHandler: @escaping () -> Void) {
-    let userInfo = response.notification.request.content.userInfo
-
-    // Do Something With MSG Data...
-    if let messageID = userInfo[gcmMessageIDKey] {
-        print("Message ID: \(messageID)")
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
+        completionHandler()
     }
-      
-    print(userInfo)
-
-    completionHandler()
-  }
 }
