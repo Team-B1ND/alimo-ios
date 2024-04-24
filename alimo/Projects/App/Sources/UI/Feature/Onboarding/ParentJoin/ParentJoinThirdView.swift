@@ -68,8 +68,7 @@ struct ParentJoinThirdView: View {
             }
             
             Spacer()
-            let buttonType: AlimoButtonType = vm.emailPhase != .sended ? .none : .yellow
-            AlimoButton("확인", buttonType: buttonType, isLoading: vm.isFetching) {
+            AlimoButton("확인") {
                 Task {
                     await vm.emailsVerifications { accessToken, refreshToken in
                         tm.accessToken = accessToken
@@ -77,7 +76,6 @@ struct ParentJoinThirdView: View {
                     }
                 }
             }
-            .disabled(vm.emailPhase != .sended)
             .padding(.bottom, 30)
         }
         .onAppear {
