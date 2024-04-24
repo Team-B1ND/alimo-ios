@@ -29,8 +29,8 @@ struct ParentFindPWSecondView: View {
                 Spacer()
             }
             
-            AlimoTextField("새 비밀번호", text: $pw, textFieldType: .password)
-            AlimoTextField("새 비밀번호 재입력", text: $pwCheck, textFieldType: .password)
+            AlimoTextField("새 비밀번호", text: $pw, type: .password)
+            AlimoTextField("새 비밀번호 재입력", text: $pwCheck, type: .password)
             
             if showTextAlert {
                 

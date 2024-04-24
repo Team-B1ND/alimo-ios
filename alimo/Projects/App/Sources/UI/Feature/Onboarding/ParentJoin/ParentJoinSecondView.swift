@@ -35,9 +35,9 @@ struct ParentJoinSecondView: View {
             
             AlimoTextField("이메일", text: $vm.email)
             
-            AlimoTextField("비밀번호", text: $vm.pw, textFieldType: .password)
+            AlimoTextField("비밀번호", text: $vm.pw, type: .password)
             
-            AlimoTextField("비밀번호 재입력", text: $vm.pwCheck, textFieldType: .password)
+            AlimoTextField("비밀번호 재입력", text: $vm.pwCheck, type: .password)
             
             HStack {
                 Group {

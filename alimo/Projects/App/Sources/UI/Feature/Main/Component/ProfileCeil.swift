@@ -24,6 +24,7 @@ struct ProfileCeil: View {
         VStack(alignment: .leading, spacing: 0) {
             Text(title)
                 .foregroundStyle(Color.black)
+                .multilineTextAlignment(.leading)
                 .font(.bodyLight)
                 .overlay {
                     if isNew {

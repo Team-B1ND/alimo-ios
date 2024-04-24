@@ -11,71 +11,77 @@ import SwiftUI
 
 struct CommentCeil: View {
     
+    private let isMe: Bool
     var comment: Comment
     var onClickSubComment: () -> Void
     var deleteComment: () -> Void
-    @State private var showing = false
+    @State private var showDeleting = false
     
-    init(_ comment: Comment,
-         onClickSubComment: @escaping () -> Void,deleteComment: @escaping () -> Void) {
+    init(
+        _ comment: Comment,
+        isMe: Bool,
+        onClickSubComment: @escaping () -> Void,deleteComment: @escaping () -> Void
+    ) {
         self.comment = comment
+        self.isMe = isMe
         self.onClickSubComment = onClickSubComment
         self.deleteComment = deleteComment
     }
     
     var body: some View {
         VStack(spacing: 0) {
-            HStack(alignment: .top) {
-                if let profileImage = comment.profileImage {
-                    AlimoAsyncAvatar(profileImage)
-                } else {
-                    AlimoAvatar(type: .small)
-                }
+            HStack(alignment: .top, spacing: 12) {
+                AlimoAsyncAvatar(comment.profileImage, type: .small)
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    HStack{
+                    HStack {
                         Text("\(comment.commentor)")
-                            .font(.caption)
+                            .font(.label)
                             .bold()
                         Spacer()
                         
-                        Button {
-                            showing = true
-                        }label: {
-                            Image("Roundbutton")
-                                .resizable()
-                                .frame(width: 17,height: 17)
-                            
-                        }
-                        .alert("댓글을 삭제합니다", isPresented: $showing) {
-                            Button("취소") {}
-                            Button("삭제") {deleteComment()}
-                            
-                        } message: {
-                            Text("댓글을 삭제 하겠습니까?")
+                        if isMe {
+                            Menu {
+                                Button("삭제하기", role: .destructive) {
+                                    showDeleting = true
+                                }
+                            } label: {
+                                Image("Roundbutton")
+                                    .resizable()
+                                    .foregroundStyle(Color.gray500)
+                                    .frame(width: 20, height: 20)
+                            }
+                            .alert("정말 댓글을 삭제 하시겠습니까?", isPresented: $showDeleting) {
+                                Button("취소") {}
+                                Button("삭제", role: .destructive) { 
+                                    deleteComment()
+                                }
+                                
+                            } message: {
+                                Text("댓글을 삭제 하겠습니까?")
+                            }
                         }
                     }
                     
                     Text(comment.content)
-                        .font(.caption)
+                        .font(.label)
                         .padding(.top, 2)
                         .lineSpacing(5)
                     HStack(spacing: 8) {
                         Text(comment.createdAt.ymdText)
                             .foregroundStyle(Color.gray500)
-                            .font(.cute)
+                            .font(.caption)
                         
                         Button {
                             onClickSubComment()
                         } label: {
                             Text("답글달기")
-                                .font(.cute)
+                                .font(.caption)
                                 .foregroundColor(.gray500)
                         }
                     }
                     .padding(.top, 4)
                 }
-                .padding(.leading, 12)
                 Spacer()
             }
             .padding(.top, 8)

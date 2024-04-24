@@ -21,12 +21,11 @@ struct HomeView: View {
         }
     }
     @State private var isSelectorReached = false
-    var hasNotice: Bool = true
     
     @ViewBuilder
     private var categorySelector: some View {
         let category = vm.category
-        ScrollView(.horizontal, showsIndicators: true) {
+        ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 12) {
                 AlimoSmallButton("전체", buttonType: vm.selectedIndex == -1 ? .yellow : .none) {
                     vm.selectedIndex = -1
@@ -56,7 +55,14 @@ struct HomeView: View {
                 
                 LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
                     Section(header: categorySelector) {
-                        if hasNotice {
+                        switch vm.flow {
+                        case .fetching:
+                            LazyVStack(spacing: 0) {
+                                ForEach(0..<4, id: \.self) { _ in
+                                    NotificationCellShimmer()
+                                }
+                            }
+                        case .success:
                             LazyVStack(spacing: 0) {
                                 ForEach(vm.notificationList, id: \.uuidString) { notification in
                                     VStack(spacing: 0) {
@@ -83,7 +89,7 @@ struct HomeView: View {
                                 }
                             }
                             .padding(.bottom, 100)
-                        } else {
+                        case .failure:
                             Image(AppAsset.Assets.noNotice.name)
                                 .padding(.top, 115)
                             Text("공지를 불러올 수 없어요")
@@ -93,6 +99,7 @@ struct HomeView: View {
                         }
                     }
                 }
+                .shimmer(vm.flow == .fetching)
             }
             .background(
                 GeometryReader {
@@ -106,9 +113,13 @@ struct HomeView: View {
         }
         .coordinateSpace(name: "scroll")
         .refreshable {
-            await vm.fetchNotifications(isNew: true)
+            Task {
+                vm.flow = .fetching
+                await vm.fetchNotifications(isNew: true)
+            }
         }
         .task {
+            vm.flow = .fetching
             await vm.fetchCategoryList()
             await vm.fetchLoudSpeaker()
             await vm.fetchNotifications(isNew: true)

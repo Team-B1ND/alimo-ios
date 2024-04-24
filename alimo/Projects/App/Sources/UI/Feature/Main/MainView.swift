@@ -15,6 +15,7 @@ struct MainView: View {
     @StateObject private var profileVM = ProfileViewModel()
     @StateObject private var homeVM = HomeViewModel()
     @StateObject private var bookmarkVM = BookmarkViewModel()
+    @EnvironmentObject private var appState: AppState
     
     var body: some View {
         NavigationStack {
@@ -42,6 +43,7 @@ struct MainView: View {
         }
         .onAppear {
             endTextEditing()
+            appState.fetchMember()
         }
     }
 }

@@ -24,16 +24,18 @@ final class NotificationDetailViewModel: ObservableObject {
     @Published var notification: NotificationRead? = nil
     @Published var selectedEmoji: EmojiType? = nil
     @Published var contentText = ""
-    private var isNotificationFetching = false
     @Published var selectedComment: Comment? = nil
     
     init(notificationId: Int) {
         self.notificationId = notificationId
     }
     
-    func getIsFetching() -> Bool {
-        return isNotificationFetching
+    enum Flow {
+        case fetching
+        case success
+        case failure
     }
+    @Published var flow: Flow = .fetching
     
     func fetchEmojies() async {
         do {
@@ -49,9 +51,10 @@ final class NotificationDetailViewModel: ObservableObject {
             let notification = try await notificationService.getNotification(id: notificationId)
             self.notification = notification
             selectedEmoji = notification.emoji
-            dump(notification)
+            flow = .success
         } catch {
             debugPrint(error)
+            flow = .failure
         }
     }
     
