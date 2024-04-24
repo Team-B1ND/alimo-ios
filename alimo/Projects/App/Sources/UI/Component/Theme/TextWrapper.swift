@@ -9,7 +9,7 @@ public struct TextWrapper: UIViewRepresentable {
     public init(
         _ text: String,
         font: UIFont,
-        lineSpacing: CGFloat = 4,
+        lineSpacing: CGFloat = 6,
         allowTruncating: Bool = false
     ) {
         self.text = text
