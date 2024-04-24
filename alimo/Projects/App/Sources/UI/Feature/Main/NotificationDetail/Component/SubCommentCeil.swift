@@ -29,7 +29,7 @@ struct SubCommentCeil: View {
                 VStack(alignment: .leading, spacing: 0) {
                     HStack {
                         Text("\(comment.commentor)")
-                            .font(.caption)
+                            .font(.label)
                             .bold()
                         Spacer()
                         
@@ -51,14 +51,13 @@ struct SubCommentCeil: View {
                     }
                     
                     Text(comment.content)
-                        .font(.caption)
+                        .font(.label)
                         .padding(.top, 2)
                         .lineSpacing(5)
                     HStack(spacing: 8) {
                         Text(comment.createdAt.ymdText)
                             .foregroundStyle(Color.gray500)
-                            .font(.cute)
-                        
+                            .font(.caption)
                     }
                     .padding(.top, 4)
                 }

@@ -31,7 +31,7 @@ struct CommentCeil: View {
                 VStack(alignment: .leading, spacing: 0) {
                     HStack {
                         Text("\(comment.commentor)")
-                            .font(.caption)
+                            .font(.label)
                             .bold()
                         Spacer()
                         
@@ -53,19 +53,19 @@ struct CommentCeil: View {
                     }
                     
                     Text(comment.content)
-                        .font(.caption)
+                        .font(.label)
                         .padding(.top, 2)
                         .lineSpacing(5)
                     HStack(spacing: 8) {
                         Text(comment.createdAt.ymdText)
                             .foregroundStyle(Color.gray500)
-                            .font(.cute)
+                            .font(.caption)
                         
                         Button {
                             onClickSubComment()
                         } label: {
                             Text("답글달기")
-                                .font(.cute)
+                                .font(.caption)
                                 .foregroundColor(.gray500)
                         }
                     }

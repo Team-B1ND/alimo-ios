@@ -65,7 +65,7 @@ struct NotificationDetailView: View {
         if let notification = vm.notification {
             Text(notification.createdAt.ymdText)
                 .foregroundStyle(Color.gray500)
-                .font(.cute)
+                .font(.caption)
                 .padding(.top, 12)
             if let notification = vm.notification {
                 IconCeil(isBookmarked: notification.isBookMarked, hasEmoji: false) { emoji in

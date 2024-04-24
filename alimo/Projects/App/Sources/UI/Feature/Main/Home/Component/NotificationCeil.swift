@@ -49,7 +49,7 @@ struct NotificationCeil: View {
     private var info: some View {
         Text(notification.createdAt.ymdText)
             .foregroundStyle(Color.gray500)
-            .font(.cute)
+            .font(.caption)
             .padding(.top, 12)
         IconCeil(emoji: notification.emoji, isBookmarked: notification.isBookMarked) {
             onClickEmoji($0)
