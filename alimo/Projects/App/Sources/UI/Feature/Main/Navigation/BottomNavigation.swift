@@ -12,23 +12,36 @@ import SwiftUI
 struct BottomNavigation: View {
     @Binding var selectedTab: BottomNavigationType
     
+    init(
+        selectedTab: Binding<BottomNavigationType>
+    ) {
+        self._selectedTab = selectedTab
+    }
+    
     var body: some View {
+        let mainViews = BottomNavigationType.allCases
         HStack {
-            let mainViews = BottomNavigationType.allCases
             ForEach(mainViews, id: \.self) { tab in
                 Button {
                     selectedTab = tab
                 } label: {
-                    BottomNavigationCeil(type: tab, isSelected: selectedTab == tab)
+                    HStack {
+                        Spacer()
+                        BottomNavigationCeil(type: tab, isSelected: selectedTab == tab)
+                        Spacer()
+                    }
+                    .background(.white)
                 }
                 .applyAnimation()
             }
         }
+        .padding(.horizontal, 28)
         .padding(.top, 10)
-        .background(Color.white)
-        .clipShape(RoundedCorner(radius: 12))
+        .background(.white)
+        .clipShape(RoundedCorner(radius: 16))
+        .shadow(color: Color.black.opacity(0.04), radius: 12)
         .onChange(of: selectedTab) { _ in
-            let impactMed = UIImpactFeedbackGenerator(style: .rigid)
+            let impactMed = UIImpactFeedbackGenerator(style: .soft)
             impactMed.impactOccurred()
         }
     }
