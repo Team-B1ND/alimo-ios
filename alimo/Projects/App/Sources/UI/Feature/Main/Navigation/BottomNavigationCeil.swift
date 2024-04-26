@@ -13,7 +13,10 @@ struct BottomNavigationCeil: View {
     let type: BottomNavigationType
     let isSelected: Bool
     
-    init(type: BottomNavigationType, isSelected: Bool) {
+    init(
+        type: BottomNavigationType,
+        isSelected: Bool
+    ) {
         self.type = type
         self.isSelected = isSelected
     }
@@ -23,20 +26,17 @@ struct BottomNavigationCeil: View {
         let imageColor: Color = isSelected ? .main900 : .gray300
         let textColor: Color = isSelected ? .main900 : .gray500
         
-        HStack {
-            Spacer()
-            VStack {
-                Image(type.image)
-                    .renderingMode(.template)
-                    .resizable()
-                    .frame(width: 28, height: 28)
-                    .padding(.top, 4)
-                    .foregroundStyle(imageColor)
-                Text(type.text)
-                    .font(.cute)
-                    .foregroundStyle(textColor)
-            }
-            Spacer()
+        VStack {
+            Image(type.image)
+                .renderingMode(.template)
+                .resizable()
+                .frame(width: 28, height: 28)
+                .padding(.top, 4)
+                .foregroundStyle(imageColor)
+            Text(type.text)
+                .font(.cute)
+                .foregroundStyle(textColor)
         }
+        .background(Color.white)
     }
 }
