@@ -8,7 +8,7 @@ public extension Project {
         product: Product,
         organizationName: String = "b1nd",
         packages: [Package] = [],
-        deploymentTarget: DeploymentTarget? = .iOS(targetVersion: "16.4", devices: [.iphone, .ipad]),
+        deploymentTarget: DeploymentTarget? = .iOS(targetVersion: "16.4", devices: [.iphone]),
         dependencies: [TargetDependency] = [],
         sources: SourceFilesList = ["Sources/**"],
         resources: ResourceFileElements? = nil,
