@@ -28,7 +28,6 @@ struct MainView: View {
                 GeometryReader { reader in
                     ZStack(alignment: .bottom) {
                         BottomNavigation(selectedTab: $selectedTab)
-                            .shadow(color: Color.black.opacity(0.04), radius: 12)
                         VStack {
                             Color.white
                                 .frame(height: reader.safeAreaInsets.top, alignment: .top)
