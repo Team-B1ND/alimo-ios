@@ -55,7 +55,7 @@ struct BookmarkView: View {
                                 .onAppear {
                                     guard let index = vm.notificationList.firstIndex(where: { $0.notificationId == notification.notificationId }) else { return }
                                     
-                                    if index % pagingInterval == (pagingInterval - 1) {
+                                    if index % pagingInterval == (pagingInterval - 1) && index / pagingInterval == (vm.notificationList.count - 1) / pagingInterval {
                                         Task {
                                             await vm.fetchNotifications(isNew: false)
                                         }
