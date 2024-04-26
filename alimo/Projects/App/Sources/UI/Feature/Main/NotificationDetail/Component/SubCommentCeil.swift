@@ -49,7 +49,7 @@ struct SubCommentCeil: View {
                                     .frame(width: 20, height: 20)
                             }
                             .alert("정말 댓글을 삭제 하시겠습니까?", isPresented: $showDeleting) {
-                                Button("취소") {}
+                                Button("취소", role: .cancel) {}
                                 Button("삭제", role: .destructive) {
                                     deleteSubComment()
                                 }
