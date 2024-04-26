@@ -14,16 +14,15 @@ struct BottomNavigation: View {
     
     var body: some View {
         HStack {
-            
             let mainViews = BottomNavigationType.allCases
             ForEach(mainViews, id: \.self) { tab in
-                Spacer()
-                BottomNavigationCeil(type: tab, isSelected: selectedTab == tab)
-                    .onTapGesture {
-                        selectedTab = tab
-                    }
+                Button {
+                    selectedTab = tab
+                } label: {
+                    BottomNavigationCeil(type: tab, isSelected: selectedTab == tab)
+                }
+                .applyAnimation()
             }
-            Spacer()
         }
         .padding(.top, 10)
         .background(Color.white)
