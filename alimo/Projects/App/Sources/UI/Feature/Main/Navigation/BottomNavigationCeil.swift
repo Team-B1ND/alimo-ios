@@ -23,16 +23,20 @@ struct BottomNavigationCeil: View {
         let imageColor: Color = isSelected ? .main900 : .gray300
         let textColor: Color = isSelected ? .main900 : .gray500
         
-        VStack {
-            Image(type.image)
-                .renderingMode(.template)
-                .resizable()
-                .frame(width: 28, height: 28)
-                .padding(.top, 4)
-                .foregroundStyle(imageColor)
-            Text(type.text)
-                .font(.cute)
-                .foregroundStyle(textColor)
+        HStack {
+            Spacer()
+            VStack {
+                Image(type.image)
+                    .renderingMode(.template)
+                    .resizable()
+                    .frame(width: 28, height: 28)
+                    .padding(.top, 4)
+                    .foregroundStyle(imageColor)
+                Text(type.text)
+                    .font(.cute)
+                    .foregroundStyle(textColor)
+            }
+            Spacer()
         }
     }
 }
