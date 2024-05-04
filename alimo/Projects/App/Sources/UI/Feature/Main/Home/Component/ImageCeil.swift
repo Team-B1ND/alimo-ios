@@ -17,7 +17,7 @@ struct ImageCeil: View {
     
     var body: some View {
         NavigationLink {
-            PreviewImageView( imageUrls: images.map { $0.fileUrl }, name: name, Info: info)
+            PreviewImageView( imageUrls: images.map { $0.fileUrl }, name: name, Info: info,onClickDownload:onClickDownload)
         } label: {
             HStack(spacing: 0) {
                 Image("Image")

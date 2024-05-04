@@ -13,6 +13,7 @@ struct PreviewImageView: View {
     var imageUrls: [String]
     var name : String
     var Info : String
+    var onClickDownload : () -> Void
     @State private var currentIndex = 0
     @Environment(\.presentationMode) var presentationMode
     
@@ -32,10 +33,22 @@ struct PreviewImageView: View {
                                 .overlay{
                                     VStack{
                                         Spacer()
-                                        Text(name)
-                                            .foregroundColor(.blue)
-                                        Text(Info)
-                                            .foregroundColor(.blue)
+                                        HStack{
+                                            Image("Image")
+                                                .resizable()
+                                                .frame(width: 28, height: 28)
+                                            VStack(spacing:5){
+                                                Text(name)
+                                                    .foregroundColor(.white)
+                                                    .bold()
+                                                    .padding(.trailing,140)
+                                                Text(Info)
+                                                    .foregroundColor(.white)
+                                            }
+                                            Spacer()
+                                        }
+                                        .padding(.horizontal)
+                                        
                                     }
                                 }
                         case .failure(_):
@@ -55,7 +68,7 @@ struct PreviewImageView: View {
             .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading:
-                                    HStack(spacing: 16) {
+                HStack(alignment: .center, spacing: 16) {
                 Button(action: {
                     presentationMode.wrappedValue.dismiss()
                 }) {
@@ -66,7 +79,20 @@ struct PreviewImageView: View {
                 Text("\(currentIndex + 1)/\(imageUrls.count)")
                     .foregroundColor(.white)
                     .font(.headline)
+                
+                
+                Button {
+                    onClickDownload()
+                } label: {
+                    Image("Download")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .offset(x:240)
+                        
+                }
             }
+                .padding(.horizontal)
+                                
             )
         }
     }
