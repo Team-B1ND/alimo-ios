@@ -36,7 +36,7 @@ struct NotificationCeil: View {
     
     @ViewBuilder
     private var content: some View {
-        TextWrapper(notification.content, font: AppFontFamily.Pretendard.medium.font(size: 16))
+        TextWrapper(notification.content, font: AppFontFamily.Pretendard.medium.font(size: 16),allowTruncating : true)
             .fixedSize(horizontal: false, vertical: true)
             .multilineTextAlignment(.leading)
     }

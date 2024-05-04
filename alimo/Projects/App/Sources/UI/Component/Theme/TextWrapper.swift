@@ -10,7 +10,7 @@ public struct TextWrapper: UIViewRepresentable {
         _ text: String,
         font: UIFont,
         lineSpacing: CGFloat = 5,
-        allowTruncating: Bool = true
+        allowTruncating: Bool = false
     ) {
         self.text = text
         self.font = font
