@@ -13,29 +13,34 @@ import SwiftUI
 struct Notice: View {
     var notificationspeaketitle: Text
     var memberID: Text
-    
+    var notificationId: Int
+
     var body : some View {
-        ZStack {
-            Rectangle()
-                .foregroundColor(.main100)
-                .frame(maxWidth: .infinity, minHeight: 36)
-                .cornerRadius(5)
-            HStack {
-                Image(Asset.loudSpeaker)
-                    .renderingMode(.template)
-                    .foregroundStyle(Color.main300)
-                
-                notificationspeaketitle
-                    .font(.label)
-                    .foregroundColor(.main900)
-                
-                memberID
-                    .font(.label)
-                    .foregroundColor(.gray500)
-                Spacer()
+        NavigationLink {
+            NotificationDetailView(vm: NotificationDetailViewModel(notificationId: notificationId))
+        } label: {
+            ZStack {
+                Rectangle()
+                    .foregroundColor(.main100)
+                    .frame(maxWidth: .infinity, minHeight: 36)
+                    .cornerRadius(5)
+                HStack {
+                    Image(Asset.loudSpeaker)
+                        .renderingMode(.template)
+                        .foregroundStyle(Color.main300)
+                    
+                    notificationspeaketitle
+                        .font(.label)
+                        .foregroundColor(.main900)
+                    
+                    memberID
+                        .font(.label)
+                        .foregroundColor(.gray500)
+                    Spacer()
+                }
+                .padding(.horizontal, 8)
             }
-            .padding(.horizontal, 8)
+            .padding(.horizontal, 6)
         }
-        .padding(.horizontal, 6)
     }
 }
