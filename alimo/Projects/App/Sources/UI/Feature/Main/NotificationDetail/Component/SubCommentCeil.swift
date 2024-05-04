@@ -59,10 +59,8 @@ struct SubCommentCeil: View {
                         }
                     }
                     
-                    Text(comment.content)
-                        .font(.label)
+                    TextWrapper(comment.content, font: AppFontFamily.Pretendard.medium.font(size: 14))
                         .padding(.top, 2)
-                        .lineSpacing(5)
                     HStack(spacing: 8) {
                         Text(comment.createdAt.ymdText)
                             .foregroundStyle(Color.gray500)
