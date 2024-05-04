@@ -11,33 +11,40 @@ import SwiftUI
 struct ImageCeil: View {
     
     var images: [ImageOrFile]
+    var info : String
+    var name : String
     var onClickDownload: () -> Void
     
     var body: some View {
-        
-        HStack(spacing: 0) {
-            Image("Image")
-                .resizable()
-                .frame(width: 28, height: 28)
-            VStack(alignment: .leading, spacing: 0) {
-                Text("총 \(images.count)개 파일")
-                    .foregroundStyle(Color.main500)
-                    .font(.caption)
-                Text(images[0].fileName)
-                    .font(.label)
-            }
-            .padding(.leading, 12)
-            Spacer()
-            Button {
-                onClickDownload()
-            } label: {
-                Image("Download")
+        NavigationLink {
+            PreviewImageView( imageUrls: images.map { $0.fileUrl }, name: name, Info: info,onClickDownload:onClickDownload)
+        } label: {
+            HStack(spacing: 0) {
+                Image("Image")
                     .resizable()
-                    .frame(width: 24, height: 24)
+                    .frame(width: 28, height: 28)
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("총 \(images.count)개 파일")
+                        .foregroundStyle(Color.main500)
+                        .font(.caption)
+                    Text(images[0].fileName)
+                        .font(.label)
+                        .foregroundColor(.black)
+                }
+                .padding(.leading, 12)
+                Spacer()
+                Button {
+                    onClickDownload()
+                } label: {
+                    Image("Download")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                }
             }
+            .padding(12)
+            .background(Color.gray100)
+            .cornerRadius(8)
         }
-        .padding(12)
-        .background(Color.gray100)
-        .cornerRadius(8)
     }
 }
+
