@@ -29,7 +29,7 @@ public struct TextWrapper: UIViewRepresentable {
         textView.font = font
         textView.textContainer.lineFragmentPadding = 0
         if allowTruncating {
-            textView.textContainer.maximumNumberOfLines = 3
+            textView.textContainer.maximumNumberOfLines = 7
             textView.textContainer.lineBreakMode = .byTruncatingTail
         }
         
