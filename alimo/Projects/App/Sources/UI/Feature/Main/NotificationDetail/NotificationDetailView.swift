@@ -116,7 +116,7 @@ struct NotificationDetailView: View {
                     if let images = vm.notification?.images {
                         VStack(spacing: 8) {
                             if !images.isEmpty {
-                                ImageCeil(images: vm.notification?.images ?? []) {
+                                ImageCeil(images: vm.notification?.images ?? [], info: (vm.notification?.createdAt.ymdText)!, name: vm.notification?.name ?? "") {
                                     // TODO: Download images
                                     Task {
                                         await vm.downloadImages(images: vm.notification?.images ?? []) { images in
