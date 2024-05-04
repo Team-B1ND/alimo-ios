@@ -39,6 +39,7 @@ let project = Project.makeModule(
         "NSDocumentsFolderUsageDescription": "알리모에서 파일을 저장하려면 '파일'에 접근해야 합니다.",
         "UIFileSharingEnabled": .boolean(true),
         "LSSupportsOpeningDocumentsInPlace": .boolean(true),
-        "CFBundleDisplayName": "알리모"
+        "CFBundleDisplayName": "알리모",
+        "CFBundleShortVersionString":"1.0.1"
     ])
 )
