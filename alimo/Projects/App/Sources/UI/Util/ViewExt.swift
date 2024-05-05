@@ -34,7 +34,8 @@ public extension View {
 
 extension View {
     func alimoToolbar(_ title: String,
-                      onClick: @escaping () -> Void) -> some View {
+                     imageColor: Color = .black,
+                     onClick: @escaping () -> Void) -> some View {
         self.toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 HStack {
@@ -42,7 +43,7 @@ extension View {
                         onClick()
                     } label: {
                         Image(systemName: "arrow.left")
-                            .foregroundStyle(.black)
+                            .foregroundColor(imageColor)
                     }
                     
                     Text(title)

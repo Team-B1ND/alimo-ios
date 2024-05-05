@@ -10,10 +10,16 @@ import Foundation
 import SwiftUI
 
 struct PreviewImageView: View {
+    enum Dialog {
+        case file
+        case image
+    }
     var imageUrls: [String]
     var name : String
     var Info : String
     var onClickDownload : () -> Void
+    @State var showDialog = false
+    @State var dialog = Dialog.file
     @State private var currentIndex = 0
     @Environment(\.presentationMode) var presentationMode
     
@@ -34,16 +40,19 @@ struct PreviewImageView: View {
                                     VStack{
                                         Spacer()
                                         HStack{
-                                            Image("Image")
+                                            Image(.image)
                                                 .resizable()
                                                 .frame(width: 28, height: 28)
                                             VStack(spacing:5){
                                                 Text(name)
                                                     .foregroundColor(.white)
                                                     .bold()
-                                                    .padding(.trailing,140)
+                                                    .font(.bodyLight)
+                                                    .toLeading()
                                                 Text(Info)
+                                                    .font(.caption)
                                                     .foregroundColor(.white)
+                                                    .toLeading()
                                             }
                                             Spacer()
                                         }
@@ -67,33 +76,41 @@ struct PreviewImageView: View {
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
             .navigationBarBackButtonHidden(true)
-            .navigationBarItems(leading:
-                HStack(alignment: .center, spacing: 16) {
-                Button(action: {
-                    presentationMode.wrappedValue.dismiss()
-                }) {
-                    Image(systemName: "arrow.left")
-                        .foregroundColor(.white)
-                }
-                
-                Text("\(currentIndex + 1)/\(imageUrls.count)")
-                    .foregroundColor(.white)
-                    .font(.headline)
-                
-                
-                Button {
-                    onClickDownload()
-                } label: {
-                    Image("Download")
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                        .offset(x:240)
+            .alimoToolbar("", imageColor: .white) {
+                presentationMode.wrappedValue.dismiss()
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    HStack(alignment: .center, spacing: 16) {
+                        Text("\(currentIndex + 1)/\(imageUrls.count)")
+                            .foregroundColor(.white)
+                            .font(.bodyLight)
+                            .offset(x:-250)
                         
+                        Button {
+                            onClickDownload()
+                            showDialog = true
+                        } label: {
+                            Image("Download")
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                               
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .trailing)
                 }
             }
-                .padding(.horizontal)
-                                
-            )
+
+        }
+        .alert(isPresented: $showDialog) {
+            switch dialog {
+            case .file:
+                Alert(title: Text("파일 다운로드 성공"),
+                      dismissButton: .default(Text("닫기")))
+            case .image:
+                Alert(title: Text("이미지 다운로드 성공"),
+                      dismissButton: .default(Text("닫기")))
+            }
         }
     }
 }
