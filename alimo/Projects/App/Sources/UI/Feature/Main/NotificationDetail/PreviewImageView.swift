@@ -26,7 +26,28 @@ struct PreviewImageView: View {
     var body: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
-            
+            VStack{
+                Spacer()
+                HStack{
+                    Image(.image)
+                        .resizable()
+                        .frame(width: 28, height: 28)
+                    VStack(spacing:5){
+                        Text(name)
+                            .foregroundColor(.white)
+                            .bold()
+                            .font(.bodyLight)
+                            .toLeading()
+                        Text(Info)
+                            .font(.caption)
+                            .foregroundColor(.white)
+                            .toLeading()
+                    }
+                    Spacer()
+                }
+                .padding(.horizontal)
+                
+            }
             TabView(selection: $currentIndex) {
                 ForEach(imageUrls.indices, id: \.self) { index in
                     AsyncImage(url: URL(string: imageUrls[index])) { phase in
@@ -36,30 +57,6 @@ struct PreviewImageView: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                                 .offset(y: -20)
-                                .overlay{
-                                    VStack{
-                                        Spacer()
-                                        HStack{
-                                            Image(.image)
-                                                .resizable()
-                                                .frame(width: 28, height: 28)
-                                            VStack(spacing:5){
-                                                Text(name)
-                                                    .foregroundColor(.white)
-                                                    .bold()
-                                                    .font(.bodyLight)
-                                                    .toLeading()
-                                                Text(Info)
-                                                    .font(.caption)
-                                                    .foregroundColor(.white)
-                                                    .toLeading()
-                                            }
-                                            Spacer()
-                                        }
-                                        .padding(.horizontal)
-                                        
-                                    }
-                                }
                         case .failure(_):
                             Image(systemName: "photo")
                                 .font(.title)
@@ -85,7 +82,7 @@ struct PreviewImageView: View {
                         Text("\(currentIndex + 1)/\(imageUrls.count)")
                             .foregroundColor(.white)
                             .font(.bodyLight)
-                            .offset(x:-250)
+                            .offset(x:-260)
                         
                         Button {
                             onClickDownload()
