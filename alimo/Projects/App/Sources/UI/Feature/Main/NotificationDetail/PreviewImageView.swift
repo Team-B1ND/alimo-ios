@@ -82,7 +82,8 @@ struct PreviewImageView: View {
                         Text("\(currentIndex + 1)/\(imageUrls.count)")
                             .foregroundColor(.white)
                             .font(.bodyLight)
-                            .offset(x:-260)
+                        
+                        Spacer()
                         
                         Button {
                             onClickDownload()
