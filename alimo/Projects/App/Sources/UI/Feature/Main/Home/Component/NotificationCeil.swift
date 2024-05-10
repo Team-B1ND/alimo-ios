@@ -10,17 +10,27 @@ import Foundation
 import SwiftUI
 
 struct NotificationCeil: View {
+    enum Dialog {
+        case file
+        case image
+    }
     
     var notification: Notification
     var onClickEmoji: (EmojiType) -> Void
     var onClickBookmark: () -> Void
+    @State var showDialog = false
+    @State var dialog = Dialog.file
+    @StateObject var vm: NotificationDetailViewModel
+    @EnvironmentObject var downloadManager: DownloadManager
     
     init(notification: Notification,
          onClickEmoji: @escaping (EmojiType) -> Void,
-         onClickBookmark: @escaping () -> Void) {
+         onClickBookmark: @escaping () -> Void,
+         vm:NotificationDetailViewModel) {
         self.notification = notification
         self.onClickEmoji = onClickEmoji
         self.onClickBookmark = onClickBookmark
+        self._vm = StateObject(wrappedValue: vm)
     }
     
     @ViewBuilder
@@ -55,6 +65,27 @@ struct NotificationCeil: View {
         .padding(.top, 10)
     }
     
+    @ViewBuilder
+    private var downloads: some View {
+        VStack(spacing: 8) {
+            ForEach(vm.notification?.files ?? [], id: \.self) { file in
+                FileCeil(file: file) {
+                    // TODO: Download file
+                    Task {
+                        await vm.downloadFile(file: file) { data in
+                            Task {
+                                downloadManager.saveFileToDocuments(data: data, fileName: file.fileName)
+                                dialog = .file
+                                showDialog = true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .padding(.top, 8)
+    }
+    
     var body: some View {
         HStack(spacing: 0) {
             avatar
@@ -66,16 +97,53 @@ struct NotificationCeil: View {
                         profile
                         content
                             .padding(.top, 12)
+                        VStack(spacing: 8) {
+                            if !(vm.notification?.files.isEmpty ?? true) {
+                                downloads
+                            }
+                            if let images = vm.notification?.images {
+                                VStack(spacing: 8) {
+                                    if !images.isEmpty {
+                                        ImageCeil(images: vm.notification?.images ?? [], info: (vm.notification?.createdAt.ymdText)!, name: vm.notification?.name ?? "") {
+                                            // TODO: Download images
+                                            Task {
+                                                await vm.downloadImages(images: vm.notification?.images ?? []) { images in
+                                                    images.forEach {
+                                                        downloadManager.saveImageToPhotos(image: $0)
+                                                    }
+                                                }
+                                                dialog = .image
+                                                showDialog = true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 info
             }
             .padding(.leading, 8)
         }
+        .background(Color.white)
         .padding(.leading, 12)
         .padding(.top, 20)
         .padding(.trailing, 16)
         .padding(.bottom, 12)
+        .task {
+            await vm.fetchNotification()
+        }
+        .alert(isPresented: $showDialog) {
+            switch dialog {
+            case .file:
+                Alert(title: Text("파일 다운로드 성공"),
+                      dismissButton: .default(Text("닫기")))
+            case .image:
+                Alert(title: Text("이미지 다운로드 성공"),
+                      dismissButton: .default(Text("닫기")))
+            }
+        }
     }
 }
 
