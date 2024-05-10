@@ -1,41 +1,87 @@
-//
-//  SeparatedTextField.swift
-//  App
-//
-//  Created by dgsw8th71 on 2/23/24.
-//  Copyright © 2024 b8nd. All rights reserved.
-//
-
 import SwiftUI
 
-struct SeparatedTextField: View {
-    var length: Int // 입력받은 글자 수
-    @FocusState var focused: Int?
-    // index별로 글자를 저장할 dictionary
-    @State var characters: [Int : String] = [:]
+public struct SeparatedTextField: View {
     
-    @Binding var string: String
+    // MARK: - parameters
+    @Binding var text: String
+    let length: Int
     
-    var body: some View {
-        HStack {
-            ForEach(0..<length, id: \.self) { i in
-                CharacterField(focused: _focused, characters: $characters, index: i) { c in
-                    focused = c.isEmpty ? i - 1 : i + 1
-                    characters[i] = c
-                    string = getString()
-                }
-            }
-        }.padding([.vertical], 16)
+    public init(
+        text: Binding<String>,
+        length: Int
+    ) {
+        self._text = text
+        self.length = length
     }
     
-    func getString() -> String {
-        var str = ""
-        for i in 0..<length {
-            if let c = characters[i] {
-                str += c
+    // MARK: - local state
+    @FocusState private var isFocused: Bool
+    
+    // MARK: - View
+    public var body: some View {
+        ZStack {
+            TextField("", text: $text)
+                .labelsHidden()
+                .textFieldStyle(RealTextFieldStyle(isFocused: isFocused))
+                .focused($isFocused)
+            HStack {
+                ForEach(0..<length, id: \.self) { idx in
+                    let char = text.getOrNil(idx: idx) ?? ""
+                    RealCodeCell(isFocused: text.count > idx, char: char)
+                }
             }
         }
-        return str
+        .onChange(of: text) {
+            if $0.count > length {
+                text = text[0..<length]
+            }
+        }
     }
 }
 
+struct RealTextFieldStyle: TextFieldStyle {
+    
+    @Environment(\.isEnabled) var isEnabled
+    var isFocused: Bool
+    
+    func _body(configuration: TextField<Self._Label>) -> some View {
+        
+        configuration
+            .autocorrectionDisabled()
+            .textInputAutocapitalization(.never)
+            .frame(maxWidth: .infinity)
+            .frame(height: 52)
+            .background(.clear)
+            .padding(.horizontal, 16)
+            .accentColor(.clear)
+            .foregroundStyle(.clear)
+    }
+}
+
+struct RealCodeCell: View {
+    
+    @Environment(\.isEnabled) var isEnabled
+    var isFocused: Bool
+    
+    var char: String
+    
+    var body: some View {
+        
+        let lineWidth = isFocused ? 1.5 : 1
+        let strokeColor: Color = isFocused ? .main500 : .gray400
+        
+        Text(char)
+            .frame(maxWidth: .infinity)
+            .frame(height: 52)
+            .padding(.horizontal, 16)
+            .cornerRadius(12, corners: .allCorners)
+            .allowsHitTesting(false)
+            .overlay(
+                ZStack {
+                    RoundedCorner(radius: 12)
+                        .stroke(lineWidth: lineWidth)
+                        .foregroundStyle(strokeColor)
+                }
+            )
+    }
+}
