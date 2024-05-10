@@ -78,12 +78,10 @@ struct PreviewImageView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    HStack(alignment: .center, spacing: 16) {
+                    HStack(alignment: .center, spacing: 20) {
                         Text("\(currentIndex + 1)/\(imageUrls.count)")
                             .foregroundColor(.white)
                             .font(.bodyLight)
-                        
-                        Spacer()
                         
                         Button {
                             onClickDownload()
