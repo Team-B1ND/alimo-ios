@@ -27,7 +27,7 @@ struct ParentJoinFirstView: View {
                     Spacer()
                 }
                 
-                SeparatedTextField(length: 6, string: $vm.childCode)
+                SeparatedTextField(text: $vm.childCode, length: 6)
                     .padding(.horizontal, 20)
                 
                 HStack {
