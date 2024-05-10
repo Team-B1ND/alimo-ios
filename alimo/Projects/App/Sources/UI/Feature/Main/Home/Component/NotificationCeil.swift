@@ -126,7 +126,6 @@ struct NotificationCeil: View {
             }
             .padding(.leading, 8)
         }
-        .background(Color.white)
         .padding(.leading, 12)
         .padding(.top, 20)
         .padding(.trailing, 16)
