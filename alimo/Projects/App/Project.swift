@@ -40,6 +40,6 @@ let project = Project.makeModule(
         "UIFileSharingEnabled": .boolean(true),
         "LSSupportsOpeningDocumentsInPlace": .boolean(true),
         "CFBundleDisplayName": "알리모",
-        "CFBundleShortVersionString":"1.0.1"
+        "CFBundleShortVersionString":"1.1.0"
     ])
 )
