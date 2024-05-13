@@ -1,0 +1,11 @@
+disabled_rules:
+  - colon
+  - comma
+  - control_statement
+included:
+  - Source
+excluded:
+  - Dependencies
+  - Tuist
+  - Compiled
+  - Derived
