@@ -37,6 +37,7 @@ struct BottomNavigation: View {
         }
         .padding(.horizontal, 28)
         .padding(.top, 10)
+        .padding(.bottom, 4)
         .background(.white)
         .clipShape(RoundedCorner(radius: 16))
         .shadow(color: Color.black.opacity(0.04), radius: 12)
