@@ -57,6 +57,7 @@ struct NotificationDetailView: View {
     private var content: some View {
         if let notification = vm.notification {
             TextWrapper(notification.content, font: AppFontFamily.Pretendard.medium.font(size: 16))
+                .padding(.bottom,12)
         }
     }
     
