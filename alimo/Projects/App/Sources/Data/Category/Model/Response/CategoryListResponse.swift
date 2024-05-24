@@ -18,4 +18,3 @@ extension CategoryListResponse {
         CategoryList(roles: roles)
     }
 }
-

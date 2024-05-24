@@ -13,5 +13,3 @@ struct CategoriesResponse: Decodable {
     let categoryName: String
     let permissions: [String]
 }
-
-
