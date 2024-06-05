@@ -11,10 +11,10 @@ import SwiftUI
 struct StudentLoginFirstView: View {
     
     @ObservedObject var vm = StudentLoginViewModel()
-    
     @EnvironmentObject var tm: TokenManager
-    
     @Environment(\.dismiss) private var dismiss
+    @FocusState private var idFocused: Bool
+    @FocusState private var pwFocused: Bool
     
     var body: some View {
         VStack(spacing: 8) {
@@ -25,7 +25,13 @@ struct StudentLoginFirstView: View {
                 .padding(.bottom, 10)
                 .toLeading()
             AlimoTextField("아이디를 입력하세요", text: $vm.id)
+                .focused($idFocused)
+                .onSubmit {
+                    idFocused = false
+                    pwFocused = true
+                }
             AlimoTextField("비밀번호를 입력하세요", text: $vm.pw, type: .password)
+                .focused($pwFocused)
             Spacer()
             
             let isComplete = vm.id != "" && vm.pw != ""
@@ -53,6 +59,9 @@ struct StudentLoginFirstView: View {
             Alert(title: Text("로그인 할 수 없습니다"),
                   message: Text("아이디 비밀번호를 다시 확인해 주세요"),
                   dismissButton: .default(Text("확인")))
+        }
+        .onAppear {
+            idFocused = true
         }
     }
 }

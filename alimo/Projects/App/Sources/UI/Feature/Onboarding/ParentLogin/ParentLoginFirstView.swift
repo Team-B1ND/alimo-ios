@@ -11,14 +11,12 @@ import SwiftUI
 struct ParentLoginFirstView: View {
     
     @ObservedObject var vm = ParentLoginViewModel()
-    
     @EnvironmentObject var tm: TokenManager
-    
     @Environment(\.dismiss) private var dismiss
+    @FocusState private var emailFocused: Bool
+    @FocusState private var pwFocused: Bool
     
     var body: some View {
-        
-        
         let isCompleted = vm.email != "" && vm.pw != ""
         let isCorrectPw = Regex.validatePassword(vm.pw)
         let isOk = isCompleted && isCorrectPw
@@ -34,9 +32,15 @@ struct ParentLoginFirstView: View {
             }
             
             AlimoTextField("이메일을 입력하세요", text: $vm.email)
+                .focused($emailFocused)
                 .keyboardType(.emailAddress)
+                .onSubmit {
+                    emailFocused = false
+                    pwFocused = true
+                }
             
             AlimoTextField("비밀번호를 입력하세요", text: $vm.pw, type: .password)
+                .focused($pwFocused)
             
             HStack {
                 if !isCorrectPw && !vm.pw.isEmpty {
@@ -95,6 +99,9 @@ struct ParentLoginFirstView: View {
         .alert(isPresented: $vm.showDialog) {
             Alert(title: Text("아이디 또는 비밀번호가 잘못되었습니다"),
                   dismissButton: .default(Text("닫기")))
+        }
+        .onAppear {
+            emailFocused = true
         }
     }
 }

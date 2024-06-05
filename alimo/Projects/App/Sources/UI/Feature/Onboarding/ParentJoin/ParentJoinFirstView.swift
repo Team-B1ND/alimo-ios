@@ -11,8 +11,8 @@ import SwiftUI
 struct ParentJoinFirstView: View {
     
     @StateObject var vm = ParentJoinViewModel()
-    
     @Environment(\.dismiss) private var dismiss
+    @FocusState private var codeFocused: Bool
     
     var body: some View {
         ZStack {
@@ -28,6 +28,7 @@ struct ParentJoinFirstView: View {
                 }
                 
                 SeparatedTextField(text: $vm.childCode, length: 6)
+                    .focused($codeFocused)
                     .padding(.horizontal, 20)
                 
                 HStack {
@@ -84,6 +85,9 @@ struct ParentJoinFirstView: View {
         .alert(isPresented: $vm.showDialog) {
             Alert(title: Text(vm.dialogMessage),
                   dismissButton: .default(Text("닫기")))
+        }
+        .onAppear {
+            codeFocused = true
         }
     }
 }
