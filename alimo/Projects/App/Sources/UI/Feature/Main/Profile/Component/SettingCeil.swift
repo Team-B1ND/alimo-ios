@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct SettingCeil<C>: View where C: View{
+struct SettingCeil<C>: View where C: View {
     
     var text: String
     var foregroundColor: Color

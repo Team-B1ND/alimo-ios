@@ -18,7 +18,7 @@ struct AlimoApp: App {
 
 
 private struct ContentView: View {
-    
+
     @EnvironmentObject var tokenManager: TokenManager
     @EnvironmentObject var dm: DialogManager
     @State var opacity = 1.0

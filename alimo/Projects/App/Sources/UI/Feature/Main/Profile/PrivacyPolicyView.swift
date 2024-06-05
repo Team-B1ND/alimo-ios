@@ -14,10 +14,10 @@ struct PrivacyPolicyView: View {
     
     var body: some View {
         
-            AlimoWebView(url: URL(string: "https://ahead-yacht-97a.notion.site/215ee2a6510e4cff92cff58f7c5011de")!)
-                .navigationBarBackButtonHidden()
-                .alimoToolbar("") {
-                    dismiss()
-                }
+        AlimoWebView(url: URL(string: "https://ahead-yacht-97a.notion.site/215ee2a6510e4cff92cff58f7c5011de")!)
+            .navigationBarBackButtonHidden()
+            .alimoToolbar("") {
+                dismiss()
+            }
     }
 }

@@ -1,0 +1,21 @@
+disabled_rules:
+  - colon
+  - comma
+  - control_statement
+  - type_name
+  - closing_brace
+  - comment_spacing
+  - identifier_name
+  - line_length
+  - vertical_whitespace
+  - trailing_whitespace
+  - type_name
+  
+included:
+  - Sources
+  
+excluded:
+  - Dependencies
+  - Tuist
+  - Compiled
+  - Derived

@@ -13,7 +13,7 @@ import FirebaseMessaging
 
 fileprivate let fcmCache = FcmCache.live
 
-class AppDelegate: NSObject, UIApplicationDelegate{
+class AppDelegate: NSObject, UIApplicationDelegate {
     
     let gcmMessageIDKey = "gcm.message_id"
     
@@ -87,7 +87,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         if let messageID = userInfo[gcmMessageIDKey] {
             print("Message ID: \(messageID)")
         }
-        
         
         print(userInfo)
         

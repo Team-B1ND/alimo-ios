@@ -86,7 +86,7 @@ struct NotificationDetailView: View {
         VStack(spacing: 8) {
             ForEach(vm.notification?.files ?? [], id: \.self) { file in
                 FileCeil(file: file) {
-                    // TODO: Download file
+                   
                     Task {
                         await vm.downloadFile(file: file) { data in
                             Task {
@@ -118,7 +118,7 @@ struct NotificationDetailView: View {
                         VStack(spacing: 8) {
                             if !images.isEmpty {
                                 ImageCeil(images: vm.notification?.images ?? [], info: (vm.notification?.createdAt.ymdText)!, name: vm.notification?.name ?? "") {
-                                    // TODO: Download images
+                                  
                                     Task {
                                         await vm.downloadImages(images: vm.notification?.images ?? []) { images in
                                             images.forEach {
@@ -154,7 +154,7 @@ struct NotificationDetailView: View {
                             commentInputState = .comment
                         },
                         deleteComment: {
-                            Task{
+                            Task {
                                 await vm.deleteComment(commentId: p.commentId)
                                 await vm.fetchNotification()
                             }
@@ -171,7 +171,7 @@ struct NotificationDetailView: View {
                                 c,
                                 isMe: c.commenterId == memberId
                             ) {
-                                Task{
+                                Task {
                                     await vm.deleteSubComment(commentId: c.commentId)
                                     await vm.fetchNotification()
                                 }

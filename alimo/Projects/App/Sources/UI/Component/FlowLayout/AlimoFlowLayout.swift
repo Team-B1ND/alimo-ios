@@ -106,7 +106,6 @@ private struct HeightReaderView: View {
     }
 }
 
-
 public extension AlimoFlowLayout where RefreshBinding == Never? {
     init(mode: Mode,
          items: [Data],
