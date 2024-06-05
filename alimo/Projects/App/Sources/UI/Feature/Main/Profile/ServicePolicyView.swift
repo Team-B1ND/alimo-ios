@@ -14,10 +14,10 @@ struct ServicePolicyView: View {
     
     var body: some View {
         
-            AlimoWebView(url: URL(string: "https://ahead-yacht-97a.notion.site/e9ae676d8ecd4a9a921400ceea6c27e3")!)
-                .navigationBarBackButtonHidden()
-                .alimoToolbar("") {
-                    dismiss()
-                }
+        AlimoWebView(url: URL(string: "https://ahead-yacht-97a.notion.site/e9ae676d8ecd4a9a921400ceea6c27e3")!)
+            .navigationBarBackButtonHidden()
+            .alimoToolbar("") {
+                dismiss()
+            }
     }
 }

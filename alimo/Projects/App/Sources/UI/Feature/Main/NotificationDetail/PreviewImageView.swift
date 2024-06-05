@@ -26,13 +26,13 @@ struct PreviewImageView: View {
     var body: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
-            VStack{
+            VStack {
                 Spacer()
-                HStack{
+                HStack {
                     Image(.image)
                         .resizable()
                         .frame(width: 28, height: 28)
-                    VStack(spacing:5){
+                    VStack(spacing:5) {
                         Text(name)
                             .foregroundColor(.white)
                             .bold()
