@@ -39,6 +39,7 @@ struct ParentJoinThirdView: View {
                 AlimoTextField("인증 코드",
                                text: $vm.code,
                                type: .none(hasXMark: false))
+                .keyboardType(.asciiCapable)
                 .foregroundStyle(.red)
                 HStack {
                     Spacer()

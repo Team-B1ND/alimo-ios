@@ -34,6 +34,7 @@ struct ParentJoinSecondView: View {
             }
             
             AlimoTextField("이메일", text: $vm.email)
+                .keyboardType(.emailAddress)
             
             AlimoTextField("비밀번호", text: $vm.pw, type: .password)
             

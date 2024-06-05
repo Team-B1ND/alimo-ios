@@ -33,7 +33,8 @@ struct ParentLoginFirstView: View {
                 Spacer()
             }
             
-            AlimoTextField("아이디를 입력하세요", text: $vm.email)
+            AlimoTextField("이메일을 입력하세요", text: $vm.email)
+                .keyboardType(.emailAddress)
             
             AlimoTextField("비밀번호를 입력하세요", text: $vm.pw, type: .password)
             
