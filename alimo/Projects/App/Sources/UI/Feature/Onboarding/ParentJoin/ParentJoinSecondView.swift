@@ -11,8 +11,10 @@ import SwiftUI
 struct ParentJoinSecondView: View {
     
     @EnvironmentObject var vm: ParentJoinViewModel
-    
     @Environment(\.dismiss) private var dismiss
+    @FocusState private var emailFocused: Bool
+    @FocusState private var pwFocused: Bool
+    @FocusState private var pwCheckFocused: Bool
     
     let childName: String?
     
@@ -34,10 +36,20 @@ struct ParentJoinSecondView: View {
             }
             
             AlimoTextField("이메일", text: $vm.email)
+                .focused($emailFocused)
+                .keyboardType(.emailAddress)
+                .onSubmit {
+                    pwFocused = true
+                }
             
             AlimoTextField("비밀번호", text: $vm.pw, type: .password)
+                .focused($pwFocused)
+                .onSubmit {
+                    pwCheckFocused = true
+                }
             
             AlimoTextField("비밀번호 재입력", text: $vm.pwCheck, type: .password)
+                .focused($pwCheckFocused)
             
             HStack {
                 Group {

@@ -48,6 +48,7 @@ struct RealTextFieldStyle: TextFieldStyle {
         
         configuration
             .autocorrectionDisabled()
+            .keyboardType(.asciiCapable)
             .textInputAutocapitalization(.never)
             .frame(maxWidth: .infinity)
             .frame(height: 52)
