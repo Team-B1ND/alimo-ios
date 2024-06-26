@@ -62,7 +62,11 @@ struct CommentCeil: View {
                             }
                         }
                     }
-                    TextWrapper(comment.content, font: AppFontFamily.Pretendard.medium.font(size: 14))
+                    Text(LocalizedStringKey(comment.content))
+                        .applyOpenURL()
+                        .font(.label)
+                        .foregroundStyle(Color.black)
+                        .lineSpacing(4)
                         .padding(.top, 2)
                     HStack(spacing: 8) {
                         Text(comment.createdAt.ymdText)

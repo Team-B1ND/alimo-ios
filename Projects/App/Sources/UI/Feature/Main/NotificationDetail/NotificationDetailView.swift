@@ -56,7 +56,11 @@ struct NotificationDetailView: View {
     @ViewBuilder
     private var content: some View {
         if let notification = vm.notification {
-            TextWrapper(notification.content, font: AppFontFamily.Pretendard.medium.font(size: 16))
+            Text(LocalizedStringKey(notification.content))
+                .applyOpenURL()
+                .foregroundStyle(Color.black)
+                .font(.bodyLight)
+                .lineSpacing(4)
                 .padding(.bottom,12)
         }
     }
