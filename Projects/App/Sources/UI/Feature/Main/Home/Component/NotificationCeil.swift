@@ -46,10 +46,15 @@ struct NotificationCeil: View {
     
     @ViewBuilder
     private var content: some View {
-        TextWrapper(notification.content, font: AppFontFamily.Pretendard.medium.font(size: 16),allowTruncating : true)
+        Text(LocalizedStringKey(notification.content))
+            .applyOpenURL()
+            .foregroundStyle(Color.black)
+            .font(.bodyLight)
+            .lineSpacing(4)
+            .lineLimit(6)
+            .truncationMode(.tail)
             .fixedSize(horizontal: false, vertical: true)
             .multilineTextAlignment(.leading)
-            .padding(.bottom,12)
     }
     
     @ViewBuilder
