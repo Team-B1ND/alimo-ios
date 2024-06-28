@@ -1,12 +1,5 @@
-//
-//  EmojiType.swift
-//  App
-//
-//  Created by dgsw8th71 on 2/27/24.
-//  Copyright © 2024 b8nd. All rights reserved.
-//
-
 import Foundation
+import SwiftUI
 
 enum EmojiType: String, CaseIterable {
     case okay = "OKAY"
@@ -24,13 +17,13 @@ enum EmojiType: String, CaseIterable {
         return nil
     }
     
-    var image: String {
+    var image: Image {
         switch self {
-        case .okay: "Ok"
-        case .love: "heart"
-        case .laugh: "funny"
-        case .sad: "Sad"
-        case .angry: "Angry"
+        case .okay: Image(.ok)
+        case .love: Image(.heart)
+        case .laugh: Image(.funny)
+        case .sad: Image(.sad)
+        case .angry: Image(.angry)
         }
     }
 }

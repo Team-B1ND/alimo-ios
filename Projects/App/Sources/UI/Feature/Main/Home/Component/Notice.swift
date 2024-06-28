@@ -25,7 +25,7 @@ struct Notice: View {
                     .frame(maxWidth: .infinity, minHeight: 36)
                     .cornerRadius(5)
                 HStack {
-                    Image(Asset.loudSpeaker)
+                    Image(.loudSpeaker)
                         .renderingMode(.template)
                         .foregroundStyle(Color.main300)
                     

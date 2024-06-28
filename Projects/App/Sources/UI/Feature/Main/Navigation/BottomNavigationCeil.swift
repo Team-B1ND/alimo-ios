@@ -27,7 +27,7 @@ struct BottomNavigationCeil: View {
         let textColor: Color = isSelected ? .main900 : .gray500
         
         VStack {
-            Image(type.image)
+            type.image
                 .renderingMode(.template)
                 .resizable()
                 .frame(width: 28, height: 28)

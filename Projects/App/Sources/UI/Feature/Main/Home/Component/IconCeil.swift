@@ -24,11 +24,11 @@ struct IconCeil: View {
                     onClickEmoji($0)
                 } content: {
                     if let emoji = emoji {
-                        Image(emoji.image)
+                        emoji.image
                             .resizable()
                             .frame(width: 28, height: 28)
                     } else {
-                        Image("AddImoji")
+                        Image(.addImoji)
                             .resizable()
                             .frame(width: 28, height: 28)
                     }
@@ -41,12 +41,12 @@ struct IconCeil: View {
                 onClickBookmark()
             } label: {
                 if isBookmarked {
-                    Image(AppAsset.Assets.clickedBookmark.name)
+                    Image(.clickedBookmark)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 28, height: 28)
                 } else {
-                    Image(AppAsset.Assets.bookmark.name)
+                    Image(.bookmark)
                         .resizable()
                         .renderingMode(.template)
                         .foregroundStyle(Color.gray500)

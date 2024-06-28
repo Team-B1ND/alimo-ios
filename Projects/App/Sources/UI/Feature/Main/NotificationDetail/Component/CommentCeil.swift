@@ -46,7 +46,7 @@ struct CommentCeil: View {
                                     showDeleting = true
                                 }
                             } label: {
-                                Image("Roundbutton")
+                                Image(.roundbutton)
                                     .resizable()
                                     .foregroundStyle(Color.gray500)
                                     .frame(width: 20, height: 20)

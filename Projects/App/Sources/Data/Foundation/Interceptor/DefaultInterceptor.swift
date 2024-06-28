@@ -1,13 +1,7 @@
-//
-//  DefaultInterceptor.swift
-//  App
-//
-//  Created by dgsw8th71 on 2/9/24.
-//  Copyright © 2024 b8nd. All rights reserved.
-//
-
 import Alamofire
 import Foundation
+
+//struct
 
 fileprivate let authService = AuthService.live
 fileprivate let authCache = AuthCache.live
