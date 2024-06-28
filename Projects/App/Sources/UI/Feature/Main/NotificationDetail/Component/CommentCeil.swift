@@ -9,21 +9,23 @@
 import Foundation
 import SwiftUI
 
-struct SubCommentCeil: View {
+struct CommentCeil: View {
     
-    private var isMe: Bool
-    var comment: SubComment
-    var deleteSubComment: () -> Void
+    private let isMe: Bool
+    var comment: Comment
+    var onClickSubComment: () -> Void
+    var deleteComment: () -> Void
     @State private var showDeleting = false
     
     init(
-        _ comment: SubComment,
+        _ comment: Comment,
         isMe: Bool,
-        deleteSubComment: @escaping () -> Void
+        onClickSubComment: @escaping () -> Void,deleteComment: @escaping () -> Void
     ) {
         self.comment = comment
         self.isMe = isMe
-        self.deleteSubComment = deleteSubComment
+        self.onClickSubComment = onClickSubComment
+        self.deleteComment = deleteComment
     }
     
     var body: some View {
@@ -37,6 +39,7 @@ struct SubCommentCeil: View {
                             .font(.label)
                             .bold()
                         Spacer()
+                        
                         if isMe {
                             Menu {
                                 Button("삭제하기", role: .destructive) {
@@ -50,21 +53,33 @@ struct SubCommentCeil: View {
                             }
                             .alert("정말 댓글을 삭제 하시겠습니까?", isPresented: $showDeleting) {
                                 Button("취소", role: .cancel) {}
-                                Button("삭제", role: .destructive) {
-                                    deleteSubComment()
+                                Button("삭제", role: .destructive) { 
+                                    deleteComment()
                                 }
+                                
                             } message: {
                                 Text("댓글을 삭제 하겠습니까?")
                             }
                         }
                     }
-                    
-                    TextWrapper(comment.content, font: AppFontFamily.Pretendard.medium.font(size: 14))
+                    Text(LocalizedStringKey(comment.content))
+                        .applyOpenURL()
+                        .font(.label)
+                        .foregroundStyle(Color.black)
+                        .lineSpacing(4)
                         .padding(.top, 2)
                     HStack(spacing: 8) {
                         Text(comment.createdAt.ymdText)
                             .foregroundStyle(Color.gray500)
                             .font(.caption)
+                        
+                        Button {
+                            onClickSubComment()
+                        } label: {
+                            Text("답글달기")
+                                .font(.caption)
+                                .foregroundColor(.gray500)
+                        }
                     }
                     .padding(.top, 4)
                 }
