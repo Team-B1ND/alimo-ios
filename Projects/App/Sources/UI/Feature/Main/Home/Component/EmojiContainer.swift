@@ -35,9 +35,9 @@ struct EmojiContainer: View {
         }
     }
     
-    func emojiImage(image: String, num: Int, isSelected: Bool) -> some View {
+    func emojiImage(image: Image, num: Int, isSelected: Bool) -> some View {
         HStack {
-            Image(image)
+            image
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width:  20, height:  20)

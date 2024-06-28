@@ -87,7 +87,7 @@ struct PreviewImageView: View {
                             onClickDownload()
                             showDialog = true
                         } label: {
-                            Image("Download")
+                            Image(.download)
                                 .resizable()
                                 .frame(width: 24, height: 24)
                                

@@ -99,7 +99,7 @@ struct HomeView: View {
                                 }
                                 .padding(.bottom, 100)
                             case .failure:
-                                Image(AppAsset.Assets.noNotice.name)
+                                Image(.noNotice)
                                     .padding(.top, 115)
                                 Text("공지를 불러올 수 없어요")
                                     .font(.subtitle)

@@ -32,7 +32,7 @@ struct OnboardingFirstView: View {
                     Button {
                         showEasterEgg = true
                     } label: {
-                        Image(Asset.screen)
+                        Image(.screen)
                     }
                     Spacer()
                     NavigationLink {

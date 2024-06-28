@@ -60,7 +60,7 @@ struct AlimoEmojiMenu<Content>: View where Content: View {
                                 showMenu = false
                             }
                         } label: {
-                            Image("XMark")
+                            Image(.xMark)
                                 .resizable()
                                 .renderingMode(.template)
                                 .frame(width: 32, height: 32)
@@ -98,7 +98,7 @@ struct Menus: View {
                     showMenu = false
                 }
             } label: {
-                Image(emoji.image)
+                emoji.image
                     .resizable()
                     .frame(width: 28, height: 28)
             }
