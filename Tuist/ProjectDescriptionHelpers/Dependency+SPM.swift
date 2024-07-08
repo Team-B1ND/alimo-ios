@@ -14,4 +14,5 @@ public extension TargetDependency.SPM {
     static let FirebaseMessaging = TargetDependency.external(name: "FirebaseMessaging")
     static let Nuke = TargetDependency.external(name: "Nuke")
     static let NukeUI = TargetDependency.external(name: "NukeUI")
+    static let ADS = TargetDependency.external(name: "ADS")
 }
