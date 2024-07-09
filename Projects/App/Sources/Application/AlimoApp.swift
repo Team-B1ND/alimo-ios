@@ -1,4 +1,6 @@
 import SwiftUI
+import ADS
+import Foundation
 
 @main
 struct AlimoApp: App {
@@ -12,6 +14,7 @@ struct AlimoApp: App {
                 .environmentObject(DialogManager())
                 .environmentObject(DownloadManager())
                 .environmentObject(AppState())
+                .environmentObject(ColorProvider(isDarkTheme: UserDefaults.standard.bool(forKey: "isDarkTheme")))
         }
     }
 }
