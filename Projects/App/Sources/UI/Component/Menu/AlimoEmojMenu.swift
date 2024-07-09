@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import ADS
 
 struct AlimoEmojiMenu<Content>: View where Content: View {
     
@@ -48,7 +49,7 @@ struct AlimoEmojiMenu<Content>: View where Content: View {
                         }
                         .padding()
                         .background(Color.white)
-                        .cornerRadius(8)
+                        .cornerRadius(8, corners: .allCorners)
                         .onTapGesture {
                             withAnimation {
                                 showMenu = false
@@ -103,7 +104,7 @@ struct Menus: View {
                     .frame(width: 28, height: 28)
             }
             .background(backgroundColor)
-            .cornerRadius(4)
+            .cornerRadius(4, corners: .allCorners)
         }
     }
 }

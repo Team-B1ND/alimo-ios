@@ -8,7 +8,7 @@
 
 import Foundation
 import SwiftUI
-
+import ADS
 
 struct Notice: View {
     var notificationspeaketitle: Text
@@ -23,7 +23,7 @@ struct Notice: View {
                 Rectangle()
                     .foregroundColor(.main100)
                     .frame(maxWidth: .infinity, minHeight: 36)
-                    .cornerRadius(5)
+                    .cornerRadius(5, corners: .allCorners)
                 HStack {
                     Image(.loudSpeaker)
                         .renderingMode(.template)

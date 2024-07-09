@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftUI
+import ADS
 
 struct NotificationCeil: View {
     enum Dialog {

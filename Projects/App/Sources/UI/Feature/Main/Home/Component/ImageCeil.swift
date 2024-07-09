@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import ADS
 
 struct ImageCeil: View {
     
@@ -43,7 +44,7 @@ struct ImageCeil: View {
             }
             .padding(12)
             .background(Color.gray100)
-            .cornerRadius(8)
+            .cornerRadius(8, corners: .allCorners)
         }
     }
 }
