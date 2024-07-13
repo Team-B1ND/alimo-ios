@@ -305,8 +305,15 @@ struct NotificationDetailView: View {
         }
         .task {
             vm.flow = .fetching
-            await vm.fetchEmojies()
-            await vm.fetchNotification()
+            
+            await withTaskGroup(of: Void.self) { group in
+                group.addTask {
+                    await vm.fetchEmojies()
+                }
+                group.addTask {
+                    await vm.fetchNotification()
+                }
+            }
         }
         .alert(isPresented: $showDialog) {
             switch dialog {

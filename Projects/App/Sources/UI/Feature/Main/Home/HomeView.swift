@@ -132,9 +132,18 @@ struct HomeView: View {
             }
             .task {
                 vm.flow = .fetching
-                await vm.fetchCategoryList()
-                await vm.fetchLoudSpeaker()
-                await vm.fetchNotifications(isNew: true)
+                
+                await withTaskGroup(of: Void.self) { group in
+                    group.addTask {
+                        await vm.fetchCategoryList()
+                    }
+                    group.addTask {
+                        await vm.fetchLoudSpeaker()
+                    }
+                    group.addTask {
+                        await vm.fetchNotifications(isNew: true)
+                    }
+                }
             }
         }
     }
