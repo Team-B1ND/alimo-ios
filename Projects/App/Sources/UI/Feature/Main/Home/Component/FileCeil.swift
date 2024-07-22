@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftUI
+import ADS
 
 struct FileCeil: View {
     
@@ -67,7 +68,7 @@ struct FileCeil: View {
         }
         .padding(12)
         .background(Color.gray100)
-        .cornerRadius(8)
+        .cornerRadius(8, corners: .allCorners)
     }
     
     func generateTextBasedOnFileSize(fileSizeInBytes: Double) -> (Double, FileVolume) {

@@ -1,11 +1,4 @@
-//
-//  Emoji.swift
-//  App
-//
-//  Created by dgsw8th61 on 1/7/24.
-//  Copyright © 2024 b8nd. All rights reserved.
-//
-
+import ADS
 import SwiftUI
 
 struct EmojiContainer: View {
@@ -19,7 +12,7 @@ struct EmojiContainer: View {
             Rectangle()
                 .foregroundColor(.gray100)
                 .frame(width: 300, height: 35)
-                .cornerRadius(5)
+                .cornerRadius(5, corners: .allCorners)
             
             HStack {
                 ForEach(emojies, id: \.self) { emoji in
@@ -41,7 +34,7 @@ struct EmojiContainer: View {
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width:  20, height:  20)
-                .cornerRadius(5)
+                .cornerRadius(5, corners: .allCorners)
                 .padding(2)
                 .opacity(isSelected ? 1.0 : 0.5)
             

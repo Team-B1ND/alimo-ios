@@ -16,22 +16,6 @@ struct AlimoAnimationButton: ButtonStyle {
     }
 }
 
-public extension View {
-    
-    func addPressAnimation(_ isPressed: Bool) -> some View {
-        self
-            .opacity(isPressed ? 0.64 : 1)
-            .scaleEffect(isPressed ? 0.96 : 1)
-            .animation(.easeOut, value: 1)
-            .disabled(isPressed)
-    }
-    
-    func applyAnimation() -> some View {
-        self
-            .buttonStyle(AlimoAnimationButton())
-    }
-}
-
 extension View {
     func alimoToolbar(_ title: String,
                      imageColor: Color = .black,
@@ -63,48 +47,6 @@ extension UINavigationController: UIGestureRecognizerDelegate {
     
     public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         return viewControllers.count > 1
-    }
-}
-
-public extension View {
-    func toLeading() -> some View {
-        HStack {
-            self
-            Spacer()
-        }
-    }
-    
-    func toTrailing() -> some View {
-        HStack {
-            Spacer()
-            self
-        }
-    }
-    
-    func toTop() -> some View {
-        VStack {
-            self
-            Spacer()
-        }
-    }
-    
-    func toBottom() -> some View {
-        VStack {
-            Spacer()
-            self
-        }
-    }
-    
-    func toCenter() -> some View {
-        VStack {
-            Spacer()
-            HStack {
-                Spacer()
-                self
-                Spacer()
-            }
-            Spacer()
-        }
     }
 }
 

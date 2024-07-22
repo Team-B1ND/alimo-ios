@@ -1,4 +1,6 @@
 import SwiftUI
+import ADS
+import Foundation
 
 @main
 struct AlimoApp: App {
@@ -12,6 +14,7 @@ struct AlimoApp: App {
                 .environmentObject(DialogManager())
                 .environmentObject(DownloadManager())
                 .environmentObject(AppState())
+                .environmentObject(ColorProvider(isDarkTheme: UserDefaults.standard.bool(forKey: "isDarkTheme")))
         }
     }
 }
@@ -21,6 +24,7 @@ private struct ContentView: View {
 
     @EnvironmentObject var tokenManager: TokenManager
     @EnvironmentObject var dm: DialogManager
+    @EnvironmentObject private var colorProvider: ColorProvider
     @State var opacity = 1.0
     
     var body: some View {
@@ -49,6 +53,15 @@ private struct ContentView: View {
                     opacity = 0
                 }
             }
+            handleRefreshControl(isDarkTheme: colorProvider.isDarkTheme)
         }
+        .onChange(of: colorProvider.isDarkTheme) {
+            handleRefreshControl(isDarkTheme: $0)
+        }
+    }
+    
+    func handleRefreshControl(isDarkTheme: Bool) {
+        let tintColor = isDarkTheme ? AlimoColor.Color.primary60.darkColor : .black
+        UIRefreshControl.appearance().tintColor = UIColor(tintColor)
     }
 }
