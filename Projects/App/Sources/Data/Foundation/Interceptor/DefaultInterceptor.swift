@@ -1,11 +1,3 @@
-//
-//  DefaultInterceptor.swift
-//  App
-//
-//  Created by dgsw8th71 on 2/9/24.
-//  Copyright © 2024 b8nd. All rights reserved.
-//
-
 import Alamofire
 import Foundation
 
@@ -48,8 +40,7 @@ class DefaultInterceptor: RequestInterceptor {
                 authCache.saveToken(response.data.accessToken, to: .accessToken)
                 completion(.retry)
             } catch {
-                print("-- lost session --")
-                completion(.doNotRetryWithError(error))
+                completion(.doNotRetryWithError(AuthError.refreshFailure))
             }
         }
     }

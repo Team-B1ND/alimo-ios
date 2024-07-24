@@ -12,6 +12,7 @@ import SwiftUI
 struct HomeView: View {
     
     @ObservedObject var vm: HomeViewModel
+    @EnvironmentObject var tm: TokenManager
     @State var reader: ScrollViewProxy?
     
     @State private var scrollViewOffset: CGFloat = 0 {
@@ -99,7 +100,7 @@ struct HomeView: View {
                                 }
                                 .padding(.bottom, 100)
                             case .failure:
-                                Image(AppAsset.Assets.noNotice.name)
+                                Image(.noNotice)
                                     .padding(.top, 115)
                                 Text("공지를 불러올 수 없어요")
                                     .font(.subtitle)
@@ -144,6 +145,12 @@ struct HomeView: View {
                         await vm.fetchNotifications(isNew: true)
                     }
                 }
+            }
+        }
+        .onChange(of: vm.refreshFailure) {
+            if $0 {
+                tm.accessToken = ""
+                tm.refreshToken = ""
             }
         }
     }

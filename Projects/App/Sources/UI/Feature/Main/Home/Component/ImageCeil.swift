@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import ADS
 
 struct ImageCeil: View {
     
@@ -20,7 +21,7 @@ struct ImageCeil: View {
             PreviewImageView( imageUrls: images.map { $0.fileUrl }, name: name, Info: info,onClickDownload:onClickDownload)
         } label: {
             HStack(spacing: 0) {
-                Image("Image")
+                Image(.image)
                     .resizable()
                     .frame(width: 28, height: 28)
                 VStack(alignment: .leading, spacing: 0) {
@@ -36,14 +37,14 @@ struct ImageCeil: View {
                 Button {
                     onClickDownload()
                 } label: {
-                    Image("Download")
+                    Image(.download)
                         .resizable()
                         .frame(width: 24, height: 24)
                 }
             }
             .padding(12)
             .background(Color.gray100)
-            .cornerRadius(8)
+            .cornerRadius(8, corners: .allCorners)
         }
     }
 }

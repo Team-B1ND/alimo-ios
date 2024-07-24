@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftUI
+import ADS
 
 struct FileCeil: View {
     
@@ -41,7 +42,7 @@ struct FileCeil: View {
         let fileSize = generateTextBasedOnFileSize(fileSizeInBytes: Double(file.fileSize))
         
         HStack(spacing: 0) {
-            Image("File")
+            Image(.file)
                 .resizable()
                 .frame(width: 28, height: 28)
             VStack(alignment: .leading, spacing: 0) {
@@ -60,14 +61,14 @@ struct FileCeil: View {
             Button {
                 onClickDownload()
             } label: {
-                Image("Download")
+                Image(.download)
                     .resizable()
                     .frame(width: 24, height: 24)
             }
         }
         .padding(12)
         .background(Color.gray100)
-        .cornerRadius(8)
+        .cornerRadius(8, corners: .allCorners)
     }
     
     func generateTextBasedOnFileSize(fileSizeInBytes: Double) -> (Double, FileVolume) {

@@ -91,7 +91,7 @@ struct AlimoTextFieldStyle: TextFieldStyle {
                         switch type {
                         case .none(let hasXMark):
                             if hasXMark && !text.isEmpty {
-                                Image(Asset.xMark)
+                                Image(.xMark)
                                     .resizable()
                                     .renderingMode(.template)
                                     .frame(width: 32, height: 32)
@@ -101,7 +101,7 @@ struct AlimoTextFieldStyle: TextFieldStyle {
                                     }
                             }
                         case .password:
-                            Image(isHide ? Asset.hide : Asset.show)
+                            Image(isHide ? .hide : .show)
                                 .resizable()
                                 .renderingMode(.template)
                                 .frame(width: 28, height: 28)

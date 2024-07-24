@@ -17,7 +17,6 @@ public extension Project {
         var baseSettings = SettingsDictionary()
             .debugInformationFormat(.dwarfWithDsym)
         let settings: Settings = .settings(
-            base: ["DEVELOPMENT_TEAM": "\(teamId)"],
             configurations: [
                 .debug(name: .debug, settings: baseSettings),
                 .release(name: .release, settings: baseSettings)

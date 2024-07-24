@@ -22,7 +22,8 @@ let project = Project.makeModule(
         .SPM.FirebaseCrashlytics,
         .SPM.FirebaseMessaging,
         .SPM.Nuke,
-        .SPM.NukeUI
+        .SPM.NukeUI,
+        .SPM.ADS
     ],
     resources: ["Resources/**"],
     infoPlist: .extendingDefault(with: [

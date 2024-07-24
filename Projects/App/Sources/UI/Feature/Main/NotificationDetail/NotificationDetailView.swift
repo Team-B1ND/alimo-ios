@@ -223,7 +223,7 @@ struct NotificationDetailView: View {
                 }
             } label: {
                 let imojiColor: Color = isCommentEmpty ? .gray300 : .gray700
-                Image("Send")
+                Image(.send)
                     .resizable()
                     .renderingMode(.template)
                     .foregroundStyle(imojiColor)

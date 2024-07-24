@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import ADS
 
 struct AlimoEmojiMenu<Content>: View where Content: View {
     
@@ -48,7 +49,7 @@ struct AlimoEmojiMenu<Content>: View where Content: View {
                         }
                         .padding()
                         .background(Color.white)
-                        .cornerRadius(8)
+                        .cornerRadius(8, corners: .allCorners)
                         .onTapGesture {
                             withAnimation {
                                 showMenu = false
@@ -60,7 +61,7 @@ struct AlimoEmojiMenu<Content>: View where Content: View {
                                 showMenu = false
                             }
                         } label: {
-                            Image("XMark")
+                            Image(.xMark)
                                 .resizable()
                                 .renderingMode(.template)
                                 .frame(width: 32, height: 32)
@@ -98,12 +99,12 @@ struct Menus: View {
                     showMenu = false
                 }
             } label: {
-                Image(emoji.image)
+                emoji.image
                     .resizable()
                     .frame(width: 28, height: 28)
             }
             .background(backgroundColor)
-            .cornerRadius(4)
+            .cornerRadius(4, corners: .allCorners)
         }
     }
 }

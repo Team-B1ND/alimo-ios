@@ -1,12 +1,5 @@
-//
-//  BottomNavigationType.swift
-//  App
-//
-//  Created by dgsw8th71 on 2/25/24.
-//  Copyright © 2024 b8nd. All rights reserved.
-//
-
 import Foundation
+import SwiftUI
 
 enum BottomNavigationType: CaseIterable {
     case home
@@ -21,11 +14,11 @@ enum BottomNavigationType: CaseIterable {
         }
     }
     
-    var image: String {
+    var image: Image {
         switch self {
-        case .home: "Home"
-        case .bookmark: "BookMark_tabbar"
-        case .my: "Profile"
+        case .home: Image(.home)
+        case .bookmark: Image(.bookmarkTabbar)
+        case .my: Image(.profile)
         }
     }
 }

@@ -12,6 +12,7 @@ import SwiftUI
 struct BookmarkView: View {
     
     @StateObject var vm: BookmarkViewModel
+    @EnvironmentObject var tm: TokenManager
     
     @State private var scrollViewOffset: CGFloat = 0 {
         didSet {
@@ -65,7 +66,7 @@ struct BookmarkView: View {
                         }
                         .padding(.bottom, 100)
                     case .failure:
-                        Image(AppAsset.Assets.noNotice.name)
+                        Image(.noNotice)
                             .padding(.top, 115)
                         Text("북마크를 불러올 수 없어요")
                             .font(.subtitle)
@@ -87,7 +88,7 @@ struct BookmarkView: View {
                 .overlay {
                     if .success == vm.flow && vm.notificationList.isEmpty {
                         VStack(spacing: 32) {
-                            Image("NoBookMark")
+                            Image(.noBookMark)
                                 .resizable()
                                 .frame(width: 117, height: 158)
                             Text("아직 북마크가 없어요")
@@ -108,6 +109,12 @@ struct BookmarkView: View {
         .task {
             vm.flow = .fetching
             await vm.fetchNotifications(isNew: true)
+        }
+        .onChange(of: vm.refreshFailure) {
+            if $0 {
+                tm.accessToken = ""
+                tm.refreshToken = ""
+            }
         }
     }
 }
