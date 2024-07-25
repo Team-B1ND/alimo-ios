@@ -180,7 +180,7 @@ struct NotificationDetailView: View {
                                     await vm.fetchNotification()
                                 }
                             }
-                            .padding(.leading, 44 + 12)
+//                            .padding(.leading, 44 + 12)
                             let radius: CGFloat = 3
                             let height: CGFloat = 62 + len * 20 + radius
                             
