@@ -95,61 +95,116 @@ struct NotificationCeil: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            avatar
             VStack(alignment: .leading, spacing: 0) {
                 NavigationLink {
                     NotificationDetailView(vm: NotificationDetailViewModel(notificationId: notification.notificationId))
                 } label: {
-                    VStack(alignment: .leading, spacing: 0) {
-                        profile
-                        content
-                            .padding(.top, 12)
-                        VStack(spacing: 8) {
-                            if !(vm.notification?.files.isEmpty ?? true) {
-                                downloads
-                            }
-                            if let images = vm.notification?.images {
-                                VStack(spacing: 8) {
-                                    if !images.isEmpty {
-                                        ImageCeil(images: vm.notification?.images ?? [], info: (vm.notification?.createdAt.ymdText)!, name: vm.notification?.name ?? "") {
-                                            // TODO: Download images
-                                            Task {
-                                                await vm.downloadImages(images: vm.notification?.images ?? []) { images in
-                                                    images.forEach {
-                                                        downloadManager.saveImageToPhotos(image: $0)
-                                                    }
-                                                }
-                                                dialog = .image
-                                                showDialog = true
+                    HStack(alignment: .top) {
+                        AlimoNotification(
+                            notification.title,
+                            user: notification.name,
+                            content: notification.content,
+                            isSelected: notification.isBookMarked,
+                            date: notification.createdAt,
+                            addEmojiAction: {
+//                                onClickEmoji($0)
+                            },
+                            bookmarkAction: {
+                                onClickBookmark()
+                            },
+                            files: {
+                                var fileInfoArray: [FileInfo] = []
+                                
+                                if let files = vm.notification?.files, !files.isEmpty {
+                                    fileInfoArray.append(contentsOf: files.map { file in
+                                        FileInfo(title: file.fileName, type: .image(byte: 100)) {}
+                                    })
+                                }
+                                
+                                if let images = vm.notification?.images {
+                                    fileInfoArray.append(FileInfo(title: images[0].fileName, type: .file(count: 3)) {})
+                                    Task {
+                                        await vm.downloadImages(images: vm.notification?.images ?? []) { images in
+                                            images.forEach {
+                                                downloadManager.saveImageToPhotos(image: $0)
                                             }
                                         }
                                     }
                                 }
-                            }
-                        }
+                                
+                                return fileInfoArray
+                            }()
+                        )
                     }
+                    .truncationMode(.tail)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .multilineTextAlignment(.leading)
                 }
-                info
             }
-            .padding(.leading, 8)
         }
         .padding(.leading, 12)
         .padding(.top, 20)
         .padding(.trailing, 16)
         .padding(.bottom, 12)
-        .task {
-            await vm.fetchNotification()
-        }
-        .alert(isPresented: $showDialog) {
-            switch dialog {
-            case .file:
-                Alert(title: Text("파일 다운로드 성공"),
-                      dismissButton: .default(Text("닫기")))
-            case .image:
-                Alert(title: Text("이미지 다운로드 성공"),
-                      dismissButton: .default(Text("닫기")))
-            }
-        }
+
+        
+        
+        //        HStack(spacing: 0) {
+        //            avatar
+        //            VStack(alignment: .leading, spacing: 0) {
+        //                NavigationLink {
+        //                    NotificationDetailView(vm: NotificationDetailViewModel(notificationId: notification.notificationId))
+        //                } label: {
+        //                    VStack(alignment: .leading, spacing: 0) {
+        //                        profile
+        //                        content
+        //                            .padding(.top, 12)
+        //                        VStack(spacing: 8) {
+        //                            if !(vm.notification?.files.isEmpty ?? true) {
+        //                                downloads
+        //                            }
+        //                            if let images = vm.notification?.images {
+        //                                VStack(spacing: 8) {
+        //                                    if !images.isEmpty {
+        //                                        ImageCeil(images: vm.notification?.images ?? [], info: (vm.notification?.createdAt.ymdText)!, name: vm.notification?.name ?? "") {
+        //                                            // TODO: Download images
+        //                                            Task {
+        //                                                await vm.downloadImages(images: vm.notification?.images ?? []) { images in
+        //                                                    images.forEach {
+        //                                                        downloadManager.saveImageToPhotos(image: $0)
+        //                                                    }
+        //                                                }
+        //                                                dialog = .image
+        //                                                showDialog = true
+        //                                            }
+        //                                        }
+        //                                    }
+        //                                }
+        //                            }
+        //                        }
+        //                    }
+        //                }
+        //                info
+        //            }
+        //            .padding(.leading, 8)
+        //        }
+        //        .padding(.leading, 12)
+        //        .padding(.top, 20)
+        //        .padding(.trailing, 16)
+        //        .padding(.bottom, 12)
+        //        .task {
+        //            await vm.fetchNotification()
+        //        }
+        //        .alert(isPresented: $showDialog) {
+        //            switch dialog {
+        //            case .file:
+        //                Alert(title: Text("파일 다운로드 성공"),
+        //                      dismissButton: .default(Text("닫기")))
+        //            case .image:
+        //                Alert(title: Text("이미지 다운로드 성공"),
+        //                      dismissButton: .default(Text("닫기")))
+        //            }
+        //        }
     }
 }
 
