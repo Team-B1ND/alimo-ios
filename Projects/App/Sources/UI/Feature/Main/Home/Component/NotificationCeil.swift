@@ -107,7 +107,7 @@ struct NotificationCeil: View {
                             isSelected: notification.isBookMarked,
                             date: notification.createdAt,
                             addEmojiAction: {
-//                                onClickEmoji($0)
+                                //                                onClickEmoji($0)
                             },
                             bookmarkAction: {
                                 onClickBookmark()
@@ -117,19 +117,22 @@ struct NotificationCeil: View {
                                 
                                 if let files = vm.notification?.files, !files.isEmpty {
                                     fileInfoArray.append(contentsOf: files.map { file in
-                                        FileInfo(title: file.fileName, type: .image(byte: 100)) {}
+                                        FileInfo(title: file.fileName, type: .image(byte: file.fileSize)) {}
                                     })
                                 }
                                 
-                                if let images = vm.notification?.images {
-                                    fileInfoArray.append(FileInfo(title: images[0].fileName, type: .file(count: 3)) {})
-                                    Task {
-                                        await vm.downloadImages(images: vm.notification?.images ?? []) { images in
-                                            images.forEach {
-                                                downloadManager.saveImageToPhotos(image: $0)
+                                if let images = vm.notification?.images, !images.isEmpty  {
+                                    fileInfoArray.append(FileInfo(title: images[0].fileName, type: .file(count: vm.notification?.images.count ?? 0)) {
+                                        Task {
+                                            await vm.downloadImages(images: vm.notification?.images ?? []) { images in
+                                                images.forEach {
+                                                    downloadManager.saveImageToPhotos(image: $0)
+                                                }
                                             }
                                         }
-                                    }
+                                        dialog = .image
+                                        showDialog = true
+                                    })
                                 }
                                 
                                 return fileInfoArray
@@ -146,7 +149,19 @@ struct NotificationCeil: View {
         .padding(.top, 20)
         .padding(.trailing, 16)
         .padding(.bottom, 12)
-
+        .task {
+            await vm.fetchNotification()
+        }
+        .alert(isPresented: $showDialog) {
+            switch dialog {
+            case .file:
+                Alert(title: Text("파일 다운로드 성공"),
+                      dismissButton: .default(Text("닫기")))
+            case .image:
+                Alert(title: Text("이미지 다운로드 성공"),
+                      dismissButton: .default(Text("닫기")))
+            }
+        }
         
         
         //        HStack(spacing: 0) {
