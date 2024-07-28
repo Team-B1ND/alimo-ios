@@ -97,7 +97,12 @@ struct NotificationCeil: View {
         HStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
                 NavigationLink {
-                    NotificationDetailView(vm: NotificationDetailViewModel(notificationId: notification.notificationId))
+                    NotificationDetailView(vm: NotificationDetailViewModel(notificationId: notification.notificationId), homeVm: HomeViewModel(), onClickBookmark: {
+                        Task {
+                            //                            await vm.patchBookmark(notificationId: vm.notification?.notificationId)
+                            await vm.patchBookmark()
+                        }
+                    })
                 } label: {
                     HStack(alignment: .top) {
                         AlimoNotification(

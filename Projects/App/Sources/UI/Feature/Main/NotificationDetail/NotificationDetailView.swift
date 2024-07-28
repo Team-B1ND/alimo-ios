@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftUI
+import ADS
 
 fileprivate let dummyComment = [
     (UUID(), "ㅎㅇ", []),
@@ -35,10 +36,12 @@ struct NotificationDetailView: View {
     @EnvironmentObject var downloadManager: DownloadManager
     @EnvironmentObject private var appState: AppState
     @StateObject var vm: NotificationDetailViewModel
+    @StateObject var homeVm: HomeViewModel
     @FocusState private var commentInputState: Field?
     @State var showDialog = false
     @State var dialog = Dialog.file
     @State var reader: ScrollViewProxy?
+    var onClickBookmark: () -> Void
     
     @ViewBuilder
     private var avatar: some View {
@@ -109,39 +112,90 @@ struct NotificationDetailView: View {
     @ViewBuilder
     private var notificationContainer: some View {
         HStack(spacing: 0) {
-            avatar
             VStack(alignment: .leading, spacing: 0) {
-                profile
-                content
-                    .padding(.top, 12)
-                VStack(spacing: 8) {
-                    if !(vm.notification?.files.isEmpty ?? true) {
-                        downloads
-                    }
-                    if let images = vm.notification?.images {
-                        VStack(spacing: 8) {
-                            if !images.isEmpty {
-                                ImageCeil(images: vm.notification?.images ?? [], info: (vm.notification?.createdAt.ymdText)!, name: vm.notification?.name ?? "") {
-                                  
-                                    Task {
-                                        await vm.downloadImages(images: vm.notification?.images ?? []) { images in
-                                            images.forEach {
-                                                downloadManager.saveImageToPhotos(image: $0)
+                    HStack(alignment: .top) {
+                        AlimoNotification(
+                            vm.notification!.title,
+                            user: vm.notification!.name,
+                            content: vm.notification!.content,
+                            isSelected: vm.notification!.isBookMarked,
+                            date: vm.notification!.createdAt,
+                            addEmojiAction: {
+                                //                                onClickEmoji($0)
+                            },
+                            bookmarkAction: {
+                                Task {
+                                    await homeVm.patchBookmark(notificationId: vm.notification?.notificationId ?? 0)
+                                    await vm.fetchNotification()
+                                }
+                            },
+                            files: {
+                                var fileInfoArray: [FileInfo] = []
+                                
+                                if let files = vm.notification?.files, !files.isEmpty {
+                                    fileInfoArray.append(contentsOf: files.map { file in
+                                        FileInfo(title: file.fileName, type: .image(byte: file.fileSize)) {}
+                                    })
+                                }
+                                
+                                if let images = vm.notification?.images, !images.isEmpty  {
+                                    fileInfoArray.append(FileInfo(title: images[0].fileName, type: .file(count: vm.notification?.images.count ?? 0)) {
+                                        Task {
+                                            await vm.downloadImages(images: vm.notification?.images ?? []) { images in
+                                                images.forEach {
+                                                    downloadManager.saveImageToPhotos(image: $0)
+                                                }
                                             }
                                         }
                                         dialog = .image
                                         showDialog = true
-                                    }
+                                    })
                                 }
-                            }
-                        }
+                                
+                                return fileInfoArray
+                            }()
+                        )
                     }
+                    .truncationMode(.tail)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .multilineTextAlignment(.leading)
                 }
-                info
-                    .padding(.top, 12)
             }
-            .padding(.leading, 8)
-        }
+        
+//        HStack(spacing: 0) {
+//            avatar
+//            VStack(alignment: .leading, spacing: 0) {
+//                profile
+//                content
+//                    .padding(.top, 12)
+//                VStack(spacing: 8) {
+//                    if !(vm.notification?.files.isEmpty ?? true) {
+//                        downloads
+//                    }
+//                    if let images = vm.notification?.images {
+//                        VStack(spacing: 8) {
+//                            if !images.isEmpty {
+//                                ImageCeil(images: vm.notification?.images ?? [], info: (vm.notification?.createdAt.ymdText)!, name: vm.notification?.name ?? "") {
+//                                  
+//                                    Task {
+//                                        await vm.downloadImages(images: vm.notification?.images ?? []) { images in
+//                                            images.forEach {
+//                                                downloadManager.saveImageToPhotos(image: $0)
+//                                            }
+//                                        }
+//                                        dialog = .image
+//                                        showDialog = true
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//                info
+//                    .padding(.top, 12)
+//            }
+//            .padding(.leading, 8)
+//        }
     }
     
     @ViewBuilder
@@ -260,12 +314,12 @@ struct NotificationDetailView: View {
                                 .padding(.trailing, 16)
                             Divider()
                                 .padding(.top, 16)
-                            EmojiContainer(selectedEmoji: vm.selectedEmoji, emojies: vm.emojies) { emoji in
-                                Task {
-                                    await vm.patchEmoji(emoji: emoji)
-                                }
-                            }
-                            .padding(.top, 16)
+//                            EmojiContainer(selectedEmoji: vm.selectedEmoji, emojies: vm.emojies) { emoji in
+//                                Task {
+//                                    await vm.patchEmoji(emoji: emoji)
+//                                }
+//                            }
+//                            .padding(.top, 16)
                             comment
                                 .padding(.top, 16)
                             Spacer()
