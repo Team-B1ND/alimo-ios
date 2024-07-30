@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import ADS
 
 struct OnboardingSecondView: View {
     
@@ -18,15 +19,15 @@ struct OnboardingSecondView: View {
         ZStack {
             VStack(spacing: 16) {
                 Text("해당하는 곳을 선택해 주세요")
-                    .font(Font.subtitle)
+                    .alimoFont(.headline1B)
                     .toLeading()
                     .padding(.horizontal, 20)
                 
                 SegmentedButton(buttonType: [.Student, .Parent, .Teacher], isSelected: $isSelected)
                 
                 Text("알리모에서는 학생, 학부모, 선생님 모두 참여해요")
-                    .font(.label)
-                    .foregroundStyle(Color.gray500)
+                    .alimoFont(.captionM)
+                    .alimoColor(AlimoColor.Label.em)
             }
             .padding(.bottom, 100)
             .navigationBarBackButtonHidden()

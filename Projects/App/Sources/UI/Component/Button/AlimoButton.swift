@@ -7,8 +7,11 @@
 //
 
 import SwiftUI
+import ADS
 
 struct AlimoButton: View {
+    
+    @EnvironmentObject private var colorProvider: ColorProvider
     
     var text: String
     var buttonType: AlimoButtonType
@@ -30,10 +33,10 @@ struct AlimoButton: View {
             callback()
         } label: {
             Text(!isLoading ? text : "")
-                .font(.body)
+                .alimoFont(.bodyB)
                 .frame(maxWidth: .infinity, maxHeight: 54)
-                .foregroundStyle(buttonType.foregroundColor)
-                .background(buttonType.backgroundColor)
+                .foregroundStyle(colorProvider.color(AlimoColor.Color.neutral90))
+                .background(colorProvider.color(AlimoColor.Color.primary60))
                 .clipShape(RoundedRectangle(cornerRadius: Size.large.rawValue))
                 .overlay {
                     if isLoading {
