@@ -39,19 +39,28 @@ struct BookmarkView: View {
                         .shimmer()
                     case .success:
                         LazyVStack(spacing: 0) {
-                            ForEach(vm.notificationList, id: \.uuidString) { notification in
+                            ForEach(Array(vm.notificationList.enumerated()), id: \.element.uuidString) { index, notification in
                                 VStack(spacing: 0) {
-                                    NotificationCeil(notification: notification, onClickEmoji: { emoji in
-                                        Task {
-                                            await vm.patchEmoji(emoji: emoji, notificationId: notification.notificationId)
+                                    BookMarkCeil(notification: notification, onClickEmoji: {emoji in
+                                        Task{
+                                            await vm.patchEmoji(emoji:emoji,notificationId:notification.notificationId)
                                         }
                                     }, onClickBookmark: {
-                                        Task {
-                                            await vm.patchBookmark(notificationId: notification.notificationId)
+                                        Task{
+                                            await vm.patchBookmark(notificationId:notification.notificationId)
                                         }
-                                    }, vm: NotificationDetailViewModel(notificationId: notification.notificationId), homeVm: HomeViewModel())
-                                    Divider()
-                                        .foregroundStyle(Color.gray100)
+                                    }, vm: NotificationDetailViewModel(notificationId: notification.notificationId), homeVm: HomeViewModel(),bookMarkVm: BookmarkViewModel(),
+                                        callCount: index)
+//                                    NotificationCeil(notification: notification, onClickEmoji: { emoji in
+//                                        Task {
+//                                            await vm.patchEmoji(emoji: emoji, notificationId: notification.notificationId)
+//                                        }
+//                                    }, onClickBookmark: {
+//                                        Task {
+//                                            await vm.patchBookmark(notificationId: notification.notificationId)
+//                                        }
+//                                    }, vm: NotificationDetailViewModel(notificationId: notification.notificationId), homeVm: HomeViewModel())
+                         
                                 }
                                 .onAppear {
                                     guard let index = vm.notificationList.firstIndex(where: { $0.notificationId == notification.notificationId }) else { return }

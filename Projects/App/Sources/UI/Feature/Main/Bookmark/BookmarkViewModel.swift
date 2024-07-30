@@ -29,14 +29,14 @@ class BookmarkViewModel: ObservableObject {
     @Published var flow: FetchFlow = .fetching
     @Published var refreshFailure = false
     
-    func fetchNotifications(isNew: Bool) async {
+    func fetchNotifications(isNew: Bool, category: String? = nil) async {
         flow = .fetching
         do {
             let nextPage = isNew ? 1 : page + 1
             print("HomeVM - fetching notifications... nextPage: \(nextPage)")
             let request = PageRequest(page: nextPage, size: pagingInterval)
             
-            let notifications = try await bookmarkService.getBookmarkByCategory(category: "null", pageRequest: request)
+            let notifications = try await bookmarkService.getBookmarkByCategory(category: category ?? "null", pageRequest: request)
             dump(notifications)
             if isNew {
                 notificationList = notifications
@@ -57,6 +57,7 @@ class BookmarkViewModel: ObservableObject {
             flow = .failure
         }
     }
+    
     
     func patchBookmark(notificationId: Int) async {
         
