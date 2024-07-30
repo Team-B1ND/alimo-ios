@@ -20,6 +20,7 @@ struct OnboardingSecondView: View {
             VStack(spacing: 16) {
                 Text("해당하는 곳을 선택해 주세요")
                     .alimoFont(.headline1B)
+                    .alimoColor(AlimoColor.Label.normal)
                     .toLeading()
                     .padding(.horizontal, 20)
                 
@@ -50,7 +51,8 @@ struct OnboardingSecondView: View {
                 }
             }
         }
-        .alimoToolbar("") {
+        .alimoBackground(AlimoColor.Background.normal)
+        .alimoTopAppBar("", background: AlimoColor.Background.normal) {
             dismiss()
         }
     }

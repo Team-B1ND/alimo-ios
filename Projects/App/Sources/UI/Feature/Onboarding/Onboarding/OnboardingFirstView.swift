@@ -7,10 +7,13 @@
 //
 
 import SwiftUI
+import ADS
 
 struct OnboardingFirstView: View {
     
     @State var showEasterEgg: Bool = false
+    
+    @EnvironmentObject private var colorProvider: ColorProvider
     
     var body: some View {
         NavigationStack {
@@ -22,7 +25,8 @@ struct OnboardingFirstView: View {
                             VStack(alignment: .leading, spacing: 0) {
                                 AlimoLogo(type: .yellow)
                                 Text("대소고의 모든 소식")
-                                    .font(.subtitle)
+                                    .alimoFont(.headline1B)
+                                    .alimoColor(AlimoColor.Label.normal)
                                     .offset(x: 3, y: -5)
                             }
                             Spacer()
@@ -50,6 +54,7 @@ struct OnboardingFirstView: View {
                               dismissButton: .default(Text("닫기")))
                     }
                 }
+                .alimoBackground(AlimoColor.Background.normal)
             }
         }
     }

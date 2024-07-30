@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import ADS
 
 struct AlimoLogo: View {
     
@@ -15,11 +16,11 @@ struct AlimoLogo: View {
     var body: some View {
         HStack(alignment: .bottom, spacing: 0) {
             Text(appName.uppercased())
-                .foregroundStyle(type.textColor)
+                .alimoColor(AlimoColor.Label.normal)
                 .font(Font(AppFontFamily.Pretendard.bold.font(size: type.fontSize)))
             if type.hasDot {
                 Circle()
-                    .foregroundStyle(type.dotColor)
+                    .alimoColor(AlimoColor.Color.primary60)
                     .frame(width: 8, height: 8)
                     .padding(.bottom, 13)
             }

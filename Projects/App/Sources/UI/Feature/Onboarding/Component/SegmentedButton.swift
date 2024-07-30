@@ -80,5 +80,6 @@ struct SegmentedButton: View {
             }
             
         }
+        .alimoBackground(AlimoColor.Background.normal)
     }
 }
