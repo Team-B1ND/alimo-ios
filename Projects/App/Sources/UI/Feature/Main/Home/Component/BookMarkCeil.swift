@@ -57,7 +57,7 @@ struct BookMarkCeil: View {
                                       bookmarkAction: {onClickBookmark()},
                                       title: notification.title,
                                       content: notification.content,
-                                      date: notification.createdAt,
+                                      date:  formattedDate(notification.createdAt),
                                       category: categoryToShow)
                     }
                 }
@@ -87,6 +87,12 @@ struct BookMarkCeil: View {
                 }
             }
         }
+    }
+    
+    private func formattedDate(_ date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss" // 원하는 형식으로 설정
+        return dateFormatter.string(from: date)
     }
 
 }
