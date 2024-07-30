@@ -42,6 +42,7 @@ struct NotificationDetailView: View {
     @State var dialog = Dialog.file
     @State var reader: ScrollViewProxy?
     var onClickBookmark: () -> Void
+    var onClickEmoji: (EmojiType) -> Void
     
     @ViewBuilder
     private var avatar: some View {
@@ -120,8 +121,8 @@ struct NotificationDetailView: View {
                             content: vm.notification!.content,
                             isSelected: vm.notification!.isBookMarked,
                             date: vm.notification!.createdAt,
-                            addEmojiAction: {_ in 
-                                //                                onClickEmoji($0)
+                            addEmojiAction: {emoji in
+                                onClickEmoji(emoji)
                             },
                             bookmarkAction: {
                                 Task {
@@ -161,7 +162,7 @@ struct NotificationDetailView: View {
                                                   onClickDownload:{})
                             },
                             hasEmoji: true,
-                            emoji: nil
+                            emoji: vm.notification?.emoji ?? nil
                         )
                     }
                     .truncationMode(.tail)

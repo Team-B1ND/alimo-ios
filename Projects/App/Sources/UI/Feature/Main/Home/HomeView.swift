@@ -84,7 +84,7 @@ struct HomeView: View {
                                                 Task {
                                                     await vm.patchBookmark(notificationId: notification.notificationId)
                                                 }
-                                            }, vm: NotificationDetailViewModel(notificationId: notification.notificationId))
+                                            }, vm: NotificationDetailViewModel(notificationId: notification.notificationId), homeVm: HomeViewModel())
                                            
                                             Divider()
                                                 .foregroundStyle(Color.gray100)

@@ -24,6 +24,10 @@ struct Notice: View {
                     await homeVm.patchBookmark(notificationId: vm.notification?.notificationId ?? 0)
                     await vm.fetchNotification()
                 }
+            }, onClickEmoji: {  emoji in
+                Task {
+                    await homeVm.patchEmoji(emoji: emoji, notificationId: notificationId)
+                }
             })
         } label: {
             ZStack {

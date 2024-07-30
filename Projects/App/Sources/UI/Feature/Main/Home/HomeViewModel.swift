@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 import AlamofireImage
 import Alamofire
+import ADS
 
 @MainActor
 class HomeViewModel: ObservableObject {

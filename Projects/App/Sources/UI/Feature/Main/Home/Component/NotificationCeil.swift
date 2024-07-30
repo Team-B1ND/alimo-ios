@@ -22,16 +22,20 @@ struct NotificationCeil: View {
     @State var showDialog = false
     @State var dialog = Dialog.file
     @StateObject var vm: NotificationDetailViewModel
+    @StateObject var homeVm: HomeViewModel
     @EnvironmentObject var downloadManager: DownloadManager
     
     init(notification: Notification,
          onClickEmoji: @escaping (EmojiType) -> Void,
          onClickBookmark: @escaping () -> Void,
-         vm:NotificationDetailViewModel) {
+         vm:NotificationDetailViewModel,
+         homeVm: HomeViewModel
+    ) {
         self.notification = notification
         self.onClickEmoji = onClickEmoji
         self.onClickBookmark = onClickBookmark
         self._vm = StateObject(wrappedValue: vm)
+        self._homeVm = StateObject(wrappedValue: homeVm)
     }
     
     @ViewBuilder
@@ -102,6 +106,10 @@ struct NotificationCeil: View {
                             //                            await vm.patchBookmark(notificationId: vm.notification?.notificationId)
                             await vm.patchBookmark()
                         }
+                    }, onClickEmoji: { emoji in
+                        Task {
+                            await homeVm.patchEmoji(emoji: emoji, notificationId: notification.notificationId)
+                        }
                     })
                 } label: {
                     HStack(alignment: .top) {
@@ -112,8 +120,7 @@ struct NotificationCeil: View {
                             isSelected: notification.isBookMarked,
                             date: notification.createdAt,
                             addEmojiAction: {emoji in
-//                                onClickEmoji(emoji)
-//                                Cannot convert value of type 'ADS.EmojiType' to expected argument type 'App.EmojiType'
+                                onClickEmoji(emoji)
                             },
                             bookmarkAction: {
                                 onClickBookmark()
@@ -150,7 +157,7 @@ struct NotificationCeil: View {
                                                   onClickDownload:{})
                             },
                             hasEmoji: true,
-                            emoji: /*notification.emoji ?? nil*/ nil
+                            emoji: notification.emoji ?? nil
                         )
                     }
                     .truncationMode(.tail)
@@ -237,4 +244,3 @@ struct NotificationCeil: View {
     }
     
 }
-

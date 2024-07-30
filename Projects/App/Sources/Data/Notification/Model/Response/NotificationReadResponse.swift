@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ADS
 
 struct NotificationReadResponse: Decodable {
     let notificationId: Int

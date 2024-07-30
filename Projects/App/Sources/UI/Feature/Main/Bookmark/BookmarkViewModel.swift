@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ADS
 
 @MainActor
 class BookmarkViewModel: ObservableObject {
