@@ -98,6 +98,7 @@ struct HomeView: View {
                                         }
                                     }
                                 }
+                                .lineLimit(3)
                                 .padding(.bottom, 100)
                             case .failure:
                                 Image(.noNotice)
