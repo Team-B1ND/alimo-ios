@@ -111,8 +111,9 @@ struct NotificationCeil: View {
                             content: notification.content,
                             isSelected: notification.isBookMarked,
                             date: notification.createdAt,
-                            addEmojiAction: {
-                                //                                onClickEmoji($0)
+                            addEmojiAction: {emoji in
+//                                onClickEmoji(emoji)
+//                                Cannot convert value of type 'ADS.EmojiType' to expected argument type 'App.EmojiType'
                             },
                             bookmarkAction: {
                                 onClickBookmark()
@@ -141,7 +142,15 @@ struct NotificationCeil: View {
                                 }
                                 
                                 return fileInfoArray
-                            }()
+                            }(),
+                            fileDestination: {
+                                PreviewImageView( imageUrls: (vm.notification?.images ?? []).compactMap { ($0 as? ImageOrFile)?.fileUrl },
+                                                  name:  vm.notification?.name ?? "",
+                                                  Info: (vm.notification?.createdAt.ymdText)!,
+                                                  onClickDownload:{})
+                            },
+                            hasEmoji: true,
+                            emoji: /*notification.emoji ?? nil*/ nil
                         )
                     }
                     .truncationMode(.tail)
@@ -226,5 +235,6 @@ struct NotificationCeil: View {
         //            }
         //        }
     }
+    
 }
 

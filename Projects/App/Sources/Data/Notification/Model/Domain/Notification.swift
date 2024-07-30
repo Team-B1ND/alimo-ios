@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ADS
 
 struct Notification: Hashable {
     var uuidString = UUID().uuidString

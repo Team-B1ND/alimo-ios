@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ADS
 
 struct NotificationRead: Hashable {
     var notificationId: Int

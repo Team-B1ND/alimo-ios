@@ -120,7 +120,7 @@ struct NotificationDetailView: View {
                             content: vm.notification!.content,
                             isSelected: vm.notification!.isBookMarked,
                             date: vm.notification!.createdAt,
-                            addEmojiAction: {
+                            addEmojiAction: {_ in 
                                 //                                onClickEmoji($0)
                             },
                             bookmarkAction: {
@@ -153,7 +153,15 @@ struct NotificationDetailView: View {
                                 }
                                 
                                 return fileInfoArray
-                            }()
+                            }(),
+                            fileDestination: {
+                                PreviewImageView( imageUrls: (vm.notification?.images ?? []).compactMap { ($0 as? ImageOrFile)?.fileUrl },
+                                                  name:  vm.notification?.name ?? "",
+                                                  Info: (vm.notification?.createdAt.ymdText)!,
+                                                  onClickDownload:{})
+                            },
+                            hasEmoji: true,
+                            emoji: nil
                         )
                     }
                     .truncationMode(.tail)
