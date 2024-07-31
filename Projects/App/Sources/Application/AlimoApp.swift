@@ -7,6 +7,10 @@ struct AlimoApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
+    init() {
+        Pretendard.register()
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
