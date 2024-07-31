@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import ADS
 
 enum AlimoLogoType {
     case white
@@ -15,17 +16,17 @@ enum AlimoLogoType {
     
     var textColor: Color {
         return switch self {
-        case .white: .black
-        case .yellow: .black
-        case .gray: .gray300
+        case .white: AlimoPallete.shared.Neutral00
+        case .yellow: AlimoPallete.shared.Neutral100
+        case .gray: AlimoPallete.shared.Neutral30
         }
     }
     
     var dotColor: Color {
         return switch self {
-        case .white: .white
-        case .yellow: .main500
-        case .gray: .gray300
+        case .white: AlimoPallete.shared.Neutral00
+        case .yellow: AlimoPallete.shared.Neutral100
+        case .gray: AlimoPallete.shared.Neutral30
         }
     }
     
