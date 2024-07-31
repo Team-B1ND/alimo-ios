@@ -43,17 +43,18 @@ struct OnboardingSecondView: View {
                         StudentLoginFirstView()
                     }
                 } label: {
-                    AlimoButton(loginButtonText, buttonType: .yellow) {
+                    AlimoButton(loginButtonText, type: .CTA) {
                         // 학생인지 아닌지에 따라 다르게 핸들링
                     }
+                    .padding(.horizontal, 20)
                     .padding(.bottom, 30)
                     .disabled(true)
                 }
             }
         }
         .alimoBackground(AlimoColor.Background.normal)
-        .alimoTopAppBar("", background: AlimoColor.Background.normal) {
+        .alimoTopAppBar("", background: AlimoColor.Background.normal, backButtonAction:  {
             dismiss()
-        }
+        })
     }
 }

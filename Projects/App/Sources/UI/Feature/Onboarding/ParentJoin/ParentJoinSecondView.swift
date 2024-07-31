@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import ADS
 
 struct ParentJoinSecondView: View {
     
@@ -22,46 +23,50 @@ struct ParentJoinSecondView: View {
         
         let isCompleted = !vm.email.isEmpty && !vm.pw.isEmpty && !vm.pwCheck.isEmpty
         let isSame: Bool = vm.pw == vm.pwCheck
-        let isCorrectPw = Regex.validatePassword(vm.pw) && Regex.validatePassword(vm.pwCheck)
+        let isCorrectPw = Regex.validatePassword(vm.pw)
         
         VStack {
             HStack {
                 Text("\(childName ?? "")\(childName != nil ? " " : "")학부모님 안녕하세요!")
-                    .font(.subtitle)
-                    .foregroundStyle(Color.main900)
+                    .alimoFont(.headline1B)
+                    .alimoColor(AlimoColor.Label.normal)
                     .padding(.top, 30)
                     .padding(.bottom, 10)
                     .padding(.leading, 24)
                 Spacer()
             }
             
-            AlimoTextField("이메일", text: $vm.email)
+            AlimoTextField("이메일을 입력해 주세요", text: $vm.email)
                 .focused($emailFocused)
                 .keyboardType(.emailAddress)
                 .onSubmit {
                     pwFocused = true
                 }
+                .padding(.horizontal, 20)
             
-            AlimoTextField("비밀번호", text: $vm.pw, type: .password)
+            AlimoTextField("비밀번호를 입력해 주세요", text: $vm.pw, isSecured: true)
                 .focused($pwFocused)
                 .onSubmit {
                     pwCheckFocused = true
                 }
+                .padding(.horizontal, 20)
+                .padding(.vertical, 8)
             
-            AlimoTextField("비밀번호 재입력", text: $vm.pwCheck, type: .password)
+            AlimoTextField("비밀번호를 다시 입력해 주세요", text: $vm.pwCheck, isSecured: true)
                 .focused($pwCheckFocused)
+                .padding(.horizontal, 20)
             
             HStack {
                 Group {
-                    if !isCorrectPw && (!vm.pw.isEmpty || !vm.pwCheck.isEmpty) {
+                    if !isCorrectPw && !vm.pw.isEmpty {
                         Text("5~18자 영문, 숫자, 특수문자")
-                    } else if vm.pw != vm.pwCheck {
+                    } else if vm.pw != vm.pwCheck && !vm.pwCheck.isEmpty {
                         Text("비밀번호가 일치하지 않습니다")
                     }
                 }
-                .font(.caption)
+                .alimoFont(.captionM)
                 .padding(.top, 4)
-                .foregroundStyle(Color.red500)
+                .alimoColor(AlimoColor.Warning.normal)
                 Spacer()
             }
             .padding(.horizontal, 24)
@@ -85,26 +90,23 @@ struct ParentJoinSecondView: View {
             
             let isOk = isCompleted && isSame && isCorrectPw
             
-            let buttonType: AlimoButtonType = isOk ? .yellow : .none
-            
             NavigationLink(isActive: $vm.isCorrectSignUp) {
                 ParentJoinThirdView()
                     .environmentObject(vm)
-            } label: {
-            }
+            } label: {}
             
-            AlimoButton("다음", buttonType: buttonType, isLoading: vm.isFetching) {
-                Task {
-                    await vm.signUp()
-                }
+            AlimoButton("다음", type: .CTA, isEnabled: (isCompleted && isSame && isOk)) {
+                await vm.signUp()
             }
+            .padding(.horizontal, 20)
             .disabled(!(isCompleted && isSame && isOk))
             .padding(.bottom, 30)
         }
+        .alimoBackground(AlimoColor.Background.normal)
+        .alimoTopAppBar("회원가입", background: AlimoColor.Background.normal, backButtonAction:  {
+            dismiss()
+        })
         .navigationBarBackButtonHidden()
-        .alimoToolbar("회원가입") {
-            NavigationUtil.popToRootView()
-        }
         .alert(isPresented: $vm.showDialog) {
             Alert(title: Text(vm.dialogMessage),
                   dismissButton: .default(Text("닫기")))

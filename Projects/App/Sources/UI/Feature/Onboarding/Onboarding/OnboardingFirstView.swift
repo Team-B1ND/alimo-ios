@@ -43,7 +43,8 @@ struct OnboardingFirstView: View {
                         NavigationLink {
                             OnboardingSecondView()
                         } label: {
-                            AlimoButton("시작하기", buttonType: .yellow) {}
+                            AlimoButton("시작하기", type: .CTA) {}
+                                .padding(.horizontal, 20)
                                 .padding(.bottom, 30)
                                 .disabled(true)
                         }

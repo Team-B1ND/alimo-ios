@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import ADS
 
 struct ParentJoinFirstView: View {
     
@@ -19,8 +20,8 @@ struct ParentJoinFirstView: View {
             VStack(spacing: 0) {
                 HStack {
                     Text("학생 코드를 입력해 주세요")
-                        .font(.subtitle)
-                        .foregroundStyle(Color.main900)
+                        .alimoFont(.headline1B)
+                        .alimoColor(AlimoColor.Label.normal)
                         .padding(.leading, 24)
                         .padding(.top, 30)
                         .padding(.bottom, 10)
@@ -37,8 +38,8 @@ struct ParentJoinFirstView: View {
                         WhatIsChildCodeView()
                     } label: {
                         Text("학생 코드가 무엇인가요?")
-                            .font(.caption)
-                            .foregroundStyle(Color.gray500)
+                            .alimoFont(.labelM)
+                            .alimoColor(AlimoColor.Label.em)
                             .padding(.trailing, 24)
                             .padding(.top, 8)
                     }
@@ -62,13 +63,11 @@ struct ParentJoinFirstView: View {
                 .padding(.bottom, 16)
                 
                 let isCompleted: Bool = vm.childCode.count == 6
-                let buttonType: AlimoButtonType = isCompleted ? .yellow : .none
                 
-                AlimoButton("다음", buttonType: buttonType, isLoading: vm.isFetching) {
-                    Task {
-                        await vm.verifyChildCode()
-                    }
+                AlimoButton("다음", type: .CTA, isEnabled: isCompleted) {
+                    await vm.verifyChildCode()
                 }
+                .padding(.horizontal, 20)
                 .disabled(!isCompleted)
                 .padding(.bottom, 30)
                 
@@ -78,10 +77,11 @@ struct ParentJoinFirstView: View {
                 } label: {}
             }
             .navigationBarBackButtonHidden()
-            .alimoToolbar("회원가입") {
-                NavigationUtil.popToRootView()
-            }
         }
+        .alimoBackground(AlimoColor.Background.normal)
+        .alimoTopAppBar("회원가입", background: AlimoColor.Background.normal, backButtonAction:  {
+            dismiss()
+        })
         .alert(isPresented: $vm.showDialog) {
             Alert(title: Text(vm.dialogMessage),
                   dismissButton: .default(Text("닫기")))
