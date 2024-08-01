@@ -54,8 +54,8 @@ struct ParentLoginFirstView: View {
                     ParentFindPWFirstView()
                 } label: {
                     Text("비밀번호 찾기")
-                        .font(.caption)
-                        .foregroundStyle(Color.gray500)
+                        .alimoFont(.labelM)
+                        .alimoColor(AlimoColor.Label.em)
                         .padding(.top, 4)
                 }
             }
@@ -65,14 +65,14 @@ struct ParentLoginFirstView: View {
             
             HStack {
                 Text("아직 계정이 없으시다면?")
-                    .font(.caption)
-                    .foregroundStyle(Color.gray500)
+                    .alimoFont(.captionM)
+                    .alimoColor(AlimoColor.Label.em)
                 NavigationLink {
                     ParentJoinFirstView()
                 } label: {
                     Text("회원가입")
-                        .font(.caption)
-                        .foregroundStyle(Color.main500)
+                        .alimoFont(.captionM)
+                        .alimoColor(AlimoColor.Color.primary60)
                         .underline()
                 }
             }

@@ -49,14 +49,14 @@ struct ParentJoinFirstView: View {
                 
                 HStack {
                     Text("이미 계정이 있으시다면?")
-                        .font(.caption)
-                        .foregroundStyle(Color.gray500)
+                        .alimoFont(.captionM)
+                        .alimoColor(AlimoColor.Label.em)
                     NavigationLink {
                         ParentLoginFirstView()
                     } label: {
                         Text("로그인")
-                            .font(.caption)
-                            .foregroundStyle(Color.main500)
+                            .alimoFont(.captionM)
+                            .alimoColor(AlimoColor.Color.primary60)
                             .underline()
                     }
                 }
