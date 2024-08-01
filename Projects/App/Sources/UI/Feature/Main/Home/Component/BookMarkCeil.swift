@@ -15,27 +15,30 @@ struct BookMarkCeil: View {
     var onClickBookmark: () -> Void
     @State var showDialog = false
     @StateObject var vm: NotificationDetailViewModel
-    @StateObject var homeVm: HomeViewModel
     @StateObject var bookMarkVm: BookmarkViewModel
     @EnvironmentObject var downloadManager: DownloadManager
-    @State private var matchedCategories:  [[String]] = []
+    @Binding private var matchedCategories:  [[String]]
     @State private var callCount: Int
+    @State var category : [String]
+    
     
     init(notification: Notification,
          onClickEmoji: @escaping (EmojiType) -> Void,
          onClickBookmark: @escaping () -> Void,
          vm:NotificationDetailViewModel,
-         homeVm: HomeViewModel,
          bookMarkVm: BookmarkViewModel,
-         callCount: Int
+         matchedCategories: Binding<[[String]]>,
+         callCount: Int,
+         category: [String]
     ) {
         self.notification = notification
         self.onClickEmoji = onClickEmoji
         self.onClickBookmark = onClickBookmark
         self._vm = StateObject(wrappedValue: vm)
-        self._homeVm = StateObject(wrappedValue: homeVm)
         self._bookMarkVm = StateObject(wrappedValue: bookMarkVm)
+        self._matchedCategories = matchedCategories
         self.callCount = callCount
+        self.category = category
     }
     var body: some View {
         HStack(spacing: 0) {
@@ -43,13 +46,9 @@ struct BookMarkCeil: View {
             VStack(alignment: .leading, spacing: 0) {
                 NavigationLink {
                     NotificationDetailView(vm: NotificationDetailViewModel(notificationId: notification.notificationId), homeVm: HomeViewModel(), onClickBookmark: {
-                        Task {
-                            await vm.patchBookmark()
-                        }
+                        onClickBookmark()
                     }, onClickEmoji: { emoji in
-                        Task {
-                            await homeVm.patchEmoji(emoji: emoji, notificationId: notification.notificationId)
-                        }
+                        onClickEmoji(emoji)
                     })
                 } label: {
                     HStack(alignment: .top) {
@@ -69,13 +68,12 @@ struct BookMarkCeil: View {
         .padding(.bottom, 12)
         .task {
             await vm.fetchNotification()
-            await homeVm.fetchCategoryList()
             await fetchCategories()
         }
     }
     private func fetchCategories() async {
         
-        for category in homeVm.category {
+        for category in category {
             await bookMarkVm.fetchNotifications(isNew: true, category: category)
             
             for notification in bookMarkVm.notificationList {

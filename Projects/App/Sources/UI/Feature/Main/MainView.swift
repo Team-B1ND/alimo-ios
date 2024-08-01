@@ -8,10 +8,11 @@
 
 import Foundation
 import SwiftUI
+import ADS
 
 struct MainView: View {
     
-    @State private var selectedTab = BottomNavigationType.home
+    @State private var selectedTab = BottomTabType.Home
     @StateObject private var profileVM = ProfileViewModel()
     @StateObject private var homeVM = HomeViewModel()
     @StateObject private var bookmarkVM = BookmarkViewModel()
@@ -22,20 +23,22 @@ struct MainView: View {
         NavigationStack {
             ZStack {
                 switch selectedTab {
-                case .home: HomeView(vm: homeVM)
-                case .bookmark: BookmarkView(vm: bookmarkVM)
-                case .my: ProfileView(vm: profileVM)
+                case .Home:
+                    HomeView(vm: homeVM)
+                case .Bookmark:
+                    BookmarkView(vm: bookmarkVM,homeVm: homeVM)
+                case .Profile:
+                    ProfileView(vm: profileVM)
                 }
+                
                 GeometryReader { reader in
                     ZStack(alignment: .bottom) {
-                        BottomNavigation(selectedTab: $selectedTab)
-                        VStack {
-                            Color.white
-                                .frame(height: reader.safeAreaInsets.top, alignment: .top)
-                            Spacer()
-                            Color.white
-                                .frame(height: reader.safeAreaInsets.bottom, alignment: .bottom)
+                        AlimoBottomTabBar(selectedTab: selectedTab, onTap: { newTab in
+                            selectedTab = newTab
+                        }) {
+                            EmptyView()
                         }
+                        .padding(.bottom, reader.safeAreaInsets.bottom)
                         .ignoresSafeArea()
                     }
                 }
@@ -45,12 +48,18 @@ struct MainView: View {
             endTextEditing()
             appState.fetchMember()
         }
-        .onChange(of: appState.refreshFailure) {
-            if $0 {
+        .onChange(of: appState.refreshFailure) { newValue in
+            if newValue {
                 tm.accessToken = ""
                 tm.refreshToken = ""
                 appState.refreshFailure = false
             }
         }
     }
+}
+
+#Preview {
+    MainView()
+        .environmentObject(AppState())
+        .environmentObject(TokenManager())
 }
