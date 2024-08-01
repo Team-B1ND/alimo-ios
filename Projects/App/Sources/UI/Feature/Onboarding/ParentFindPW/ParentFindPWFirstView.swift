@@ -39,7 +39,7 @@ struct ParentFindPWFirstView: View {
             } label: {}
             
             AlimoButton("다음", type: .CTA, isEnabled: isOk) {
-                vm.CheckEmailNotEmpty()
+                vm.checkEmailNotEmpty()
             }
             .padding(.horizontal, 20)
             .disabled(!isOk)
