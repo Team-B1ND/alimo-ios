@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftUI
+import ADS
 
 struct BookmarkView: View {
     
@@ -25,66 +26,68 @@ struct BookmarkView: View {
     var hasPost: Bool = true
     
     var body: some View {
-        GeometryReader { geo in
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 0) {
-                    AlimoLogoBar()
-                    switch vm.flow {
-                    case .fetching:
-                        LazyVStack(spacing: 0) {
-                            ForEach(0..<4, id: \.self) { _ in
-                                NotificationCellShimmer()
-                            }
-                        }
-                        .shimmer()
-                    case .success:
-                        LazyVStack(spacing: 0) {
-                            ForEach(Array(vm.notificationList.enumerated()), id: \.element.uuidString) { index, notification in
-                                VStack(spacing: 0) {
-                                    BookMarkCeil(notification: notification, onClickEmoji: {emoji in
-                                        Task{
-                                            await vm.patchEmoji(emoji:emoji,notificationId:notification.notificationId)
-                                        }
-                                    }, onClickBookmark: {
-                                        Task{
-                                            await vm.patchBookmark(notificationId:notification.notificationId)
-                                        }
-                                    }, vm: NotificationDetailViewModel(notificationId: notification.notificationId), homeVm: HomeViewModel(),bookMarkVm: BookmarkViewModel(),
-                                        callCount: index)
-//                                    NotificationCeil(notification: notification, onClickEmoji: { emoji in
-//                                        Task {
-//                                            await vm.patchEmoji(emoji: emoji, notificationId: notification.notificationId)
-//                                        }
-//                                    }, onClickBookmark: {
-//                                        Task {
-//                                            await vm.patchBookmark(notificationId: notification.notificationId)
-//                                        }
-//                                    }, vm: NotificationDetailViewModel(notificationId: notification.notificationId), homeVm: HomeViewModel())
-                         
+        ZStack{
+            GeometryReader { geo in
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 0) {
+                        AlimoLogoBar()
+                        switch vm.flow {
+                        case .fetching:
+                            LazyVStack(spacing: 0) {
+                                ForEach(0..<4, id: \.self) { _ in
+                                    NotificationCellShimmer()
                                 }
-                                .onAppear {
-                                    guard let index = vm.notificationList.firstIndex(where: { $0.notificationId == notification.notificationId }) else { return }
-                                    
-                                    if index % pagingInterval == (pagingInterval - 1) && index / pagingInterval == (vm.notificationList.count - 1) / pagingInterval {
-                                        Task {
-                                            await vm.fetchNotifications(isNew: false)
+                            }
+                            .shimmer()
+                        case .success:
+                            LazyVStack(spacing: 0) {
+                                ForEach(Array(vm.notificationList.enumerated()), id: \.element.uuidString) { index, notification in
+                                    VStack(spacing: 0) {
+                                        BookMarkCeil(notification: notification, onClickEmoji: {emoji in
+                                            Task{
+                                                await vm.patchEmoji(emoji:emoji,notificationId:notification.notificationId)
+                                            }
+                                        }, onClickBookmark: {
+                                            Task{
+                                                await vm.patchBookmark(notificationId:notification.notificationId)
+                                            }
+                                        }, vm: NotificationDetailViewModel(notificationId: notification.notificationId), homeVm: HomeViewModel(),bookMarkVm: BookmarkViewModel(),
+                                                     callCount: index)
+                                        //                                    NotificationCeil(notification: notification, onClickEmoji: { emoji in
+                                        //                                        Task {
+                                        //                                            await vm.patchEmoji(emoji: emoji, notificationId: notification.notificationId)
+                                        //                                        }
+                                        //                                    }, onClickBookmark: {
+                                        //                                        Task {
+                                        //                                            await vm.patchBookmark(notificationId: notification.notificationId)
+                                        //                                        }
+                                        //                                    }, vm: NotificationDetailViewModel(notificationId: notification.notificationId), homeVm: HomeViewModel())
+                                        
+                                    }
+                                    .onAppear {
+                                        guard let index = vm.notificationList.firstIndex(where: { $0.notificationId == notification.notificationId }) else { return }
+                                        
+                                        if index % pagingInterval == (pagingInterval - 1) && index / pagingInterval == (vm.notificationList.count - 1) / pagingInterval {
+                                            Task {
+                                                await vm.fetchNotifications(isNew: false)
+                                            }
                                         }
                                     }
                                 }
                             }
+                            .padding(.bottom, 100)
+                        case .failure:
+                            Image(.noNotice)
+                                .padding(.top, 115)
+                            Text("북마크를 불러올 수 없어요")
+                                .font(.subtitle)
+                                .foregroundStyle(Color.gray500)
+                                .padding(.top, 32)
+                            
                         }
-                        .padding(.bottom, 100)
-                    case .failure:
-                        Image(.noNotice)
-                            .padding(.top, 115)
-                        Text("북마크를 불러올 수 없어요")
-                            .font(.subtitle)
-                            .foregroundStyle(Color.gray500)
-                            .padding(.top, 32)
-                        
                     }
                 }
-                
+                .alimoBackground(AlimoColor.Background.normal)
                 .background(
                     GeometryReader {
                         Color.clear.preference(key: ViewOffsetKey.self,

@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftUI
+import ADS
 
 struct HomeView: View {
     
@@ -48,70 +49,73 @@ struct HomeView: View {
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
         .frame(maxWidth: .infinity)
-        .background(Color.white)
+        .alimoBackground(AlimoColor.Background.normal)
         .clipShape(RoundedCorner(radius: 8, corners: [.bottomLeft, .bottomRight]))
         .showShadow(show: isSelectorReached)
     }
     
     var body: some View {
-        ScrollViewReader { reader in
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 0) {
-                    AlimoLogoBar()
-                        .id("top")
-                    if let loudSpeaker = vm.loudSpeaker {
-                        Notice(vm: NotificationDetailViewModel(notificationId: loudSpeaker.notificationId),homeVm: HomeViewModel(), notificationspeaketitle: Text(loudSpeaker.title), memberID: Text(loudSpeaker.name), notificationId: loudSpeaker.notificationId)
-                    }
-                    
-                    LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
-                        Section(header: categorySelector) {
-                            switch vm.flow {
-                            case .fetching:
-                                LazyVStack(spacing: 0) {
-                                    ForEach(0..<4, id: \.self) { _ in
-                                        NotificationCellShimmer()
-                                    }
-                                }
-                            case .success:
-                                LazyVStack(spacing: 0) {
-                                    ForEach(vm.notificationList, id: \.uuidString) { notification in
-                                        VStack(spacing: 0) {
-                                            NotificationCeil(notification: notification, onClickEmoji: { emoji in
-                                                Task {
-                                                    await vm.patchEmoji(emoji: emoji, notificationId: notification.notificationId)
-                                                }
-                                            }, onClickBookmark: {
-                                                Task {
-                                                    await vm.patchBookmark(notificationId: notification.notificationId)
-                                                }
-                                            }, vm: NotificationDetailViewModel(notificationId: notification.notificationId), homeVm: HomeViewModel())
-                                           
-                                            Divider()
-                                                .foregroundStyle(Color.gray100)
+        ZStack{
+            ScrollViewReader { reader in
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 0) {
+                        AlimoLogoBar()
+                            .id("top")
+                        if let loudSpeaker = vm.loudSpeaker {
+                            Notice(vm: NotificationDetailViewModel(notificationId: loudSpeaker.notificationId),homeVm: HomeViewModel(), notificationspeaketitle: Text(loudSpeaker.title), memberID: Text(loudSpeaker.name), notificationId: loudSpeaker.notificationId)
+                        }
+                        
+                        LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
+                            Section(header: categorySelector) {
+                                switch vm.flow {
+                                case .fetching:
+                                    LazyVStack(spacing: 0) {
+                                        ForEach(0..<4, id: \.self) { _ in
+                                            NotificationCellShimmer()
                                         }
-                                        .task {
-                                            guard let index = vm.notificationList.firstIndex(where: { $0.notificationId == notification.notificationId }) else { return }
-                                            
-                                            if index % pagingInterval == (pagingInterval - 1) && index / pagingInterval == (vm.notificationList.count - 1) / pagingInterval {
-                                                await vm.fetchNotifications(isNew: false)
+                                    }
+                                case .success:
+                                    LazyVStack(spacing: 0) {
+                                        ForEach(vm.notificationList, id: \.uuidString) { notification in
+                                            VStack(spacing: 0) {
+                                                NotificationCeil(notification: notification, onClickEmoji: { emoji in
+                                                    Task {
+                                                        await vm.patchEmoji(emoji: emoji, notificationId: notification.notificationId)
+                                                    }
+                                                }, onClickBookmark: {
+                                                    Task {
+                                                        await vm.patchBookmark(notificationId: notification.notificationId)
+                                                    }
+                                                }, vm: NotificationDetailViewModel(notificationId: notification.notificationId), homeVm: HomeViewModel())
+                                                
+                                                Divider()
+                                                    .foregroundStyle(Color.gray100)
+                                            }
+                                            .task {
+                                                guard let index = vm.notificationList.firstIndex(where: { $0.notificationId == notification.notificationId }) else { return }
+                                                
+                                                if index % pagingInterval == (pagingInterval - 1) && index / pagingInterval == (vm.notificationList.count - 1) / pagingInterval {
+                                                    await vm.fetchNotifications(isNew: false)
+                                                }
                                             }
                                         }
                                     }
+                                    .lineLimit(3)
+                                    .padding(.bottom, 100)
+                                case .failure:
+                                    Image(.noNotice)
+                                        .padding(.top, 115)
+                                    Text("공지를 불러올 수 없어요")
+                                        .font(.subtitle)
+                                        .foregroundStyle(Color.gray500)
+                                        .padding(.top, 32)
                                 }
-                                .lineLimit(3)
-                                .padding(.bottom, 100)
-                            case .failure:
-                                Image(.noNotice)
-                                    .padding(.top, 115)
-                                Text("공지를 불러올 수 없어요")
-                                    .font(.subtitle)
-                                    .foregroundStyle(Color.gray500)
-                                    .padding(.top, 32)
                             }
                         }
+                        .shimmer(vm.flow == .fetching)
                     }
-                    .shimmer(vm.flow == .fetching)
                 }
+                .alimoBackground(AlimoColor.Background.normal)
                 .background(
                     GeometryReader {
                         Color.clear.preference(key: ViewOffsetKey.self,
