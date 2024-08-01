@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import ADS
 
 struct ProfileView: View {
     
@@ -24,87 +25,83 @@ struct ProfileView: View {
     @State var dialog = Dialog.childCode
     
     var body: some View {
-        ScrollView(showsIndicators: false) {
-            VStack(spacing: 0) {
-                AlimoLogoBar()
-                AlimoAsyncAvatar(appState.member?.image, type: .large)
-                    .padding(.top, 46)
-                
-                Text(appState.member?.name ?? "")
-                    .font(Font.body)
-                    .padding(.top, 24)
-                Button {
-                    if appState.member?.childCode == nil {
-                        dialog = .error
-                    } else {
-                        dialog = .childCode
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 0) {
+                    HStack {
+                        Text("프로필")
+                            .alimoFont(.title2B)
+                            .alimoColor(AlimoColor.Label.normal)
+                        Spacer()
                     }
-                    showDialog = true
-                } label: {
-                    Text("학생코드")
-                        .font(.caption)
-                        .foregroundStyle(Color.gray500)
-                        .underline()
-                        .padding(.top, 8)
-                }
-                
-                AlimoFlowLayout(mode: .scrollable, items: vm.categoryList) {
-                    AlimoSmallButton($0, buttonType: .none) {}.disabled(true)
-                }
-                .padding(.top, 36)
-                .padding(.horizontal, 12)
-                
-                SettingCeil("알림 설정") {
-                    AlimoToggle(isOn: $appState.isAlarmOn)
-                }
-                .padding(.top, 28)
-                Color.gray100
-                    .frame(height: 10)
-                    .frame(maxWidth: .infinity)
-                
-                NavigationLink {
-                    PrivacyPolicyView()
-                } label: {
-                    SettingCeil("개인정보 이용 약관")
-                }
-                
-                NavigationLink {
-                    ServicePolicyView()
-                } label: {
-                    SettingCeil("서비스 정책")
-                }
-                
-                SettingCeil("버전") {
-                    Text("v\(version ?? " -")")
-                        .font(.bodyLight)
-                        .foregroundStyle(Color.gray500)
-                }
-                
-                Color.gray100
-                    .frame(height: 1)
-                    .frame(maxWidth: .infinity)
                     .padding(.horizontal, 12)
-                
-                Button {
-                    withAnimation {
-                        tm.accessToken = ""
-                        tm.refreshToken = ""
+
+                    AlimoAvatar(appState.member?.image, type: .extraLarge)
+                        .padding(.top, 16)
+                    
+                    Text(appState.member?.name ?? "")
+                        .alimoFont(.headline2B)
+                        .alimoColor(AlimoColor.Label.normal)
+                        .padding(.top, 24)
+                    
+                    Button {
+                        if appState.member?.childCode == nil {
+                            dialog = .error
+                        } else {
+                            dialog = .childCode
+                        }
+                        showDialog = true
+                    } label: {
+                        Text("학생코드 보기")
+                            .alimoFont(.labelM)
+                            .alimoColor(AlimoColor.Label.em)
+                            .underline()
+                            .padding(.top, 4)
                     }
-                } label: {
-                    SettingCeil("로그아웃", foregroundColor: .red500)
+                    
+                    HStack {
+                        Text("내 카테고리")
+                            .alimoFont(.bodyB)
+                            .alimoColor(AlimoColor.Label.normal)
+                        Spacer()
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.top, 36)
+                    
+                    AlimoFlowLayout(mode: .scrollable, items: vm.categoryList) {
+                        AlimoSmallButton($0, buttonType: .none) {}.disabled(true)
+                    }
+                    .padding(.top, 36)
+                    .padding(.horizontal, 12)
+                    
+                    AlimoListItem("알림 설정", type: .content) {
+                        AlimoToggle(isOn: .constant(true))
+                    }
+                    
+                    AlimoListItem("다크 모드", type: .content) {
+                        AlimoToggle(isOn: .constant(true))
+                    }
+                    
+                    AlimoDivider(type: .thick)
+                    
+                    NavigationLink {
+                        PrivacyPolicyView()
+                    } label: {
+                        AlimoListItem("개인정보 이용 약관", type: .icon(AlimoIconography.ExpandRight))
+                            .disabled(false)
+                    }
+                    
+                    NavigationLink {
+                        ServicePolicyView()
+                    } label: {
+                        AlimoListItem("서비스 정책", type: .icon(AlimoIconography.ExpandRight))
+                            .disabled(true)
+                    }
+                    
+                    AlimoListItem("버전", type: .description("v1.0.0"))
                 }
-                
-                Button {
-                    dialog = .deleteMember
-                    showDialog = true
-                } label: {
-                    SettingCeil("회원탈퇴", foregroundColor: .red500)
-                }
-            }
-            .background(Color.white)
-            Color.gray100
-                .frame(height: 100)
+                .alimoBackground(AlimoColor.Background.normal)
         }
+        .alimoBackground(AlimoColor.Background.normal)
         .alert(isPresented: $showDialog) {
             switch dialog {
             case .childCode:
