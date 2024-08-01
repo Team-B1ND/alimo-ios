@@ -1,4 +1,5 @@
 import SwiftUI
+import ADS
 
 public struct SeparatedTextField: View {
     
@@ -69,9 +70,11 @@ struct RealCodeCell: View {
     var body: some View {
         
         let lineWidth = isFocused ? 1.5 : 1
-        let strokeColor: Color = isFocused ? .main500 : .gray400
+        let strokeColor: SementicColor = isFocused ? AlimoColor.Color.primary60 : AlimoColor.Label.alt
         
         Text(char)
+            .alimoFont(.bodyM)
+            .alimoColor(AlimoColor.Label.normal)
             .frame(maxWidth: .infinity)
             .frame(height: 52)
             .padding(.horizontal, 16)
@@ -81,7 +84,7 @@ struct RealCodeCell: View {
                 ZStack {
                     RoundedCorner(radius: 12)
                         .stroke(lineWidth: lineWidth)
-                        .foregroundStyle(strokeColor)
+                        .alimoColor(strokeColor)
                 }
             )
     }

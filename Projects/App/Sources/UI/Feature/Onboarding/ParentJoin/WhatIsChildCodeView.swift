@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import ADS
 
 struct WhatIsChildCodeView: View {
     
@@ -16,8 +17,9 @@ struct WhatIsChildCodeView: View {
         
             AlimoWebView(url: URL(string: "https://subsequent-grouse.super.site/")!)
                 .navigationBarBackButtonHidden()
-                .alimoToolbar("") {
+                .alimoBackground(AlimoColor.Background.normal)
+                .alimoTopAppBar("로그인", background: AlimoColor.Background.normal, backButtonAction:  {
                     dismiss()
-                }
+                })
     }
 }

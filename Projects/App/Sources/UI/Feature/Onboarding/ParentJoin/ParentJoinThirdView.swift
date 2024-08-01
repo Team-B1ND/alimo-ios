@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Combine
+import ADS
 
 struct ParentJoinThirdView: View {
     
@@ -23,38 +24,33 @@ struct ParentJoinThirdView: View {
     var body: some View {
         VStack {
             HStack {
-                let title = switch vm.emailPhase {
-                case .sended: "이메일 인증 코드를 전송했어요"
-                default: "이메일 인증 코드를 전송해 주세요"
-                }
+                let title = "이메일 인증을 해주세요"
                 Text(title)
-                    .font(.subtitle)
-                    .foregroundStyle(Color.main900)
+                    .alimoFont(.headline1B)
+                    .alimoColor(AlimoColor.Label.normal)
                     .padding(.leading, 24)
                     .padding(.top, 30)
                     .padding(.bottom, 10)
                 Spacer()
             }
             ZStack {
-                AlimoTextField("인증 코드",
-                               text: $vm.code,
-                               type: .none(hasXMark: false))
+                AlimoTextField("인증 코드", text: $vm.code)
                 .keyboardType(.asciiCapable)
                 .foregroundStyle(.red)
+                .padding(.horizontal, 20)
                 HStack {
                     Spacer()
                     let emailPhase = vm.emailPhase
                     if emailPhase == .none {
-                        AlimoSmallButton("인증요청") {
-                            Task {
-                                await vm.emailsVerificationRequest()
-                            }
+                        AlimoButton("인증 요청", type: .Small) {
+                            await vm.emailsVerificationRequest()
                         }
                         .padding(.trailing, 10)
+                        .frame(height: 50)
                     } else {
                         Text(convertSecondsToTime(timeInSeconds: timeRemaining))
-                            .font(.label)
-                            .foregroundStyle(Color.main500)
+                            .alimoFont(.bodyM)
+                            .alimoColor(AlimoColor.Label.em)
                             .onReceive(timer) { _ in
                                 if timeRemaining > 0 {
                                     timeRemaining -= 1
@@ -62,30 +58,36 @@ struct ParentJoinThirdView: View {
                                     vm.emailPhase = .none
                                 }
                             }
-                            .padding(.trailing, 20)
+                            .frame(width: 60, height: 46)
+                            .alimoBackground(AlimoColor.Background.normal)
+                            .padding(.trailing, 8)
                     }
                 }
                 .padding(.horizontal, 20)
             }
             
             Spacer()
-            AlimoButton("확인") {
-                Task {
-                    await vm.emailsVerifications { accessToken, refreshToken in
-                        tm.accessToken = accessToken
-                        tm.refreshToken = refreshToken
-                    }
+            
+            let isOk = !vm.code.isEmpty
+            
+            AlimoButton("다음", type: .CTA, isEnabled: isOk) {
+                await vm.emailsVerifications { accessToken, refreshToken in
+                    tm.accessToken = accessToken
+                    tm.refreshToken = refreshToken
                 }
             }
+            .padding(.horizontal, 20)
+            .disabled(!isOk)
             .padding(.bottom, 30)
         }
+        .alimoBackground(AlimoColor.Background.normal)
+        .alimoTopAppBar("회원가입", background: AlimoColor.Background.normal, backButtonAction:  {
+            NavigationUtil.popToRootView()
+        })
         .onAppear {
             calcRemain()
         }
         .navigationBarBackButtonHidden()
-        .alimoToolbar("회원가입") {
-            NavigationUtil.popToRootView()
-        }
         .alert(isPresented: $vm.showWrongEmailDialog) {
             Alert(title: Text(vm.emailDialogMessage),
                   dismissButton: .default(Text("닫기")))

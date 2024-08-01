@@ -7,10 +7,12 @@
 //
 
 import SwiftUI
+import ADS
 
 struct ParentLoginFirstView: View {
     
-    @ObservedObject var vm = ParentLoginViewModel()
+//    @ObservedObject var vm = ParentLoginViewModel()
+    @StateObject var vm = ParentLoginViewModel()
     @EnvironmentObject var tm: TokenManager
     @Environment(\.dismiss) private var dismiss
     @FocusState private var emailFocused: Bool
@@ -24,7 +26,8 @@ struct ParentLoginFirstView: View {
         VStack {
             HStack {
                 Text("학부모님 안녕하세요!")
-                    .font(.subtitle)
+                    .alimoFont(.headline1B)
+                    .alimoColor(AlimoColor.Label.normal)
                     .padding(.top, 30)
                     .padding(.bottom, 10)
                     .padding(.leading, 24)
@@ -32,6 +35,8 @@ struct ParentLoginFirstView: View {
             }
             
             AlimoTextField("이메일을 입력하세요", text: $vm.email)
+                .padding(.horizontal, 20)
+                .padding(.bottom, 8)
                 .focused($emailFocused)
                 .keyboardType(.emailAddress)
                 .onSubmit {
@@ -39,25 +44,20 @@ struct ParentLoginFirstView: View {
                     pwFocused = true
                 }
             
-            AlimoTextField("비밀번호를 입력하세요", text: $vm.pw, type: .password)
+            AlimoTextField("비밀번호를 입력하세요", text: $vm.pw, isSecured: true)
+                .padding(.horizontal, 20)
                 .focused($pwFocused)
-            
+
             HStack {
-                if !isCorrectPw && !vm.pw.isEmpty {
-                    Text("5~18자 영문, 숫자, 특수문자")
-                        .font(.caption)
-                        .padding(.top, 4)
-                        .foregroundStyle(Color.red500)
-                }
                 Spacer()
-//                NavigationLink {
-//                    ParentFindPWFirstView()
-//                } label: {
-//                    Text("비밀번호 찾기")
-//                        .font(.caption)
-//                        .foregroundStyle(Color.gray500)
-//                        .padding(.top, 4)
-//                }
+                NavigationLink {
+                    ParentFindPWFirstView()
+                } label: {
+                    Text("비밀번호 찾기")
+                        .alimoFont(.labelM)
+                        .alimoColor(AlimoColor.Label.em)
+                        .padding(.top, 4)
+                }
             }
             .padding(.horizontal, 24)
             
@@ -65,37 +65,34 @@ struct ParentLoginFirstView: View {
             
             HStack {
                 Text("아직 계정이 없으시다면?")
-                    .font(.caption)
-                    .foregroundStyle(Color.gray500)
+                    .alimoFont(.captionM)
+                    .alimoColor(AlimoColor.Label.em)
                 NavigationLink {
                     ParentJoinFirstView()
                 } label: {
                     Text("회원가입")
-                        .font(.caption)
-                        .foregroundStyle(Color.main500)
+                        .alimoFont(.captionM)
+                        .alimoColor(AlimoColor.Color.primary60)
                         .underline()
                 }
             }
             .padding(.bottom, 5)
             
-            
-            let buttonType: AlimoButtonType = isOk ? .yellow : .none
-            
-            AlimoButton("로그인", buttonType: buttonType, isLoading: vm.isFetching) {
-                Task {
-                    await vm.signIn { accessToken, refreshToken in
-                        tm.accessToken = accessToken
-                        tm.refreshToken = refreshToken
-                    }
+            AlimoButton("로그인", type: .CTA, isEnabled: isOk) {
+                await vm.signIn { accessToken, refreshToken in
+                    tm.accessToken = accessToken
+                    tm.refreshToken = refreshToken
                 }
             }
+            .padding(.horizontal, 20)
             .disabled(!isOk)
             .padding(.bottom, 30)
         }
+        .alimoBackground(AlimoColor.Background.normal)
+        .alimoTopAppBar("로그인", background: AlimoColor.Background.normal, backButtonAction:  {
+            dismiss()
+        })
         .navigationBarBackButtonHidden(true)
-        .alimoToolbar("로그인") {
-            NavigationUtil.popToRootView()
-        }
         .alert(isPresented: $vm.showDialog) {
             Alert(title: Text("아이디 또는 비밀번호가 잘못되었습니다"),
                   dismissButton: .default(Text("닫기")))

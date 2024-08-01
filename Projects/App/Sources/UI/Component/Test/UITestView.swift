@@ -18,7 +18,7 @@ struct UITestView: View {
                     Text("Color Test")
                 }
                 NavigationLink {
-                    TextTestView()
+//                    TextTestView()
                 } label: {
                     Text("Text Test")
                 }
@@ -33,7 +33,7 @@ struct UITestView: View {
                     Text("Logo Test")
                 }
                 NavigationLink {
-                    TextFieldTest()
+//                    TextFieldTest()
                 } label: {
                     Text("Text Field Test")
                 }
