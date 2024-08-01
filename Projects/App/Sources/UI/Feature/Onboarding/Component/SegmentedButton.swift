@@ -14,19 +14,19 @@ enum RoleType {
     case Parent
     case Teacher
     
-    var image: Image {
+    var image: AlimoImage {
         switch self {
-        case .Student: Image(image: .Student)
-        case .Parent: Image(image: .Parent)
-        case .Teacher: Image(image: .Teacher)
+        case .Student: AlimoImage.Student
+        case .Parent: AlimoImage.Parent
+        case .Teacher: AlimoImage.Teacher
         }
     }
     
-    var disabledImage: Image {
+    var disabledImage: AlimoImage {
         switch self {
-        case .Student: Image(image: .StudentDisabled)
-        case .Parent: Image(image: .ParentDisabled)
-        case .Teacher: Image(image: .TeacherDisabled)
+        case .Student: AlimoImage.StudentDisabled
+        case .Parent: AlimoImage.ParentDisabled
+        case .Teacher: AlimoImage.TeacherDisabled
         }
     }
     
@@ -59,7 +59,7 @@ struct SegmentedButton: View {
                     .foregroundStyle(.clear)
                     .overlay {
                         HStack {
-                            image
+                            Image(image: image)
                                 .resizable()
                                 .frame(width: 128, height: 113)
                             Spacer()
