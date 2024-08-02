@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import ADS
 
 fileprivate let emojiService = EmojiService.live
 fileprivate let notificationService = NotificationService.live

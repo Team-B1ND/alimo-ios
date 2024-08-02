@@ -6,6 +6,8 @@
 //  Copyright © 2024 b8nd. All rights reserved.
 //
 
+import ADS
+
 struct EmojiResponse: Decodable {
     let emojiName: String
     let count: Int

@@ -11,13 +11,24 @@ import SwiftUI
 import ADS
 
 struct Notice: View {
+    @StateObject var vm: NotificationDetailViewModel
+    @StateObject var homeVm: HomeViewModel
     var notificationspeaketitle: Text
     var memberID: Text
     var notificationId: Int
 
     var body : some View {
         NavigationLink {
-            NotificationDetailView(vm: NotificationDetailViewModel(notificationId: notificationId))
+            NotificationDetailView(vm: NotificationDetailViewModel(notificationId: notificationId), homeVm: HomeViewModel(), onClickBookmark: {
+                Task {
+                    await homeVm.patchBookmark(notificationId: vm.notification?.notificationId ?? 0)
+                    await vm.fetchNotification()
+                }
+            }, onClickEmoji: {  emoji in
+                Task {
+                    await homeVm.patchEmoji(emoji: emoji, notificationId: notificationId)
+                }
+            })
         } label: {
             ZStack {
                 Rectangle()

@@ -5,6 +5,7 @@
 //  Created by dgsw8th71 on 2/27/24.
 //  Copyright © 2024 b8nd. All rights reserved.
 //
+import ADS
 
 struct Emoji: Hashable {
     var emojiType: EmojiType?

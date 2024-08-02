@@ -22,16 +22,20 @@ struct NotificationCeil: View {
     @State var showDialog = false
     @State var dialog = Dialog.file
     @StateObject var vm: NotificationDetailViewModel
+    @StateObject var homeVm: HomeViewModel
     @EnvironmentObject var downloadManager: DownloadManager
     
     init(notification: Notification,
          onClickEmoji: @escaping (EmojiType) -> Void,
          onClickBookmark: @escaping () -> Void,
-         vm:NotificationDetailViewModel) {
+         vm:NotificationDetailViewModel,
+         homeVm: HomeViewModel
+    ) {
         self.notification = notification
         self.onClickEmoji = onClickEmoji
         self.onClickBookmark = onClickBookmark
         self._vm = StateObject(wrappedValue: vm)
+        self._homeVm = StateObject(wrappedValue: homeVm)
     }
     
     @ViewBuilder
@@ -95,43 +99,72 @@ struct NotificationCeil: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            avatar
             VStack(alignment: .leading, spacing: 0) {
                 NavigationLink {
-                    NotificationDetailView(vm: NotificationDetailViewModel(notificationId: notification.notificationId))
+                    NotificationDetailView(vm: NotificationDetailViewModel(notificationId: notification.notificationId), homeVm: HomeViewModel(), onClickBookmark: {
+                        Task {
+                            //                            await vm.patchBookmark(notificationId: vm.notification?.notificationId)
+                            await vm.patchBookmark()
+                        }
+                    }, onClickEmoji: { emoji in
+                        Task {
+                            await homeVm.patchEmoji(emoji: emoji, notificationId: notification.notificationId)
+                        }
+                    })
                 } label: {
-                    VStack(alignment: .leading, spacing: 0) {
-                        profile
-                        content
-                            .padding(.top, 12)
-                        VStack(spacing: 8) {
-                            if !(vm.notification?.files.isEmpty ?? true) {
-                                downloads
-                            }
-                            if let images = vm.notification?.images {
-                                VStack(spacing: 8) {
-                                    if !images.isEmpty {
-                                        ImageCeil(images: vm.notification?.images ?? [], info: (vm.notification?.createdAt.ymdText)!, name: vm.notification?.name ?? "") {
-                                            // TODO: Download images
-                                            Task {
-                                                await vm.downloadImages(images: vm.notification?.images ?? []) { images in
-                                                    images.forEach {
-                                                        downloadManager.saveImageToPhotos(image: $0)
-                                                    }
+                    HStack(alignment: .top) {
+                        AlimoNotification(
+                            notification.title,
+                            user: notification.name,
+                            content: notification.content,
+                            isSelected: notification.isBookMarked,
+                            date: notification.createdAt,
+                            addEmojiAction: {emoji in
+                                onClickEmoji(emoji)
+                            },
+                            bookmarkAction: {
+                                onClickBookmark()
+                            },
+                            files: {
+                                var fileInfoArray: [FileInfo] = []
+                                
+                                if let files = vm.notification?.files, !files.isEmpty {
+                                    fileInfoArray.append(contentsOf: files.map { file in
+                                        FileInfo(title: file.fileName, type: .image(byte: file.fileSize)) {}
+                                    })
+                                }
+                                
+                                if let images = vm.notification?.images, !images.isEmpty  {
+                                    fileInfoArray.append(FileInfo(title: images[0].fileName, type: .file(count: vm.notification?.images.count ?? 0)) {
+                                        Task {
+                                            await vm.downloadImages(images: vm.notification?.images ?? []) { images in
+                                                images.forEach {
+                                                    downloadManager.saveImageToPhotos(image: $0)
                                                 }
-                                                dialog = .image
-                                                showDialog = true
                                             }
                                         }
-                                    }
+                                        dialog = .image
+                                        showDialog = true
+                                    })
                                 }
-                            }
-                        }
+                                
+                                return fileInfoArray
+                            }(),
+                            fileDestination: {
+                                PreviewImageView( imageUrls: (vm.notification?.images ?? []).compactMap { ($0 as? ImageOrFile)?.fileUrl },
+                                                  name:  vm.notification?.name ?? "",
+                                                  Info: (vm.notification?.createdAt.ymdText)!,
+                                                  onClickDownload:{})
+                            },
+                            hasEmoji: true,
+                            emoji: notification.emoji ?? nil
+                        )
                     }
+                    .truncationMode(.tail)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .multilineTextAlignment(.leading)
                 }
-                info
             }
-            .padding(.leading, 8)
         }
         .padding(.leading, 12)
         .padding(.top, 20)
@@ -152,4 +185,3 @@ struct NotificationCeil: View {
         }
     }
 }
-
