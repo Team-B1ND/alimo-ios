@@ -4,8 +4,9 @@ struct NotificationCellShimmer: View {
     
     @ViewBuilder
     private var avatar: some View {
-        AlimoAvatar()
-        .toTop()
+//        AlimoAvatar()
+//        .toTop()
+        EmptyView() // // TODO: Add view
     }
     
     @ViewBuilder
@@ -16,7 +17,7 @@ struct NotificationCellShimmer: View {
     @ViewBuilder
     private var content: some View {
         Text(Array(repeating: "-", count: .random(in: 40..<100)).joined())
-            .font(.label)
+//            .font(.label) // TODO: fix font
             .foregroundColor(.main900)
             .fixedSize(horizontal: false, vertical: true)
             .multilineTextAlignment(.leading)
@@ -27,7 +28,7 @@ struct NotificationCellShimmer: View {
     private var info: some View {
         Text("-------")
             .foregroundStyle(Color.gray500)
-            .font(.cute)
+//            .font(.cute) // TODO: fix font
             .padding(.top, 12)
     }
     

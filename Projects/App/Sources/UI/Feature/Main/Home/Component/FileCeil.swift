@@ -47,11 +47,11 @@ struct FileCeil: View {
                 .frame(width: 28, height: 28)
             VStack(alignment: .leading, spacing: 0) {
                 Text(file.fileName)
-                    .font(.label)
+//                    .font(.label) // TODO: fix font
                     .foregroundColor(.black)
                 HStack {
                     Text("\(String(format: "%0.2f", fileSize.0)) \(fileSize.1.text)")
-                        .font(.cute)
+//                        .font(.cute) // TODO: fix font
                         .foregroundColor(.black)
                     Spacer()
                 }

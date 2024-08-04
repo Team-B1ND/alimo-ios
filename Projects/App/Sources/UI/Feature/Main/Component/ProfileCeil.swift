@@ -25,19 +25,19 @@ struct ProfileCeil: View {
             Text(title)
                 .foregroundStyle(Color.black)
                 .multilineTextAlignment(.leading)
-                .font(.bodyLight)
-                .overlay {
-                    if isNew {
-                        HStack {
-                            Spacer()
-                            AlimoBadge()
-                                .offset(x: 12, y: -10)
-                        }
-                    }
-                }
+//                .font(.bodyLight) // TODO: fix font
+//                .overlay {
+//                    if isNew {
+//                        HStack {
+//                            Spacer()
+//                            AlimoBadge()
+//                                .offset(x: 12, y: -10)
+//                        }
+//                    }
+//                }
             Text(membername)
                 .foregroundStyle(Color.gray600)
-                .font(.label)
+//                .font(.label) // TODO: fix font
         }
         .toLeading()
     }

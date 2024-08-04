@@ -29,7 +29,7 @@ struct ImageCeil: View {
                         .foregroundStyle(Color.main500)
                         .font(.caption)
                     Text(images[0].fileName)
-                        .font(.label)
+//                        .font(.label) // TODO: fix font
                         .foregroundColor(.black)
                 }
                 .padding(.leading, 12)

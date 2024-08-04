@@ -31,7 +31,7 @@ extension View {
                     }
                     
                     Text(title)
-                        .font(.subtitle)
+//                        .font(.subtitle) // TODO
                         .foregroundStyle(Color.main900)
                 }
             }

@@ -106,7 +106,7 @@ struct HomeView: View {
                                     Image(.noNotice)
                                         .padding(.top, 115)
                                     Text("공지를 불러올 수 없어요")
-                                        .font(.subtitle)
+//                                        .font(.subtitle) // TODO: fix font
                                         .foregroundStyle(Color.gray500)
                                         .padding(.top, 32)
                                 }

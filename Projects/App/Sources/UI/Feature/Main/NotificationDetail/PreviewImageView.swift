@@ -36,7 +36,7 @@ struct PreviewImageView: View {
                         Text(name)
                             .foregroundColor(.white)
                             .bold()
-                            .font(.bodyLight)
+//                            .font(.bodyLight) // TODO: fix font
                             .toLeading()
                         Text(Info)
                             .font(.caption)
@@ -81,7 +81,7 @@ struct PreviewImageView: View {
                     HStack(alignment: .center, spacing: 20) {
                         Text("\(currentIndex + 1)/\(imageUrls.count)")
                             .foregroundColor(.white)
-                            .font(.bodyLight)
+//                            .font(.bodyLight) // TODO: fix font
                         
                         Button {
                             onClickDownload()

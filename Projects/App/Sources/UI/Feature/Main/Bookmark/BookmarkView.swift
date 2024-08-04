@@ -78,7 +78,7 @@ struct BookmarkView: View {
                             Image(.noNotice)
                                 .padding(.top, 115)
                             Text("북마크를 불러올 수 없어요")
-                                .font(.subtitle)
+//                                .font(.subtitle) // TODO: fix font
                                 .foregroundStyle(Color.gray500)
                                 .padding(.top, 32)
                             
@@ -102,7 +102,7 @@ struct BookmarkView: View {
                                 .resizable()
                                 .frame(width: 117, height: 158)
                             Text("아직 북마크가 없어요")
-                                .font(.subtitle)
+//                                .font(.subtitle) // TODO: fix font
                                 .foregroundStyle(Color.gray500)
                         }
                         .padding(.top, geo.size.height / 1.5)

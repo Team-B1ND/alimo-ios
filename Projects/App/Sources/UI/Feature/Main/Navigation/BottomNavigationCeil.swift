@@ -34,7 +34,7 @@ struct BottomNavigationCeil: View {
                 .padding(.top, 4)
                 .foregroundStyle(imageColor)
             Text(type.text)
-                .font(.cute)
+//                .font(.cute) // TODO: fix font
                 .foregroundStyle(textColor)
         }
         .background(Color.white)

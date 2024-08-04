@@ -41,11 +41,11 @@ struct Notice: View {
                         .foregroundStyle(Color.main300)
                     
                     notificationspeaketitle
-                        .font(.label)
+//                        .font(.label) // TODO: fix font
                         .foregroundColor(.main900)
                     
                     memberID
-                        .font(.label)
+//                        .font(.label) // TODO: fix font
                         .foregroundColor(.gray500)
                     Spacer()
                 }

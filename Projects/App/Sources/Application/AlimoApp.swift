@@ -7,10 +7,6 @@ struct AlimoApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
-    init() {
-        Pretendard.register()
-    }
-    
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -19,6 +15,7 @@ struct AlimoApp: App {
                 .environmentObject(DownloadManager())
                 .environmentObject(AppState())
                 .environmentObject(ColorProvider(isDarkTheme: UserDefaults.standard.bool(forKey: "isDarkTheme")))
+                .registerPretendard()
         }
     }
 }

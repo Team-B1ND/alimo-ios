@@ -46,8 +46,10 @@ struct NotificationDetailView: View {
     
     @ViewBuilder
     private var avatar: some View {
-        AlimoAsyncAvatar(vm.notification?.profileImage)
-            .toTop()
+//        AlimoAsyncAvatar(vm.notification?.profileImage)
+//            .toTop()
+        // TODO: Add view
+        EmptyView()
     }
     
     @ViewBuilder
@@ -63,7 +65,7 @@ struct NotificationDetailView: View {
             Text(LocalizedStringKey(notification.content))
                 .applyOpenURL()
                 .foregroundStyle(Color.black)
-                .font(.bodyLight)
+//                .font(.bodyLight) // TODO: fix font
                 .lineSpacing(4)
                 .padding(.bottom,12)
         }

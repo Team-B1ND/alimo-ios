@@ -40,8 +40,10 @@ struct NotificationCeil: View {
     
     @ViewBuilder
     private var avatar: some View {
-        AlimoAsyncAvatar(notification.profileImage)
-            .toTop()
+//        AlimoAsyncAvatar(notification.profileImage)
+//            .toTop()
+        // TODO: Add view
+        EmptyView()
     }
     
     @ViewBuilder
@@ -54,7 +56,7 @@ struct NotificationCeil: View {
         Text(LocalizedStringKey(notification.content))
             .applyOpenURL()
             .foregroundStyle(Color.black)
-            .font(.bodyLight)
+//            .font(.bodyLight) // TODO: fix font
             .lineSpacing(4)
             .lineLimit(6)
             .truncationMode(.tail)
