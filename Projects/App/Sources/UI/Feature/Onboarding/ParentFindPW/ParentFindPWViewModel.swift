@@ -15,10 +15,4 @@ class ParentFindPWViewModel: ObservableObject {
     @Published var email: String = ""
     @Published var authCode: String = ""
     @Published var newPw: String = ""
-    
-    @Published var isEmailNotEmpty = false
-    
-    func checkEmailNotEmpty()  {
-        isEmailNotEmpty = !email.isEmpty
-    }
 }

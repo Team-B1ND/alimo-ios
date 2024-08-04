@@ -11,15 +11,14 @@ import ADS
 
 struct WhatIsChildCodeView: View {
     
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        
-            AlimoWebView(url: URL(string: "https://subsequent-grouse.super.site/")!)
-                .navigationBarBackButtonHidden()
-                .alimoBackground(AlimoColor.Background.normal)
-                .alimoTopAppBar("로그인", background: AlimoColor.Background.normal, backButtonAction:  {
-                    dismiss()
-                })
+        AlimoWebView(url: URL(string: "https://subsequent-grouse.super.site/")!)
+            .navigationBarBackButtonHidden()
+            .alimoBackground(AlimoColor.Background.normal)
+            .alimoTopAppBar("로그인", background: AlimoColor.Background.normal, backButtonAction:  {
+                dismiss()
+            })
     }
 }

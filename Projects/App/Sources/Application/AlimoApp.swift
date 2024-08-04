@@ -11,7 +11,6 @@ struct AlimoApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(TokenManager())
-                .environmentObject(DialogManager())
                 .environmentObject(DownloadManager())
                 .environmentObject(AppState())
                 .environmentObject(ColorProvider(isDarkTheme: UserDefaults.standard.bool(forKey: "isDarkTheme")))
@@ -22,26 +21,17 @@ struct AlimoApp: App {
 
 
 private struct ContentView: View {
-
+    
     @EnvironmentObject var tokenManager: TokenManager
-    @EnvironmentObject var dm: DialogManager
     @EnvironmentObject private var colorProvider: ColorProvider
     @State var opacity = 1.0
     
     var body: some View {
         ZStack {
-            Group {
-                if tokenManager.accessToken.isEmpty {
-                    NavigationStack {
-                        OnboardingFirstView()
-                    }
-                } else {
-                    MainView()
-                }
-            }
-            if dm.phase == .show {
-                Color.black.opacity(0.3)
-                    .ignoresSafeArea()
+            if tokenManager.accessToken.isEmpty {
+                OnboardingView()
+            } else {
+                MainView()
             }
             if opacity > 0 {
                 LaunchScreenView()

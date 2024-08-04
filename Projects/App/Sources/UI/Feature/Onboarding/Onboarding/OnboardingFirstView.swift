@@ -12,6 +12,7 @@ import ADS
 struct OnboardingFirstView: View {
     
     @EnvironmentObject private var colorProvider: ColorProvider
+    @EnvironmentObject private var router: OnboardingRouter
     
     var body: some View {
         ZStack {
@@ -36,16 +37,13 @@ struct OnboardingFirstView: View {
                 .padding(.leading, 20)
                 Image(.screen)
             }
-            NavigationLink {
-                OnboardingSecondView()
-            } label: {
-                AlimoButton("시작하기", type: .CTA) {}
-                    .disabled(true)
+            AlimoButton("시작하기", type: .CTA) {
+                router.navigateTo(.onboardingSecond)
             }
-            .padding(.bottom, ctaButtonPadding)
-            .padding(.horizontal, 20)
             .toBottom()
+            .padding(.bottom, ctaButtonPadding)
         }
+        .padding(.horizontal, 20)
         .alimoBackground(AlimoColor.Background.normal)
     }
 }

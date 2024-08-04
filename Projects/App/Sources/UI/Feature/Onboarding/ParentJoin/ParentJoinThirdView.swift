@@ -22,64 +22,54 @@ struct ParentJoinThirdView: View {
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
-        VStack {
-            HStack {
-                let title = "이메일 인증을 해주세요"
-                Text(title)
-                    .alimoFont(.headline1B)
-                    .alimoColor(AlimoColor.Label.normal)
-                    .padding(.leading, 24)
-                    .padding(.top, 30)
-                    .padding(.bottom, 10)
-                Spacer()
-            }
-            ZStack {
-                AlimoTextField("인증 코드", text: $vm.code)
+        VStack(spacing: 16) {
+            Text("이메일 인증을 해주세요")
+                .alimoFont(.headline1B)
+                .alimoColor(AlimoColor.Label.normal)
+                .padding(.leading, 4)
+                .padding(.top, 16)
+                .toLeading()
+            AlimoTextField("인증 코드", text: $vm.code)
                 .keyboardType(.asciiCapable)
                 .foregroundStyle(.red)
-                .padding(.horizontal, 20)
-                HStack {
-                    Spacer()
-                    let emailPhase = vm.emailPhase
-                    if emailPhase == .none {
-                        AlimoButton("인증 요청", type: .Small) {
-                            await vm.emailsVerificationRequest()
-                        }
-                        .padding(.trailing, 10)
-                        .frame(height: 50)
-                    } else {
-                        Text(convertSecondsToTime(timeInSeconds: timeRemaining))
-                            .alimoFont(.bodyM)
-                            .alimoColor(AlimoColor.Label.em)
-                            .onReceive(timer) { _ in
-                                if timeRemaining > 0 {
-                                    timeRemaining -= 1
-                                } else {
-                                    vm.emailPhase = .none
-                                }
+                .overlay {
+                    Group {
+                        if vm.emailPhase == .none {
+                            AlimoButton("인증 요청", type: .Small) {
+                                await vm.emailsVerificationRequest()
                             }
-                            .frame(width: 60, height: 46)
-                            .alimoBackground(AlimoColor.Background.normal)
-                            .padding(.trailing, 8)
+                            .padding(.trailing, 10)
+                            .frame(height: 50)
+                        } else {
+                            Text(convertSecondsToTime(timeInSeconds: timeRemaining))
+                                .alimoFont(.bodyM)
+                                .alimoColor(AlimoColor.Label.em)
+                                .onReceive(timer) { _ in
+                                    if timeRemaining > 0 {
+                                        timeRemaining -= 1
+                                    } else {
+                                        vm.emailPhase = .none
+                                    }
+                                }
+                                .frame(width: 60, height: 46)
+                                .alimoBackground(AlimoColor.Background.normal)
+                                .padding(.trailing, 8)
+                        }
                     }
+                    .toTrailing()
                 }
-                .padding(.horizontal, 20)
-            }
-            
             Spacer()
-            
             let isOk = !vm.code.isEmpty
-            
             AlimoButton("다음", type: .CTA, isEnabled: isOk) {
                 await vm.emailsVerifications { accessToken, refreshToken in
                     tm.accessToken = accessToken
                     tm.refreshToken = refreshToken
                 }
             }
-            .padding(.horizontal, 20)
             .disabled(!isOk)
-            .padding(.bottom, 30)
+            .padding(.bottom, ctaButtonPadding)
         }
+        .padding(.horizontal, 20)
         .alimoBackground(AlimoColor.Background.normal)
         .alimoTopAppBar("회원가입", background: AlimoColor.Background.normal, backButtonAction:  {
             NavigationUtil.popToRootView()

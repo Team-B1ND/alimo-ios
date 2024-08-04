@@ -12,7 +12,7 @@ import ADS
 struct OnboardingSecondView: View {
     
     @Environment(\.dismiss) private var dismiss
-    
+    @EnvironmentObject private var router: OnboardingRouter
     @State var isSelected: RoleType = .Student
     
     var body: some View {
@@ -26,22 +26,13 @@ struct OnboardingSecondView: View {
                     .padding(.leading, 4)
                 SegmentedButton(buttonType: [.Student, .Parent, .Teacher], isSelected: $isSelected)
                 Text("알리모에서는 학생, 학부모, 선생님 모두 참여해요")
-                    .alimoFont(.captionM)
+                    .alimoFont(.labelR)
                     .alimoColor(AlimoColor.Label.em)
             }
             Spacer()
             let loginButtonText = isSelected == .Parent ? "로그인" : "도담도담으로 로그인"
-            NavigationLink {
-                if isSelected == .Parent {
-                    ParentLoginFirstView()
-                } else {
-                    StudentLoginFirstView()
-                }
-            } label: {
-                AlimoButton(loginButtonText, type: .CTA) {
-                    // 학생인지 아닌지에 따라 다르게 핸들링
-                }
-                .disabled(true)
+            AlimoButton(loginButtonText, type: .CTA) {
+                router.navigateTo(isSelected == .Parent ? .parentLoginFirst : .studentLoginFirst)
             }
             .padding(.bottom, ctaButtonPadding)
         }

@@ -28,37 +28,31 @@ struct ParentFindPWSecondView: View {
     let date = Date()
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
+    private var isCorrectPw: Bool {
+        Regex.validatePassword(pw)
+    }
+    
     var body: some View {
-        
-        let isCorrectPw = Regex.validatePassword(pw)
-        
-        VStack {
-            HStack {
-                Text("이메일 인증을 해주세요")
-                    .alimoFont(.headline1B)
-                    .alimoColor(AlimoColor.Label.normal)
-                    .padding(.leading, 24)
-                    .padding(.top, 30)
-                    .padding(.bottom, 10)
-                Spacer()
-            }
-            
-            ZStack {
+        VStack(spacing: 16) {
+            Text("이메일 인증을 해주세요")
+                .alimoFont(.headline1B)
+                .alimoColor(AlimoColor.Label.normal)
+                .padding(.leading, 4)
+                .padding(.top, 16)
+                .toLeading()
+            VStack(spacing: 8) {
+                ZStack {
                     AlimoTextField("인증 코드", text: $inputAuthCode)
                         .foregroundStyle(.red)
-                        .padding(.horizontal, 20)
                         .disabled(isAuthed)
-                    
                     HStack {
                         Spacer()
-                        if  isAuthed{
-                            
-                                Text("확인됨")
-                                    .alimoFont(.bodyM)
-                                    .alimoColor(AlimoColor.Label.em)
-                                    .frame(height: 50)
-                                    .alimoBackground(AlimoColor.Background.normal)
-                            
+                        if isAuthed {
+                            Text("확인됨")
+                                .alimoFont(.bodyM)
+                                .alimoColor(AlimoColor.Label.em)
+                                .frame(height: 50)
+                                .alimoBackground(AlimoColor.Background.normal)
                         } else if isSended {
                             ZStack {
                                 HStack {
@@ -69,53 +63,43 @@ struct ParentFindPWSecondView: View {
                                             if timeRemaining > 0 {
                                                 timeRemaining -= 1
                                             } else {
-//                                                    vm.emailPhase = .none
+                                                //                                                    vm.emailPhase = .none
                                             }
                                         }
                                         .frame(height: 50)
                                     AlimoButton("확인", type: .Small) {
-//                                            await vm.emailsVerifications { accessToken, refreshToken in
-//                                                tm.accessToken = accessToken
-//                                                tm.refreshToken = refreshToken
-//                                            }
+                                        //                                            await vm.emailsVerifications { accessToken, refreshToken in
+                                        //                                                tm.accessToken = accessToken
+                                        //                                                tm.refreshToken = refreshToken
+                                        //                                            }
                                         isAuthed = true
                                     }
                                 }
                             }
                             .frame(height: 30)
-                        }
-                            else {
+                        } else {
                             AlimoButton("인증 요청", type: .Small) {
                                 isSended = true
                             }
                         }
-                        
                     }
-                    .padding(.trailing, 30)
+                    .padding(.trailing, 6)
                 }
-            
-            if showAuthCodeTextAlert {
-                HStack {
+                
+                if showAuthCodeTextAlert {
                     Text("인증코드가 올바르지 않아요")
                         .font(.caption)
                         .alimoColor(AlimoColor.Warning.normal)
-                    Spacer()
+                        .toLeading()
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 5)
                 
-            }
-            
-            if isAuthed {
-                AlimoTextField("새 비밀번호", text: $pw, isSecured: true)
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 8)
-                AlimoTextField("새 비밀번호를 다시 입력해 주세요", text: $pwCheck, isSecured: true)
-                    .padding(.horizontal, 20)
+                if isAuthed {
+                    AlimoTextField("새 비밀번호", text: $pw, isSecured: true)
+                    AlimoTextField("새 비밀번호를 다시 입력해 주세요", text: $pwCheck, isSecured: true)
+                }
             }
             
             if showPasswordTextAlert {
-                
                 HStack {
                     Text("비밀번호가 다릅니다.")
                         .font(.caption)
@@ -123,44 +107,30 @@ struct ParentFindPWSecondView: View {
                     Spacer()
                 }
                 .padding(.horizontal, 20)
-                .padding(.top, 5)
-                
             }
-            HStack {
-                Group {
-                    if !isCorrectPw && !pw.isEmpty {
-                        Text("5~18자 영문, 숫자, 특수문자")
-                    } else if pw != pwCheck && !pwCheck.isEmpty {
-                        Text("비밀번호가 일치하지 않습니다")
-                    }
+            Group {
+                if !isCorrectPw && !pw.isEmpty {
+                    Text("5~18자 영문, 숫자, 특수문자")
+                } else if pw != pwCheck && !pwCheck.isEmpty {
+                    Text("비밀번호가 일치하지 않습니다")
                 }
-                .alimoFont(.captionM)
-                .padding(.top, 4)
-                .alimoColor(AlimoColor.Warning.normal)
-                Spacer()
             }
-            .padding(.horizontal, 24)
-            
+            .alimoFont(.captionM)
+            .padding(.trailing, 4)
+            .alimoColor(AlimoColor.Warning.normal)
+            .toTrailing()
             Spacer()
-            
             let isSame = pw == pwCheck
-            
-            NavigationLink {
-                
-            } label: {
-                AlimoButton("완료", type: .CTA, isEnabled: isCorrectPw && isSame) {
-                    showPasswordTextAlert = true
-                }
-                .padding(.horizontal, 20)
-                .disabled(!(isCorrectPw && isSame))
-                .padding(.bottom, 30)
+            AlimoButton("완료", type: .CTA, isEnabled: isCorrectPw && isSame) {
+                showPasswordTextAlert = true
             }
+            .padding(.bottom, ctaButtonPadding)
         }
+        .padding(.horizontal, 20)
         .alimoBackground(AlimoColor.Background.normal)
         .alimoTopAppBar("회원가입", background: AlimoColor.Background.normal, backButtonAction:  {
             dismiss()
         })
-        .navigationBarBackButtonHidden(true)
     }
     
     func convertSecondsToTime(timeInSeconds: Int) -> String {

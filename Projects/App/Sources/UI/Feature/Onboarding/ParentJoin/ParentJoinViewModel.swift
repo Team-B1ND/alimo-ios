@@ -47,25 +47,17 @@ class ParentJoinViewModel: ObservableObject {
     @Published var showWrongEmailDialog = false
     @Published var emailDialogMessage = ""
     
-    // MARK: navigation link properties
-    @Published var isCorrectChildCode: Bool = false // 학생 코드 인증 여부
-    @Published var isCorrectSignUp = false // 1차 회원가입 여부
-    
     // login first
-    func verifyChildCode() async {
+    func verifyChildCode(successCompletion: @escaping () -> Void) async {
         isFetching = true
         defer { isFetching = false }
-        var response: ResponseData<ChildCodeResponse>
-        
         do {
-            
-            response = try await authService.verifyChildCode(childCode)
-            
-            memberId = response.data.memberId
-            
+            let response = try await authService.verifyChildCode(childCode).data
+            memberId = response.memberId
             childName = try await memberService.getNameByChildCode(childCode: childCode).data.name
-            
-            isCorrectChildCode = response.data.isCorrectChildCode
+            if response.isCorrectChildCode {
+                successCompletion()
+            }
         } catch {
             let code = error.code
             print(code)
@@ -85,21 +77,20 @@ class ParentJoinViewModel: ObservableObject {
     }
     
     // login second
-    func signUp() async {
+    func signUp(successCompletion: @escaping () -> Void) async {
         isFetching = true
         defer { isFetching = false }
         do {
-            
             if let memberId = memberId {
-                
-                let request = SignUpRequest(email: email,
-                                            password: pw,
-                                            fcmToken: fcmCache.getToken(of: .fcmToken),
-                                            childCode: childCode,
-                                            memberId: memberId)
-                print(request)
+                let request = SignUpRequest(
+                    email: email,
+                    password: pw,
+                    fcmToken: fcmCache.getToken(of: .fcmToken),
+                    childCode: childCode,
+                    memberId: memberId
+                )
                 _ = try await authService.signUp(request)
-                isCorrectSignUp = true
+                successCompletion()
             } else {
                 // handle error
                 showDialog = true
