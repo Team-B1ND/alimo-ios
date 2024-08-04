@@ -95,11 +95,10 @@ struct ParentFindPWSecondView: View {
                 }
             
             if showAuthCodeTextAlert {
-                
                 HStack {
                     Text("인증코드가 올바르지 않아요")
                         .font(.caption)
-                        .foregroundStyle(Color.red500)
+                        .alimoColor(AlimoColor.Warning.normal)
                     Spacer()
                 }
                 .padding(.horizontal, 20)
@@ -120,7 +119,7 @@ struct ParentFindPWSecondView: View {
                 HStack {
                     Text("비밀번호가 다릅니다.")
                         .font(.caption)
-                        .foregroundStyle(Color.red500)
+                        .alimoColor(AlimoColor.Warning.normal)
                     Spacer()
                 }
                 .padding(.horizontal, 20)

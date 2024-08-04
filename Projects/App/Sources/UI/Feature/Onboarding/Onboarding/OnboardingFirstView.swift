@@ -11,52 +11,41 @@ import ADS
 
 struct OnboardingFirstView: View {
     
-    @State var showEasterEgg: Bool = false
-    
     @EnvironmentObject private var colorProvider: ColorProvider
     
     var body: some View {
-        NavigationStack {
-            GeometryReader { reader in
-                ZStack {
-                    VStack(spacing: 0) {
-                        Spacer()
-                        HStack {
-                            VStack(alignment: .leading, spacing: 0) {
-                                AlimoLogo(type: .yellow)
-                                Text("대소고의 모든 소식")
-                                    .alimoFont(.headline1B)
-                                    .alimoColor(AlimoColor.Label.normal)
-                                    .offset(x: 3, y: -5)
-                            }
-                            Spacer()
+        ZStack {
+            VStack(spacing: 32) {
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack(alignment: .bottom) {
+                            Image(image: .MiniLogo)
+                                .resizable()
+                                .frame(width: 167, height: 40)
+                            Circle()
+                                .alimoColor(AlimoColor.Color.primary60)
+                                .frame(width: 8, height: 8)
+                                .offset(x: -8)
                         }
-                        .padding(.leading, 24)
-                        .padding(.bottom, 30)
-                        // 스낵바 테스트해 보고 싶어서 이미지를 버튼으로 만들어 놨어요
-                        Button {
-                            showEasterEgg = true
-                        } label: {
-                            Image(.screen)
-                        }
-                        .padding(.bottom, reader.size.height / 800 * 123)
-                        NavigationLink {
-                            OnboardingSecondView()
-                        } label: {
-                            AlimoButton("시작하기", type: .CTA) {}
-                                .padding(.horizontal, 20)
-                                .padding(.bottom, 30)
-                                .disabled(true)
-                        }
+                        Text("대소고의 모든 소식")
+                            .alimoFont(.headline1B)
+                            .alimoColor(AlimoColor.Label.normal)
                     }
-                    .alert(isPresented: $showEasterEgg) {
-                        Alert(title: Text("히히 이걸 찾아니"),
-                              message: Text("대단하시네요"),
-                              dismissButton: .default(Text("닫기")))
-                    }
+                    Spacer()
                 }
-                .alimoBackground(AlimoColor.Background.normal)
+                .padding(.leading, 20)
+                Image(.screen)
             }
+            NavigationLink {
+                OnboardingSecondView()
+            } label: {
+                AlimoButton("시작하기", type: .CTA) {}
+                    .disabled(true)
+            }
+            .padding(.bottom, ctaButtonPadding)
+            .padding(.horizontal, 20)
+            .toBottom()
         }
+        .alimoBackground(AlimoColor.Background.normal)
     }
 }

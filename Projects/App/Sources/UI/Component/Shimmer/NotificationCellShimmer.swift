@@ -18,7 +18,7 @@ struct NotificationCellShimmer: View {
     private var content: some View {
         Text(Array(repeating: "-", count: .random(in: 40..<100)).joined())
 //            .font(.label) // TODO: fix font
-            .foregroundColor(.main900)
+//            .foregroundColor(.main900)
             .fixedSize(horizontal: false, vertical: true)
             .multilineTextAlignment(.leading)
             .lineSpacing(5)
@@ -27,7 +27,7 @@ struct NotificationCellShimmer: View {
     @ViewBuilder
     private var info: some View {
         Text("-------")
-            .foregroundStyle(Color.gray500)
+//            .foregroundStyle(Color.gray500)
 //            .font(.cute) // TODO: fix font
             .padding(.top, 12)
     }

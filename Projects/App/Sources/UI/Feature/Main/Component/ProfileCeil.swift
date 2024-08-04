@@ -36,7 +36,7 @@ struct ProfileCeil: View {
 //                    }
 //                }
             Text(membername)
-                .foregroundStyle(Color.gray600)
+//                .foregroundStyle(Color.gray600)
 //                .font(.label) // TODO: fix font
         }
         .toLeading()

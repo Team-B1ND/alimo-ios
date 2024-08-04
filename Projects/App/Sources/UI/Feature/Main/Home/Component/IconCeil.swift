@@ -29,9 +29,10 @@ struct IconCeil: View {
                             .resizable()
                             .frame(width: 28, height: 28)
                     } else {
-                        Image(.addImoji)
-                            .resizable()
-                            .frame(width: 28, height: 28)
+                        EmptyView()
+//                        Image(.addImoji)
+//                            .resizable()
+//                            .frame(width: 28, height: 28)
                     }
                 }
             }
@@ -42,15 +43,15 @@ struct IconCeil: View {
                 onClickBookmark()
             } label: {
                 if isBookmarked {
-                    Image(.clickedBookmark)
+                    Image(icon: .Bookmark)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 28, height: 28)
                 } else {
-                    Image(.bookmark)
+                    Image(icon: .Bookmark)
                         .resizable()
                         .renderingMode(.template)
-                        .foregroundStyle(Color.gray500)
+//                        .foregroundStyle(Color.gray500)
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 28, height: 28)
                 }

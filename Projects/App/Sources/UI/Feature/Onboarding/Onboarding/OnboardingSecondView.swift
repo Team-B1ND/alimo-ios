@@ -16,42 +16,36 @@ struct OnboardingSecondView: View {
     @State var isSelected: RoleType = .Student
     
     var body: some View {
-        ZStack {
+        VStack(spacing: 0) {
+            Spacer()
             VStack(spacing: 16) {
                 Text("해당하는 곳을 선택해 주세요")
                     .alimoFont(.headline1B)
                     .alimoColor(AlimoColor.Label.normal)
                     .toLeading()
-                    .padding(.horizontal, 20)
-                
+                    .padding(.leading, 4)
                 SegmentedButton(buttonType: [.Student, .Parent, .Teacher], isSelected: $isSelected)
-                
                 Text("알리모에서는 학생, 학부모, 선생님 모두 참여해요")
                     .alimoFont(.captionM)
                     .alimoColor(AlimoColor.Label.em)
             }
-            .padding(.bottom, 100)
-            .navigationBarBackButtonHidden()
-            
-            VStack(spacing: 16) {
-                Spacer()
-                let loginButtonText = isSelected == .Parent ? "로그인" : "도담도담으로 로그인"
-                NavigationLink {
-                    if isSelected == .Parent {
-                        ParentLoginFirstView()
-                    } else {
-                        StudentLoginFirstView()
-                    }
-                } label: {
-                    AlimoButton(loginButtonText, type: .CTA) {
-                        // 학생인지 아닌지에 따라 다르게 핸들링
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 30)
-                    .disabled(true)
+            Spacer()
+            let loginButtonText = isSelected == .Parent ? "로그인" : "도담도담으로 로그인"
+            NavigationLink {
+                if isSelected == .Parent {
+                    ParentLoginFirstView()
+                } else {
+                    StudentLoginFirstView()
                 }
+            } label: {
+                AlimoButton(loginButtonText, type: .CTA) {
+                    // 학생인지 아닌지에 따라 다르게 핸들링
+                }
+                .disabled(true)
             }
+            .padding(.bottom, ctaButtonPadding)
         }
+        .padding(.horizontal, 20)
         .alimoBackground(AlimoColor.Background.normal)
         .alimoTopAppBar("", background: AlimoColor.Background.normal, backButtonAction:  {
             dismiss()

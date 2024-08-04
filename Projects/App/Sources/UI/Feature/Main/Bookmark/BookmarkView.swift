@@ -16,8 +16,6 @@ struct BookmarkView: View {
     @StateObject var homeVm: HomeViewModel
     @EnvironmentObject var tm: TokenManager
     @State private var matchedCategories:  [[String]] = []
-
-    
     @State private var scrollViewOffset: CGFloat = 0 {
         didSet {
             if isSelectorReached != (scrollViewOffset >= 84) {
@@ -33,7 +31,7 @@ struct BookmarkView: View {
             GeometryReader { geo in
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 0) {
-                        AlimoLogoBar()
+//                        AlimoLogoBar()
                         switch vm.flow {
                         case .fetching:
                             LazyVStack(spacing: 0) {
@@ -75,13 +73,7 @@ struct BookmarkView: View {
                             }
                             .padding(.bottom, 100)
                         case .failure:
-                            Image(.noNotice)
-                                .padding(.top, 115)
-                            Text("북마크를 불러올 수 없어요")
-//                                .font(.subtitle) // TODO: fix font
-                                .foregroundStyle(Color.gray500)
-                                .padding(.top, 32)
-                            
+                            EmptyView()
                         }
                     }
                 }
@@ -94,19 +86,6 @@ struct BookmarkView: View {
                 )
                 .onPreferenceChange(ViewOffsetKey.self) {
                     scrollViewOffset = $0
-                }
-                .overlay {
-                    if .success == vm.flow && vm.notificationList.isEmpty {
-                        VStack(spacing: 32) {
-                            Image(.noBookMark)
-                                .resizable()
-                                .frame(width: 117, height: 158)
-                            Text("아직 북마크가 없어요")
-//                                .font(.subtitle) // TODO: fix font
-                                .foregroundStyle(Color.gray500)
-                        }
-                        .padding(.top, geo.size.height / 1.5)
-                    }
                 }
             }
             .coordinateSpace(name: "scroll")

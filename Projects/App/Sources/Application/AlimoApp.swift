@@ -32,7 +32,9 @@ private struct ContentView: View {
         ZStack {
             Group {
                 if tokenManager.accessToken.isEmpty {
-                    OnboardingFirstView()
+                    NavigationStack {
+                        OnboardingFirstView()
+                    }
                 } else {
                     MainView()
                 }

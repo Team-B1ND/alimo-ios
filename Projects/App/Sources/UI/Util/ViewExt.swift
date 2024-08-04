@@ -32,7 +32,7 @@ extension View {
                     
                     Text(title)
 //                        .font(.subtitle) // TODO
-                        .foregroundStyle(Color.main900)
+//                        .foregroundStyle(Color.main900)
                 }
             }
         }

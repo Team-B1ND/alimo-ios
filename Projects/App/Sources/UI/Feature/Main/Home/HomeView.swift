@@ -28,29 +28,30 @@ struct HomeView: View {
     @ViewBuilder
     private var categorySelector: some View {
         let category = vm.category
-        ScrollView(.horizontal, showsIndicators: false) {
+        ScrollView(.horizontal) {
             HStack(spacing: 12) {
-                AlimoSmallButton("전체", buttonType: vm.selectedIndex == -1 ? .yellow : .none) {
-                    vm.selectedIndex = -1
-                    withAnimation {
-                        reader?.scrollTo("top")
-                    }
-                }
-                ForEach(0..<category.count, id: \.self) { index in
-                    AlimoSmallButton(category[index], buttonType: vm.selectedIndex == index ? .yellow : .none) {
-                        vm.selectedIndex = index
-                        withAnimation {
-                            reader?.scrollTo("top")
-                        }
-                    }
-                }
+//                AlimoSmallButton("전체", buttonType: vm.selectedIndex == -1 ? .yellow : .none) {
+//                    vm.selectedIndex = -1
+//                    withAnimation {
+//                        reader?.scrollTo("top")
+//                    }
+//                }
+//                ForEach(0..<category.count, id: \.self) { index in
+//                    AlimoSmallButton(category[index], buttonType: vm.selectedIndex == index ? .yellow : .none) {
+//                        vm.selectedIndex = index
+//                        withAnimation {
+//                            reader?.scrollTo("top")
+//                        }
+//                    }
+//                }
             }
         }
+        .scrollIndicators(.hidden)
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
         .frame(maxWidth: .infinity)
         .alimoBackground(AlimoColor.Background.normal)
-        .clipShape(RoundedCorner(radius: 8, corners: [.bottomLeft, .bottomRight]))
+        .cornerRadius(8, corners: [.bottomLeft, .bottomRight])
         .showShadow(show: isSelectorReached)
     }
     
@@ -59,8 +60,8 @@ struct HomeView: View {
             ScrollViewReader { reader in
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 0) {
-                        AlimoLogoBar()
-                            .id("top")
+//                        AlimoLogoBar()
+//                            .id("top")
                         if let loudSpeaker = vm.loudSpeaker {
                             Notice(vm: NotificationDetailViewModel(notificationId: loudSpeaker.notificationId),homeVm: HomeViewModel(), notificationspeaketitle: Text(loudSpeaker.title), memberID: Text(loudSpeaker.name), notificationId: loudSpeaker.notificationId)
                         }
@@ -87,9 +88,7 @@ struct HomeView: View {
                                                         await vm.patchBookmark(notificationId: notification.notificationId)
                                                     }
                                                 }, vm: NotificationDetailViewModel(notificationId: notification.notificationId), homeVm: HomeViewModel())
-                                                
-                                                Divider()
-                                                    .foregroundStyle(Color.gray100)
+                                                AlimoDivider()
                                             }
                                             .task {
                                                 guard let index = vm.notificationList.firstIndex(where: { $0.notificationId == notification.notificationId }) else { return }
@@ -103,11 +102,11 @@ struct HomeView: View {
                                     .lineLimit(3)
                                     .padding(.bottom, 100)
                                 case .failure:
-                                    Image(.noNotice)
-                                        .padding(.top, 115)
+//                                    Image(.noNotice)
+//                                        .padding(.top, 115)
                                     Text("공지를 불러올 수 없어요")
 //                                        .font(.subtitle) // TODO: fix font
-                                        .foregroundStyle(Color.gray500)
+//                                        .foregroundStyle(Color.gray500)
                                         .padding(.top, 32)
                                 }
                             }

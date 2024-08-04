@@ -10,7 +10,7 @@ struct EmojiContainer: View {
     var body: some View {
         ZStack {
             Rectangle()
-                .foregroundColor(.gray100)
+//                .foregroundColor(.gray100)
                 .frame(width: 300, height: 35)
                 .cornerRadius(5, corners: .allCorners)
             

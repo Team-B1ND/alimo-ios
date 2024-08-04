@@ -21,7 +21,7 @@ struct PreviewImageView: View {
     @State var showDialog = false
     @State var dialog = Dialog.file
     @State private var currentIndex = 0
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         ZStack {
@@ -29,9 +29,9 @@ struct PreviewImageView: View {
             VStack {
                 Spacer()
                 HStack {
-                    Image(.image)
-                        .resizable()
-                        .frame(width: 28, height: 28)
+//                    Image(.image)
+//                        .resizable()
+//                        .frame(width: 28, height: 28)
                     VStack(spacing:5) {
                         Text(name)
                             .foregroundColor(.white)
@@ -73,8 +73,8 @@ struct PreviewImageView: View {
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
             .navigationBarBackButtonHidden(true)
-            .alimoToolbar("", imageColor: .white) {
-                presentationMode.wrappedValue.dismiss()
+            .alimoTopAppBar("") {
+                dismiss()
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -87,10 +87,9 @@ struct PreviewImageView: View {
                             onClickDownload()
                             showDialog = true
                         } label: {
-                            Image(.download)
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                               
+//                            Image(.download)
+//                                .resizable()
+//                                .frame(width: 24, height: 24)
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .trailing)

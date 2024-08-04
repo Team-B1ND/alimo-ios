@@ -67,8 +67,8 @@ struct ProfileView: View {
                     .padding(.horizontal, 24)
                     .padding(.top, 36)
                     
-                    AlimoFlowLayout(mode: .scrollable, items: vm.categoryList) {
-                        AlimoSmallButton($0, buttonType: .none) {}.disabled(true)
+                    AlimoFlowLayout(mode: .scrollable, items: vm.categoryList) { category in
+                        AlimoCategory(category, type: .disabled)
                     }
                     .padding(.top, 36)
                     .padding(.horizontal, 12)

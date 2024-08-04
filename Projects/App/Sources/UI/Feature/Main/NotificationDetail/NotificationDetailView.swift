@@ -75,7 +75,7 @@ struct NotificationDetailView: View {
     private var info: some View {
         if let notification = vm.notification {
             Text(notification.createdAt.ymdText)
-                .foregroundStyle(Color.gray500)
+//                .foregroundStyle(Color.gray500)
                 .font(.caption)
             if let notification = vm.notification {
                 IconCeil(isBookmarked: notification.isBookMarked, hasEmoji: false) { emoji in
@@ -245,24 +245,6 @@ struct NotificationDetailView: View {
                                     await vm.fetchNotification()
                                 }
                             }
-//                            .padding(.leading, 44 + 12)
-                            let radius: CGFloat = 3
-                            let height: CGFloat = 62 + len * 20 + radius
-                            
-                            //                            Path { path in
-                            //                                path.move(to: CGPoint(x: 0, y: 0))
-                            //                                path.addLine(to: CGPoint(x: 0, y: height))
-                            //                                path.addArc(center: CGPoint(x: radius, y: height),
-                            //                                            radius: radius,
-                            //                                            startAngle: Angle(degrees: -180),
-                            //                                            endAngle: Angle(degrees: 90),
-                            //                                            clockwise: true)
-                            //                                path.addLine(to: CGPoint(x: 16, y: height + radius))
-                            //                            }
-                            //                            .stroke(style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
-                            //                            .padding(.leading, 27)
-                            //                            .foregroundStyle(Color.gray100)
-                            //                            .offset(y: -height + 20)
                         }
                     }
                 }
@@ -287,12 +269,12 @@ struct NotificationDetailView: View {
                     }
                 }
             } label: {
-                let imojiColor: Color = isCommentEmpty ? .gray300 : .gray700
-                Image(.send)
-                    .resizable()
-                    .renderingMode(.template)
-                    .foregroundStyle(imojiColor)
-                    .frame(width: 28, height: 28)
+//                let imojiColor: Color = isCommentEmpty ? .gray300 : .gray700
+//                Image(.send)
+//                    .resizable()
+//                    .renderingMode(.template)
+//                    .foregroundStyle(imojiColor)
+//                    .frame(width: 28, height: 28)
             }
             .disabled(isCommentEmpty)
             .toTrailing()
@@ -303,7 +285,7 @@ struct NotificationDetailView: View {
         .overlay(
             Rectangle()
                 .frame(height: 1)
-                .foregroundStyle(Color.gray100)
+//                .foregroundStyle(Color.gray100)
                 .padding(.top, -1)
                 .toTop()
         )
@@ -365,12 +347,11 @@ struct NotificationDetailView: View {
                 .toBottom()
         }
         .navigationBarBackButtonHidden()
-        .alimoToolbar("") {
+        .alimoTopAppBar("") {
             dismiss()
         }
         .task {
             vm.flow = .fetching
-            
             await withTaskGroup(of: Void.self) { group in
                 group.addTask {
                     await vm.fetchEmojies()

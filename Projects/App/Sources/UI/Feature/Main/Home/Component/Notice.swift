@@ -32,21 +32,21 @@ struct Notice: View {
         } label: {
             ZStack {
                 Rectangle()
-                    .foregroundColor(.main100)
+//                    .foregroundColor(.main100)
                     .frame(maxWidth: .infinity, minHeight: 36)
                     .cornerRadius(5, corners: .allCorners)
                 HStack {
-                    Image(.loudSpeaker)
-                        .renderingMode(.template)
-                        .foregroundStyle(Color.main300)
-                    
+//                    Image(.loudSpeaker)
+//                        .renderingMode(.template)
+//                        .foregroundStyle(Color.main300)
+//                    
                     notificationspeaketitle
 //                        .font(.label) // TODO: fix font
-                        .foregroundColor(.main900)
+//                        .foregroundColor(.main900)
                     
                     memberID
 //                        .font(.label) // TODO: fix font
-                        .foregroundColor(.gray500)
+//                        .foregroundColor(.gray500)
                     Spacer()
                 }
                 .padding(.horizontal, 8)

@@ -80,12 +80,10 @@ struct RealCodeCell: View {
             .padding(.horizontal, 16)
             .cornerRadius(12, corners: .allCorners)
             .allowsHitTesting(false)
-            .overlay(
-                ZStack {
-                    RoundedCorner(radius: 12)
-                        .stroke(lineWidth: lineWidth)
-                        .alimoColor(strokeColor)
-                }
-            )
+            .overlay {
+                RoundedCornerShape(radius: 12)
+                    .stroke(lineWidth: lineWidth)
+                    .alimoColor(strokeColor)
+            }
     }
 }
