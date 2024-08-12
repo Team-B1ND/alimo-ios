@@ -21,25 +21,17 @@ struct MainView: View {
     
     var body: some View {
         NavigationStack {
-            ZStack {
-                switch selectedTab {
-                case .Home:
-                    HomeView(vm: homeVM)
-                case .Bookmark:
-                    BookmarkView(vm: bookmarkVM,homeVm: homeVM)
-                case .Profile:
-                    ProfileView(vm: profileVM)
-                }
-                
-                GeometryReader { reader in
-                    ZStack(alignment: .bottom) {
-                        AlimoBottomTabBar(selectedTab: selectedTab, onTap: { newTab in
-                            selectedTab = newTab
-                        }) {
-                            EmptyView()
-                        }
-                        .padding(.bottom, reader.safeAreaInsets.bottom)
-                        .ignoresSafeArea()
+            AlimoBottomTabBar(selectedTab: selectedTab) { newTab in
+                selectedTab = newTab
+            } content: {
+                Group {
+                    switch selectedTab {
+                    case .Home:
+                        HomeView(vm: homeVM)
+                    case .Bookmark:
+                        BookmarkView(vm: bookmarkVM,homeVm: homeVM)
+                    case .Profile:
+                        ProfileView(vm: profileVM)
                     }
                 }
             }
