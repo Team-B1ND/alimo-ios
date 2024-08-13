@@ -4,6 +4,9 @@ generate:
 edit:
 	mise exec -- tuist edit
 
+fetch:
+	mise exec -- tuist fetch
+
 clean:
 	rm -rf **/*.xcodeproj
 	rm -rf *.xcworkspace
