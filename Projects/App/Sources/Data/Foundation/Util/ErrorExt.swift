@@ -10,20 +10,20 @@ import Foundation
 import Alamofire
 
 extension Error {
-    
     var code: Int {
-        if let afError = self as? AFError {
-            switch afError {
-            case .responseValidationFailed(let reason):
-                switch reason {
-                case .unacceptableStatusCode(let code):
-                    return code
-                default: return -1
-                }
+        guard let afError = self as? AFError else {
+            return -1
+        }
+        switch afError {
+        case .responseValidationFailed(let reason):
+            switch reason {
+            case .unacceptableStatusCode(let code):
+                return code
             default: return -1
             }
+        case .requestRetryFailed(retryError: let error, _):
+            return error.code
+        default: return -1
         }
-        return -1
     }
-
 }

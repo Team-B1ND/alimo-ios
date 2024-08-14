@@ -47,39 +47,43 @@ struct SegmentedButton: View {
     @Binding var isSelected: RoleType
     
     var body: some View {
-        ForEach(buttonType, id: \.self) { item in
-            let image = isSelected == item ? item.image : item.disabledImage
-            let selectedColor = isSelected == item ? AlimoColor.Label.normal : AlimoColor.Label.em
-            
-            Button {
-                isSelected = item
-            } label: {
-                RoundedRectangle(cornerRadius: 12)
-                    .frame(maxWidth: .infinity, maxHeight: 125)
-                    .foregroundStyle(.clear)
-                    .overlay {
-                        HStack {
-                            Image(image: image)
-                                .resizable()
-                                .frame(width: 128, height: 113)
-                            Spacer()
-                            Text("\(item.buttonText)")
-                                .alimoFont(.headline2B)
-                                .alimoColor(selectedColor)
-                            Spacer()
-                        }
-                        if isSelected == item {
-                            RoundedRectangle(cornerRadius: 12)
-                                .stroke(colorProvider.color(AlimoColor.Color.primary60), lineWidth: 2)
-                        } else {
-                            RoundedRectangle(cornerRadius: 12)
-                                .stroke(colorProvider.color(AlimoColor.Label.back), lineWidth: 2)
-                        }
+        VStack(spacing: 16) {
+            ForEach(buttonType, id: \.self) { item in
+                let selected = isSelected == item
+                Button {
+                    isSelected = item
+                } label: {
+                    HStack(spacing: 0) {
+                        Image(
+                            image: selected
+                            ? item.image
+                            : item.disabledImage
+                        )
+                        .resizable()
+                        .frame(width: 128, height: 113)
+                        .toBottom()
+                        Spacer()
+                        Text("\(item.buttonText)")
+                            .alimoFont(.headline2B)
+                            .alimoColor(
+                                selected
+                                ? AlimoColor.Label.normal
+                                : AlimoColor.Label.em
+                            )
+                        Spacer()
                     }
-                    .padding(.horizontal, 20)
+                    .frame(maxWidth: .infinity, maxHeight: 125)
+                    .stroke(
+                        12,
+                        content: colorProvider.color(
+                            isSelected == item
+                            ? AlimoColor.Color.primary60
+                            : AlimoColor.Label.back
+                        ),
+                        lineWidth: 1.5
+                    )
+                }
             }
-            
         }
-        .alimoBackground(AlimoColor.Background.normal)
     }
 }

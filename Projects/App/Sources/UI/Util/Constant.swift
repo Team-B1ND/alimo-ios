@@ -26,3 +26,4 @@ var build: String? {
 }
 
 public let pagingInterval = 15
+public let ctaButtonPadding: CGFloat = 12

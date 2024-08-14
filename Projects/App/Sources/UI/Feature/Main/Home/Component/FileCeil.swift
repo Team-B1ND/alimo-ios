@@ -42,7 +42,7 @@ struct FileCeil: View {
         let fileSize = generateTextBasedOnFileSize(fileSizeInBytes: Double(file.fileSize))
         
         HStack(spacing: 0) {
-            Image(.file)
+            Image(icon: .File)
                 .resizable()
                 .frame(width: 28, height: 28)
             VStack(alignment: .leading, spacing: 0) {
@@ -61,13 +61,14 @@ struct FileCeil: View {
             Button {
                 onClickDownload()
             } label: {
-                Image(.download)
-                    .resizable()
-                    .frame(width: 24, height: 24)
+//                Image(icon: .download)
+//                    .resizable()
+//                    .frame(width: 24, height: 24)
+                // TODO: Add view
             }
         }
         .padding(12)
-        .background(Color.gray100)
+//        .background(Color.gray100)
         .cornerRadius(8, corners: .allCorners)
     }
     

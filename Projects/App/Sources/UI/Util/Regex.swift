@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Regex {
+enum Regex {
     static func validatePassword(_ input: String) -> Bool {
         let pattern = #"^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}\[\]:;,<.>/?]).{5,18}$"#
         let regex = try! NSRegularExpression(pattern: pattern)

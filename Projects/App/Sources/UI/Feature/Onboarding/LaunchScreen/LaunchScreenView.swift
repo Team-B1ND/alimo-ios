@@ -7,14 +7,18 @@
 //
 
 import SwiftUI
+import ADS
 
 struct LaunchScreenView: View {
+    
+    @EnvironmentObject private var colorProvider: ColorProvider
+    
     var body: some View {
         ZStack(alignment: .center) {
-            Color.main500
+            colorProvider.color(AlimoColor.Color.primary60)
                 .ignoresSafeArea()
             
-            Image(.alimoIcon)
+            Image("AppIconImage")
                 .resizable()
                 .frame(width: 180, height: 180)
         }

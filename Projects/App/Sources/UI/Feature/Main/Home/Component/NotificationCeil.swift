@@ -67,7 +67,7 @@ struct NotificationCeil: View {
     @ViewBuilder
     private var info: some View {
         Text(notification.createdAt.ymdText)
-            .foregroundStyle(Color.gray500)
+//            .foregroundStyle(Color.gray500)
             .font(.caption)
             .padding(.top, 12)
         IconCeil(emoji: notification.emoji, isBookmarked: notification.isBookMarked) {

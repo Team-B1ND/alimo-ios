@@ -15,7 +15,7 @@ struct AlimoEmojiMenu<Content>: View where Content: View {
     @State var selectedEmoji = EmojiType.allCases[0]
     @State var showMenu = false
     var callback: (EmojiType) -> Void
-    var content: () -> Content
+    @ViewBuilder var content: () -> Content
     
     var body: some View {
         if #available(iOS 17.0, *) {
@@ -61,11 +61,10 @@ struct AlimoEmojiMenu<Content>: View where Content: View {
                                 showMenu = false
                             }
                         } label: {
-                            Image(.xMark)
+                            Image(icon: .XMark)
                                 .resizable()
                                 .renderingMode(.template)
                                 .frame(width: 32, height: 32)
-                                .foregroundStyle(Color.gray400)
                         }
                         .toTrailing()
                         .toTop()
@@ -87,11 +86,7 @@ struct Menus: View {
     var callback: (EmojiType) -> Void
     
     var body: some View {
-        
         ForEach(EmojiType.allCases, id: \.self) { emoji in
-            
-            let backgroundColor: Color = selectedEmoji == emoji ? .gray100 : .white
-            
             Button {
                 callback(emoji)
                 withAnimation {
@@ -103,7 +98,10 @@ struct Menus: View {
                     .resizable()
                     .frame(width: 28, height: 28)
             }
-            .background(backgroundColor)
+//            .background(
+//                selectedEmoji == emoji
+//                ? AlimoColor.
+//            )
             .cornerRadius(4, corners: .allCorners)
         }
     }
