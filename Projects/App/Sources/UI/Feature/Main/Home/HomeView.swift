@@ -62,6 +62,7 @@ struct HomeView: View {
                     VStack(spacing: 0) {
 //                        AlimoLogoBar()
 //                            .id("top")
+                        
                         if let loudSpeaker = vm.loudSpeaker {
                             Notice(vm: NotificationDetailViewModel(notificationId: loudSpeaker.notificationId),homeVm: HomeViewModel(), notificationspeaketitle: Text(loudSpeaker.title), memberID: Text(loudSpeaker.name), notificationId: loudSpeaker.notificationId)
                         }
@@ -114,6 +115,8 @@ struct HomeView: View {
                         .shimmer(vm.flow == .fetching)
                     }
                 }
+                .alimoColor(AlimoColor.Label.normal)
+                .alimoLogoTopAppBar()
                 .alimoBackground(AlimoColor.Background.normal)
                 .background(
                     GeometryReader {
