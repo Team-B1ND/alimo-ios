@@ -89,8 +89,8 @@ struct BookMarkCeil: View {
     
     private func formattedDate(_ date: Date) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss" // 원하는 형식으로 설정
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일 a HH:mm"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
         return dateFormatter.string(from: date)
     }
-
 }
