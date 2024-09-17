@@ -4,10 +4,15 @@ generate:
 edit:
 	mise exec -- tuist edit
 
-fetch:
-	mise exec -- tuist fetch
+install:
+	mise exec -- tuist install
+
+go:
+	mise exec -- tuist install
+	mise exec -- tuist generate
 
 clean:
+	mise exec -- tuist clean
 	rm -rf **/*.xcodeproj
 	rm -rf *.xcworkspace
 	make clean-spm

@@ -8,11 +8,12 @@ public extension Project {
         product: Product,
         organizationName: String = "b1nd",
         packages: [Package] = [],
-        deploymentTarget: DeploymentTarget? = .iOS(targetVersion: "16.4", devices: [.iphone]),
-        dependencies: [TargetDependency] = [],
+        deploymentTarget: DeploymentTargets? = .iOS("16.4"),
+        infoPlist: InfoPlist = .default,
         sources: SourceFilesList = ["Sources/**"],
         resources: ResourceFileElements? = nil,
-        infoPlist: InfoPlist = .default
+        entitlements: Entitlements? = nil,
+        dependencies: [TargetDependency] = []
     ) -> Project {
         var baseSettings = SettingsDictionary()
             .debugInformationFormat(.dwarfWithDsym)
@@ -21,31 +22,29 @@ public extension Project {
                 .debug(name: .debug, settings: baseSettings),
                 .release(name: .release, settings: baseSettings)
             ], defaultSettings: .recommended)
-
-        let appTarget = Target(
-            name: name,
-            platform: platform,
-            product: product,
-            bundleId: "com.\(organizationName).alimo",
-            deploymentTarget: deploymentTarget,
-            infoPlist: infoPlist,
-            sources: sources,
-            resources: resources,
-            entitlements: .file(path: "App.entitlements"), 
-            dependencies: dependencies,
-            settings: .settings(base: ["OTHER_LDFLAGS": .string("-ObjC")])
-        )
         
         let schemes: [Scheme] = [.makeScheme(target: .debug, name: name)]
-
-        let targets: [Target] = [appTarget]
 
         return Project(
             name: name,
             organizationName: organizationName,
             packages: packages,
             settings: settings,
-            targets: targets,
+            targets: [
+                .target(
+                    name: name,
+                    destinations: [.iPhone],
+                    product: .app,
+                    bundleId: "com.\(organizationName).alimo",
+                    deploymentTargets: .iOS("16.4"),
+                    infoPlist: infoPlist,
+                    sources: sources,
+                    resources: resources,
+                    entitlements: entitlements,
+                    dependencies: dependencies,
+                    settings: .settings(base: ["OTHER_LDFLAGS": .string("-ObjC")])
+                )
+            ],
             schemes: schemes
         )
     }
@@ -53,7 +52,7 @@ public extension Project {
 
 extension Scheme {
     static func makeScheme(target: ConfigurationName, name: String) -> Scheme {
-        return Scheme(
+        return Scheme.scheme(
             name: name,
             shared: true,
             buildAction: .buildAction(targets: ["\(name)"]),
