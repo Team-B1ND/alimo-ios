@@ -13,19 +13,6 @@ let project = Project.makeModule(
     name: "App",
     platform: .iOS,
     product: .app,
-    dependencies: [
-        .SPM.Alamofire,
-        .SPM.AlamofireImage,
-        .SPM.SkeletonUI,
-        .SPM.SwiftCrypto,
-        .SPM.FirebaseAnalytics,
-        .SPM.FirebaseCrashlytics,
-        .SPM.FirebaseMessaging,
-        .SPM.Nuke,
-        .SPM.NukeUI,
-        .SPM.ADS
-    ],
-    resources: ["Resources/**"],
     infoPlist: .extendingDefault(with: [
         "UIMainStoryboardFile": "",
         "UILaunchStoryboardName": "LaunchScreen",
@@ -43,5 +30,19 @@ let project = Project.makeModule(
         "CFBundleDisplayName": "알리모",
         "CFBundleShortVersionString":"1.1.2",
         "ITSAppUsesNonExemptEncryption": .boolean(false)
-    ])
+    ]), 
+    resources: ["Resources/**"],
+    entitlements: .file(path: "App.entitlements"),
+    dependencies: [
+        .SPM.Alamofire,
+        .SPM.AlamofireImage,
+        .SPM.SkeletonUI,
+        .SPM.SwiftCrypto,
+        .SPM.FirebaseAnalytics,
+        .SPM.FirebaseCrashlytics,
+        .SPM.FirebaseMessaging,
+        .SPM.Nuke,
+        .SPM.NukeUI,
+        .SPM.ADS
+    ]
 )
