@@ -78,6 +78,7 @@ struct BookmarkView: View {
                     }
                 }
                 .alimoBackground(AlimoColor.Background.normal)
+                .alimoTopAppBar("북마크", background: AlimoColor.Background.normal)
                 .background(
                     GeometryReader {
                         Color.clear.preference(key: ViewOffsetKey.self,
